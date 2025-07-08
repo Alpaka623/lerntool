@@ -241,6 +241,10 @@
                                 <span class="font-bold text-white">7. Application</span>
                             </div>
                             <div class="text-2xl text-gray-500">↓</div>
+                            <div class="osi-layer text-center p-3 w-full max-w-lg bg-green-900/50 border-l-4 border-green-400 rounded-lg" data-layer="6">
+                                <span class="font-bold text-white">6. Presentation</span>
+                            </div>
+                            <div class="text-2xl text-gray-500">↓</div>
                             <div class="osi-layer text-center p-3 w-full max-w-lg bg-purple-900/50 border-l-4 border-purple-400 rounded-lg" data-layer="5">
                                  <span class="font-bold text-white">5. Session</span>
                             </div>
@@ -709,6 +713,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- DATA & STATE ---
     const layerDescriptions = {
         '7': '<strong>Anwendungsschicht (Application Layer):</strong> Stellt die Schnittstelle für Netzwerkapplikationen bereit (z.B. Browser, E-Mail-Client) und definiert Protokolle wie HTTP und DNS.',
+        '6': '<strong>Darstellungsschicht (Presentation Layer):</strong> Übersetzt Daten zwischen dem Anwendungsformat und einem gemeinsamen Netzwerkformat. Verantwortlich für Aufgaben wie Datenkompression, Verschlüsselung und die Konvertierung von Zeichensätzen.',
         '5': '<strong>Sitzungsschicht (Session Layer):</strong> Organisiert und synchronisiert den Dialog zwischen den kommunizierenden Systemen und baut logische Sitzungen auf und ab.',
         '4': '<strong>Transportschicht (Transport Layer):</strong> Gewährleistet die Ende-zu-Ende-Kommunikation zwischen Prozessen auf verschiedenen Hosts. Protokolle wie TCP (zuverlässig) und UDP (schnell) arbeiten hier.',
         '3': '<strong>Vermittlungsschicht (Network Layer):</strong> Ist für die globale Adressierung (IP-Adressen) und die Wegfindung (Routing) von Datenpaketen durch das gesamte Netzwerk verantwortlich.',
@@ -1081,11 +1086,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const shannonCapacity = B * Math.log2(1 + snrRatio);
         const snrDb = 10 * Math.log10(snrRatio);
         resultDiv.innerHTML = `
-            <p><strong class="text-cyan-400">Nyquist-Formel (rauschfrei):</strong><br>
-            C = 2 * ${B} Hz * log₂( ${V} ) = <strong class="text-white">${nyquistCapacity.toFixed(2)} bit/s</strong></p>
-            <p class="mt-2"><strong class="text-cyan-400">Shannon-Hartley-Theorem (verrauscht):</strong><br>
-            C = ${B} Hz * log₂(1 + ${snrRatio}) = <strong class="text-white">${shannonCapacity.toFixed(2)} bit/s</strong></p>
-             <p class="mt-2 text-sm text-gray-400">Das Signal-Rausch-Verhältnis (SNR) von ${snrRatio} entspricht <strong>${snrDb.toFixed(2)} dB</strong>.</p>`;
+            <p class="mb-3 text-gray-400">Hier werden die theoretischen Obergrenzen für die Datenübertragungsrate eines Kanals berechnet.</p>
+            <div class="space-y-4">
+                <div>
+                    <strong class="text-cyan-400">Nyquist-Formel (für rauschfreie Kanäle):</strong>
+                    <p class="text-sm text-gray-300 mt-1">Diese Formel gibt die maximale Datenrate an, die ohne Inter-Symbol-Interferenz erreicht werden kann. Sie hängt nur von der Bandbreite und der Anzahl der Signalstufen ab.</p>
+                    <p class="mt-2 font-mono">C = 2 * ${B} Hz * log₂( ${V} ) = <strong class="text-white text-lg">${nyquistCapacity.toFixed(2)} bit/s</strong></p>
+                </div>
+                <div>
+                    <strong class="text-cyan-400">Shannon-Hartley-Theorem (für verrauschte Kanäle):</strong>
+                    <p class="text-sm text-gray-300 mt-1">Diese Formel gibt die maximale fehlerfreie Datenrate an, die in Anwesenheit von Rauschen möglich ist. Sie ist die absolute Obergrenze für den Kanal.</p>
+                    <p class="mt-2 font-mono">C = ${B} Hz * log₂(1 + ${snrRatio}) = <strong class="text-white text-lg">${shannonCapacity.toFixed(2)} bit/s</strong></p>
+                </div>
+            </div>
+            <p class="mt-4 text-sm text-gray-400">Das Signal-Rausch-Verhältnis (SNR) von ${snrRatio} entspricht <strong>${snrDb.toFixed(2)} dB</strong>.</p>`;
     }
     
     function handleCrcCalculation() {
@@ -1114,6 +1128,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         let crc = rem.substring(0, k);
         resultDiv.innerHTML = `
+            <p class="mb-3 text-gray-400">CRC ist eine Methode zur <strong class="text-white">Fehlererkennung</strong>. Es wird eine Prüfsumme (der CRC-Code) berechnet und an die Daten angehängt, damit der Empfänger die Integrität der Daten überprüfen kann.</p>
             <p>1. Daten mit ${k} Nullen auffüllen: <span class="font-bold text-white">${data + '0'.repeat(k)}</span></p>
             <p class="mt-2">2. Der Rest der Modulo-2-Division ist der CRC-Code: <strong class="text-white">${crc}</strong></p>
             <p class="mt-2">3. Das zu sendende Codewort ist: Daten + CRC = <strong class="text-white">${data + crc}</strong></p>`;
@@ -1131,7 +1146,19 @@ document.addEventListener('DOMContentLoaded', function() {
             hostsReq.sort((a, b) => b - a);
             let startIp = ipToLong(baseIp);
             const endIp = startIp + (1 << (32 - parseInt(prefix))) -1;
-            let resultHTML = `<h4 class="font-semibold mb-2 text-white">Subnetz-Zuweisung für ${block}:</h4><div class="overflow-x-auto"><table class="w-full text-sm"><thead><tr class="text-left"><th class="p-2 bg-gray-800/50">Anforderung</th><th class="p-2 bg-gray-800/50">Subnetz</th><th class="p-2 bg-gray-800/50">Bereich</th><th class="p-2 bg-gray-800/50">Broadcast</th></tr></thead><tbody>`;
+            let resultHTML = `<p class="mb-3 text-gray-400">VLSM ermöglicht die <strong class="text-white">effiziente Nutzung von IP-Adressen</strong>, indem ein großer Adressblock in Subnetze unterschiedlicher Größe unterteilt wird, die genau auf die Anforderungen der einzelnen Netzsegmente zugeschnitten sind.</p>
+                              <h4 class="font-semibold mb-2 text-white">Subnetz-Zuweisung für ${block}:</h4>
+                              <div class="overflow-x-auto">
+                                <table class="w-full text-sm">
+                                  <thead>
+                                    <tr class="text-left">
+                                      <th class="p-2 bg-gray-900/50">Anforderung</th>
+                                      <th class="p-2 bg-gray-900/50">Subnetz</th>
+                                      <th class="p-2 bg-gray-900/50">Bereich</th>
+                                      <th class="p-2 bg-gray-900/50">Broadcast</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>`;
             for (const hosts of hostsReq) {
                 if(startIp > endIp) {
                      resultHTML += `<tr><td colspan="4" class="p-2 text-red-500">Nicht genügend Adressen für ${hosts} Hosts verfügbar.</td></tr>`;
