@@ -165,6 +165,10 @@
             background-color: #0891b2;
             color: white;
         }
+        .math-table td, .math-table th {
+            padding: 8px 12px;
+            border: 1px solid #4b5563;
+        }
     </style>
 </head>
 <body class="text-gray-200">
@@ -582,13 +586,14 @@
                 <p class="text-xl text-gray-400 mt-2">Interaktive Übungen und Visualisierungen</p>
             </header>
             
-            <nav class="flex flex-wrap justify-center gap-3 sm:gap-4 mb-12">
+            <nav class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12">
                 <button data-mafi-target="mafi-grundlagen" class="mafi-nav-button active font-semibold py-2 px-5 rounded-full">Grundlagen</button>
                 <button data-mafi-target="mafi-funktionenraeume" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Funktionenräume</button>
                 <button data-mafi-target="mafi-diff1d" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Differentialrechnung (1D)</button>
                 <button data-mafi-target="mafi-taylor" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Taylorreihen</button>
                 <button data-mafi-target="mafi-complex" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Komplexe Zahlen & Euler</button>
                 <button data-mafi-target="mafi-diff2d" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Mehrdimensionale Analysis</button>
+                <button data-mafi-target="mafi-analytisch" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Analytische Funktionen</button>
                 <button data-mafi-target="mafi-lagrange" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Extrema mit Nebenbedingungen</button>
                 <button data-mafi-target="mafi-probeklausur" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Probeklausur</button>
             </nav>
@@ -711,15 +716,15 @@
                         <h2 class="text-3xl font-bold text-cyan-400 mb-6">Mehrdimensionale Analysis & Extrema</h2>
                         <p class="mb-6 text-gray-300 leading-relaxed">Um Extrema von Funktionen mit mehreren Variablen (z.B. \( f(x, y) \)) zu finden, gehen wir in mehreren Schritten vor:</p>
                         <ol class="list-decimal list-inside space-y-4 mb-6">
-                            <li><span class="font-semibold text-cyan-300">Gradient berechnen:</span> Der <span class="tooltip-term">Gradient<span class="tooltip-box">Der Vektor der partiellen Ableitungen einer mehrdimensionalen Funktion. Er zeigt in Richtung des steilsten Anstiegs.</span></span> \(\nabla f = \begin{pmatrix} \partial f / \partial x \\ \partial f / \partial y \end{pmatrix}\) ist der Vektor der <span class="tooltip-term">partiellen Ableitungen<span class="tooltip-box">Die Ableitung einer Funktion mit mehreren Variablen nach einer dieser Variablen, wobei die anderen als Konstanten behandelt werden.</span></span>. Er zeigt in Richtung des steilsten Anstiegs.</li>
+                            <li><span class="font-semibold text-cyan-300">Gradient berechnen:</span> Der <span class="tooltip-term">Gradient<span class="tooltip-box">Der Vektor der partiellen Ableitungen einer mehrdimensionalen Funktion. Er zeigt in Richtung des steilsten Anstiegs.</span></span> \(\nabla f = \begin{pmatrix} \partial f / \partial x \\ \partial f / \partial y \end{pmatrix}\) ist der Vektor der <span class="tooltip-term">partiellen Ableitungen<span class="tooltip-box">Die Ableitung einer Funktion mit mehreren Variablen nach einer dieser Variablen, wobei die anderen als Konstanten behandelt werden.</span></span>.</li>
                             <li><span class="font-semibold text-cyan-300">Kritische Punkte finden:</span> Wir lösen die Gleichung \(\nabla f = 0\). Die Lösungen sind die <span class="tooltip-term">kritischen Punkte<span class="tooltip-box">Punkte, an denen der Gradient einer Funktion null ist. Sie sind die einzigen Kandidaten für lokale Extrema.</span></span> und die einzigen Kandidaten für lokale Extrema.</li>
                             <li><span class="font-semibold text-cyan-300">Hesse-Matrix aufstellen:</span> Die <span class="tooltip-term">Hesse-Matrix<span class="tooltip-box">Die Matrix der zweiten partiellen Ableitungen einer Funktion. Sie wird verwendet, um kritische Punkte zu klassifizieren.</span></span> \( H_f = \begin{pmatrix} f_{xx} & f_{xy} \\ f_{yx} & f_{yy} \end{pmatrix} \) ist die Matrix der zweiten partiellen Ableitungen.</li>
-                            <li><span class="font-semibold text-cyan-300">Extrema klassifizieren:</span> Wir werten die Hesse-Matrix am kritischen Punkt aus. Anhand ihrer Determinante (det H) und des Eintrags \(f_{xx}\) können wir den Punkt klassifizieren:
+                            <li><span class="font-semibold text-cyan-300">Extrema über Eigenwerte klassifizieren:</span> Wir werten die Hesse-Matrix am kritischen Punkt aus und bestimmen ihre <span class="tooltip-term">Eigenwerte<span class="tooltip-box">Spezielle Skalare, die zu einer Matrix gehören. Ihre Vorzeichen bestimmen die Krümmung der Funktion in den Richtungen der Eigenvektoren.</span></span> \(\lambda_1, \lambda_2\).
                                 <ul class="list-disc list-inside ml-6 mt-2">
-                                    <li><strong>det H > 0</strong> und <strong>\(f_{xx} > 0\)</strong>: Lokales Minimum</li>
-                                    <li><strong>det H > 0</strong> und <strong>\(f_{xx} < 0\)</strong>: Lokales Maximum</li>
-                                    <li><strong>det H < 0</strong>: <span class="tooltip-term">Sattelpunkt<span class="tooltip-box">Ein kritischer Punkt, der weder ein lokales Minimum noch ein Maximum ist. Die Funktion steigt in eine Richtung an und fällt in eine andere ab.</span></span></li>
-                                    <li><strong>det H = 0</strong>: Keine Aussage möglich</li>
+                                    <li><strong>Alle Eigenwerte > 0</strong>: Lokales Minimum</li>
+                                    <li><strong>Alle Eigenwerte < 0</strong>: Lokales Maximum</li>
+                                    <li><strong>Positive und negative Eigenwerte</strong>: <span class="tooltip-term">Sattelpunkt<span class="tooltip-box">Ein kritischer Punkt, der weder ein lokales Minimum noch ein Maximum ist. Die Funktion steigt in eine Richtung an und fällt in eine andere ab.</span></span></li>
+                                    <li><strong>Mindestens ein Eigenwert = 0</strong>: Keine Aussage möglich (Test nicht schlüssig)</li>
                                 </ul>
                             </li>
                         </ol>
@@ -727,15 +732,62 @@
                             <h3 class="text-xl font-semibold text-cyan-300 mb-2">Interaktiver Extremwert-Analysator</h3>
                             <div class="mb-4">
                                 <label for="2d-function-input" class="block text-sm font-medium text-gray-400">Funktion \(f(x, y)\) =</label>
-                                <input type="text" id="2d-function-input" value="x^3 - 3*x*y + y^3" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 font-mono">
+                                <input type="text" id="2d-function-input" value="x^2 - y^2" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 font-mono">
                                 <p class="text-xs text-gray-500 mt-1">Syntax: +, -, *, /, ^ (Potenz), exp(), sin(), etc.</p>
                             </div>
                             <div class="mb-4">
-                                <label for="2d-point-input" class="block text-sm font-medium text-gray-400">Punkt \((x,y)\) =</label>
-                                <input type="text" id="2d-point-input" value="1, 1" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 font-mono">
+                                <label for="2d-point-input" class="block text-sm font-medium text-gray-400">Zu analysierender Punkt \((x,y)\) =</label>
+                                <input type="text" id="2d-point-input" value="0, 0" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 font-mono">
                             </div>
                             <button id="analyze-extremum-btn" class="px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300">Analysieren</button>
                             <div id="extremum-result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300"></div>
+                        </div>
+                    </div>
+                </section>
+                <section id="mafi-analytisch" class="mafi-content-section">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Analytische Funktionen und Taylor-Reihen</h2>
+                        <p class="mb-6 text-gray-300 leading-relaxed">
+                            Eine Funktion heißt <span class="tooltip-term">analytisch<span class="tooltip-box">Eine Funktion, die sich lokal durch eine konvergente Potenzreihe (ihre Taylor-Reihe) darstellen lässt.</span></span>, wenn sie sich in der Umgebung jedes Punktes ihres Definitionsbereichs durch ihre <span class="tooltip-term">Taylor-Reihe<span class="tooltip-box">Eine Darstellung einer Funktion als unendliche Summe von Potenztermen. Für analytische Funktionen konvergiert diese Reihe gegen die Funktion selbst.</span></span> darstellen lässt. Das bedeutet, die Funktion ist unendlich oft differenzierbar und das Taylor-Polynom nähert sich mit steigender Ordnung der Funktion perfekt an. Viele Standardfunktionen sind analytisch.
+                        </p>
+                        <h3 class="text-2xl font-semibold text-cyan-300 mb-4">Wichtige Taylor-Reihen (um \(x_0=0\))</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left math-table">
+                                <thead>
+                                    <tr class="bg-gray-800/50">
+                                        <th class="table-header">Funktion</th>
+                                        <th class="table-header">Taylor-Reihe</th>
+                                        <th class="table-header">Konvergenzbereich</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="hover:bg-gray-700/50">
+                                        <td class="table-cell">\(\frac{1}{1-x}\)</td>
+                                        <td class="table-cell">\(\sum_{n=0}^{\infty} x^n = 1 + x + x^2 + \dots\)</td>
+                                        <td class="table-cell">\(|x| < 1\)</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-700/50">
+                                        <td class="table-cell">\(e^x\)</td>
+                                        <td class="table-cell">\(\sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \dots\)</td>
+                                        <td class="table-cell">Für alle \(x \in \mathbb{C}\)</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-700/50">
+                                        <td class="table-cell">\(\sin(x)\)</td>
+                                        <td class="table-cell">\(\sum_{n=0}^{\infty} (-1)^n \frac{x^{2n+1}}{(2n+1)!} = x - \frac{x^3}{3!} + \dots\)</td>
+                                        <td class="table-cell">Für alle \(x \in \mathbb{C}\)</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-700/50">
+                                        <td class="table-cell">\(\cos(x)\)</td>
+                                        <td class="table-cell">\(\sum_{n=0}^{\infty} (-1)^n \frac{x^{2n}}{(2n)!} = 1 - \frac{x^2}{2!} + \dots\)</td>
+                                        <td class="table-cell">Für alle \(x \in \mathbb{C}\)</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-700/50">
+                                        <td class="table-cell">\(\ln(1+x)\)</td>
+                                        <td class="table-cell">\(\sum_{n=1}^{\infty} (-1)^{n+1} \frac{x^n}{n} = x - \frac{x^2}{2} + \frac{x^3}{3} - \dots\)</td>
+                                        <td class="table-cell">\(|x| < 1\) und \(x=1\)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </section>
@@ -791,12 +843,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // A robust parser for mathematical expressions from strings.
     const simpleMathParser = {
         parse: function(expr) {
-            const powRegex = /([a-zA-Z_]\w*|\([^)]+\))\s*\^\s*(-?\d+(?:\.\d+)?|\w+|\([^)]+\))/g;
-            const safeExpr = expr.replace(powRegex, 'Math.pow($1, $2)');
+            // Replace common math functions with Math.* equivalents
+            let safeExpr = expr.replace(/sin/g, 'Math.sin')
+                               .replace(/cos/g, 'Math.cos')
+                               .replace(/exp/g, 'Math.exp')
+                               .replace(/log/g, 'Math.log')
+                               .replace(/\^/g, '**');
+
             try {
-                return new Function('x', 'y', `with(Math){ return ${safeExpr} }`);
+                // Use new Function for safer evaluation than eval()
+                return new Function('x', 'y', `return ${safeExpr}`);
             } catch (e) {
                 console.error("Parsing error in expression '" + expr + "':", e);
+                // Return a function that returns NaN if parsing fails
                 return () => NaN;
             }
         }
@@ -1096,7 +1155,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     desc: '<b>Schritt 1: Link-Local-Adresse generieren.</b> Der Host erzeugt eine Link-Local-Adresse (LLA) im `fe80::/10`-Bereich, meist aus seiner MAC-Adresse (EUI-64) oder zufällig (Privacy Extensions).'
                 },
                 {
-                    diagram: `<div class="text-center"><b>Host</b> → 🌐 (Multicast)</div><p class="text-center mt-2 font-mono text-cyan-300">Neighbor Solicitation (DAD)</p>`,
+                    diagram: `<div class="text-center"><b>Host</b> → � (Multicast)</div><p class="text-center mt-2 font-mono text-cyan-300">Neighbor Solicitation (DAD)</p>`,
                     desc: '<b>Schritt 2: Duplicate Address Detection (DAD).</b> Der Host sendet eine Neighbor Solicitation an die "solicited-node multicast address" seiner gerade erzeugten LLA, um zu prüfen, ob die Adresse bereits verwendet wird. Als Quell-IP wird `::` (unspecified) genutzt.'
                 },
                 {
@@ -1208,6 +1267,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const username = document.getElementById('username').value;
                 const password = document.getElementById('password').value;
 
+                // Simple hardcoded login for demonstration
                 if (username === 'nhani' && password === 'jenin') {
                     showSubjectView('subject-hub');
                     if(loginError) loginError.classList.add('hidden');
@@ -1852,6 +1912,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     section.classList.remove('active');
                     if (section.id === targetId) section.classList.add('active');
                 });
+                // After switching tab, re-render MathJax if needed
+                if (window.MathJax) {
+                    MathJax.typesetPromise();
+                }
             });
         });
 
@@ -2074,41 +2138,89 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="mt-2">e<sup>i${angleDegrees}°</sup> = <span class="text-pink-400">${x.toFixed(3)}</span> + i(<span class="text-emerald-400">${y.toFixed(3)}</span>)</div>`;
     }
 
+    function calculateEigen(matrix) {
+        const [a, b, c, d] = [matrix[0][0], matrix[0][1], matrix[1][0], matrix[1][1]];
+        // For a symmetric matrix, b = c
+        const trace = a + d;
+        const det = a * d - b * c;
+        const discriminant = Math.sqrt(trace * trace - 4 * det);
+        const eig1 = (trace + discriminant) / 2;
+        const eig2 = (trace - discriminant) / 2;
+
+        let vec1 = [b, eig1 - a];
+        if (vec1[0] === 0 && vec1[1] === 0) vec1 = [eig1 - d, c];
+        const norm1 = Math.sqrt(vec1[0] * vec1[0] + vec1[1] * vec1[1]);
+        if (norm1 > 1e-9) { vec1[0] /= norm1; vec1[1] /= norm1; }
+
+        let vec2 = [b, eig2 - a];
+        if (vec2[0] === 0 && vec2[1] === 0) vec2 = [eig2 - d, c];
+        const norm2 = Math.sqrt(vec2[0] * vec2[0] + vec2[1] * vec2[1]);
+        if (norm2 > 1e-9) { vec2[0] /= norm2; vec2[1] /= norm2; }
+        
+        return {
+            eigenvalues: [eig1, eig2],
+            eigenvectors: [vec1, vec2]
+        };
+    }
+
     function analyzeExtremum() {
         if(!document.getElementById('2d-function-input')) return;
         const funcStr = document.getElementById('2d-function-input').value;
         const pointStr = document.getElementById('2d-point-input').value;
         const resultDiv = document.getElementById('extremum-result');
         try {
-            const [x0, y0] = pointStr.split(',').map(Number);
+            const [x0, y0] = pointStr.split(',').map(s => parseFloat(s.trim()));
             if (isNaN(x0) || isNaN(y0)) throw new Error("Ungültiger Punkt. Bitte im Format 'x, y' eingeben.");
             const f = simpleMathParser.parse(funcStr);
-            const h = 0.00001;
+            const h = 0.0001; // A small value for numerical differentiation
+            
+            // Numerical calculation of first derivatives (Gradient)
             const fx = (f(x0 + h, y0) - f(x0 - h, y0)) / (2 * h);
             const fy = (f(x0, y0 + h) - f(x0, y0 - h)) / (2 * h);
+            const gradNorm = Math.sqrt(fx*fx + fy*fy);
+
+            let resultHTML = `<p>Analyse am Punkt \\((${x0}, ${y0})\\):</p>`;
+            resultHTML += `<p class="mt-2">Gradient \\( \\nabla f \\approx \\begin{pmatrix} ${fx.toFixed(3)} \\\\ ${fy.toFixed(3)} \\end{pmatrix} \\)</p>`;
+
+            if (gradNorm > 1e-4) {
+                 resultHTML += `<p class="text-amber-400 font-semibold mt-2">Kein kritischer Punkt, da \\( \\nabla f \\not\\approx 0 \\).</p>`;
+                 resultDiv.innerHTML = resultHTML;
+                 if (window.MathJax) MathJax.typesetPromise([resultDiv]);
+                 return;
+            }
+            
+            resultHTML += `<p class="text-green-400 font-semibold mt-2">Kritischer Punkt, da \\( \\nabla f \\approx 0 \\).</p>`;
+
+            // Numerical calculation of second derivatives (Hesse-Matrix)
             const fxx = (f(x0 + h, y0) - 2 * f(x0, y0) + f(x0 - h, y0)) / (h * h);
             const fyy = (f(x0, y0 + h) - 2 * f(x0, y0) + f(x0, y0 - h)) / (h * h);
             const fxy = (f(x0 + h, y0 + h) - f(x0 + h, y0 - h) - f(x0 - h, y0 + h) + f(x0 - h, y0 - h)) / (4 * h * h);
-            const gradNorm = Math.sqrt(fx*fx + fy*fy);
-            let resultHTML = `<p>Analyse am Punkt \\((${x0}, ${y0})\\):</p>`;
-            resultHTML += `<p class="mt-2">Gradient \\( \\nabla f \\approx \\begin{pmatrix} ${fx.toFixed(5)} \\\\ ${fy.toFixed(5)} \\end{pmatrix} \\)</p>`;
-            if (gradNorm < 1e-6) {
-                resultHTML += `<p class="text-green-400">Kritischer Punkt, da \\( \\nabla f \\approx 0 \\).</p>`;
-                resultHTML += `<p class="mt-2">Hesse-Matrix \\( H_f \\approx \\)</p>`;
-                resultHTML += `<div class="font-mono text-center p-2">\\( \\begin{pmatrix} ${fxx.toFixed(5)} & ${fxy.toFixed(5)} \\\\ ${fxy.toFixed(5)} & ${fyy.toFixed(5)} \\end{pmatrix} \\)</div>`;
-                const detH = fxx * fyy - fxy * fxy;
-                resultHTML += `<p>Determinante \\( \\det(H) \\approx ${detH.toFixed(5)} \\)</p>`;
-                if (Math.abs(detH) < 1e-7) {
-                    resultHTML += `<p class="text-gray-500">⇒ Test nicht schlüssig (\\( \\det(H) \\approx 0 \\))</p>`;
-                } else if (detH > 0) {
-                    if (fxx > 0) resultHTML += `<p class="text-cyan-400">⇒ Lokales Minimum (\\( \\det(H) > 0, f_{xx} > 0 \\))</p>`;
-                    else resultHTML += `<p class="text-purple-400">⇒ Lokales Maximum (\\( \\det(H) > 0, f_{xx} < 0 \\))</p>`;
-                } else {
-                    resultHTML += `<p class="text-orange-400">⇒ Sattelpunkt (\\( \\det(H) < 0 \\))</p>`;
-                }
+            const hesseMatrix = [[fxx, fxy], [fxy, fyy]];
+
+            resultHTML += `<p class="mt-4">Hesse-Matrix \\( H_f \\approx \\begin{pmatrix} ${fxx.toFixed(3)} & ${fxy.toFixed(3)} \\\\ ${fxy.toFixed(3)} & ${fyy.toFixed(3)} \\end{pmatrix} \\)</p>`;
+
+            const { eigenvalues, eigenvectors } = calculateEigen(hesseMatrix);
+            const [l1, l2] = eigenvalues;
+
+            resultHTML += `<p class="mt-4">Eigenwerte: \\(\\lambda_1 \\approx ${l1.toFixed(3)}\\), \\(\\lambda_2 \\approx ${l2.toFixed(3)}\\)</p>`;
+            resultHTML += `<p class="mt-2">Eigenvektoren (Hauptachsen):</p>
+                         <ul class="list-disc list-inside ml-4">
+                           <li>\\(v_1 \\approx \\begin{pmatrix} ${eigenvectors[0][0].toFixed(3)} \\\\ ${eigenvectors[0][1].toFixed(3)} \\end{pmatrix}\\)</li>
+                           <li>\\(v_2 \\approx \\begin{pmatrix} ${eigenvectors[1][0].toFixed(3)} \\\\ ${eigenvectors[1][1].toFixed(3)} \\end{pmatrix}\\)</li>
+                         </ul>`;
+
+            resultHTML += `<h4 class="font-semibold mt-4">Klassifikation:</h4>`;
+            if (Math.abs(l1) < 1e-6 || Math.abs(l2) < 1e-6) {
+                resultHTML += `<p class="text-gray-500">⇒ Test nicht schlüssig (mindestens ein Eigenwert ist 0).</p>`;
+            } else if (l1 > 0 && l2 > 0) {
+                resultHTML += `<p class="text-cyan-400">⇒ Lokales Minimum (alle Eigenwerte sind positiv).</p>`;
+            } else if (l1 < 0 && l2 < 0) {
+                resultHTML += `<p class="text-purple-400">⇒ Lokales Maximum (alle Eigenwerte sind negativ).</p>`;
             } else {
-                resultHTML += `<p class="text-amber-400">Kein kritischer Punkt, da \\( \\nabla f \\not\\approx 0 \\).</p>`;
+                resultHTML += `<p class="text-orange-400">⇒ Sattelpunkt (Eigenwerte haben unterschiedliche Vorzeichen).</p>`;
+                resultHTML += `<p class="text-sm text-gray-400 mt-1">Die Funktion verhält sich entlang des Eigenvektors zum positiven Eigenwert wie ein Minimum und entlang des Eigenvektors zum negativen Eigenwert wie ein Maximum.</p>`;
             }
+            
             resultDiv.innerHTML = resultHTML;
             if (window.MathJax) MathJax.typesetPromise([resultDiv]);
         } catch(e) {
@@ -2120,18 +2232,20 @@ document.addEventListener('DOMContentLoaded', function() {
         if(!document.getElementById('lagrange-f')) return;
         function getDerivative(funcStr, variable) {
             funcStr = funcStr.trim().replace(/\s/g, '');
+            // Simple hardcoded derivatives for the example
             if (funcStr === 'x+y' || funcStr === 'y+x') return '1';
             if (funcStr === 'x^2+y^2-1' || funcStr === 'y^2+x^2-1') {
                 return variable === 'x' ? '2x' : '2y';
             }
+            // Fallback for more complex functions
             return `\\frac{\\partial}{\\partial ${variable}}(${funcStr})`;
         }
         const fStr = document.getElementById('lagrange-f').value;
         const gStr = document.getElementById('lagrange-g').value;
         const resultDiv = document.getElementById('lagrange-result');
         let resultHTML = `<h4 class="font-semibold mb-2 text-white">Notwendiges Gleichungssystem:</h4>`;
-        resultHTML += `<p>1. \\( \\frac{\\partial f}{\\partial x} + \\lambda \\frac{\\partial g}{\\partial x} = 0 \\quad \\Rightarrow \\quad ${getDerivative(fStr, 'x')} + \\lambda \\cdot (${getDerivative(gStr, 'x')}) = 0 \\)</p>`;
-        resultHTML += `<p>2. \\( \\frac{\\partial f}{\\partial y} + \\lambda \\frac{\\partial g}{\\partial y} = 0 \\quad \\Rightarrow \\quad ${getDerivative(fStr, 'y')} + \\lambda \\cdot (${getDerivative(gStr, 'y')}) = 0 \\)</p>`;
+        resultHTML += `<p>1. \\( \\frac{\\partial \\mathcal{L}}{\\partial x} = 0 \\quad \\Rightarrow \\quad ${getDerivative(fStr, 'x')} + \\lambda \\cdot (${getDerivative(gStr, 'x')}) = 0 \\)</p>`;
+        resultHTML += `<p>2. \\( \\frac{\\partial \\mathcal{L}}{\\partial y} = 0 \\quad \\Rightarrow \\quad ${getDerivative(fStr, 'y')} + \\lambda \\cdot (${getDerivative(gStr, 'y')}) = 0 \\)</p>`;
         resultHTML += `<p>3. \\( g(x, y) = 0 \\quad \\Rightarrow \\quad ${gStr} = 0 \\)</p>`;
         resultDiv.innerHTML = resultHTML;
         if (window.MathJax) MathJax.typesetPromise([resultDiv]);
@@ -2147,7 +2261,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 { q: () => `Jede differenzierbare Funktion ist auch stetig.`, a: () => true, expl: () => `Differenzierbarkeit ist eine stärkere Bedingung als Stetigkeit. Wenn eine Funktion eine Ableitung hat, kann sie keine Sprünge haben.` },
                 { q: (a) => `Die Funktion \\(f(x) = |x - ${a}|\\) ist bei \\(x=${a}\\) nicht differenzierbar.`, a: () => true, expl: (a) => `Die Betragsfunktion hat an der Stelle \\(x=${a}\\) einen 'Knick', an dem die Steigung nicht eindeutig definiert ist.` },
                 { q: (a, b) => `Der Vektor \\(\\begin{pmatrix}${a}\\\\${b}\\end{pmatrix}\\) ist ein Eigenvektor von \\(\\begin{pmatrix}${a+b}&${a}\\\\${b}&${a+b}\\end{pmatrix}\\).`, a: () => false, expl: (a, b) => `Ein Gegenbeispiel: Multiplikation der Matrix mit dem Vektor ergibt nicht ein skalares Vielfaches des Vektors.` },
-                { q: () => `Wenn \\(\\det(H_f) = 0\\) an einem kritischen Punkt, kann man keine Aussage über die Art des Extremums treffen.`, a: () => true, expl: () => `Wenn die Determinante der Hesse-Matrix null ist, ist der Test nicht schlüssig und es könnten ein Minimum, Maximum oder Sattelpunkt vorliegen.` }
+                { q: () => `Wenn die Eigenwerte der Hesse-Matrix an einem kritischen Punkt gemischte Vorzeichen haben, liegt ein Sattelpunkt vor.`, a: () => true, expl: () => `Das ist die Definition eines Sattelpunktes nach dem Kriterium der zweiten Ableitung. Die Funktion krümmt sich in verschiedene Richtungen.` }
             ];
             let content = `<h3 class="text-2xl font-bold text-cyan-400 mb-4">Aufgabe 1: Richtig oder Falsch (10 Punkte)</h3><div class="space-y-4">`;
             const usedIndices = new Set();
@@ -2185,13 +2299,13 @@ document.addEventListener('DOMContentLoaded', function() {
             else if (det < 0) type = 'einen Sattelpunkt';
             else type = 'einen Punkt, über den keine Aussage getroffen werden kann';
             const func = `f(x,y) = x^2 + ${a}y^2 - ${b}xy + ${c}x + ${d}y`;
-            const sol = `Gradient: \\(\\nabla f = \\begin{pmatrix} 2x - ${b}y + ${c} \\\\ ${2*a}y - ${b}x + ${d} \\end{pmatrix}\\). Nullsetzen ergibt den kritischen Punkt \\((${critX.toFixed(2)}, ${critY.toFixed(2)})\\). Hesse-Matrix: \\(H_f = \\begin{pmatrix} 2 & -${b} \\\\ -${b} & ${2*a} \\end{pmatrix}\\). Die Determinante ist \\(${4*a} - ${b*b} = ${det}\\). Daher liegt bei diesem Punkt ${type}.`;
-            return `<h3 class="text-2xl font-bold text-cyan-400 mb-4">Aufgabe 4: Mehrdimensionale Analysis (10 Punkte)</h3><div class="question-block"><p class="mb-4">Analysieren Sie die Funktion \\(${func}\\) auf lokale Extrema. Bestimmen Sie den kritischen Punkt und klassifizieren Sie ihn.</p><div class="solution p-4 mt-2 rounded-md">${sol}</div></div>`;
+            const sol = `Gradient: \\(\\nabla f = \\begin{pmatrix} 2x - ${b}y + ${c} \\\\ ${2*a}y - ${b}x + ${d} \\end{pmatrix}\\). Nullsetzen ergibt den kritischen Punkt \\((${critX.toFixed(2)}, ${critY.toFixed(2)})\\). Hesse-Matrix: \\(H_f = \\begin{pmatrix} 2 & -${b} \\\\ -${b} & ${2*a} \\end{pmatrix}\\). Die Eigenwerte sind \\(\\lambda_{1,2} = \\frac{2+2a \\pm \\sqrt{(2-2a)^2+4b^2}}{2}\\). Ihre Vorzeichen bestimmen die Art des Extremums.`;
+            return `<h3 class="text-2xl font-bold text-cyan-400 mb-4">Aufgabe 4: Mehrdimensionale Analysis (10 Punkte)</h3><div class="question-block"><p class="mb-4">Analysieren Sie die Funktion \\(${func}\\) auf lokale Extrema. Bestimmen Sie den kritischen Punkt und klassifizieren Sie ihn mittels der Eigenwerte der Hesse-Matrix.</p><div class="solution p-4 mt-2 rounded-md">${sol}</div></div>`;
         },
         generateTask5() {
             const pool = [
                 { q: `Sei \\(f(x)\\) eine stetige Funktion auf \\([a,b]\\). Muss \\(f(x)\\) auf diesem Intervall ein Maximum annehmen? Begründen Sie.`, sol: `Ja. Dies ist der Satz vom Minimum und Maximum (oder Extremwertsatz). Er besagt, dass jede auf einem abgeschlossenen, beschränkten Intervall stetige Funktion dort ein globales Maximum und Minimum annimmt.`},
-                { q: `Sei \\(f(x,y)\\) eine Funktion mit \\(\\nabla f(x_0, y_0) = 0\\) und \\(\\det(H_f(x_0, y_0)) > 0\\). Was können Sie über den Punkt \\((x_0, y_0)\\) aussagen? Begründen Sie.`, sol: `Der Punkt ist entweder ein lokales Minimum oder ein lokales Maximum. Um dies zu entscheiden, muss das Vorzeichen von \\(f_{xx}(x_0, y_0)\\) geprüft werden. Ist es positiv, liegt ein Minimum vor. Ist es negativ, ein Maximum.`},
+                { q: `Sei \\(f(x,y)\\) eine Funktion mit \\(\\nabla f(x_0, y_0) = 0\\) und alle Eigenwerte von \\(H_f(x_0, y_0)\\) sind positiv. Was können Sie über den Punkt \\((x_0, y_0)\\) aussagen?`, sol: `Der Punkt ist ein lokales Minimum. Da alle Eigenwerte positiv sind, ist die Hesse-Matrix positiv definit, was ein hinreichendes Kriterium für ein lokales Minimum ist.`},
                 { q: `Was ist die geometrische Bedeutung des Gradienten \\(\\nabla f(x,y)\\)?`, sol: `Der Gradientenvektor \\(\\nabla f\\) an einem Punkt \\((x,y)\\) zeigt in die Richtung des steilsten Anstiegs der Funktion \\(f\\). Seine Länge entspricht der Größe dieser Steigung.`},
                 { q: `Erklären Sie kurz die Idee hinter der Methode der Lagrange-Multiplikatoren.`, sol: `Die Methode sucht nach Punkten, an denen der Gradient der Funktion \\(f\\) parallel zum Gradienten der Nebenbedingungsfunktion \\(g\\) ist. An diesen Punkten berührt eine Niveaulinie von \\(f\\) die Kurve der Nebenbedingung, was auf ein Extremum hindeutet.`}
             ];
