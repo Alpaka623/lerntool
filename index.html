@@ -77,15 +77,15 @@
             border-left-color: #0891b2;
         }
 
-        .osi-layer {
+        .osi-layer, .topology-item {
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        .osi-layer:hover {
+        .osi-layer:hover, .topology-item:hover {
             transform: translateX(5px);
             border-left-width: 6px;
         }
-        .osi-layer.selected {
+        .osi-layer.selected, .topology-item.selected {
             box-shadow: 0 0 20px rgba(13, 202, 240, 0.3);
             border-left-width: 6px;
         }
@@ -158,6 +158,13 @@
             border-left: 4px solid #0891b2;
             background-color: #1f2937;
         }
+        .routing-table tr:hover {
+            background-color: #374151;
+        }
+        .routing-table tr.highlight {
+            background-color: #0891b2;
+            color: white;
+        }
     </style>
 </head>
 <body class="text-gray-200">
@@ -221,54 +228,137 @@
                 <p class="text-xl text-gray-400 mt-2">Dein interaktiver Lernassistent</p>
             </header>
 
-            <nav class="flex flex-wrap justify-center gap-3 sm:gap-4 mb-12">
+            <nav class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12">
                 <button data-target="grundlagen" class="nav-button active font-semibold py-2 px-5 rounded-full">Grundlagen</button>
+                <button data-target="technologien" class="nav-button font-semibold py-2 px-5 rounded-full">Konzepte & Technologien</button>
                 <button data-target="header" class="nav-button font-semibold py-2 px-5 rounded-full">Protokoll-Header</button>
                 <button data-target="berechnungen" class="nav-button font-semibold py-2 px-5 rounded-full">Berechnungen</button>
                 <button data-target="prozesse" class="nav-button font-semibold py-2 px-5 rounded-full">Prozessabläufe</button>
+                <button data-target="anwendungen" class="nav-button font-semibold py-2 px-5 rounded-full">Anwendungsprotokolle</button>
                 <button data-target="vergleiche" class="nav-button font-semibold py-2 px-5 rounded-full">Vergleiche</button>
             </nav>
 
             <main>
                 <!-- SECTION: Grundlagen -->
                 <section id="grundlagen" class="content-section active">
-                    <div class="card p-6 rounded-2xl shadow-2xl">
-                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Das OSI-Modell & Datenkapselung</h2>
-                        <p class="mb-6 text-gray-300">Ein zentrales Konzept der Netzwerkkommunikation ist die Schichtung von Aufgaben. Klicken Sie auf eine Schicht, um mehr über ihre spezifische Rolle zu erfahren.</p>
-                        
-                        <div class="flex flex-col items-center space-y-2" id="osi-model-container">
-                            <div class="osi-layer text-center p-3 w-full max-w-lg bg-blue-900/50 border-l-4 border-blue-400 rounded-lg" data-layer="7">
-                                <span class="font-bold text-white">7. Application</span>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                            <h2 class="text-3xl font-bold text-cyan-400 mb-4">Das OSI-Modell & Datenkapselung</h2>
+                            <p class="mb-6 text-gray-300">Ein zentrales Konzept der Netzwerkkommunikation ist die Schichtung von Aufgaben. Klicken Sie auf eine Schicht, um mehr über ihre spezifische Rolle zu erfahren.</p>
+                            
+                            <div class="flex flex-col items-center space-y-2" id="osi-model-container">
+                                <div class="osi-layer text-center p-3 w-full max-w-lg bg-blue-900/50 border-l-4 border-blue-400 rounded-lg" data-layer="7">
+                                    <span class="font-bold text-white">7. Application</span>
+                                </div>
+                                <div class="text-2xl text-gray-500">↓</div>
+                                <div class="osi-layer text-center p-3 w-full max-w-lg bg-green-900/50 border-l-4 border-green-400 rounded-lg" data-layer="6">
+                                    <span class="font-bold text-white">6. Presentation</span>
+                                </div>
+                                <div class="text-2xl text-gray-500">↓</div>
+                                <div class="osi-layer text-center p-3 w-full max-w-lg bg-purple-900/50 border-l-4 border-purple-400 rounded-lg" data-layer="5">
+                                     <span class="font-bold text-white">5. Session</span>
+                                </div>
+                                <div class="text-2xl text-gray-500">↓</div>
+                                <div class="osi-layer text-center p-3 w-full max-w-lg bg-indigo-900/50 border-l-4 border-indigo-400 rounded-lg" data-layer="4">
+                                     <span class="font-bold text-white">4. Transport</span>
+                                </div>
+                                <div class="text-2xl text-gray-500">↓</div>
+                                 <div class="osi-layer text-center p-3 w-full max-w-lg bg-teal-900/50 border-l-4 border-teal-400 rounded-lg" data-layer="3">
+                                    <span class="font-bold text-white">3. Network</span>
+                                </div>
+                                <div class="text-2xl text-gray-500">↓</div>
+                                <div class="osi-layer text-center p-3 w-full max-w-lg bg-pink-900/50 border-l-4 border-pink-400 rounded-lg" data-layer="2">
+                                   <span class="font-bold text-white">2. Data Link</span>
+                                </div>
+                                <div class="text-2xl text-gray-500">↓</div>
+                                <div class="osi-layer text-center p-3 w-full max-w-lg bg-gray-700/50 border-l-4 border-gray-400 rounded-lg" data-layer="1">
+                                    <span class="font-bold text-white">1. Physical</span>
+                                </div>
                             </div>
-                            <div class="text-2xl text-gray-500">↓</div>
-                            <div class="osi-layer text-center p-3 w-full max-w-lg bg-green-900/50 border-l-4 border-green-400 rounded-lg" data-layer="6">
-                                <span class="font-bold text-white">6. Presentation</span>
-                            </div>
-                            <div class="text-2xl text-gray-500">↓</div>
-                            <div class="osi-layer text-center p-3 w-full max-w-lg bg-purple-900/50 border-l-4 border-purple-400 rounded-lg" data-layer="5">
-                                 <span class="font-bold text-white">5. Session</span>
-                            </div>
-                            <div class="text-2xl text-gray-500">↓</div>
-                            <div class="osi-layer text-center p-3 w-full max-w-lg bg-indigo-900/50 border-l-4 border-indigo-400 rounded-lg" data-layer="4">
-                                 <span class="font-bold text-white">4. Transport</span>
-                            </div>
-                            <div class="text-2xl text-gray-500">↓</div>
-                             <div class="osi-layer text-center p-3 w-full max-w-lg bg-teal-900/50 border-l-4 border-teal-400 rounded-lg" data-layer="3">
-                                <span class="font-bold text-white">3. Network</span>
-                            </div>
-                            <div class="text-2xl text-gray-500">↓</div>
-                            <div class="osi-layer text-center p-3 w-full max-w-lg bg-pink-900/50 border-l-4 border-pink-400 rounded-lg" data-layer="2">
-                               <span class="font-bold text-white">2. Data Link</span>
-                            </div>
-                            <div class="text-2xl text-gray-500">↓</div>
-                            <div class="osi-layer text-center p-3 w-full max-w-lg bg-gray-700/50 border-l-4 border-gray-400 rounded-lg" data-layer="1">
-                                <span class="font-bold text-white">1. Physical</span>
-                            </div>
+                            <div id="layer-description-box" class="mt-6 p-4 bg-gray-800/70 rounded-lg border border-gray-700 min-h-[80px]"></div>
                         </div>
-                        <div id="layer-description-box" class="mt-6 p-4 bg-gray-800/70 rounded-lg border border-gray-700 min-h-[80px]"></div>
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                            <h2 class="text-3xl font-bold text-cyan-400 mb-4">Netzwerk-Klassifizierung</h2>
+                            <p class="mb-6 text-gray-300">Netzwerke können nach verschiedenen Kriterien klassifiziert werden. Die Topologie beschreibt die physikalische oder logische Anordnung der Geräte.</p>
+                             <div class="flex flex-col items-center space-y-2" id="topology-container">
+                                <div class="topology-item text-center p-3 w-full max-w-lg bg-gray-700/50 border-l-4 border-gray-400 rounded-lg" data-topology="bus">
+                                    <span class="font-bold text-white">Bus-Topologie</span>
+                                </div>
+                                <div class="topology-item text-center p-3 w-full max-w-lg bg-gray-700/50 border-l-4 border-gray-400 rounded-lg" data-topology="star">
+                                    <span class="font-bold text-white">Stern-Topologie</span>
+                                </div>
+                                <div class="topology-item text-center p-3 w-full max-w-lg bg-gray-700/50 border-l-4 border-gray-400 rounded-lg" data-topology="ring">
+                                    <span class="font-bold text-white">Ring-Topologie</span>
+                                </div>
+                                <div class="topology-item text-center p-3 w-full max-w-lg bg-gray-700/50 border-l-4 border-gray-400 rounded-lg" data-topology="mesh">
+                                    <span class="font-bold text-white">Mesh-Topologie (Vermascht)</span>
+                                </div>
+                            </div>
+                            <div id="topology-description-box" class="mt-6 p-4 bg-gray-800/70 rounded-lg border border-gray-700 min-h-[120px]"></div>
+                        </div>
                     </div>
                 </section>
                 
+                <!-- SECTION: Technologien -->
+                <section id="technologien" class="content-section">
+                    <div class="space-y-8">
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                            <h2 class="text-3xl font-bold text-cyan-400 mb-4">Physikalische Übertragung</h2>
+                            <p class="mb-6 text-gray-300">Die Bitübertragungsschicht (Layer 1) befasst sich damit, wie Bits physikalisch über ein Medium gesendet werden. Leitungscodierung und Multiplexing sind hierbei Schlüsselkonzepte.</p>
+                            <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">Leitungscodierungs-Visualisierer</h3>
+                                <div class="flex items-center gap-4 mb-4 flex-wrap">
+                                    <label for="encoding-input" class="text-gray-400">Bitfolge:</label>
+                                    <input type="text" id="encoding-input" value="010110" class="flex-grow px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 font-mono">
+                                    <button id="update-encoding-chart" class="px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300">Anzeigen</button>
+                                </div>
+                                <div class="chart-container bg-gray-800/50 p-4 rounded-lg h-64">
+                                    <canvas id="encodingChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                             <h2 class="text-3xl font-bold text-cyan-400 mb-4">Hardware & Virtuelle LANs (VLANs)</h2>
+                             <div class="grid md:grid-cols-2 gap-8">
+                                 <div>
+                                     <h3 class="text-xl font-semibold mb-2 text-cyan-300">Kopplungselemente</h3>
+                                     <p class="text-gray-300">Ein <span class="tooltip-term">Hub<span class="tooltip-box">Layer-1-Gerät. Leitet eingehende Signale an alle anderen Ports weiter. Alle angeschlossenen Geräte teilen sich eine Kollisionsdomäne.</span></span> arbeitet auf Layer 1 und leitet Signale einfach an alle Ports weiter. Ein <span class="tooltip-term">Switch<span class="tooltip-box">Layer-2-Gerät. Leitet Frames gezielt an den richtigen Port basierend auf der Ziel-MAC-Adresse weiter. Jeder Port ist eine eigene Kollisionsdomäne.</span></span> arbeitet auf Layer 2 und leitet Daten-Frames intelligent nur an den Zielport weiter, was die Effizienz und Sicherheit erhöht.</p>
+                                 </div>
+                                 <div>
+                                     <h3 class="text-xl font-semibold mb-2 text-cyan-300">VLAN-Konfiguration (Port-basiert)</h3>
+                                     <p class="text-gray-300 mb-4">VLANs segmentieren ein physisches LAN logisch in mehrere Broadcast-Domänen. Klicken Sie auf einen Port, um ihn einem VLAN zuzuweisen.</p>
+                                     <div id="vlan-switch" class="bg-gray-800 p-4 rounded-lg flex justify-around items-center"></div>
+                                     <div class="flex justify-center gap-4 mt-4">
+                                         <button class="vlan-assign-btn px-3 py-1 bg-red-600 rounded" data-vlan="10">VLAN 10</button>
+                                         <button class="vlan-assign-btn px-3 py-1 bg-green-600 rounded" data-vlan="20">VLAN 20</button>
+                                         <button class="vlan-assign-btn px-3 py-1 bg-blue-600 rounded" data-vlan="30">VLAN 30</button>
+                                     </div>
+                                 </div>
+                             </div>
+                        </div>
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                             <h2 class="text-3xl font-bold text-cyan-400 mb-4">Routing & NAT</h2>
+                             <div class="grid md:grid-cols-2 gap-8">
+                                 <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                     <h3 class="text-xl font-semibold mb-2 text-cyan-300">Routing-Tabellen-Simulator</h3>
+                                     <p class="mb-4 text-gray-400 text-sm">Geben Sie eine Ziel-IP ein, um zu sehen, welche Route nach dem "Longest Match"-Prinzip gewählt wird.</p>
+                                     <input type="text" id="routing-dest-ip" placeholder="z.B. 192.168.3.15" class="w-full px-3 py-2 rounded-md shadow-sm mb-2">
+                                     <button id="routing-simulate-btn" class="px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600">Route finden</button>
+                                     <div id="routing-table-container" class="mt-4 overflow-x-auto"></div>
+                                 </div>
+                                 <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                     <h3 class="text-xl font-semibold mb-2 text-cyan-300">Network Address Translation (NAT)</h3>
+                                     <p class="text-gray-300">NAT ermöglicht es Geräten mit privaten IP-Adressen (z.B. aus 192.168.x.x), mit dem Internet zu kommunizieren, indem es ihre private IP-Adresse in eine öffentliche IP-Adresse übersetzt. Meist wird <span class="tooltip-term">PAT<span class="tooltip-box">Port Address Translation. Eine Form von NAT, bei der mehrere private IPs auf eine öffentliche IP abgebildet werden, indem unterschiedliche Portnummern verwendet werden.</span></span> (Port Address Translation) verwendet, um viele interne Geräte über eine einzige öffentliche IP zu "maskieren".</p>
+                                     <div id="nat-explanation" class="mt-4 p-3 bg-gray-900/70 rounded-md text-sm font-mono">
+                                         <p><span class="text-yellow-400">Intern:</span> 192.168.1.10:50000 → <span class="text-green-400">Extern:</span> 203.0.113.5:12345</p>
+                                         <p><span class="text-yellow-400">Intern:</span> 192.168.1.11:50001 → <span class="text-green-400">Extern:</span> 203.0.113.5:12346</p>
+                                     </div>
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
+                </section>
+
                 <!-- SECTION: Header -->
                 <section id="header" class="content-section">
                      <div class="card p-6 rounded-2xl shadow-2xl">
@@ -282,6 +372,7 @@
                                 <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-protocol="ipv6">IPv6</button>
                                 <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-protocol="tcp">TCP</button>
                                 <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-protocol="udp">UDP</button>
+                                <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-protocol="icmp">ICMPv4</button>
                             </div>
                         </div>
 
@@ -360,12 +451,31 @@
                         <p class="mb-6 text-gray-300">Das Verständnis von Protokollabläufen ist fundamental. Diese interaktiven Diagramme führen Sie schrittweise durch die wichtigsten Kommunikationsprozesse. Klicken Sie auf "Nächster Schritt", um den Ablauf zu verfolgen und die dazugehörigen Erklärungen zu lesen.</p>
                          
                         <div id="process-selector" class="flex flex-wrap justify-center gap-2 mb-6">
-                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-process="tcp-handshake">TCP 3-Wege-Handshake</button>
-                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-process="arp">ARP-Prozess</button>
-                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-process="dhcp">DHCP DORA</button>
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600" data-process="tcp-handshake">TCP 3-Wege-Handshake</button>
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600" data-process="tcp-termination">TCP Verbindungsabbau</button>
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600" data-process="tcp-sliding-window">TCP Sliding Window</button>
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600" data-process="arp">ARP-Prozess</button>
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600" data-process="dhcp">DHCP DORA</button>
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600" data-process="ipv6-slaac">IPv6 SLAAC</button>
                         </div>
 
                         <div id="process-display" class="bg-gray-800/50 p-4 rounded-lg border border-gray-700 min-h-[300px]"></div>
+                    </div>
+                </section>
+
+                <!-- SECTION: Anwendungsprotokolle -->
+                <section id="anwendungen" class="content-section">
+                     <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Anwendungsprotokolle (Layer 7)</h2>
+                        <p class="mb-6 text-gray-300">Diese Protokolle stellen die Schnittstelle zu den Anwendungen dar, die wir täglich nutzen. Hier werden die Prozesse für die Namensauflösung (DNS) und den Abruf von Webseiten (HTTP/HTTPS) visualisiert.</p>
+                         
+                        <div id="app-process-selector" class="flex flex-wrap justify-center gap-2 mb-6">
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600" data-app-process="dns">DNS Namensauflösung</button>
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600" data-app-process="http">HTTP Request/Response</button>
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600" data-app-process="tls">TLS Handshake (HTTPS)</button>
+                        </div>
+
+                        <div id="app-process-display" class="bg-gray-800/50 p-4 rounded-lg border border-gray-700 min-h-[300px]"></div>
                     </div>
                 </section>
 
@@ -373,66 +483,90 @@
                 <section id="vergleiche" class="content-section">
                     <div class="card p-6 rounded-2xl shadow-2xl">
                         <h2 class="text-3xl font-bold text-cyan-400 mb-4">Protokoll-Vergleiche</h2>
-                        <p class="mb-6 text-gray-300">Das Gegenüberstellen von Protokollen hilft, ihre spezifischen Stärken und Schwächen zu verstehen. Dieser Abschnitt hebt die wichtigsten Unterschiede zwischen zentralen Protokollpaaren hervor und visualisiert das Verhalten der TCP-Überlastkontrolle.</p>
+                        <p class="mb-6 text-gray-300">Das Gegenüberstellen von Protokollen und Konzepten hilft, ihre spezifischen Stärken, Schwächen und Anwendungsfälle zu verstehen.</p>
 
-                        <!-- TCP vs UDP & IPv4 vs IPv6 Tables -->
-                        <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div class="space-y-8">
+                            <!-- TCP vs UDP & IPv4 vs IPv6 Tables -->
+                            <div class="grid md:grid-cols-2 gap-8">
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-2 text-cyan-300">TCP vs. UDP</h3>
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full text-left border-collapse">
+                                            <thead>
+                                                <tr>
+                                                    <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">Merkmal</th>
+                                                    <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">TCP</th>
+                                                    <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">UDP</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Verbindung</td><td class="border-b border-gray-700 p-3 table-cell">Verbindungsorientiert</td><td class="border-b border-gray-700 p-3 table-cell">Verbindungslos</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Zuverlässigkeit</td><td class="border-b border-gray-700 p-3 table-cell">Hoch (Bestätigungen)</td><td class="border-b border-gray-700 p-3 table-cell">Niedrig (Best Effort)</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Reihenfolge</td><td class="border-b border-gray-700 p-3 table-cell">Garantiert</td><td class="border-b border-gray-700 p-3 table-cell">Nicht garantiert</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Kontrolle</td><td class="border-b border-gray-700 p-3 table-cell">Fluss- & Überlastkontrolle</td><td class="border-b border-gray-700 p-3 table-cell">Keine</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Overhead</td><td class="border-b border-gray-700 p-3 table-cell">Hoch (20+ B Header)</td><td class="border-b border-gray-700 p-3 table-cell">Niedrig (8 B Header)</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="p-3 table-cell">Anwendung</td><td class="p-3 table-cell">HTTP, FTP, E-Mail</td><td class="p-3 table-cell">DNS, VoIP, Gaming</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                 <div>
+                                    <h3 class="text-xl font-semibold mb-2 text-cyan-300">IPv4 vs. IPv6</h3>
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full text-left border-collapse">
+                                            <thead>
+                                                <tr>
+                                                    <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">Merkmal</th>
+                                                    <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">IPv4</th>
+                                                    <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">IPv6</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Adresslänge</td><td class="border-b border-gray-700 p-3 table-cell">32-Bit</td><td class="border-b border-gray-700 p-3 table-cell">128-Bit</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Adressraum</td><td class="border-b border-gray-700 p-3 table-cell">~4.3 Milliarden</td><td class="border-b border-gray-700 p-3 table-cell">~3.4 x 10^38</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Header</td><td class="border-b border-gray-700 p-3 table-cell">Variabel (20-60 B)</td><td class="border-b border-gray-700 p-3 table-cell">Fest (40 B)</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Fragmentierung</td><td class="border-b border-gray-700 p-3 table-cell">Durch Router & Sender</td><td class="border-b border-gray-700 p-3 table-cell">Nur durch Sender</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Prüfsumme</td><td class="border-b border-gray-700 p-3 table-cell">Im Header</td><td class="border-b border-gray-700 p-3 table-cell">Entfernt</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="p-3 table-cell">Konfiguration</td><td class="p-3 table-cell">Manuell / DHCP</td><td class="p-3 table-cell">SLAAC / DHCPv6</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                             <!-- CSMA/CD vs CSMA/CA -->
                             <div>
-                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">TCP vs. UDP</h3>
+                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">CSMA/CD vs. CSMA/CA</h3>
                                 <div class="overflow-x-auto">
                                     <table class="w-full text-left border-collapse">
                                         <thead>
                                             <tr>
                                                 <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">Merkmal</th>
-                                                <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">TCP</th>
-                                                <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">UDP</th>
+                                                <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">CSMA/CD (Ethernet)</th>
+                                                <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">CSMA/CA (WLAN)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Verbindung</td><td class="border-b border-gray-700 p-3 table-cell">Verbindungsorientiert</td><td class="border-b border-gray-700 p-3 table-cell">Verbindungslos</td></tr>
-                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Zuverlässigkeit</td><td class="border-b border-gray-700 p-3 table-cell">Hoch (Bestätigungen)</td><td class="border-b border-gray-700 p-3 table-cell">Niedrig (Best Effort)</td></tr>
-                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Reihenfolge</td><td class="border-b border-gray-700 p-3 table-cell">Garantiert</td><td class="border-b border-gray-700 p-3 table-cell">Nicht garantiert</td></tr>
-                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Kontrolle</td><td class="border-b border-gray-700 p-3 table-cell">Fluss- & Überlastkontrolle</td><td class="border-b border-gray-700 p-3 table-cell">Keine</td></tr>
-                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Overhead</td><td class="border-b border-gray-700 p-3 table-cell">Hoch (20+ B Header)</td><td class="border-b border-gray-700 p-3 table-cell">Niedrig (8 B Header)</td></tr>
-                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="p-3 table-cell">Anwendung</td><td class="p-3 table-cell">HTTP, FTP, E-Mail</td><td class="p-3 table-cell">DNS, VoIP, Gaming</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Verfahren</td><td class="border-b border-gray-700 p-3 table-cell">Collision Detection</td><td class="border-b border-gray-700 p-3 table-cell">Collision Avoidance</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Reaktion</td><td class="border-b border-gray-700 p-3 table-cell">Senden, bei Kollision abbrechen</td><td class="border-b border-gray-700 p-3 table-cell">Vor dem Senden auf freies Medium warten</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Effizienz</td><td class="border-b border-gray-700 p-3 table-cell">Effektiv in kabelgebundenen Netzen</td><td class="border-b border-gray-700 p-3 table-cell">Notwendig bei Funk (Hidden/Exposed Station)</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="p-3 table-cell">Bestätigung</td><td class="p-3 table-cell">Keine auf Layer 2</td><td class="p-3 table-cell">ACKs für jeden Frame</td></tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                             <div>
-                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">IPv4 vs. IPv6</h3>
-                                <div class="overflow-x-auto">
-                                    <table class="w-full text-left border-collapse">
-                                        <thead>
-                                            <tr>
-                                                <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">Merkmal</th>
-                                                <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">IPv4</th>
-                                                <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">IPv6</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Adresslänge</td><td class="border-b border-gray-700 p-3 table-cell">32-Bit</td><td class="border-b border-gray-700 p-3 table-cell">128-Bit</td></tr>
-                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Adressraum</td><td class="border-b border-gray-700 p-3 table-cell">~4.3 Milliarden</td><td class="border-b border-gray-700 p-3 table-cell">~3.4 x 10^38</td></tr>
-                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Header</td><td class="border-b border-gray-700 p-3 table-cell">Variabel (20-60 B)</td><td class="border-b border-gray-700 p-3 table-cell">Fest (40 B)</td></tr>
-                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Fragmentierung</td><td class="border-b border-gray-700 p-3 table-cell">Durch Router & Sender</td><td class="border-b border-gray-700 p-3 table-cell">Nur durch Sender</td></tr>
-                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Prüfsumme</td><td class="border-b border-gray-700 p-3 table-cell">Im Header</td><td class="border-b border-gray-700 p-3 table-cell">Entfernt</td></tr>
-                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="p-3 table-cell">Konfiguration</td><td class="p-3 table-cell">Manuell / DHCP</td><td class="p-3 table-cell">SLAAC / DHCPv6</td></tr>
-                                        </tbody>
-                                    </table>
+
+                            <!-- TCP Congestion Control Chart -->
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">TCP Überlastkontrolle: Tahoe vs. Reno</h3>
+                                <p class="mb-4 text-gray-400">Dieses Diagramm zeigt die Entwicklung des Congestion Windows (cwnd) für TCP Tahoe und TCP Reno. Klicken Sie auf "Paketverlust simulieren", um zu sehen, wie die beiden Algorithmen auf drei Duplicate ACKs reagieren – ein Schlüsselunterschied für die Effizienz.</p>
+                                <div class="chart-container bg-gray-800/50 p-4 rounded-lg">
+                                    <canvas id="congestionChart"></canvas>
                                 </div>
-                            </div>
-                        </div>
-                        
-                        <!-- TCP Congestion Control Chart -->
-                        <div>
-                            <h3 class="text-xl font-semibold mb-2 text-cyan-300">TCP Überlastkontrolle: Tahoe vs. Reno</h3>
-                            <p class="mb-4 text-gray-400">Dieses Diagramm zeigt die Entwicklung des Congestion Windows (cwnd) für TCP Tahoe und TCP Reno. Klicken Sie auf "Paketverlust simulieren", um zu sehen, wie die beiden Algorithmen auf drei Duplicate ACKs reagieren – ein Schlüsselunterschied für die Effizienz.</p>
-                            <div class="chart-container bg-gray-800/50 p-4 rounded-lg">
-                                <canvas id="congestionChart"></canvas>
-                            </div>
-                            <div class="text-center mt-4">
-                                <button id="simulate_loss" class="px-5 py-2 bg-amber-500 text-white rounded-lg shadow-lg hover:bg-amber-400 transition-all duration-300">Paketverlust simulieren (3 Dup-ACKs)</button>
-                                <button id="reset_chart" class="ml-2 px-5 py-2 bg-gray-600 text-white rounded-lg shadow-lg hover:bg-gray-500 transition-all duration-300">Zurücksetzen</button>
+                                <div class="text-center mt-4">
+                                    <button id="simulate_loss" class="px-5 py-2 bg-amber-500 text-white rounded-lg shadow-lg hover:bg-amber-400 transition-all duration-300">Paketverlust simulieren (3 Dup-ACKs)</button>
+                                    <button id="reset_chart" class="ml-2 px-5 py-2 bg-gray-600 text-white rounded-lg shadow-lg hover:bg-gray-500 transition-all duration-300">Zurücksetzen</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -479,7 +613,6 @@
                         </div>
                     </div>
                 </section>
-
                 <section id="mafi-funktionenraeume" class="mafi-content-section">
                     <div class="card p-8 rounded-2xl shadow-2xl">
                         <h2 class="text-3xl font-bold text-cyan-400 mb-6">Funktionenräume & Bernstein-Approximation</h2>
@@ -497,7 +630,6 @@
                         </div>
                     </div>
                 </section>
-
                 <section id="mafi-diff1d" class="mafi-content-section">
                     <div class="card p-8 rounded-2xl shadow-2xl">
                         <h2 class="text-3xl font-bold text-cyan-400 mb-6">Differentialrechnung (1D)</h2>
@@ -529,7 +661,6 @@
                         </div>
                     </div>
                 </section>
-
                 <section id="mafi-taylor" class="mafi-content-section">
                      <div class="card p-8 rounded-2xl shadow-2xl">
                         <h2 class="text-3xl font-bold text-cyan-400 mb-6">Taylorreihen</h2>
@@ -551,7 +682,6 @@
                         </div>
                     </div>
                 </section>
-
                 <section id="mafi-complex" class="mafi-content-section">
                     <div class="card p-8 rounded-2xl shadow-2xl">
                         <h2 class="text-3xl font-bold text-cyan-400 mb-6">Komplexe Zahlen & die Eulersche Formel</h2>
@@ -576,7 +706,6 @@
                         </div>
                     </div>
                 </section>
-
                 <section id="mafi-diff2d" class="mafi-content-section">
                     <div class="card p-8 rounded-2xl shadow-2xl">
                         <h2 class="text-3xl font-bold text-cyan-400 mb-6">Mehrdimensionale Analysis & Extrema</h2>
@@ -610,7 +739,6 @@
                         </div>
                     </div>
                 </section>
-                
                 <section id="mafi-lagrange" class="mafi-content-section">
                     <div class="card p-8 rounded-2xl shadow-2xl">
                         <h2 class="text-3xl font-bold text-cyan-400 mb-6">Extrema mit Nebenbedingungen</h2>
@@ -638,7 +766,6 @@
                         </div>
                     </div>
                 </section>
-
                 <section id="mafi-probeklausur" class="mafi-content-section">
                     <div class="card p-6 rounded-2xl shadow-2xl">
                         <h2 class="text-3xl font-bold text-cyan-400 mb-4">Probeklausur-Generator</h2>
@@ -692,10 +819,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const calculateVlsmBtn = document.getElementById('calculate_vlsm');
     const processSelectorButtons = document.querySelectorAll('#process-selector button');
     const processDisplay = document.getElementById('process-display');
+    const appProcessSelectorButtons = document.querySelectorAll('#app-process-selector button');
+    const appProcessDisplay = document.getElementById('app-process-display');
     const simulateLossBtn = document.getElementById('simulate_loss');
     const resetChartBtn = document.getElementById('reset_chart');
     const osiLayers = document.querySelectorAll('.osi-layer');
     const layerDescriptionBox = document.getElementById('layer-description-box');
+    const topologyItems = document.querySelectorAll('.topology-item');
+    const topologyDescriptionBox = document.getElementById('topology-description-box');
+    const encodingChartBtn = document.getElementById('update-encoding-chart');
+    const routingSimulateBtn = document.getElementById('routing-simulate-btn');
+
 
     // --- MAFI 2 SELECTORS ---
     const mafiNavButtons = document.querySelectorAll('.mafi-nav-button');
@@ -708,7 +842,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const generateExamBtn = document.getElementById('generate-exam-btn');
     const analyzeLagrangeBtn = document.getElementById('analyze-lagrange-btn');
     const eulerAngleSlider = document.getElementById('euler-angle-slider');
-    let taylorChart, bernsteinChart, congestionChart;
+    let taylorChart, bernsteinChart, congestionChart, encodingChart;
     
     // --- DATA & STATE ---
     const layerDescriptions = {
@@ -719,6 +853,24 @@ document.addEventListener('DOMContentLoaded', function() {
         '3': '<strong>Vermittlungsschicht (Network Layer):</strong> Ist für die globale Adressierung (IP-Adressen) und die Wegfindung (Routing) von Datenpaketen durch das gesamte Netzwerk verantwortlich.',
         '2': '<strong>Sicherungsschicht (Data Link Layer):</strong> Sorgt für eine zuverlässige Übertragung von Daten-Frames innerhalb eines lokalen Netzwerks (z.B. Ethernet) und regelt den Zugriff auf das Medium.',
         '1': '<strong>Bitübertragungsschicht (Physical Layer):</strong> Definiert die physikalischen und elektrischen Eigenschaften des Übertragungsmediums (Kabel, Funk) für die Übertragung roher Bits.'
+    };
+    const topologyData = {
+        'bus': {
+            desc: '<strong>Bus-Topologie:</strong> Alle Geräte sind an ein einziges gemeinsames Übertragungsmedium (den Bus) angeschlossen. Nachrichten werden an alle Geräte gesendet. <br><strong>Vorteil:</strong> Einfach und kostengünstig. <br><strong>Nachteil:</strong> Anfällig für Ausfälle (Kabelbruch legt alles lahm), Kollisionen bei hoher Last.',
+            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Bus_network.svg/300px-Bus_network.svg.png'
+        },
+        'star': {
+            desc: '<strong>Stern-Topologie:</strong> Alle Geräte sind mit einem zentralen Knotenpunkt (Hub oder Switch) verbunden. Die gesamte Kommunikation läuft über diesen zentralen Punkt. <br><strong>Vorteil:</strong> Hohe Ausfallsicherheit (Ausfall eines Geräts beeinträchtigt nicht die anderen), leicht erweiterbar. <br><strong>Nachteil:</strong> Der zentrale Knoten ist ein "Single Point of Failure".',
+            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Star_network.svg/300px-Star_network.svg.png'
+        },
+        'ring': {
+            desc: '<strong>Ring-Topologie:</strong> Jedes Gerät ist mit genau zwei Nachbarn verbunden, sodass ein geschlossener Ring entsteht. Daten werden in eine Richtung von Gerät zu Gerät weitergereicht. <br><strong>Vorteil:</strong> Deterministisches Verhalten, keine Kollisionen. <br><strong>Nachteil:</strong> Ausfall eines Geräts oder Kabels unterbricht den gesamten Ring.',
+            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Ring_network.svg/300px-Ring_network.svg.png'
+        },
+        'mesh': {
+            desc: '<strong>Vermaschte Topologie:</strong> Geräte sind untereinander mehrfach verbunden. In einer vollständig vermaschten Topologie ist jedes Gerät mit jedem anderen verbunden. <br><strong>Vorteil:</strong> Extrem hohe Ausfallsicherheit und Robustheit, da es viele alternative Wege gibt. <br><strong>Nachteil:</strong> Sehr hoher Verkabelungsaufwand und Komplexität.',
+            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Fully_connected_network.svg/300px-Fully_connected_network.svg.png'
+        }
     };
     const protocolData = {
         ethernet: {
@@ -811,6 +963,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Length': { desc: 'Länge des UDP-Headers plus der Daten in Bytes. Mindestens 8.' },
                 'Checksum': { desc: 'Optionale Prüfsumme über Header, Daten und einen Pseudo-Header.' }
             }
+        },
+        icmp: {
+            name: 'ICMPv4 Header',
+            layout: [
+                [{ name: 'Type', size: '8b' }, { name: 'Code', size: '8b' }, { name: 'Checksum', size: '16b' }],
+                [{ name: 'Rest of Header', size: '32b' }]
+            ],
+            fields: {
+                'Type': { desc: 'Gibt den Typ der ICMP-Nachricht an (z.B. 8 für Echo Request, 0 für Echo Reply, 3 für Destination Unreachable).' },
+                'Code': { desc: 'Präzisiert den Nachrichtentyp (z.B. bei Typ 3: Code 0 für Network Unreachable, Code 1 für Host Unreachable).' },
+                'Checksum': { desc: 'Prüfsumme über die gesamte ICMP-Nachricht.' },
+                'Rest of Header': { desc: 'Der Inhalt dieses Feldes hängt vom Typ und Code ab. Bei Echo-Nachrichten enthält es Identifier und Sequenznummer.' }
+            }
         }
     };
     const processData = {
@@ -818,31 +983,66 @@ document.addEventListener('DOMContentLoaded', function() {
             title: 'TCP 3-Wege-Handshake',
             steps: [
                 {
-                    diagram: `
-                        <div class="flex justify-between items-center text-center">
-                            <div class="w-1/3"><b>Client</b></div>
-                            <div class="w-1/3 text-cyan-400 font-bold text-lg animate-pulse">SYN →</div>
-                            <div class="w-1/3"><b>Server</b></div>
-                        </div>`,
+                    diagram: `<div class="flex justify-between items-center text-center"><div class="w-1/3"><b>Client</b></div><div class="w-1/3 text-cyan-400 font-bold text-lg animate-pulse">SYN →</div><div class="w-1/3"><b>Server</b></div></div>`,
                     desc: '<b>Schritt 1 (SYN):</b> Der Client möchte eine Verbindung aufbauen. Er sendet ein TCP-Segment mit gesetztem SYN-Flag (Synchronize) und einer zufällig gewählten initialen Sequenznummer (z.B. SEQ=x).'
                 },
                 {
-                    diagram: `
-                        <div class="flex justify-between items-center text-center">
-                            <div class="w-1/3"><b>Client</b></div>
-                            <div class="w-1/3 text-gray-500">← SYN/ACK</div>
-                            <div class="w-1/3"><b>Server</b></div>
-                        </div>`,
+                    diagram: `<div class="flex justify-between items-center text-center"><div class="w-1/3"><b>Client</b></div><div class="w-1/3 text-gray-500">← SYN/ACK</div><div class="w-1/3"><b>Server</b></div></div>`,
                     desc: '<b>Schritt 2 (SYN/ACK):</b> Der Server empfängt das SYN-Paket. Wenn er die Verbindung akzeptiert, antwortet er mit einem Segment, bei dem sowohl das SYN- als auch das ACK-Flag (Acknowledgment) gesetzt sind. Er bestätigt die Sequenznummer des Clients (ACK=x+1) und sendet seine eigene initiale Sequenznummer (SEQ=y).'
                 },
                 {
-                    diagram: `
-                         <div class="flex justify-between items-center text-center">
-                            <div class="w-1/3"><b>Client</b></div>
-                            <div class="w-1/3 text-cyan-400 font-bold text-lg animate-pulse">ACK →</div>
-                            <div class="w-1/3"><b>Server</b></div>
-                        </div>`,
+                    diagram: `<div class="flex justify-between items-center text-center"><div class="w-1/3"><b>Client</b></div><div class="w-1/3 text-cyan-400 font-bold text-lg animate-pulse">ACK →</div><div class="w-1/3"><b>Server</b></div></div>`,
                     desc: '<b>Schritt 3 (ACK):</b> Der Client empfängt das SYN/ACK-Paket und bestätigt seinerseits die Sequenznummer des Servers, indem er ein Segment mit gesetztem ACK-Flag (ACK=y+1) sendet. Die Verbindung ist nun auf beiden Seiten im Zustand "ESTABLISHED" und die Datenübertragung kann beginnen.'
+                }
+            ]
+        },
+        'tcp-termination': {
+            title: 'TCP Verbindungsabbau',
+            steps: [
+                {
+                    diagram: `<div class="flex justify-between items-center text-center"><div class="w-1/3"><b>Client</b></div><div class="w-1/3 text-red-400 font-bold text-lg animate-pulse">FIN →</div><div class="w-1/3"><b>Server</b></div></div>`,
+                    desc: '<b>Schritt 1 (FIN):</b> Der Client hat keine Daten mehr zu senden und initiiert den Abbau. Er sendet ein TCP-Segment mit gesetztem FIN-Flag (Finish).'
+                },
+                {
+                    diagram: `<div class="flex justify-between items-center text-center"><div class="w-1/3"><b>Client</b></div><div class="w-1/3 text-gray-500">← ACK</div><div class="w-1/3"><b>Server</b></div></div>`,
+                    desc: '<b>Schritt 2 (ACK):</b> Der Server empfängt das FIN und bestätigt es mit einem ACK. Die Verbindung ist nun "halb-geschlossen". Der Server kann weiterhin Daten an den Client senden, falls nötig.'
+                },
+                {
+                    diagram: `<div class="flex justify-between items-center text-center"><div class="w-1/3"><b>Client</b></div><div class="w-1/3 text-gray-500">← FIN</div><div class="w-1/3"><b>Server</b></div></div>`,
+                    desc: '<b>Schritt 3 (FIN):</b> Wenn auch der Server keine Daten mehr zu senden hat, schickt er seinerseits ein Segment mit gesetztem FIN-Flag an den Client.'
+                },
+                {
+                    diagram: `<div class="flex justify-between items-center text-center"><div class="w-1/3"><b>Client</b></div><div class="w-1/3 text-red-400 font-bold text-lg animate-pulse">ACK →</div><div class="w-1/3"><b>Server</b></div></div>`,
+                    desc: '<b>Schritt 4 (ACK):</b> Der Client bestätigt das FIN des Servers mit einem letzten ACK. Nach einer Wartezeit (TIME_WAIT) wird die Verbindung auf beiden Seiten vollständig geschlossen.'
+                }
+            ]
+        },
+        'tcp-sliding-window': {
+            title: 'TCP Sliding Window',
+            steps: [
+                {
+                    diagram: `<div class="text-center font-mono"><div>Sender: [ <span class="text-green-400">1 2</span> | <span class="text-yellow-400">3 4 5</span> | 6 7 8 ]</div><div class="mt-2">Empfänger: [ <span class="text-green-400">1 2</span> | _ _ _ | _ _ _ ]</div></div>`,
+                    desc: '<b>Start:</b> Das Fenster hat eine Größe von 3. Der Sender darf die Pakete 3, 4 und 5 senden. Pakete 1 und 2 wurden bereits gesendet und bestätigt.'
+                },
+                {
+                    diagram: `<div class="text-center font-mono"><div>Sender: [ <span class="text-green-400">1 2</span> | <span class="text-yellow-400">3 4 5</span> | 6 7 8 ]</div><div class="mt-2 text-cyan-400 animate-pulse">Paket 3 wird gesendet →</div></div>`,
+                    desc: '<b>Senden:</b> Der Sender schickt das erste Paket im Fenster (Paket 3) los.'
+                },
+                {
+                    diagram: `<div class="text-center font-mono"><div>Sender: [ <span class="text-green-400">1 2</span> | <span class="text-yellow-400">3 4 5</span> | 6 7 8 ]</div><div class="mt-2 text-gray-500">← ACK für 3</div></div>`,
+                    desc: '<b>Empfang & ACK:</b> Der Empfänger erhält Paket 3 und sendet eine Bestätigung (ACK) zurück.'
+                },
+                {
+                    diagram: `<div class="text-center font-mono"><div>Sender: [ 1 2 <span class="text-green-400">3</span> | <span class="text-yellow-400">4 5 6</span> | 7 8 9 ]</div><div class="mt-2">Empfänger: [ <span class="text-green-400">1 2 3</span> | _ _ _ | _ _ _ ]</div></div>`,
+                    desc: '<b>Fenster verschieben:</b> Der Sender empfängt das ACK für Paket 3. Das Fenster verschiebt sich um eine Position nach rechts. Der Sender darf nun die Pakete 4, 5 und 6 senden.'
+                },
+                {
+                    diagram: `<div class="text-center font-mono"><div>Sender: [ 1 2 <span class="text-green-400">3</span> | <span class="text-yellow-400">4 5 6</span> | 7 8 9 ]</div><div class="mt-2 text-red-500 animate-pulse">Paket 4 geht verloren X</div></div>`,
+                    desc: '<b>Paketverlust:</b> Der Sender schickt Paket 4, aber es geht im Netzwerk verloren.'
+                },
+                {
+                    diagram: `<div class="text-center font-mono"><div>Sender: [ 1 2 <span class="text-green-400">3</span> | <span class="text-yellow-400">4 5 6</span> | 7 8 9 ]</div><div class="mt-2 text-red-500 animate-pulse">Timeout! Paket 4 wird erneut gesendet →</div></div>`,
+                    desc: '<b>Retransmission:</b> Der Sender erhält kein ACK für Paket 4. Nach Ablauf eines Timeouts sendet er Paket 4 erneut. Der Prozess wird fortgesetzt.'
                 }
             ]
         },
@@ -854,15 +1054,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     desc: '<b>Situation:</b> Host A (z.B. 192.168.1.10) möchte ein Paket an Host B (192.168.1.20) im selben lokalen Netz senden. Host A kennt die IP-Adresse von B, aber nicht dessen MAC-Adresse, die für den Ethernet-Frame benötigt wird.'
                 },
                 {
-                    diagram: `
-                        <div class="text-center"><b>Host A</b> → 🌐 (Broadcast)</div>
-                        <p class="text-center mt-2 font-mono text-cyan-300">ARP Request: "Wer hat 192.168.1.20?"</p>`,
+                    diagram: `<div class="text-center"><b>Host A</b> → 🌐 (Broadcast)</div><p class="text-center mt-2 font-mono text-cyan-300">ARP Request: "Wer hat 192.168.1.20?"</p>`,
                     desc: '<b>Schritt 1 (ARP Request):</b> Host A sendet eine ARP-Anfrage als Layer-2-Broadcast (an die MAC-Adresse FF:FF:FF:FF:FF:FF). Diese Nachricht wird von allen Geräten im lokalen Netzwerk empfangen.'
                 },
                 {
-                    diagram: `
-                        <div class="text-center"><b>Host B</b> → <b>Host A</b> (Unicast)</div>
-                         <p class="text-center mt-2 font-mono text-cyan-300">ARP Reply: "192.168.1.20 ist bei [MAC von B]"</p>`,
+                    diagram: `<div class="text-center"><b>Host B</b> → <b>Host A</b> (Unicast)</div> <p class="text-center mt-2 font-mono text-cyan-300">ARP Reply: "192.168.1.20 ist bei [MAC von B]"</p>`,
                     desc: '<b>Schritt 2 (ARP Reply):</b> Alle Geräte verarbeiten die Anfrage, aber nur Host B erkennt seine eigene IP-Adresse. Host B antwortet direkt an Host A (Unicast) mit einer ARP-Antwort, die seine MAC-Adresse enthält.'
                 },
                 {
@@ -883,7 +1079,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     desc: '<b>Schritt 2 (Offer):</b> Ein oder mehrere DHCP-Server, die die Discover-Nachricht empfangen, antworten mit einer DHCPOFFER-Nachricht. Diese enthält ein Angebot für eine IP-Adresse sowie weitere Konfigurationsparameter (Subnetzmaske, Gateway, DNS-Server).'
                 },
                 {
-                    diagram: `<div class="text-center"><b>Client</b> → 🌐 (Broadcast)</div><p class="text-center mt-2 font-bold text-cyan-300">R: Request</p>`,
+                    diagram: `<div class="text-center"><b>Client</b> → � (Broadcast)</div><p class="text-center mt-2 font-bold text-cyan-300">R: Request</p>`,
                     desc: '<b>Schritt 3 (Request):</b> Der Client wählt eines der Angebote aus (normalerweise das erste, das er empfängt) und sendet eine DHCPREQUEST-Nachricht, wieder als Broadcast. Dies informiert den ausgewählten Server, dass sein Angebot angenommen wird, und die anderen Server, dass ihre Angebote abgelehnt wurden.'
                 },
                 {
@@ -891,9 +1087,116 @@ document.addEventListener('DOMContentLoaded', function() {
                     desc: '<b>Schritt 4 (Acknowledge):</b> Der ausgewählte Server bestätigt die Zuweisung endgültig mit einer DHCPACK-Nachricht. Der Client kann die IP-Adresse nun verwenden. Der Prozess ist abgeschlossen.'
                 }
             ]
+        },
+        'ipv6-slaac': {
+            title: 'IPv6 SLAAC & Neighbor Discovery',
+            steps: [
+                {
+                    diagram: `<div class="text-center"><b>Host</b> (startet)</div>`,
+                    desc: '<b>Schritt 1: Link-Local-Adresse generieren.</b> Der Host erzeugt eine Link-Local-Adresse (LLA) im `fe80::/10`-Bereich, meist aus seiner MAC-Adresse (EUI-64) oder zufällig (Privacy Extensions).'
+                },
+                {
+                    diagram: `<div class="text-center"><b>Host</b> → 🌐 (Multicast)</div><p class="text-center mt-2 font-mono text-cyan-300">Neighbor Solicitation (DAD)</p>`,
+                    desc: '<b>Schritt 2: Duplicate Address Detection (DAD).</b> Der Host sendet eine Neighbor Solicitation an die "solicited-node multicast address" seiner gerade erzeugten LLA, um zu prüfen, ob die Adresse bereits verwendet wird. Als Quell-IP wird `::` (unspecified) genutzt.'
+                },
+                {
+                    diagram: `<div class="text-center"><b>Host</b> → 🌐 (Multicast an alle Router)</div><p class="text-center mt-2 font-mono text-cyan-300">Router Solicitation</p>`,
+                    desc: '<b>Schritt 3: Router finden.</b> Wenn keine andere Adresse die LLA beansprucht, sendet der Host eine Router Solicitation an die `ff02::2` Multicast-Gruppe, um Informationen über das lokale Netzwerk und Gateways zu erhalten.'
+                },
+                {
+                    diagram: `<div class="text-center"><b>Router</b> → <b>Host</b> (Unicast)</div><p class="text-center mt-2 font-mono text-cyan-300">Router Advertisement</p>`,
+                    desc: '<b>Schritt 4: Router Advertisement erhalten.</b> Der Router antwortet mit einem Router Advertisement, das das Netzwerkpräfix (z.B. `2001:db8:1::/64`), die Router-Adresse und andere Flags (z.B. für DHCPv6) enthält.'
+                },
+                {
+                    diagram: `<div class="text-center"><b>Host</b> (kombiniert Präfix + Interface ID)</div>`,
+                    desc: '<b>Schritt 5: Globale Adresse konfigurieren.</b> Der Host kombiniert das erhaltene Präfix mit seiner Interface ID, um eine global routbare IPv6-Adresse zu erstellen. Der Prozess ist abgeschlossen.'
+                }
+            ]
+        }
+    };
+    const appProcessData = {
+        'dns': {
+            title: 'DNS Namensauflösung (Iterativ)',
+            steps: [
+                {
+                    diagram: `<div class="text-center"><b>Client</b> → <b>Lokaler Resolver</b></div><p class="text-center mt-2 font-mono text-cyan-300">Anfrage: www.beispiel.de?</p>`,
+                    desc: '<b>Schritt 1:</b> Der Client fragt seinen konfigurierten DNS-Resolver (oft der Router oder ein ISP-Server) nach der IP-Adresse für "www.beispiel.de".'
+                },
+                {
+                    diagram: `<div class="text-center"><b>Lokaler Resolver</b> → <b>Root Server (.)</b></div><p class="text-center mt-2 font-mono text-cyan-300">Anfrage: www.beispiel.de?</p>`,
+                    desc: '<b>Schritt 2:</b> Der Resolver kennt die Adresse nicht und fragt einen der Root-Nameserver.'
+                },
+                {
+                    diagram: `<div class="text-center"><b>Lokaler Resolver</b> ← <b>Root Server (.)</b></div><p class="text-center mt-2 font-mono text-cyan-300">Antwort: "Ich kenne .de, frage dort."</p>`,
+                    desc: '<b>Schritt 3:</b> Der Root-Server antwortet, dass er "www.beispiel.de" nicht kennt, aber die Adressen der zuständigen Server für die Top-Level-Domain (TLD) ".de" hat.'
+                },
+                {
+                    diagram: `<div class="text-center"><b>Lokaler Resolver</b> → <b>.de TLD Server</b></div><p class="text-center mt-2 font-mono text-cyan-300">Anfrage: www.beispiel.de?</p>`,
+                    desc: '<b>Schritt 4:</b> Der Resolver fragt nun einen der .de-Server.'
+                },
+                {
+                    diagram: `<div class="text-center"><b>Lokaler Resolver</b> ← <b>.de TLD Server</b></div><p class="text-center mt-2 font-mono text-cyan-300">Antwort: "Ich kenne beispiel.de, frage dort."</p>`,
+                    desc: '<b>Schritt 5:</b> Der .de-Server antwortet mit den Adressen der autoritativen Nameserver für die Domain "beispiel.de".'
+                },
+                {
+                    diagram: `<div class="text-center"><b>Lokaler Resolver</b> → <b>beispiel.de Server</b></div><p class="text-center mt-2 font-mono text-cyan-300">Anfrage: www.beispiel.de?</p>`,
+                    desc: '<b>Schritt 6:</b> Der Resolver fragt den autoritativen Server für "beispiel.de".'
+                },
+                {
+                    diagram: `<div class="text-center"><b>Lokaler Resolver</b> ← <b>beispiel.de Server</b></div><p class="text-center mt-2 font-mono text-cyan-300">Antwort: "www.beispiel.de ist bei 93.184.216.34"</p>`,
+                    desc: '<b>Schritt 7:</b> Der autoritative Server liefert die finale Antwort: die IP-Adresse.'
+                },
+                {
+                    diagram: `<div class="text-center"><b>Client</b> ← <b>Lokaler Resolver</b></div><p class="text-center mt-2 font-mono text-cyan-300">Antwort: 93.184.216.34</p>`,
+                    desc: '<b>Schritt 8:</b> Der Resolver gibt die IP-Adresse an den Client weiter und speichert das Ergebnis für eine bestimmte Zeit (TTL) in seinem Cache.'
+                }
+            ]
+        },
+        'http': {
+            title: 'HTTP Request/Response',
+            steps: [
+                {
+                    diagram: `<div class="text-center"><b>Client</b> ↔ <b>Server</b></div><p class="text-center mt-2 font-mono text-cyan-300">TCP 3-Wege-Handshake</p>`,
+                    desc: '<b>Schritt 1: TCP-Verbindung aufbauen.</b> Bevor HTTP-Nachrichten ausgetauscht werden können, baut der Client eine zuverlässige TCP-Verbindung zum Server auf (typischerweise auf Port 80 oder 443).'
+                },
+                {
+                    diagram: `<div class="text-center"><b>Client</b> → <b>Server</b></div><p class="text-center mt-2 font-mono text-cyan-300">GET /seite.html HTTP/1.1<br>Host: www.beispiel.de</p>`,
+                    desc: '<b>Schritt 2: HTTP Request senden.</b> Der Client sendet eine Anfrage-Nachricht. Diese enthält eine Methode (z.B. GET), den Pfad zur Ressource und verschiedene Header-Informationen.'
+                },
+                {
+                    diagram: `<div class="text-center"><b>Client</b> ← <b>Server</b></div><p class="text-center mt-2 font-mono text-cyan-300">HTTP/1.1 200 OK<br>Content-Type: text/html</p>`,
+                    desc: '<b>Schritt 3: HTTP Response empfangen.</b> Der Server verarbeitet die Anfrage und sendet eine Antwort. Diese besteht aus einer Statuszeile (z.B. "200 OK"), Response-Headern und dem eigentlichen Inhalt (Body), z.B. dem HTML-Code der Webseite.'
+                },
+                {
+                    diagram: `<div class="text-center"><b>Client</b> ↔ <b>Server</b></div><p class="text-center mt-2 font-mono text-red-400">TCP Verbindungsabbau</p>`,
+                    desc: '<b>Schritt 4: Verbindung schließen.</b> Nachdem die Daten übertragen wurden, kann die TCP-Verbindung wieder abgebaut werden. Bei modernen Webseiten wird die Verbindung oft offengehalten (Keep-Alive), um weitere Ressourcen (Bilder, CSS) schnell nachladen zu können.'
+                }
+            ]
+        },
+        'tls': {
+            title: 'TLS 1.3 Handshake (vereinfacht)',
+            steps: [
+                {
+                    diagram: `<div class="text-center"><b>Client</b> → <b>Server</b></div><p class="text-center mt-2 font-mono text-cyan-300">ClientHello</p>`,
+                    desc: '<b>Schritt 1 (ClientHello):</b> Der Client sendet eine Liste der von ihm unterstützten Verschlüsselungsalgorithmen (Cipher Suites) und eine Zufallszahl.'
+                },
+                {
+                    diagram: `<div class="text-center"><b>Client</b> ← <b>Server</b></div><p class="text-center mt-2 font-mono text-cyan-300">ServerHello, Certificate, Finished</p>`,
+                    desc: '<b>Schritt 2 (ServerHello):</b> Der Server wählt eine Cipher Suite aus der Liste aus, sendet sein öffentliches Zertifikat (zur Authentifizierung) und seine eigene Zufallszahl. Er berechnet bereits den gemeinsamen geheimen Schlüssel und sendet eine "Finished"-Nachricht, die mit diesem Schlüssel verschlüsselt ist.'
+                },
+                {
+                    diagram: `<div class="text-center"><b>Client</b> → <b>Server</b></div><p class="text-center mt-2 font-mono text-cyan-300">Finished</p>`,
+                    desc: '<b>Schritt 3 (Client Finished):</b> Der Client überprüft das Zertifikat des Servers. Wenn es gültig ist, berechnet er ebenfalls den gemeinsamen geheimen Schlüssel und sendet seine eigene "Finished"-Nachricht. Der Handshake ist abgeschlossen.'
+                },
+                {
+                    diagram: `<div class="text-center"><b>Client</b> ↔ <b>Server</b></div><p class="text-center mt-2 font-mono text-green-400">Verschlüsselte Anwendungsdaten</p>`,
+                    desc: '<b>Schritt 4 (Application Data):</b> Beide Seiten können nun Anwendungsdaten (z.B. HTTP-Anfragen) senden, die mit dem ausgehandelten symmetrischen Schlüssel sicher verschlüsselt sind.'
+                }
+            ]
         }
     };
     let currentProcess = {};
+    let currentAppProcess = {};
     let chartInterval;
 
     // --- INITIALIZATION ---
@@ -998,6 +1301,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         if(osiLayers.length > 0) osiLayers[0].click();
 
+        topologyItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const topologyId = item.dataset.topology;
+                const data = topologyData[topologyId];
+                if(topologyDescriptionBox && data) {
+                     topologyDescriptionBox.innerHTML = `<div class="flex flex-col md:flex-row gap-4 items-center"><img src="${data.img}" alt="${item.textContent}" class="w-32 h-32 object-contain bg-white p-2 rounded-md"><p>${data.desc}</p></div>`;
+                }
+                topologyItems.forEach(i => i.classList.remove('selected'));
+                item.classList.add('selected');
+            });
+        });
+        if(topologyItems.length > 0) topologyItems[0].click();
+        
+        setupEncodingChart();
+        if(encodingChartBtn) encodingChartBtn.addEventListener('click', updateEncodingChart);
+        
+        setupVlanSwitch();
+
+        setupRoutingTable();
+        if(routingSimulateBtn) routingSimulateBtn.addEventListener('click', simulateRouting);
+
         protocolSelectorButtons.forEach(button => {
             button.addEventListener('click', () => displayHeader(button.dataset.protocol));
         });
@@ -1014,6 +1338,11 @@ document.addEventListener('DOMContentLoaded', function() {
             button.addEventListener('click', () => displayProcess(button.dataset.process));
         });
         displayProcess('tcp-handshake');
+
+        appProcessSelectorButtons.forEach(button => {
+            button.addEventListener('click', () => displayAppProcess(button.dataset.appProcess));
+        });
+        displayAppProcess('dns');
 
         setupCongestionChart();
         if(resetChartBtn) resetChartBtn.addEventListener('click', resetCongestionChart);
@@ -1237,6 +1566,44 @@ document.addEventListener('DOMContentLoaded', function() {
         if (nextBtn) nextBtn.style.display = (currentProcess.step === data.steps.length - 1) ? 'none' : 'inline-block';
     }
 
+    function displayAppProcess(processId) {
+        const data = appProcessData[processId];
+        if (!data || !appProcessDisplay) return;
+        currentAppProcess = { id: processId, step: 0 };
+        let html = `<h3 class="text-xl font-semibold mb-4 text-center text-white">${data.title}</h3>`;
+        html += `<div id="app-process-diagram-container" class="my-6 min-h-[80px]"></div>`;
+        html += `<div id="app-process-desc-container" class="p-4 bg-gray-900/70 rounded-lg min-h-[100px]"></div>`;
+        html += `<div class="mt-4 text-center">
+                    <button id="app-process-prev" class="px-5 py-2 bg-gray-600 text-white rounded-lg shadow-lg hover:bg-gray-500 transition-all duration-300">‹ Zurück</button>
+                    <button id="app-process-next" class="ml-2 px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300">Nächster Schritt ›</button>
+                 </div>`;
+        appProcessDisplay.innerHTML = html;
+        updateAppProcessStep();
+        document.getElementById('app-process-next').addEventListener('click', () => {
+            if (currentAppProcess.step < appProcessData[currentAppProcess.id].steps.length - 1) {
+                currentAppProcess.step++;
+                updateAppProcessStep();
+            }
+        });
+        document.getElementById('app-process-prev').addEventListener('click', () => {
+            if (currentAppProcess.step > 0) {
+                currentAppProcess.step--;
+                updateAppProcessStep();
+            }
+        });
+    }
+
+    function updateAppProcessStep() {
+        const data = appProcessData[currentAppProcess.id];
+        const stepData = data.steps[currentAppProcess.step];
+        document.getElementById('app-process-diagram-container').innerHTML = stepData.diagram;
+        document.getElementById('app-process-desc-container').innerHTML = stepData.desc;
+        const prevBtn = document.getElementById('app-process-prev');
+        const nextBtn = document.getElementById('app-process-next');
+        if (prevBtn) prevBtn.style.display = (currentAppProcess.step === 0) ? 'none' : 'inline-block';
+        if (nextBtn) nextBtn.style.display = (currentAppProcess.step === data.steps.length - 1) ? 'none' : 'inline-block';
+    }
+
     function setupCongestionChart() {
         if(!document.getElementById('congestionChart')) return;
         const ctx = document.getElementById('congestionChart').getContext('2d');
@@ -1305,8 +1672,8 @@ document.addEventListener('DOMContentLoaded', function() {
         let round = congestionChart.data.labels.length;
         let tahoe_cwnd = congestionChart.data.datasets[0].data[round-1];
         let reno_cwnd = congestionChart.data.datasets[1].data[round-1];
-        let ssthresh = Math.floor(reno_cwnd / 2);
-        let tahoe_new_ssthresh = Math.floor(tahoe_cwnd / 2);
+        let ssthresh = Math.max(Math.floor(reno_cwnd / 2), 2);
+        let tahoe_new_ssthresh = Math.max(Math.floor(tahoe_cwnd / 2), 2);
         tahoe_cwnd = 1;
         reno_cwnd = ssthresh;
         let tahoe_state = 'slow_start';
@@ -1324,6 +1691,153 @@ document.addEventListener('DOMContentLoaded', function() {
         chartInterval = setInterval(runStep, 300);
         if(simulateLossBtn) simulateLossBtn.disabled = true;
     }
+
+    function setupEncodingChart() {
+        if(!document.getElementById('encodingChart')) return;
+        const ctx = document.getElementById('encodingChart').getContext('2d');
+        encodingChart = new Chart(ctx, {
+            type: 'line',
+            data: { labels: [], datasets: [] },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                scales: {
+                    y: { min: -1.5, max: 1.5, ticks: { stepSize: 0.5, color: '#9ca3af' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
+                    x: { ticks: { color: '#9ca3af' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+                },
+                plugins: { legend: { labels: { color: '#e5e7eb' } } },
+                animation: { duration: 0 }
+            }
+        });
+        updateEncodingChart();
+    }
+
+    function updateEncodingChart() {
+        if(!encodingChart) return;
+        const bitString = document.getElementById('encoding-input').value.replace(/[^01]/g, '');
+        const bits = bitString.split('').map(Number);
+        const labels = [];
+        const nrzData = [], manchesterData = [];
+        let lastNRZ = 1;
+        
+        for (let i = 0; i < bits.length; i++) {
+            labels.push(`Bit ${i}`);
+            // NRZ-I (Invert on 1)
+            if (bits[i] === 1) lastNRZ *= -1;
+            nrzData.push({x: i, y: lastNRZ}, {x: i + 0.99, y: lastNRZ});
+            
+            // Manchester
+            if (bits[i] === 0) {
+                manchesterData.push({x: i, y: 1}, {x: i + 0.5, y: 1}, {x: i + 0.5, y: -1}, {x: i + 0.99, y: -1});
+            } else {
+                manchesterData.push({x: i, y: -1}, {x: i + 0.5, y: -1}, {x: i + 0.5, y: 1}, {x: i + 0.99, y: 1});
+            }
+        }
+        
+        encodingChart.data.labels = labels;
+        encodingChart.data.datasets = [
+            { label: 'NRZ-I', data: nrzData, borderColor: '#f472b6', fill: false, steppped: true },
+            { label: 'Manchester', data: manchesterData, borderColor: '#34d399', fill: false, steppped: true }
+        ];
+        encodingChart.update();
+    }
+    
+    function setupVlanSwitch() {
+        const switchContainer = document.getElementById('vlan-switch');
+        if (!switchContainer) return;
+        let portsHTML = '';
+        for (let i = 1; i <= 8; i++) {
+            portsHTML += `<div class="vlan-port p-2 border-2 border-gray-500 rounded-md text-center cursor-pointer transition-all" data-port-id="${i}" data-vlan="1">
+                            <span class="font-bold">Port ${i}</span>
+                            <span class="block text-xs text-gray-400">VLAN 1</span>
+                         </div>`;
+        }
+        switchContainer.innerHTML = portsHTML;
+        
+        let selectedVlan = 10;
+        const assignBtns = document.querySelectorAll('.vlan-assign-btn');
+        assignBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                selectedVlan = parseInt(btn.dataset.vlan);
+                assignBtns.forEach(b => b.classList.remove('ring-2', 'ring-white'));
+                btn.classList.add('ring-2', 'ring-white');
+            });
+        });
+        
+        switchContainer.addEventListener('click', e => {
+            const port = e.target.closest('.vlan-port');
+            if (port) {
+                port.dataset.vlan = selectedVlan;
+                port.querySelector('.text-xs').textContent = `VLAN ${selectedVlan}`;
+                port.className = `vlan-port p-2 border-2 rounded-md text-center cursor-pointer transition-all bg-${getVlanColor(selectedVlan)}-600 border-${getVlanColor(selectedVlan)}-500`;
+            }
+        });
+    }
+
+    function getVlanColor(vlan) {
+        switch(vlan) {
+            case 10: return 'red';
+            case 20: return 'green';
+            case 30: return 'blue';
+            default: return 'gray';
+        }
+    }
+    
+    function setupRoutingTable() {
+        const container = document.getElementById('routing-table-container');
+        if (!container) return;
+        const routes = [
+            { dest: '192.168.1.0', mask: '255.255.255.0', nextHop: 'On-link', iface: 'eth0' },
+            { dest: '192.168.0.0', mask: '255.255.0.0', nextHop: '192.168.1.1', iface: 'eth0' },
+            { dest: '10.0.0.0', mask: '255.0.0.0', nextHop: '192.168.1.254', iface: 'eth0' },
+            { dest: '0.0.0.0', mask: '0.0.0.0', nextHop: '192.168.1.1', iface: 'eth0' }
+        ];
+        let tableHTML = `<table class="w-full text-left text-sm routing-table">
+                            <thead><tr class="text-gray-300">
+                                <th class="p-2">Ziel</th><th class="p-2">Maske</th><th class="p-2">Next Hop</th><th class="p-2">Interface</th>
+                            </tr></thead><tbody>`;
+        routes.forEach(route => {
+            tableHTML += `<tr class="border-t border-gray-700">
+                            <td class="p-2 font-mono">${route.dest}</td>
+                            <td class="p-2 font-mono">${route.mask}</td>
+                            <td class="p-2 font-mono">${route.nextHop}</td>
+                            <td class="p-2 font-mono">${route.iface}</td>
+                         </tr>`;
+        });
+        tableHTML += '</tbody></table>';
+        container.innerHTML = tableHTML;
+    }
+
+    function simulateRouting() {
+        const destIpStr = document.getElementById('routing-dest-ip').value;
+        if (!destIpStr) return;
+        const destIpLong = ipToLong(destIpStr);
+        const table = document.querySelector('.routing-table');
+        const rows = table.querySelectorAll('tbody tr');
+        
+        let bestMatch = null;
+        let bestMatchPrefix = -1;
+
+        rows.forEach(row => {
+            row.classList.remove('highlight');
+            const cells = row.querySelectorAll('td');
+            const routeDestLong = ipToLong(cells[0].textContent);
+            const routeMaskLong = ipToLong(cells[1].textContent);
+            
+            const prefix = (routeMaskLong.toString(2).match(/1/g) || []).length;
+
+            if ((destIpLong & routeMaskLong) === (routeDestLong & routeMaskLong)) {
+                if (prefix > bestMatchPrefix) {
+                    bestMatchPrefix = prefix;
+                    bestMatch = row;
+                }
+            }
+        });
+
+        if (bestMatch) {
+            bestMatch.classList.add('highlight');
+        }
+    }
+
 
     // --- MAFI 2 LOGIC ---
     function setupMafi2() {
@@ -1720,3 +2234,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </body>
 </html>
+�
