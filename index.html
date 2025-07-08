@@ -857,19 +857,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const topologyData = {
         'bus': {
             desc: '<strong>Bus-Topologie:</strong> Alle Geräte sind an ein einziges gemeinsames Übertragungsmedium (den Bus) angeschlossen. Nachrichten werden an alle Geräte gesendet. <br><strong>Vorteil:</strong> Einfach und kostengünstig. <br><strong>Nachteil:</strong> Anfällig für Ausfälle (Kabelbruch legt alles lahm), Kollisionen bei hoher Last.',
-            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Bus_network.svg/300px-Bus_network.svg.png'
+            img: 'https://upload.wikimedia.org/wikipedia/commons/4/47/BusNetwork.svg'
         },
         'star': {
             desc: '<strong>Stern-Topologie:</strong> Alle Geräte sind mit einem zentralen Knotenpunkt (Hub oder Switch) verbunden. Die gesamte Kommunikation läuft über diesen zentralen Punkt. <br><strong>Vorteil:</strong> Hohe Ausfallsicherheit (Ausfall eines Geräts beeinträchtigt nicht die anderen), leicht erweiterbar. <br><strong>Nachteil:</strong> Der zentrale Knoten ist ein "Single Point of Failure".',
-            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Star_network.svg/300px-Star_network.svg.png'
+            img: 'https://upload.wikimedia.org/wikipedia/commons/d/d0/StarNetwork.svg'
         },
         'ring': {
             desc: '<strong>Ring-Topologie:</strong> Jedes Gerät ist mit genau zwei Nachbarn verbunden, sodass ein geschlossener Ring entsteht. Daten werden in eine Richtung von Gerät zu Gerät weitergereicht. <br><strong>Vorteil:</strong> Deterministisches Verhalten, keine Kollisionen. <br><strong>Nachteil:</strong> Ausfall eines Geräts oder Kabels unterbricht den gesamten Ring.',
-            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Ring_network.svg/300px-Ring_network.svg.png'
+            img: 'https://upload.wikimedia.org/wikipedia/commons/7/75/RingNetwork.svg'
         },
         'mesh': {
             desc: '<strong>Vermaschte Topologie:</strong> Geräte sind untereinander mehrfach verbunden. In einer vollständig vermaschten Topologie ist jedes Gerät mit jedem anderen verbunden. <br><strong>Vorteil:</strong> Extrem hohe Ausfallsicherheit und Robustheit, da es viele alternative Wege gibt. <br><strong>Nachteil:</strong> Sehr hoher Verkabelungsaufwand und Komplexität.',
-            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Fully_connected_network.svg/300px-Fully_connected_network.svg.png'
+            img: 'https://upload.wikimedia.org/wikipedia/commons/d/dc/Fully_connected_neural_network.svg'
         }
     };
     const protocolData = {
