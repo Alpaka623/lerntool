@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktives Lern-Cockpit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #111827;
+            color: #e5e7eb;
+        }
+
+        .nav-button, .mafi-nav-button {
+            transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #9ca3af;
+        }
+        .nav-button:hover, .mafi-nav-button:hover {
+            background-color: rgba(13, 202, 240, 0.1);
+            color: #0dcafo;
+            border-color: rgba(13, 202, 240, 0.3);
+        }
+        .nav-button.active, .mafi-nav-button.active {
+            background-color: #0891b2;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(13, 202, 240, 0.2);
+            border-color: #0891b2;
+        }
+
+        .content-section, .subject-view, .mafi-content-section {
+            display: none;
+        }
+        .content-section.active, .subject-view.active, .mafi-content-section.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background-color: rgba(31, 41, 55, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header-field {
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            background-color: #374151;
+            border-color: #4b5563;
+        }
+        .header-field:hover {
+            background-color: #4b5563;
+            transform: scale(1.02);
+        }
+        .header-field.selected {
+            background-color: #0891b2;
+            color: white;
+            border-color: #0dcafo;
+            box-shadow: 0 0 15px rgba(13, 202, 240, 0.3);
+        }
+
+        .description-box {
+            display: none;
+            background-color: #1f2937;
+            border-left-color: #0891b2;
+        }
+
+        .osi-layer {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .osi-layer:hover {
+            transform: translateX(5px);
+            border-left-width: 6px;
+        }
+        .osi-layer.selected {
+            box-shadow: 0 0 20px rgba(13, 202, 240, 0.3);
+            border-left-width: 6px;
+        }
+        
+        .subject-card {
+            transition: all 0.3s ease;
+        }
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(13, 202, 240, 0.2);
+        }
+
+        .tooltip-term {
+            color: #2dd4bf; /* Teal-400 */
+            cursor: pointer;
+            position: relative;
+            border-bottom: 1px dotted #2dd4bf;
+            font-weight: 600;
+        }
+        
+        .tooltip-box {
+            visibility: hidden;
+            width: 250px;
+            background-color: #1f2937;
+            color: #e5e7eb;
+            text-align: left;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid #374151;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            font-size: 0.875rem;
+            line-height: 1.4;
+            font-weight: 400; /* Normal font weight inside tooltip */
+        }
+
+        .tooltip-box::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #1f2937 transparent transparent transparent;
+        }
+
+        .tooltip-term:hover .tooltip-box {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        input, .table-header, .table-cell, select, textarea {
+            background-color: #374151;
+            border-color: #4b5563;
+            color: #e5e7eb;
+        }
+        input:focus, select:focus, textarea:focus {
+            --tw-ring-color: #0891b2;
+            border-color: #0891b2;
+        }
+        .solution {
+            display: none;
+            border-left: 4px solid #0891b2;
+            background-color: #1f2937;
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
+        
+        <!-- Login View -->
+        <div id="login-view" class="subject-view active">
+            <div class="flex items-center justify-center min-h-screen">
+                <div class="card p-8 rounded-2xl shadow-2xl w-full max-w-md">
+                    <h1 class="text-4xl font-bold text-white text-center mb-2">Lern-Cockpit</h1>
+                    <p class="text-center text-gray-400 mb-8">Bitte anmelden</p>
+                    <form id="login-form">
+                        <div class="mb-4">
+                            <label for="username" class="block mb-2 text-sm font-medium text-gray-300">Benutzername</label>
+                            <input type="text" id="username" class="w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="password" class="block mb-2 text-sm font-medium text-gray-300">Passwort</label>
+                            <input type="password" id="password" class="w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500" required>
+                        </div>
+                        <div id="login-error" class="hidden text-red-400 text-center mb-4">Falscher Benutzername oder Passwort.</div>
+                        <button type="submit" class="w-full px-5 py-3 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300 font-semibold">Anmelden</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subject Hub View -->
+        <div id="subject-hub" class="subject-view">
+            <header class="text-center mb-12 relative">
+                 <button id="logout-btn" class="absolute top-0 right-0 px-4 py-2 bg-red-800/80 text-white rounded-lg hover:bg-red-700 transition-colors">Logout</button>
+                <h1 class="text-5xl font-bold text-white">Lern-Cockpit</h1>
+                <p class="text-xl text-gray-400 mt-2">Wähle dein Fach aus</p>
+            </header>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-subject="ccn">
+                    <h2 class="text-3xl font-bold text-cyan-400">CCN</h2>
+                    <p class="text-gray-300 mt-2">Computer & Communication Networks</p>
+                </div>
+                <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-subject="mafi2">
+                    <h2 class="text-3xl font-bold text-cyan-400">Mafi 2</h2>
+                    <p class="text-gray-300 mt-2">Mathe für Informatiker 2</p>
+                </div>
+                <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-subject="insi">
+                    <h2 class="text-3xl font-bold text-cyan-400">Insi</h2>
+                    <p class="text-gray-300 mt-2">Informationssicherheit</p>
+                </div>
+                <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-subject="aud">
+                    <h2 class="text-3xl font-bold text-cyan-400">AuD</h2>
+                    <p class="text-gray-300 mt-2">Algorithmen und Datenstrukturen</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CCN App View -->
+        <div id="ccn-app" class="subject-view">
+            <header class="text-center mb-12 relative">
+                <button class="back-to-hub-btn absolute top-0 left-0 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">&larr; Zurück</button>
+                <h1 class="text-5xl font-bold text-white">CCN Klausur-Cockpit</h1>
+                <p class="text-xl text-gray-400 mt-2">Dein interaktiver Lernassistent</p>
+            </header>
+
+            <nav class="flex flex-wrap justify-center gap-3 sm:gap-4 mb-12">
+                <button data-target="grundlagen" class="nav-button active font-semibold py-2 px-5 rounded-full">Grundlagen</button>
+                <button data-target="header" class="nav-button font-semibold py-2 px-5 rounded-full">Protokoll-Header</button>
+                <button data-target="berechnungen" class="nav-button font-semibold py-2 px-5 rounded-full">Berechnungen</button>
+                <button data-target="prozesse" class="nav-button font-semibold py-2 px-5 rounded-full">Prozessabläufe</button>
+                <button data-target="vergleiche" class="nav-button font-semibold py-2 px-5 rounded-full">Vergleiche</button>
+            </nav>
+
+            <main>
+                <!-- SECTION: Grundlagen -->
+                <section id="grundlagen" class="content-section active">
+                    <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Das OSI-Modell & Datenkapselung</h2>
+                        <p class="mb-6 text-gray-300">Ein zentrales Konzept der Netzwerkkommunikation ist die Schichtung von Aufgaben. Klicken Sie auf eine Schicht, um mehr über ihre spezifische Rolle zu erfahren.</p>
+                        
+                        <div class="flex flex-col items-center space-y-2" id="osi-model-container">
+                            <div class="osi-layer text-center p-3 w-full max-w-lg bg-blue-900/50 border-l-4 border-blue-400 rounded-lg" data-layer="7">
+                                <span class="font-bold text-white">7. Application</span>
+                            </div>
+                            <div class="text-2xl text-gray-500">↓</div>
+                            <div class="osi-layer text-center p-3 w-full max-w-lg bg-purple-900/50 border-l-4 border-purple-400 rounded-lg" data-layer="5">
+                                 <span class="font-bold text-white">5. Session</span>
+                            </div>
+                            <div class="text-2xl text-gray-500">↓</div>
+                            <div class="osi-layer text-center p-3 w-full max-w-lg bg-indigo-900/50 border-l-4 border-indigo-400 rounded-lg" data-layer="4">
+                                 <span class="font-bold text-white">4. Transport</span>
+                            </div>
+                            <div class="text-2xl text-gray-500">↓</div>
+                             <div class="osi-layer text-center p-3 w-full max-w-lg bg-teal-900/50 border-l-4 border-teal-400 rounded-lg" data-layer="3">
+                                <span class="font-bold text-white">3. Network</span>
+                            </div>
+                            <div class="text-2xl text-gray-500">↓</div>
+                            <div class="osi-layer text-center p-3 w-full max-w-lg bg-pink-900/50 border-l-4 border-pink-400 rounded-lg" data-layer="2">
+                               <span class="font-bold text-white">2. Data Link</span>
+                            </div>
+                            <div class="text-2xl text-gray-500">↓</div>
+                            <div class="osi-layer text-center p-3 w-full max-w-lg bg-gray-700/50 border-l-4 border-gray-400 rounded-lg" data-layer="1">
+                                <span class="font-bold text-white">1. Physical</span>
+                            </div>
+                        </div>
+                        <div id="layer-description-box" class="mt-6 p-4 bg-gray-800/70 rounded-lg border border-gray-700 min-h-[80px]"></div>
+                    </div>
+                </section>
+                
+                <!-- SECTION: Header -->
+                <section id="header" class="content-section">
+                     <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Interaktive Protokoll-Header</h2>
+                        <p class="mb-6 text-gray-300">Das Zeichnen von Headern ist eine typische Klausuraufgabe. Wählen Sie ein Protokoll aus und klicken Sie auf die einzelnen Felder, um eine detaillierte Beschreibung ihrer Funktion zu erhalten. Dies hilft, die Struktur und die Aufgaben der Protokolle zu verinnerlichen.</p>
+                        
+                        <div class="flex items-center justify-center gap-4 flex-wrap">
+                            <div id="protocol-selector" class="flex flex-wrap justify-center gap-2 mb-6">
+                                <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-protocol="ethernet">Ethernet II</button>
+                                <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-protocol="ipv4">IPv4</button>
+                                <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-protocol="ipv6">IPv6</button>
+                                <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-protocol="tcp">TCP</button>
+                                <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-protocol="udp">UDP</button>
+                            </div>
+                        </div>
+
+                        <div id="header-display" class="bg-gray-800/50 p-4 rounded-lg border border-gray-700"></div>
+                        <div id="description-box-container" class="mt-4"></div>
+                    </div>
+                </section>
+                
+                <!-- SECTION: Berechnungen -->
+                <section id="berechnungen" class="content-section">
+                    <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Interaktive Rechner</h2>
+                        <p class="mb-6 text-gray-300">Berechnungen sind ein fester Bestandteil der Klausur. Nutzen Sie diese Werkzeuge, um Ihr Verständnis für Kanalkapazität, Fehlererkennung und Adressplanung zu testen und zu festigen. Geben Sie die Werte ein, um die Ergebnisse und Lösungswege zu sehen.</p>
+                        
+                        <div class="space-y-8">
+                            <!-- Kanalkapazität -->
+                            <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">Kanalkapazität (Nyquist/Shannon)</h3>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-400">Bandbreite (B) in Hz</label>
+                                        <input type="number" id="bandwidth" value="3000" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-400">Signalstufen (V)</label>
+                                        <input type="number" id="signal_levels" value="2" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500">
+                                    </div>
+                                    <div class="md:col-span-2">
+                                        <label class="block text-sm font-medium text-gray-400">Signal-Rausch-Verhältnis (SNR) als Faktor (S/N)</label>
+                                        <input type="number" id="snr_ratio" value="1000" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500">
+                                    </div>
+                                </div>
+                                <button id="calculate_capacity" class="mt-4 px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300">Berechnen</button>
+                                <div id="capacity_result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300"></div>
+                            </div>
+
+                            <!-- CRC -->
+                            <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">Cyclic Redundancy Check (CRC)</h3>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-400">Daten (binär)</label>
+                                        <input type="text" id="crc_data" value="1001" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 font-mono">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-400">Generatorpolynom (binär)</label>
+                                        <input type="text" id="crc_poly" value="1011" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 font-mono">
+                                    </div>
+                                </div>
+                                <button id="calculate_crc" class="mt-4 px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300">Berechnen</button>
+                                <div id="crc_result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300 font-mono text-sm overflow-x-auto"></div>
+                            </div>
+
+                             <!-- VLSM -->
+                            <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">Variable Length Subnet Mask (VLSM)</h3>
+                                <div>
+                                     <label class="block text-sm font-medium text-gray-400">Adressblock (z.B. 10.10.0.0/21)</label>
+                                     <input type="text" id="vlsm_block" value="10.10.0.0/21" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500">
+                                </div>
+                                 <div class="mt-2">
+                                     <label class="block text-sm font-medium text-gray-400">Benötigte Hosts pro Subnetz (kommagetrennt)</label>
+                                     <input type="text" id="vlsm_hosts" value="300, 200, 200, 50, 50, 50, 50" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500">
+                                </div>
+                                <button id="calculate_vlsm" class="mt-4 px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300">Berechnen</button>
+                                <div id="vlsm_result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- SECTION: Prozesse -->
+                <section id="prozesse" class="content-section">
+                    <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Visualisierte Prozessabläufe</h2>
+                        <p class="mb-6 text-gray-300">Das Verständnis von Protokollabläufen ist fundamental. Diese interaktiven Diagramme führen Sie schrittweise durch die wichtigsten Kommunikationsprozesse. Klicken Sie auf "Nächster Schritt", um den Ablauf zu verfolgen und die dazugehörigen Erklärungen zu lesen.</p>
+                         
+                        <div id="process-selector" class="flex flex-wrap justify-center gap-2 mb-6">
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-process="tcp-handshake">TCP 3-Wege-Handshake</button>
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-process="arp">ARP-Prozess</button>
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-process="dhcp">DHCP DORA</button>
+                        </div>
+
+                        <div id="process-display" class="bg-gray-800/50 p-4 rounded-lg border border-gray-700 min-h-[300px]"></div>
+                    </div>
+                </section>
+
+                <!-- SECTION: Vergleiche -->
+                <section id="vergleiche" class="content-section">
+                    <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Protokoll-Vergleiche</h2>
+                        <p class="mb-6 text-gray-300">Das Gegenüberstellen von Protokollen hilft, ihre spezifischen Stärken und Schwächen zu verstehen. Dieser Abschnitt hebt die wichtigsten Unterschiede zwischen zentralen Protokollpaaren hervor und visualisiert das Verhalten der TCP-Überlastkontrolle.</p>
+
+                        <!-- TCP vs UDP & IPv4 vs IPv6 Tables -->
+                        <div class="grid md:grid-cols-2 gap-8 mb-8">
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">TCP vs. UDP</h3>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">Merkmal</th>
+                                                <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">TCP</th>
+                                                <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">UDP</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Verbindung</td><td class="border-b border-gray-700 p-3 table-cell">Verbindungsorientiert</td><td class="border-b border-gray-700 p-3 table-cell">Verbindungslos</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Zuverlässigkeit</td><td class="border-b border-gray-700 p-3 table-cell">Hoch (Bestätigungen)</td><td class="border-b border-gray-700 p-3 table-cell">Niedrig (Best Effort)</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Reihenfolge</td><td class="border-b border-gray-700 p-3 table-cell">Garantiert</td><td class="border-b border-gray-700 p-3 table-cell">Nicht garantiert</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Kontrolle</td><td class="border-b border-gray-700 p-3 table-cell">Fluss- & Überlastkontrolle</td><td class="border-b border-gray-700 p-3 table-cell">Keine</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Overhead</td><td class="border-b border-gray-700 p-3 table-cell">Hoch (20+ B Header)</td><td class="border-b border-gray-700 p-3 table-cell">Niedrig (8 B Header)</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="p-3 table-cell">Anwendung</td><td class="p-3 table-cell">HTTP, FTP, E-Mail</td><td class="p-3 table-cell">DNS, VoIP, Gaming</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                             <div>
+                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">IPv4 vs. IPv6</h3>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">Merkmal</th>
+                                                <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">IPv4</th>
+                                                <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">IPv6</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Adresslänge</td><td class="border-b border-gray-700 p-3 table-cell">32-Bit</td><td class="border-b border-gray-700 p-3 table-cell">128-Bit</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Adressraum</td><td class="border-b border-gray-700 p-3 table-cell">~4.3 Milliarden</td><td class="border-b border-gray-700 p-3 table-cell">~3.4 x 10^38</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Header</td><td class="border-b border-gray-700 p-3 table-cell">Variabel (20-60 B)</td><td class="border-b border-gray-700 p-3 table-cell">Fest (40 B)</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Fragmentierung</td><td class="border-b border-gray-700 p-3 table-cell">Durch Router & Sender</td><td class="border-b border-gray-700 p-3 table-cell">Nur durch Sender</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Prüfsumme</td><td class="border-b border-gray-700 p-3 table-cell">Im Header</td><td class="border-b border-gray-700 p-3 table-cell">Entfernt</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="p-3 table-cell">Konfiguration</td><td class="p-3 table-cell">Manuell / DHCP</td><td class="p-3 table-cell">SLAAC / DHCPv6</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- TCP Congestion Control Chart -->
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-cyan-300">TCP Überlastkontrolle: Tahoe vs. Reno</h3>
+                            <p class="mb-4 text-gray-400">Dieses Diagramm zeigt die Entwicklung des Congestion Windows (cwnd) für TCP Tahoe und TCP Reno. Klicken Sie auf "Paketverlust simulieren", um zu sehen, wie die beiden Algorithmen auf drei Duplicate ACKs reagieren – ein Schlüsselunterschied für die Effizienz.</p>
+                            <div class="chart-container bg-gray-800/50 p-4 rounded-lg">
+                                <canvas id="congestionChart"></canvas>
+                            </div>
+                            <div class="text-center mt-4">
+                                <button id="simulate_loss" class="px-5 py-2 bg-amber-500 text-white rounded-lg shadow-lg hover:bg-amber-400 transition-all duration-300">Paketverlust simulieren (3 Dup-ACKs)</button>
+                                <button id="reset_chart" class="ml-2 px-5 py-2 bg-gray-600 text-white rounded-lg shadow-lg hover:bg-gray-500 transition-all duration-300">Zurücksetzen</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Mafi 2 App View -->
+        <div id="mafi2-app" class="subject-view">
+             <header class="text-center mb-12 relative">
+                <button class="back-to-hub-btn absolute top-0 left-0 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">&larr; Zurück</button>
+                <h1 class="text-5xl font-bold text-white">Mafi 2 Klausur-Cockpit</h1>
+                <p class="text-xl text-gray-400 mt-2">Interaktive Übungen und Visualisierungen</p>
+            </header>
+            
+            <nav class="flex flex-wrap justify-center gap-3 sm:gap-4 mb-12">
+                <button data-mafi-target="mafi-grundlagen" class="mafi-nav-button active font-semibold py-2 px-5 rounded-full">Grundlagen</button>
+                <button data-mafi-target="mafi-funktionenraeume" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Funktionenräume</button>
+                <button data-mafi-target="mafi-diff1d" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Differentialrechnung (1D)</button>
+                <button data-mafi-target="mafi-taylor" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Taylorreihen</button>
+                <button data-mafi-target="mafi-complex" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Komplexe Zahlen & Euler</button>
+                <button data-mafi-target="mafi-diff2d" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Mehrdimensionale Analysis</button>
+                <button data-mafi-target="mafi-lagrange" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Extrema mit Nebenbedingungen</button>
+                <button data-mafi-target="mafi-probeklausur" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Probeklausur</button>
+            </nav>
+
+            <main>
+                <section id="mafi-grundlagen" class="mafi-content-section active">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Grundlagen: Folgen, Grenzwerte und Stetigkeit</h2>
+                        <div class="space-y-6 text-gray-300 leading-relaxed">
+                            <div>
+                                <h3 class="text-2xl font-semibold text-cyan-300 mb-2">Folgen und Konvergenz</h3>
+                                <p>Eine <span class="tooltip-term">Folge<span class="tooltip-box">Eine geordnete, unendliche Liste von Zahlen, die durch eine Vorschrift definiert ist, z.B. \(a_n = 1/n\).</span></span> ist eine unendliche, geordnete Liste von Zahlen, z.B. \(a_n = \frac{1}{n}\) für \(n \ge 1\), was die Folge \(1, \frac{1}{2}, \frac{1}{3}, ...\) ergibt. Der zentrale Begriff ist der <span class="tooltip-term">Grenzwert<span class="tooltip-box">Der Wert, dem sich die Glieder einer Folge annähern, wenn n unendlich groß wird.</span></span> (Limes). Er beschreibt den Wert, dem sich die Folgenglieder annähern, wenn \(n\) unendlich groß wird. Für \(a_n = \frac{1}{n}\) ist der Grenzwert 0. Besitzt eine Folge einen solchen Grenzwert, nennen wir sie <span class="tooltip-term">konvergent<span class="tooltip-box">Eine Folge, die einen endlichen Grenzwert besitzt. Andernfalls heißt sie divergent.</span></span>.</p>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-semibold text-cyan-300 mb-2">Stetigkeit</h3>
+                                <p>Eine Funktion \(f\) ist an einer Stelle \(x_0\) <span class="tooltip-term">stetig<span class="tooltip-box">Eine Funktion ist stetig, wenn ihr Graph keine Sprünge macht. Kleine Änderungen im Input führen nur zu kleinen Änderungen im Output.</span></span>, wenn ihr Graph dort keine Sprünge macht. Das bedeutet, wenn wir uns auf der x-Achse dem Punkt \(x_0\) nähern, nähern sich die Funktionswerte \(f(x)\) dem Wert \(f(x_0)\) an. Formal ausgedrückt: Der Grenzwert der Funktion an der Stelle ist gleich dem Funktionswert. Alle Polynome, sowie sin, cos und exp sind auf ihrem gesamten Definitionsbereich stetig.</p>
+                            </div>
+                             <div>
+                                <h3 class="text-2xl font-semibold text-cyan-300 mb-2">Zwischenwertsatz</h3>
+                                <p>Der <span class="tooltip-term">Zwischenwertsatz<span class="tooltip-box">Eine stetige Funktion auf einem Intervall \([a,b]\) nimmt jeden Wert zwischen \(f(a)\) und \(f(b)\) mindestens einmal an.</span></span> ist eine wichtige Eigenschaft stetiger Funktionen. Er besagt: Wenn eine Funktion auf einem abgeschlossenen Intervall \([a, b]\) stetig ist, dann nimmt sie jeden Wert zwischen \(f(a)\) und \(f(b)\) mindestens einmal an. Man kann den Graphen also von \( (a, f(a)) \) nach \( (b, f(b)) \) zeichnen, ohne den Stift abzusetzen.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="mafi-funktionenraeume" class="mafi-content-section">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Funktionenräume & Bernstein-Approximation</h2>
+                        <p class="mb-6 text-gray-300 leading-relaxed">In der Mathematik kann man Mengen von Funktionen selbst als Räume betrachten. Ein wichtiger Raum ist der <span class="tooltip-term">Vektorraum<span class="tooltip-box">Eine Menge von Objekten (Vektoren), die addiert und mit Skalaren multipliziert werden können, wobei bestimmte Regeln (Axiome) gelten.</span></span> der stetigen Funktionen auf einem Intervall, oft als \(C([a,b])\) bezeichnet. Polynome sind eine Teilmenge davon. Der <span class="tooltip-term">Approximationssatz von Weierstraß<span class="tooltip-box">Besagt, dass jede stetige Funktion auf einem abgeschlossenen Intervall beliebig genau durch ein Polynom angenähert werden kann.</span></span> besagt, dass man jede stetige Funktion beliebig gut durch ein Polynom annähern kann. Eine Methode dafür sind die <span class="tooltip-term">Bernstein-Polynome<span class="tooltip-box">Eine spezielle Art von Polynomen, die zur konstruktiven Beweisführung des Weierstraßschen Approximationssatzes verwendet werden und eine gute Annäherung an eine stetige Funktion bieten.</span></span>.</p>
+                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-2">Bernstein-Approximation Visualisierer</h3>
+                             <p class="mb-4 text-gray-400 text-sm">Dieses Tool zeigt, wie sich eine Funktion (hier \(f(x) = \sin(2\pi x)\)) durch Bernstein-Polynome \(p_n(x)\) mit steigendem Grad \(n\) annähern lässt.</p>
+                            <div class="flex items-center gap-4 mb-4 flex-wrap">
+                                <label for="bernstein-n-slider" class="text-gray-400">Polynomgrad \(n\): <span id="bernstein-n-label">10</span></label>
+                                <input type="range" id="bernstein-n-slider" min="1" max="100" value="10" class="w-full">
+                            </div>
+                            <div class="chart-container bg-gray-800/50 p-4 rounded-lg">
+                                <canvas id="bernsteinChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="mafi-diff1d" class="mafi-content-section">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Differentialrechnung (1D)</h2>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="text-gray-300 space-y-4 leading-relaxed">
+                                <p>Die <span class="tooltip-term">Ableitung<span class="tooltip-box">Die Ableitung \(f'(x)\) einer Funktion misst die lokale Änderungsrate oder Steigung des Graphen an einem Punkt x.</span></span> einer Funktion \(f'(x)\) gibt die lokale Steigung der Funktion an einem Punkt an. Sie ist das wichtigste Werkzeug zur Untersuchung von Funktionen, z.B. zur Bestimmung von Extremwerten.</p>
+                                <h4 class="text-xl font-semibold text-cyan-300">Wichtige Ableitungsregeln:</h4>
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li><span class="tooltip-term">Produktregel<span class="tooltip-box">Regel zum Ableiten eines Produkts zweier Funktionen: \((u \cdot v)' = u'v + uv'\).</span></span>: \((u \cdot v)' = u'v + uv'\)</li>
+                                    <li><span class="tooltip-term">Quotientenregel<span class="tooltip-box">Regel zum Ableiten eines Bruchs zweier Funktionen: \((\frac{u}{v})' = \frac{u'v - uv'}{v^2}\).</span></span>: \((\frac{u}{v})' = \frac{u'v - uv'}{v^2}\)</li>
+                                    <li><span class="tooltip-term">Kettenregel<span class="tooltip-box">Regel zum Ableiten verketteter (ineinander verschachtelter) Funktionen: \((f(g(x)))' = f'(g(x)) \cdot g'(x)\).</span></span>: \((f(g(x)))' = f'(g(x)) \cdot g'(x)\)</li>
+                                </ul>
+                            </div>
+                            <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Interaktiver Ableitungs-Rechner</h3>
+                                 <div class="flex items-center gap-4">
+                                    <select id="mafi-function-select" class="block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500">
+                                        <option value="sin(x)">sin(x)</option>
+                                        <option value="cos(x)">cos(x)</option>
+                                        <option value="x^3">x^3</option>
+                                        <option value="exp(x)">e^x</option>
+                                        <option value="log(x)">ln(x)</option>
+                                        <option value="1/(1-x)">1/(1-x)</option>
+                                    </select>
+                                    <button id="mafi-calculate-derivative" class="px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300 whitespace-nowrap">Ableiten</button>
+                                </div>
+                                <div id="mafi-derivative-result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300 font-mono text-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="mafi-taylor" class="mafi-content-section">
+                     <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Taylorreihen</h2>
+                         <p class="mb-6 text-gray-300 leading-relaxed">Eine <span class="tooltip-term">Taylorreihe<span class="tooltip-box">Eine Darstellung einer Funktion als unendliche Summe von Potenztermen, die um einen Entwicklungspunkt gebildet wird.</span></span> ist eine Darstellung einer Funktion als unendliche Summe von Potenztermen. Sie erlaubt es, komplizierte Funktionen in der Nähe eines <span class="tooltip-term">Entwicklungspunktes<span class="tooltip-box">Der Punkt \(x_0\), um den eine Taylorreihe entwickelt wird. Die Approximation ist in der Nähe dieses Punktes am besten.</span></span> \(x_0\) durch einfachere Polynome anzunähern. Die allgemeine Formel lautet: \( T(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(x_0)}{n!}(x-x_0)^n \). Die <span class="tooltip-term">Ordnung<span class="tooltip-box">Gibt an, bis zu welcher Ableitung die Taylor-Approximation berechnet wird. Eine höhere Ordnung bedeutet meist eine bessere Näherung.</span></span> der Approximation gibt an, bis zu welcher Ableitung wir die Funktion annähern. Je höher die Ordnung, desto genauer ist die Näherung in der Umgebung von \(x_0\).</p>
+                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-2">Taylorreihen-Visualisierer (um \(x_0=0\))</h3>
+                            <div class="flex items-center gap-4 mb-4 flex-wrap">
+                                 <select id="taylor-function-select" class="block w-full sm:w-1/2 px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500">
+                                    <option value="sin">sin(x)</option>
+                                    <option value="cos">cos(x)</option>
+                                    <option value="exp">e^x</option>
+                                </select>
+                                <label for="taylor-order-slider" class="text-gray-400">Ordnung: <span id="taylor-order-label">3</span></label>
+                                <input type="range" id="taylor-order-slider" min="1" max="10" value="3" class="w-full">
+                            </div>
+                            <div class="chart-container bg-gray-800/50 p-4 rounded-lg">
+                                <canvas id="taylorChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="mafi-complex" class="mafi-content-section">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Komplexe Zahlen & die Eulersche Formel</h2>
+                        <p class="mb-6 text-gray-300 leading-relaxed">Eine der faszinierendsten Verbindungen in der Mathematik ist die <span class="tooltip-term">Eulersche Formel<span class="tooltip-box">Die Formel \(e^{i\phi} = \cos(\phi) + i\sin(\phi)\), die die komplexe Exponentialfunktion mit Sinus und Kosinus verbindet.</span></span>. Sie verknüpft die Exponentialfunktion mit den trigonometrischen Funktionen über die <span class="tooltip-term">imaginäre Einheit<span class="tooltip-box">Die Zahl \(i\), definiert durch die Eigenschaft \(i^2 = -1\). Sie ist die Grundlage der komplexen Zahlen.</span></span> \(i\):</p>
+                        <div class="p-4 my-2 bg-gray-800/50 rounded-md text-center text-2xl font-mono">\( e^{i\phi} = \cos(\phi) + i \sin(\phi) \)</div>
+                        <p class="my-6 text-gray-300 leading-relaxed">Diese Formel bedeutet, dass sich jede komplexe Zahl \(z\) in <span class="tooltip-term">Polarkoordinaten<span class="tooltip-box">Eine Darstellung einer komplexen Zahl durch ihren Betrag (Abstand vom Ursprung) und ihren Winkel zur reellen Achse.</span></span> als \(z = r \cdot e^{i\phi}\) darstellen lässt, wobei \(r = |z|\) der <span class="tooltip-term">Betrag<span class="tooltip-box">Der Abstand einer komplexen Zahl vom Ursprung in der komplexen Ebene, berechnet als \(|x+iy| = \sqrt{x^2+y^2}\).</span></span> und \(\phi\) das <span class="tooltip-term">Argument<span class="tooltip-box">Der Winkel einer komplexen Zahl zur positiven reellen Achse in der Polarkoordinatendarstellung.</span></span> ist. Der Term \(e^{i\phi}\) beschreibt einen Punkt auf dem Einheitskreis in der komplexen Ebene.</p>
+                        
+                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-2">Eulersche Formel Visualisierer</h3>
+                            <div class="flex flex-col md:flex-row items-center gap-8">
+                                <div class="w-full md:w-1/2">
+                                    <canvas id="eulerCanvas" width="300" height="300"></canvas>
+                                </div>
+                                <div class="w-full md:w-1/2 space-y-4">
+                                    <div>
+                                        <label for="euler-angle-slider" class="text-gray-400">Winkel \(\phi\): <span id="euler-angle-label">0</span>°</label>
+                                        <input type="range" id="euler-angle-slider" min="0" max="360" value="0" class="w-full">
+                                    </div>
+                                    <div id="euler-output" class="font-mono text-lg p-4 bg-gray-900/70 rounded-md"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="mafi-diff2d" class="mafi-content-section">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Mehrdimensionale Analysis & Extrema</h2>
+                        <p class="mb-6 text-gray-300 leading-relaxed">Um Extrema von Funktionen mit mehreren Variablen (z.B. \( f(x, y) \)) zu finden, gehen wir in mehreren Schritten vor:</p>
+                        <ol class="list-decimal list-inside space-y-4 mb-6">
+                            <li><span class="font-semibold text-cyan-300">Gradient berechnen:</span> Der <span class="tooltip-term">Gradient<span class="tooltip-box">Der Vektor der partiellen Ableitungen einer mehrdimensionalen Funktion. Er zeigt in Richtung des steilsten Anstiegs.</span></span> \(\nabla f = \begin{pmatrix} \partial f / \partial x \\ \partial f / \partial y \end{pmatrix}\) ist der Vektor der <span class="tooltip-term">partiellen Ableitungen<span class="tooltip-box">Die Ableitung einer Funktion mit mehreren Variablen nach einer dieser Variablen, wobei die anderen als Konstanten behandelt werden.</span></span>. Er zeigt in Richtung des steilsten Anstiegs.</li>
+                            <li><span class="font-semibold text-cyan-300">Kritische Punkte finden:</span> Wir lösen die Gleichung \(\nabla f = 0\). Die Lösungen sind die <span class="tooltip-term">kritischen Punkte<span class="tooltip-box">Punkte, an denen der Gradient einer Funktion null ist. Sie sind die einzigen Kandidaten für lokale Extrema.</span></span> und die einzigen Kandidaten für lokale Extrema.</li>
+                            <li><span class="font-semibold text-cyan-300">Hesse-Matrix aufstellen:</span> Die <span class="tooltip-term">Hesse-Matrix<span class="tooltip-box">Die Matrix der zweiten partiellen Ableitungen einer Funktion. Sie wird verwendet, um kritische Punkte zu klassifizieren.</span></span> \( H_f = \begin{pmatrix} f_{xx} & f_{xy} \\ f_{yx} & f_{yy} \end{pmatrix} \) ist die Matrix der zweiten partiellen Ableitungen.</li>
+                            <li><span class="font-semibold text-cyan-300">Extrema klassifizieren:</span> Wir werten die Hesse-Matrix am kritischen Punkt aus. Anhand ihrer Determinante (det H) und des Eintrags \(f_{xx}\) können wir den Punkt klassifizieren:
+                                <ul class="list-disc list-inside ml-6 mt-2">
+                                    <li><strong>det H > 0</strong> und <strong>\(f_{xx} > 0\)</strong>: Lokales Minimum</li>
+                                    <li><strong>det H > 0</strong> und <strong>\(f_{xx} < 0\)</strong>: Lokales Maximum</li>
+                                    <li><strong>det H < 0</strong>: <span class="tooltip-term">Sattelpunkt<span class="tooltip-box">Ein kritischer Punkt, der weder ein lokales Minimum noch ein Maximum ist. Die Funktion steigt in eine Richtung an und fällt in eine andere ab.</span></span></li>
+                                    <li><strong>det H = 0</strong>: Keine Aussage möglich</li>
+                                </ul>
+                            </li>
+                        </ol>
+                         <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-2">Interaktiver Extremwert-Analysator</h3>
+                            <div class="mb-4">
+                                <label for="2d-function-input" class="block text-sm font-medium text-gray-400">Funktion \(f(x, y)\) =</label>
+                                <input type="text" id="2d-function-input" value="x^3 - 3*x*y + y^3" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 font-mono">
+                                <p class="text-xs text-gray-500 mt-1">Syntax: +, -, *, /, ^ (Potenz), exp(), sin(), etc.</p>
+                            </div>
+                            <div class="mb-4">
+                                <label for="2d-point-input" class="block text-sm font-medium text-gray-400">Punkt \((x,y)\) =</label>
+                                <input type="text" id="2d-point-input" value="1, 1" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 font-mono">
+                            </div>
+                            <button id="analyze-extremum-btn" class="px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300">Analysieren</button>
+                            <div id="extremum-result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300"></div>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="mafi-lagrange" class="mafi-content-section">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Extrema mit Nebenbedingungen</h2>
+                        <p class="mb-6 text-gray-300 leading-relaxed">Oft sucht man das Maximum oder Minimum einer Funktion \(f(x,y)\) nicht auf der gesamten Ebene, sondern nur auf einer Kurve, die durch eine Gleichung \(g(x,y)=0\) beschrieben wird. Dies nennt man eine <span class="tooltip-term">Nebenbedingung<span class="tooltip-box">Eine zusätzliche Gleichung, die die Variablen einer Optimierungsaufgabe erfüllen müssen.</span></span>. Die Methode der <span class="tooltip-term">Lagrange-Multiplikatoren<span class="tooltip-box">Ein Verfahren zur Bestimmung von lokalen Extrema einer Funktion unter einer oder mehreren Nebenbedingungen.</span></span> ist ein mächtiges Werkzeug dafür.</p>
+                        <ol class="list-decimal list-inside space-y-4 mb-6">
+                            <li><span class="font-semibold text-cyan-300">Lagrange-Funktion aufstellen:</span> Wir bilden eine neue Hilfsfunktion \( \mathcal{L}(x, y, \lambda) \), indem wir die Nebenbedingung mit einem neuen Parameter \(\lambda\) (dem Lagrange-Multiplikator) multiplizieren und zur Originalfunktion addieren:
+                                <div class="p-2 my-2 bg-gray-800/50 rounded-md">\( \mathcal{L}(x, y, \lambda) = f(x, y) + \lambda \cdot g(x, y) \)</div>
+                            </li>
+                            <li><span class="font-semibold text-cyan-300">Gradient der Lagrange-Funktion null setzen:</span> Wir suchen nach den Punkten, an denen der Gradient von \(\mathcal{L}\) bezüglich aller Variablen (inklusive \(\lambda\)) null wird. Das führt zu einem Gleichungssystem.</li>
+                            <li><span class="font-semibold text-cyan-300">Gleichungssystem lösen:</span> Die Lösungen \((x,y)\) dieses Systems sind die Kandidaten für die lokalen Extrema von \(f\) unter der Nebenbedingung \(g=0\).</li>
+                        </ol>
+                         <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-2">Interaktiver Lagrange-Rechner</h3>
+                            <p class="mb-4 text-gray-400 text-sm">Dieses Tool stellt das notwendige Gleichungssystem auf. Die (symbolische) Lösung musst du selbst durchführen.</p>
+                            <div class="mb-4">
+                                <label for="lagrange-f" class="block text-sm font-medium text-gray-400">Funktion \(f(x, y)\) =</label>
+                                <input type="text" id="lagrange-f" value="x+y" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 font-mono">
+                            </div>
+                            <div class="mb-4">
+                                <label for="lagrange-g" class="block text-sm font-medium text-gray-400">Nebenbedingung \(g(x, y)\) = 0, mit \(g(x,y)\) =</label>
+                                <input type="text" id="lagrange-g" value="x^2 + y^2 - 1" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 font-mono">
+                            </div>
+                            <button id="analyze-lagrange-btn" class="px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300">Gleichungssystem aufstellen</button>
+                            <div id="lagrange-result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="mafi-probeklausur" class="mafi-content-section">
+                    <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Probeklausur-Generator</h2>
+                        <p class="mb-6 text-gray-300">Erstelle eine zufällige Probeklausur, die auf der Struktur und den Themen der echten Klausur basiert. Klicke nach der Bearbeitung auf "Lösung anzeigen", um deine Ergebnisse zu überprüfen.</p>
+                        <div class="text-center">
+                            <button id="generate-exam-btn" class="px-6 py-3 bg-amber-500 text-white rounded-lg shadow-lg hover:bg-amber-400 transition-all duration-300 text-lg font-semibold">Neue Probeklausur generieren</button>
+                        </div>
+                        <div id="exam-container" class="mt-8 space-y-6"></div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Coming Soon Views -->
+        <div id="insi-app" class="subject-view"></div>
+        <div id="aud-app" class="subject-view"></div>
+
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // A robust parser for mathematical expressions from strings.
+    const simpleMathParser = {
+        parse: function(expr) {
+            const powRegex = /([a-zA-Z_]\w*|\([^)]+\))\s*\^\s*(-?\d+(?:\.\d+)?|\w+|\([^)]+\))/g;
+            const safeExpr = expr.replace(powRegex, 'Math.pow($1, $2)');
+            try {
+                return new Function('x', 'y', `with(Math){ return ${safeExpr} }`);
+            } catch (e) {
+                console.error("Parsing error in expression '" + expr + "':", e);
+                return () => NaN;
+            }
+        }
+    };
+
+    // --- GENERAL SELECTORS ---
+    const loginForm = document.getElementById('login-form');
+    const loginError = document.getElementById('login-error');
+    const logoutBtn = document.getElementById('logout-btn');
+    const subjectViews = document.querySelectorAll('.subject-view');
+
+    // --- CCN SELECTORS ---
+    const navButtons = document.querySelectorAll('.nav-button');
+    const contentSections = document.querySelectorAll('.content-section');
+    const protocolSelectorButtons = document.querySelectorAll('#protocol-selector button');
+    const headerDisplay = document.getElementById('header-display');
+    const descriptionBoxContainer = document.getElementById('description-box-container');
+    const calculateCapacityBtn = document.getElementById('calculate_capacity');
+    const calculateCrcBtn = document.getElementById('calculate_crc');
+    const calculateVlsmBtn = document.getElementById('calculate_vlsm');
+    const processSelectorButtons = document.querySelectorAll('#process-selector button');
+    const processDisplay = document.getElementById('process-display');
+    const simulateLossBtn = document.getElementById('simulate_loss');
+    const resetChartBtn = document.getElementById('reset_chart');
+    const osiLayers = document.querySelectorAll('.osi-layer');
+    const layerDescriptionBox = document.getElementById('layer-description-box');
+
+    // --- MAFI 2 SELECTORS ---
+    const mafiNavButtons = document.querySelectorAll('.mafi-nav-button');
+    const mafiContentSections = document.querySelectorAll('.mafi-content-section');
+    const mafiCalculateDerivativeBtn = document.getElementById('mafi-calculate-derivative');
+    const taylorOrderSlider = document.getElementById('taylor-order-slider');
+    const taylorFunctionSelect = document.getElementById('taylor-function-select');
+    const bernsteinSlider = document.getElementById('bernstein-n-slider');
+    const analyzeExtremumBtn = document.getElementById('analyze-extremum-btn');
+    const generateExamBtn = document.getElementById('generate-exam-btn');
+    const analyzeLagrangeBtn = document.getElementById('analyze-lagrange-btn');
+    const eulerAngleSlider = document.getElementById('euler-angle-slider');
+    let taylorChart, bernsteinChart, congestionChart;
+    
+    // --- DATA & STATE ---
+    const layerDescriptions = {
+        '7': '<strong>Anwendungsschicht (Application Layer):</strong> Stellt die Schnittstelle für Netzwerkapplikationen bereit (z.B. Browser, E-Mail-Client) und definiert Protokolle wie HTTP und DNS.',
+        '5': '<strong>Sitzungsschicht (Session Layer):</strong> Organisiert und synchronisiert den Dialog zwischen den kommunizierenden Systemen und baut logische Sitzungen auf und ab.',
+        '4': '<strong>Transportschicht (Transport Layer):</strong> Gewährleistet die Ende-zu-Ende-Kommunikation zwischen Prozessen auf verschiedenen Hosts. Protokolle wie TCP (zuverlässig) und UDP (schnell) arbeiten hier.',
+        '3': '<strong>Vermittlungsschicht (Network Layer):</strong> Ist für die globale Adressierung (IP-Adressen) und die Wegfindung (Routing) von Datenpaketen durch das gesamte Netzwerk verantwortlich.',
+        '2': '<strong>Sicherungsschicht (Data Link Layer):</strong> Sorgt für eine zuverlässige Übertragung von Daten-Frames innerhalb eines lokalen Netzwerks (z.B. Ethernet) und regelt den Zugriff auf das Medium.',
+        '1': '<strong>Bitübertragungsschicht (Physical Layer):</strong> Definiert die physikalischen und elektrischen Eigenschaften des Übertragungsmediums (Kabel, Funk) für die Übertragung roher Bits.'
+    };
+    const protocolData = {
+        ethernet: {
+            name: 'Ethernet II Frame',
+            fields: [
+                { name: 'Preamble', size: '7 Bytes', desc: 'Eine 7-Byte-Sequenz von alternierenden 0en und 1en (10101010...), die dem Empfänger zur Synchronisation seines Taktes dient.' },
+                { name: 'SFD', size: '1 Byte', desc: 'Der Start Frame Delimiter (10101011) signalisiert das Ende der Präambel und den Beginn der eigentlichen Frame-Daten.' },
+                { name: 'Destination MAC', size: '6 Bytes', desc: 'Die 48-Bit-Hardware-Adresse des Zielgeräts. Kann Unicast, Multicast oder Broadcast sein.' },
+                { name: 'Source MAC', size: '6 Bytes', desc: 'Die 48-Bit-Hardware-Adresse des sendenden Geräts. Immer eine Unicast-Adresse.' },
+                { name: 'EtherType', size: '2 Bytes', desc: 'Gibt das Protokoll der nächsthöheren Schicht an (z.B. 0x0800 für IPv4, 0x86DD für IPv6, 0x0806 für ARP).' },
+                { name: 'Payload & Pad', size: '46-1500 B', desc: 'Die Nutzdaten von der Vermittlungsschicht. Falls die Datenmenge unter 46 Bytes liegt, wird mit Füllbytes (Padding) aufgefüllt, um die minimale Frame-Größe von 64 Bytes zu erreichen.' },
+                { name: 'FCS', size: '4 Bytes', desc: 'Die Frame Check Sequence enthält eine 32-Bit-CRC-Prüfsumme zur Fehlererkennung bei der Übertragung.' }
+            ]
+        },
+        ipv4: {
+            name: 'IPv4 Header (20 Bytes typisch)',
+            layout: [
+                [{ name: 'Version', size: '4b' }, { name: 'IHL', size: '4b' }, { name: 'DSCP', size: '6b' }, { name: 'ECN', size: '2b' }, { name: 'Total Length', size: '16b' }],
+                [{ name: 'Identification', size: '16b' }, { name: 'Flags', size: '3b' }, { name: 'Fragment Offset', size: '13b' }],
+                [{ name: 'TTL', size: '8b' }, { name: 'Protocol', size: '8b' }, { name: 'Header Checksum', size: '16b' }],
+                [{ name: 'Source Address', size: '32b' }],
+                [{ name: 'Destination Address', size: '32b' }]
+            ],
+            fields: {
+                'Version': { desc: 'IP-Version, für IPv4 immer 4.' },
+                'IHL': { desc: 'Internet Header Length; Länge des Headers in 32-Bit-Wörtern. Mindestwert ist 5 (20 Bytes).' },
+                'DSCP': { desc: 'Differentiated Services Code Point; wird für Quality of Service (QoS) verwendet.' },
+                'ECN': { desc: 'Explicit Congestion Notification; zur Signalisierung von Netzwerkstau ohne Paketverlust.' },
+                'Total Length': { desc: 'Gesamtlänge des Pakets (Header + Daten) in Bytes. Max. 65.535 Bytes.' },
+                'Identification': { desc: 'Eindeutiger Wert, der alle Fragmente eines ursprünglichen Pakets kennzeichnet.' },
+                'Flags': { desc: '3 Bits: 1. reserviert, 2. DF (Don\'t Fragment), 3. MF (More Fragments).' },
+                'Fragment Offset': { desc: 'Position des Fragments im ursprünglichen Datenpaket, gemessen in 8-Byte-Blöcken.' },
+                'TTL': { desc: 'Time to Live; Zähler, der von jedem Router dekrementiert wird. Bei 0 wird das Paket verworfen (verhindert Schleifen).' },
+                'Protocol': { desc: 'Gibt das Protokoll der Transportschicht an (z.B. 6 für TCP, 17 für UDP, 1 für ICMP).' },
+                'Header Checksum': { desc: 'Prüfsumme, die nur den Header abdeckt. Muss von jedem Router neu berechnet werden, da sich der TTL ändert.' },
+                'Source Address': { desc: '32-Bit-IP-Adresse des Senders.' },
+                'Destination Address': { desc: '32-Bit-IP-Adresse des Empfängers.' }
+            }
+        },
+        ipv6: {
+            name: 'IPv6 Header (40 Bytes fest)',
+            layout: [
+                [{ name: 'Version', size: '4b' }, { name: 'Traffic Class', size: '8b' }, { name: 'Flow Label', size: '20b' }],
+                [{ name: 'Payload Length', size: '16b' }, { name: 'Next Header', size: '8b' }, { name: 'Hop Limit', size: '8b' }],
+                [{ name: 'Source Address', size: '128b' }],
+                [{ name: 'Destination Address', size: '128b' }]
+            ],
+            fields: {
+                'Version': { desc: 'IP-Version, für IPv6 immer 6.' },
+                'Traffic Class': { desc: 'Ähnlich wie DSCP in IPv4, für QoS-Zwecke.' },
+                'Flow Label': { desc: 'Kann zur Markierung von Paketen verwendet werden, die zu einem bestimmten Datenstrom gehören und eine spezielle Behandlung erfordern.' },
+                'Payload Length': { desc: 'Länge der Nutzdaten (ohne den 40-Byte-Header) in Bytes.' },
+                'Next Header': { desc: 'Gibt den Typ des folgenden Headers an (z.B. TCP, UDP oder ein Extension Header).' },
+                'Hop Limit': { desc: 'Äquivalent zum TTL in IPv4. Wird von jedem Router dekrementiert.' },
+                'Source Address': { desc: '128-Bit-IP-Adresse des Senders.' },
+                'Destination Address': { desc: '128-Bit-IP-Adresse des Empfängers.' }
+            }
+        },
+        tcp: {
+            name: 'TCP Header (20 Bytes typisch)',
+             layout: [
+                [{ name: 'Source Port', size: '16b' }, { name: 'Destination Port', size: '16b' }],
+                [{ name: 'Sequence Number', size: '32b' }],
+                [{ name: 'Acknowledgment Number', size: '32b' }],
+                [{ name: 'Data Offset', size: '4b' }, { name: 'Reserved', size: '3b' }, { name: 'Flags', size: '9b' }, { name: 'Window Size', size: '16b' }],
+                [{ name: 'Checksum', size: '16b' }, { name: 'Urgent Pointer', size: '16b' }]
+            ],
+            fields: {
+                'Source Port': { desc: 'Portnummer des Senders.' },
+                'Destination Port': { desc: 'Portnummer des Empfängers.' },
+                'Sequence Number': { desc: 'Die Sequenznummer des ersten Datenbytes in diesem Segment. Bei SYN-Paketen die Initial Sequence Number (ISN).' },
+                'Acknowledgment Number': { desc: 'Wenn das ACK-Flag gesetzt ist, enthält dieses Feld die nächste Sequenznummer, die der Sender dieses Segments erwartet.' },
+                'Data Offset': { desc: 'Länge des TCP-Headers in 32-Bit-Wörtern. Gibt an, wo die Daten beginnen.' },
+                'Reserved': { desc: 'Für zukünftige Verwendung reserviert und sollte Null sein.' },
+                'Flags': { desc: '9 Kontrollbits (NS, CWR, ECE, URG, ACK, PSH, RST, SYN, FIN) zur Steuerung der Verbindung.' },
+                'Window Size': { desc: 'Die Anzahl der Datenbytes, die der Sender dieses Segments bereit ist zu empfangen (für die Flusskontrolle).' },
+                'Checksum': { desc: 'Prüfsumme über Header, Nutzdaten und einen Pseudo-Header (aus IP-Adressen).' },
+                'Urgent Pointer': { desc: 'Wenn das URG-Flag gesetzt ist, zeigt dieser Wert auf dringende Daten.' },
+            }
+        },
+        udp: {
+            name: 'UDP Header (8 Bytes fest)',
+            layout: [
+                [{ name: 'Source Port', size: '16b' }, { name: 'Destination Port', size: '16b' }],
+                [{ name: 'Length', size: '16b' }, { name: 'Checksum', size: '16b' }]
+            ],
+            fields: {
+                'Source Port': { desc: 'Portnummer des Senders. Optional.' },
+                'Destination Port': { desc: 'Portnummer des Empfängers.' },
+                'Length': { desc: 'Länge des UDP-Headers plus der Daten in Bytes. Mindestens 8.' },
+                'Checksum': { desc: 'Optionale Prüfsumme über Header, Daten und einen Pseudo-Header.' }
+            }
+        }
+    };
+    const processData = {
+        'tcp-handshake': {
+            title: 'TCP 3-Wege-Handshake',
+            steps: [
+                {
+                    diagram: `
+                        <div class="flex justify-between items-center text-center">
+                            <div class="w-1/3"><b>Client</b></div>
+                            <div class="w-1/3 text-cyan-400 font-bold text-lg animate-pulse">SYN →</div>
+                            <div class="w-1/3"><b>Server</b></div>
+                        </div>`,
+                    desc: '<b>Schritt 1 (SYN):</b> Der Client möchte eine Verbindung aufbauen. Er sendet ein TCP-Segment mit gesetztem SYN-Flag (Synchronize) und einer zufällig gewählten initialen Sequenznummer (z.B. SEQ=x).'
+                },
+                {
+                    diagram: `
+                        <div class="flex justify-between items-center text-center">
+                            <div class="w-1/3"><b>Client</b></div>
+                            <div class="w-1/3 text-gray-500">← SYN/ACK</div>
+                            <div class="w-1/3"><b>Server</b></div>
+                        </div>`,
+                    desc: '<b>Schritt 2 (SYN/ACK):</b> Der Server empfängt das SYN-Paket. Wenn er die Verbindung akzeptiert, antwortet er mit einem Segment, bei dem sowohl das SYN- als auch das ACK-Flag (Acknowledgment) gesetzt sind. Er bestätigt die Sequenznummer des Clients (ACK=x+1) und sendet seine eigene initiale Sequenznummer (SEQ=y).'
+                },
+                {
+                    diagram: `
+                         <div class="flex justify-between items-center text-center">
+                            <div class="w-1/3"><b>Client</b></div>
+                            <div class="w-1/3 text-cyan-400 font-bold text-lg animate-pulse">ACK →</div>
+                            <div class="w-1/3"><b>Server</b></div>
+                        </div>`,
+                    desc: '<b>Schritt 3 (ACK):</b> Der Client empfängt das SYN/ACK-Paket und bestätigt seinerseits die Sequenznummer des Servers, indem er ein Segment mit gesetztem ACK-Flag (ACK=y+1) sendet. Die Verbindung ist nun auf beiden Seiten im Zustand "ESTABLISHED" und die Datenübertragung kann beginnen.'
+                }
+            ]
+        },
+        'arp': {
+            title: 'ARP-Prozess (Address Resolution Protocol)',
+            steps: [
+                {
+                    diagram: `<div class="text-center"><b>Host A</b> (kennt IP von B, nicht MAC)</div>`,
+                    desc: '<b>Situation:</b> Host A (z.B. 192.168.1.10) möchte ein Paket an Host B (192.168.1.20) im selben lokalen Netz senden. Host A kennt die IP-Adresse von B, aber nicht dessen MAC-Adresse, die für den Ethernet-Frame benötigt wird.'
+                },
+                {
+                    diagram: `
+                        <div class="text-center"><b>Host A</b> → 🌐 (Broadcast)</div>
+                        <p class="text-center mt-2 font-mono text-cyan-300">ARP Request: "Wer hat 192.168.1.20?"</p>`,
+                    desc: '<b>Schritt 1 (ARP Request):</b> Host A sendet eine ARP-Anfrage als Layer-2-Broadcast (an die MAC-Adresse FF:FF:FF:FF:FF:FF). Diese Nachricht wird von allen Geräten im lokalen Netzwerk empfangen.'
+                },
+                {
+                    diagram: `
+                        <div class="text-center"><b>Host B</b> → <b>Host A</b> (Unicast)</div>
+                         <p class="text-center mt-2 font-mono text-cyan-300">ARP Reply: "192.168.1.20 ist bei [MAC von B]"</p>`,
+                    desc: '<b>Schritt 2 (ARP Reply):</b> Alle Geräte verarbeiten die Anfrage, aber nur Host B erkennt seine eigene IP-Adresse. Host B antwortet direkt an Host A (Unicast) mit einer ARP-Antwort, die seine MAC-Adresse enthält.'
+                },
+                {
+                    diagram: `<div class="text-center"><b>Host A</b> (speichert "IP von B → MAC von B" im Cache)</div>`,
+                    desc: '<b>Schritt 3 (Cache):</b> Host A empfängt die Antwort und speichert die Zuordnung von IP- zu MAC-Adresse in seinem ARP-Cache. Für zukünftige Pakete an Host B kann die MAC-Adresse direkt aus dem Cache entnommen werden, ohne einen neuen ARP-Prozess zu starten.'
+                }
+            ]
+        },
+        'dhcp': {
+            title: 'DHCP DORA-Prozess',
+            steps: [
+                {
+                    diagram: `<div class="text-center"><b>Client</b> → 🌐 (Broadcast)</div><p class="text-center mt-2 font-bold text-cyan-300">D: Discover</p>`,
+                    desc: '<b>Schritt 1 (Discover):</b> Ein Client, der gerade dem Netzwerk beigetreten ist, hat noch keine IP-Adresse. Er sendet eine DHCPDISCOVER-Nachricht als Broadcast, um einen DHCP-Server zu finden.'
+                },
+                {
+                    diagram: `<div class="text-center"><b>DHCP Server</b> → <b>Client</b> (Unicast/Broadcast)</div><p class="text-center mt-2 font-bold text-cyan-300">O: Offer</p>`,
+                    desc: '<b>Schritt 2 (Offer):</b> Ein oder mehrere DHCP-Server, die die Discover-Nachricht empfangen, antworten mit einer DHCPOFFER-Nachricht. Diese enthält ein Angebot für eine IP-Adresse sowie weitere Konfigurationsparameter (Subnetzmaske, Gateway, DNS-Server).'
+                },
+                {
+                    diagram: `<div class="text-center"><b>Client</b> → 🌐 (Broadcast)</div><p class="text-center mt-2 font-bold text-cyan-300">R: Request</p>`,
+                    desc: '<b>Schritt 3 (Request):</b> Der Client wählt eines der Angebote aus (normalerweise das erste, das er empfängt) und sendet eine DHCPREQUEST-Nachricht, wieder als Broadcast. Dies informiert den ausgewählten Server, dass sein Angebot angenommen wird, und die anderen Server, dass ihre Angebote abgelehnt wurden.'
+                },
+                {
+                    diagram: `<div class="text-center"><b>DHCP Server</b> → <b>Client</b> (Unicast)</div><p class="text-center mt-2 font-bold text-cyan-300">A: Acknowledge</p>`,
+                    desc: '<b>Schritt 4 (Acknowledge):</b> Der ausgewählte Server bestätigt die Zuweisung endgültig mit einer DHCPACK-Nachricht. Der Client kann die IP-Adresse nun verwenden. Der Prozess ist abgeschlossen.'
+                }
+            ]
+        }
+    };
+    let currentProcess = {};
+    let chartInterval;
+
+    // --- INITIALIZATION ---
+    function init() {
+        // Login Logic
+        if (loginForm) {
+            loginForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                if (username === 'nhani' && password === 'jenin') {
+                    showSubjectView('subject-hub');
+                    if(loginError) loginError.classList.add('hidden');
+                    loginForm.reset();
+                } else {
+                    if(loginError) loginError.classList.remove('hidden');
+                    const passwordInput = document.getElementById('password');
+                    if(passwordInput) passwordInput.value = '';
+                }
+            });
+        }
+
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                showSubjectView('login-view');
+            });
+        }
+
+        // Hub Navigation using event delegation
+        document.body.addEventListener('click', function(event) {
+            const subjectCard = event.target.closest('.subject-card');
+            if (subjectCard) {
+                const subject = subjectCard.dataset.subject;
+                showSubjectView(subject + '-app');
+            }
+            if (event.target.matches('.back-to-hub-btn')) {
+                showSubjectView('subject-hub');
+            }
+        });
+
+        // Setup individual subject apps
+        setupCcn();
+        setupMafi2();
+        setupComingSoon();
+        
+        // Render all MathJax content on load
+        if (window.MathJax) {
+            MathJax.typesetPromise();
+        }
+    }
+    
+    function showSubjectView(viewId) {
+        subjectViews.forEach(view => {
+            view.classList.remove('active');
+        });
+        const targetView = document.getElementById(viewId);
+        if (targetView) {
+            targetView.classList.add('active');
+        }
+    }
+
+    function setupComingSoon() {
+        const comingSoonSubjects = ['insi', 'aud'];
+        comingSoonSubjects.forEach(subject => {
+            const view = document.getElementById(`${subject}-app`);
+            if (view) {
+                view.innerHTML = `
+                    <div class="text-center relative p-8">
+                         <button class="back-to-hub-btn absolute top-0 left-0 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">&larr; Zurück</button>
+                        <h1 class="text-5xl font-bold text-white mt-20">Coming Soon</h1>
+                        <p class="text-xl text-gray-400 mt-4">Inhalte für dieses Fach werden in Kürze hinzugefügt.</p>
+                    </div>
+                `;
+            }
+        });
+    }
+
+    // --- CCN LOGIC ---
+    function setupCcn() {
+        if (!document.getElementById('ccn-app')) return;
+
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.dataset.target;
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                contentSections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === targetId) section.classList.add('active');
+                });
+            });
+        });
+
+        osiLayers.forEach(layer => {
+            layer.addEventListener('click', () => {
+                const layerId = layer.dataset.layer;
+                if(layerDescriptionBox) layerDescriptionBox.innerHTML = layerDescriptions[layerId] || '';
+                osiLayers.forEach(l => l.classList.remove('selected'));
+                layer.classList.add('selected');
+            });
+        });
+        if(osiLayers.length > 0) osiLayers[0].click();
+
+        protocolSelectorButtons.forEach(button => {
+            button.addEventListener('click', () => displayHeader(button.dataset.protocol));
+        });
+        displayHeader('ethernet');
+
+        if(calculateCapacityBtn) calculateCapacityBtn.addEventListener('click', handleCapacityCalculation);
+        if(calculateCrcBtn) calculateCrcBtn.addEventListener('click', handleCrcCalculation);
+        if(calculateVlsmBtn) calculateVlsmBtn.addEventListener('click', handleVlsmCalculation);
+        handleCapacityCalculation();
+        handleCrcCalculation();
+        handleVlsmCalculation();
+
+        processSelectorButtons.forEach(button => {
+            button.addEventListener('click', () => displayProcess(button.dataset.process));
+        });
+        displayProcess('tcp-handshake');
+
+        setupCongestionChart();
+        if(resetChartBtn) resetChartBtn.addEventListener('click', resetCongestionChart);
+        if(simulateLossBtn) simulateLossBtn.addEventListener('click', simulatePacketLoss);
+    }
+
+    function displayHeader(protocol) {
+        const data = protocolData[protocol];
+        if (!data || !headerDisplay) return;
+        
+        headerDisplay.innerHTML = `<h3 class="text-xl font-semibold mb-4 text-center text-white">${data.name}</h3>`;
+        if(descriptionBoxContainer) descriptionBoxContainer.innerHTML = '';
+        
+        let headerHTML;
+        if (data.layout) {
+            headerHTML = data.layout.map(row => {
+                const rowHTML = row.map(field => `
+                    <div class="header-field border p-2 text-center rounded-md flex-grow" data-field-name="${field.name}">
+                        <span class="block text-sm font-semibold">${field.name}</span>
+                        <span class="block text-xs text-gray-400">${field.size}</span>
+                    </div>`).join('');
+                return `<div class="flex flex-row gap-1 mb-1">${rowHTML}</div>`;
+            }).join('');
+        } else {
+            headerHTML = `<div class="grid grid-cols-2 md:grid-cols-4 gap-1">` +
+                data.fields.map(field => `
+                    <div class="header-field border p-2 text-center rounded-md" data-field-name="${field.name}">
+                        <span class="block text-sm font-semibold">${field.name}</span>
+                        <span class="block text-xs text-gray-400">${field.size}</span>
+                    </div>`).join('') + `</div>`;
+        }
+        headerDisplay.innerHTML += headerHTML;
+        
+        const allFields = data.layout ? data.layout.flat() : data.fields;
+        allFields.forEach(field => {
+            const fieldInfo = data.layout ? data.fields[field.name] : field;
+            const descBox = document.createElement('div');
+            descBox.id = `desc-${field.name.replace(/\s+/g, '-')}`;
+            descBox.className = 'description-box p-4 border-l-4 rounded-r-lg';
+            descBox.innerHTML = `<h4 class="font-bold text-cyan-400">${field.name}</h4><p class="text-gray-300 mt-1">${fieldInfo.desc}</p>`;
+            if(descriptionBoxContainer) descriptionBoxContainer.appendChild(descBox);
+        });
+
+        const headerFields = headerDisplay.querySelectorAll('.header-field');
+        headerFields.forEach(field => {
+            field.addEventListener('click', () => {
+                const fieldName = field.dataset.fieldName;
+                const descId = `desc-${fieldName.replace(/\s+/g, '-')}`;
+                headerFields.forEach(f => f.classList.remove('selected'));
+                field.classList.add('selected');
+                document.querySelectorAll('.description-box').forEach(box => box.style.display = 'none');
+                const targetDesc = document.getElementById(descId);
+                if(targetDesc) targetDesc.style.display = 'block';
+            });
+        });
+        if (headerFields.length > 0) headerFields[0].click();
+    }
+
+    function handleCapacityCalculation() {
+        if(!document.getElementById('bandwidth')) return;
+        const B = parseFloat(document.getElementById('bandwidth').value);
+        const V = parseFloat(document.getElementById('signal_levels').value);
+        const snrRatio = parseFloat(document.getElementById('snr_ratio').value);
+        const resultDiv = document.getElementById('capacity_result');
+        if (isNaN(B) || isNaN(V) || isNaN(snrRatio)) {
+            resultDiv.innerHTML = "Bitte gültige Zahlen eingeben.";
+            return;
+        }
+        const nyquistCapacity = 2 * B * Math.log2(V);
+        const shannonCapacity = B * Math.log2(1 + snrRatio);
+        const snrDb = 10 * Math.log10(snrRatio);
+        resultDiv.innerHTML = `
+            <p><strong class="text-cyan-400">Nyquist-Formel (rauschfrei):</strong><br>
+            C = 2 * ${B} Hz * log₂( ${V} ) = <strong class="text-white">${nyquistCapacity.toFixed(2)} bit/s</strong></p>
+            <p class="mt-2"><strong class="text-cyan-400">Shannon-Hartley-Theorem (verrauscht):</strong><br>
+            C = ${B} Hz * log₂(1 + ${snrRatio}) = <strong class="text-white">${shannonCapacity.toFixed(2)} bit/s</strong></p>
+             <p class="mt-2 text-sm text-gray-400">Das Signal-Rausch-Verhältnis (SNR) von ${snrRatio} entspricht <strong>${snrDb.toFixed(2)} dB</strong>.</p>`;
+    }
+    
+    function handleCrcCalculation() {
+        if(!document.getElementById('crc_data')) return;
+        let data = document.getElementById('crc_data').value.replace(/[^01]/g, '');
+        let poly = document.getElementById('crc_poly').value.replace(/[^01]/g, '');
+        const resultDiv = document.getElementById('crc_result');
+        if (data.length === 0 || poly.length === 0 || poly[0] !== '1') {
+            resultDiv.innerHTML = 'Ungültige Eingabe. Daten und Polynom müssen binär sein, Polynom muss mit 1 beginnen.';
+            return;
+        }
+        let k = poly.length - 1;
+        let dividend = data + '0'.repeat(k);
+        let divisor = poly;
+        let rem = dividend.substr(0, divisor.length);
+        for (let i = 0; i < data.length; i++) {
+            if (rem[0] === '1') {
+                let temp = '';
+                for (let j = 0; j < divisor.length; j++) {
+                    temp += rem[j] === divisor[j] ? '0' : '1';
+                }
+                rem = temp.substring(1) + (dividend[divisor.length + i] || '');
+            } else {
+                rem = rem.substring(1) + (dividend[divisor.length + i] || '');
+            }
+        }
+        let crc = rem.substring(0, k);
+        resultDiv.innerHTML = `
+            <p>1. Daten mit ${k} Nullen auffüllen: <span class="font-bold text-white">${data + '0'.repeat(k)}</span></p>
+            <p class="mt-2">2. Der Rest der Modulo-2-Division ist der CRC-Code: <strong class="text-white">${crc}</strong></p>
+            <p class="mt-2">3. Das zu sendende Codewort ist: Daten + CRC = <strong class="text-white">${data + crc}</strong></p>`;
+    }
+    
+    function handleVlsmCalculation() {
+        if(!document.getElementById('vlsm_block')) return;
+        const block = document.getElementById('vlsm_block').value;
+        const hostsReqStr = document.getElementById('vlsm_hosts').value;
+        const resultDiv = document.getElementById('vlsm_result');
+        try {
+            const [baseIp, prefix] = block.split('/');
+            if (!baseIp || !prefix || isNaN(parseInt(prefix))) throw new Error("Ungültiger Adressblock.");
+            const hostsReq = hostsReqStr.split(',').map(s => parseInt(s.trim())).filter(n => !isNaN(n));
+            hostsReq.sort((a, b) => b - a);
+            let startIp = ipToLong(baseIp);
+            const endIp = startIp + (1 << (32 - parseInt(prefix))) -1;
+            let resultHTML = `<h4 class="font-semibold mb-2 text-white">Subnetz-Zuweisung für ${block}:</h4><div class="overflow-x-auto"><table class="w-full text-sm"><thead><tr class="text-left"><th class="p-2 bg-gray-800/50">Anforderung</th><th class="p-2 bg-gray-800/50">Subnetz</th><th class="p-2 bg-gray-800/50">Bereich</th><th class="p-2 bg-gray-800/50">Broadcast</th></tr></thead><tbody>`;
+            for (const hosts of hostsReq) {
+                if(startIp > endIp) {
+                     resultHTML += `<tr><td colspan="4" class="p-2 text-red-500">Nicht genügend Adressen für ${hosts} Hosts verfügbar.</td></tr>`;
+                     continue;
+                }
+                const hostBits = Math.ceil(Math.log2(hosts + 2));
+                const subnetPrefix = 32 - hostBits;
+                const subnetSize = 1 << hostBits;
+                startIp = Math.ceil(startIp / subnetSize) * subnetSize;
+                if (startIp + subnetSize - 1 > endIp) {
+                    resultHTML += `<tr><td colspan="4" class="p-2 text-red-500">Nicht genügend Adressen für ${hosts} Hosts im Block.</td></tr>`;
+                    continue;
+                }
+                const networkAddr = longToIp(startIp);
+                const firstHost = longToIp(startIp + 1);
+                const lastHost = longToIp(startIp + subnetSize - 2);
+                const broadcastAddr = longToIp(startIp + subnetSize - 1);
+                resultHTML += `<tr class="border-t border-gray-700">
+                    <td class="p-2">${hosts} Hosts</td>
+                    <td class="p-2 font-mono">${networkAddr}/${subnetPrefix}</td>
+                    <td class="p-2 font-mono">${firstHost} - ${lastHost}</td>
+                    <td class="p-2 font-mono">${broadcastAddr}</td>
+                </tr>`;
+                startIp += subnetSize;
+            }
+            resultHTML += '</tbody></table></div>';
+            resultDiv.innerHTML = resultHTML;
+        } catch (e) {
+            resultDiv.innerHTML = `<p class="text-red-500">Fehler: ${e.message}</p>`;
+        }
+    }
+
+    function ipToLong(ip) {
+        return ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet), 0);
+    }
+
+    function longToIp(long) {
+        return [(long >>> 24) & 255, (long >>> 16) & 255, (long >>> 8) & 255, long & 255].join('.');
+    }
+
+    function displayProcess(processId) {
+        const data = processData[processId];
+        if (!data || !processDisplay) return;
+        currentProcess = { id: processId, step: 0 };
+        let html = `<h3 class="text-xl font-semibold mb-4 text-center text-white">${data.title}</h3>`;
+        html += `<div id="process-diagram-container" class="my-6 min-h-[80px]"></div>`;
+        html += `<div id="process-desc-container" class="p-4 bg-gray-900/70 rounded-lg min-h-[100px]"></div>`;
+        html += `<div class="mt-4 text-center">
+                    <button id="process-prev" class="px-5 py-2 bg-gray-600 text-white rounded-lg shadow-lg hover:bg-gray-500 transition-all duration-300">‹ Zurück</button>
+                    <button id="process-next" class="ml-2 px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300">Nächster Schritt ›</button>
+                 </div>`;
+        processDisplay.innerHTML = html;
+        updateProcessStep();
+        document.getElementById('process-next').addEventListener('click', () => {
+            if (currentProcess.step < processData[currentProcess.id].steps.length - 1) {
+                currentProcess.step++;
+                updateProcessStep();
+            }
+        });
+        document.getElementById('process-prev').addEventListener('click', () => {
+            if (currentProcess.step > 0) {
+                currentProcess.step--;
+                updateProcessStep();
+            }
+        });
+    }
+
+    function updateProcessStep() {
+        const data = processData[currentProcess.id];
+        const stepData = data.steps[currentProcess.step];
+        document.getElementById('process-diagram-container').innerHTML = stepData.diagram;
+        document.getElementById('process-desc-container').innerHTML = stepData.desc;
+        const prevBtn = document.getElementById('process-prev');
+        const nextBtn = document.getElementById('process-next');
+        if (prevBtn) prevBtn.style.display = (currentProcess.step === 0) ? 'none' : 'inline-block';
+        if (nextBtn) nextBtn.style.display = (currentProcess.step === data.steps.length - 1) ? 'none' : 'inline-block';
+    }
+
+    function setupCongestionChart() {
+        if(!document.getElementById('congestionChart')) return;
+        const ctx = document.getElementById('congestionChart').getContext('2d');
+        const chartData = {
+            labels: [],
+            datasets: [{
+                label: 'TCP Tahoe cwnd',
+                data: [],
+                borderColor: '#f472b6',
+                tension: 0.2,
+            }, {
+                label: 'TCP Reno cwnd',
+                data: [],
+                borderColor: '#34d399',
+                tension: 0.2,
+            }, {
+                label: 'ssthresh',
+                data: [],
+                borderColor: '#fbbf24',
+                borderDash: [5, 5],
+                fill: false,
+            }]
+        };
+        congestionChart = new Chart(ctx, {
+            type: 'line',
+            data: chartData,
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'Congestion Window (cwnd)', color: '#9ca3af' }, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#9ca3af' } },
+                    x: { title: { display: true, text: 'Übertragungsrunde (RTT)', color: '#9ca3af' }, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#9ca3af' } }
+                },
+                plugins: { legend: { labels: { color: '#e5e7eb' } } }
+            }
+        });
+        resetCongestionChart();
+    }
+    
+    function resetCongestionChart() {
+        if(!congestionChart) return;
+        clearInterval(chartInterval);
+        if(simulateLossBtn) simulateLossBtn.disabled = false;
+        let tahoe_cwnd = 1, reno_cwnd = 1, ssthresh = 64, round = 0;
+        let tahoe_state = 'slow_start', reno_state = 'slow_start';
+        congestionChart.data.labels = [];
+        congestionChart.data.datasets[0].data = [];
+        congestionChart.data.datasets[1].data = [];
+        congestionChart.data.datasets[2].data = [];
+        function runStep() {
+            if(round > 20) { clearInterval(chartInterval); return; }
+            congestionChart.data.labels.push(round);
+            congestionChart.data.datasets[0].data.push(tahoe_cwnd);
+            congestionChart.data.datasets[1].data.push(reno_cwnd);
+            congestionChart.data.datasets[2].data.push(ssthresh);
+            if (tahoe_state === 'slow_start') { tahoe_cwnd *= 2; if (tahoe_cwnd >= ssthresh) tahoe_state = 'congestion_avoidance'; } else { tahoe_cwnd += 1; }
+            if (reno_state === 'slow_start') { reno_cwnd *= 2; if (reno_cwnd >= ssthresh) reno_state = 'congestion_avoidance'; } else { reno_cwnd += 1; }
+            congestionChart.update();
+            round++;
+        }
+        chartInterval = setInterval(runStep, 300);
+    }
+    
+    function simulatePacketLoss() {
+        if(!congestionChart) return;
+        clearInterval(chartInterval);
+        let round = congestionChart.data.labels.length;
+        let tahoe_cwnd = congestionChart.data.datasets[0].data[round-1];
+        let reno_cwnd = congestionChart.data.datasets[1].data[round-1];
+        let ssthresh = Math.floor(reno_cwnd / 2);
+        let tahoe_new_ssthresh = Math.floor(tahoe_cwnd / 2);
+        tahoe_cwnd = 1;
+        reno_cwnd = ssthresh;
+        let tahoe_state = 'slow_start';
+        function runStep() {
+            if(round > 30) { clearInterval(chartInterval); return; }
+            congestionChart.data.labels.push(round);
+            congestionChart.data.datasets[0].data.push(tahoe_cwnd);
+            congestionChart.data.datasets[1].data.push(reno_cwnd);
+            congestionChart.data.datasets[2].data.push(ssthresh);
+            if (tahoe_state === 'slow_start') { tahoe_cwnd *= 2; if (tahoe_cwnd >= tahoe_new_ssthresh) tahoe_state = 'congestion_avoidance'; } else { tahoe_cwnd += 1; }
+            reno_cwnd += 1;
+            congestionChart.update();
+            round++;
+        }
+        chartInterval = setInterval(runStep, 300);
+        if(simulateLossBtn) simulateLossBtn.disabled = true;
+    }
+
+    // --- MAFI 2 LOGIC ---
+    function setupMafi2() {
+        if (!document.getElementById('mafi2-app')) return;
+
+        mafiNavButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.dataset.mafiTarget;
+                mafiNavButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                mafiContentSections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === targetId) section.classList.add('active');
+                });
+            });
+        });
+
+        if(mafiCalculateDerivativeBtn) {
+            mafiCalculateDerivativeBtn.addEventListener('click', handleDerivativeCalculation);
+            handleDerivativeCalculation();
+        }
+        if(taylorOrderSlider) {
+            setupTaylorChart();
+            taylorOrderSlider.addEventListener('input', updateTaylorChart);
+            taylorFunctionSelect.addEventListener('change', updateTaylorChart);
+        }
+        if(bernsteinSlider) {
+            setupBernsteinChart();
+            bernsteinSlider.addEventListener('input', updateBernsteinChart);
+        }
+        if(eulerAngleSlider) {
+            setupEulerVisualizer();
+            eulerAngleSlider.addEventListener('input', updateEulerVisualizer);
+        }
+        if(analyzeExtremumBtn) {
+             analyzeExtremumBtn.addEventListener('click', analyzeExtremum);
+             analyzeExtremum();
+        }
+        if(generateExamBtn) {
+            generateExamBtn.addEventListener('click', generateMafiExam);
+        }
+        if(analyzeLagrangeBtn) {
+            analyzeLagrangeBtn.addEventListener('click', analyzeLagrange);
+            analyzeLagrange();
+        }
+    }
+
+    function handleDerivativeCalculation() {
+        if(!document.getElementById('mafi-function-select')) return;
+        const func = document.getElementById('mafi-function-select').value;
+        const resultDiv = document.getElementById('mafi-derivative-result');
+        let derivative = '';
+        switch(func) {
+            case 'sin(x)': derivative = '\\cos(x)'; break;
+            case 'cos(x)': derivative = '-\\sin(x)'; break;
+            case 'x^3': derivative = '3x^2'; break;
+            case 'exp(x)': derivative = 'e^x'; break;
+            case 'log(x)': derivative = '1/x'; break;
+            case '1/(1-x)': derivative = '1/(1-x)^2'; break;
+        }
+        resultDiv.innerHTML = `\\( \\frac{d}{dx} [${func.replace('^3', '^3')}] = ${derivative} \\)`;
+        if (window.MathJax) MathJax.typesetPromise([resultDiv]);
+    }
+
+    function setupTaylorChart() {
+        if(!document.getElementById('taylorChart')) return;
+        const ctx = document.getElementById('taylorChart').getContext('2d');
+        taylorChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Original Function', data: [], borderColor: '#0891b2',
+                        borderWidth: 3, pointRadius: 0,
+                    },
+                    {
+                        label: 'Taylor Approximation', data: [], borderColor: '#f472b6',
+                        borderWidth: 2, pointRadius: 0, borderDash: [5, 5]
+                    }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                scales: {
+                    y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#9ca3af' } },
+                    x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#9ca3af' } }
+                },
+                plugins: { legend: { labels: { color: '#e5e7eb' } } }
+            }
+        });
+        updateTaylorChart();
+    }
+    
+    function factorial(n) {
+        if (n < 0) return NaN;
+        if (n === 0) return 1;
+        let res = 1;
+        for (let i = 2; i <= n; i++) res *= i;
+        return res;
+    }
+
+    function combinations(n, k) {
+        if (k < 0 || k > n) return 0;
+        if (k === 0 || k === n) return 1;
+        if (k > n / 2) k = n - k;
+        let res = 1;
+        for (let i = 1; i <= k; i++) {
+            res = res * (n - i + 1) / i;
+        }
+        return res;
+    }
+
+    function updateTaylorChart() {
+        if(!taylorChart) return;
+        const funcType = taylorFunctionSelect.value;
+        const order = parseInt(taylorOrderSlider.value);
+        document.getElementById('taylor-order-label').textContent = order;
+        const labels = [], originalData = [], taylorData = [];
+        for (let x = -5; x <= 5; x += 0.2) {
+            labels.push(x.toFixed(1));
+            let originalValue, taylorValue = 0;
+            switch(funcType) {
+                case 'sin':
+                    originalValue = Math.sin(x);
+                    for (let n = 0; n <= order; n++) if (n % 2 === 1) taylorValue += (Math.pow(-1, (n-1)/2) * Math.pow(x, n)) / factorial(n);
+                    break;
+                case 'cos':
+                    originalValue = Math.cos(x);
+                    for (let n = 0; n <= order; n++) if (n % 2 === 0) taylorValue += (Math.pow(-1, n/2) * Math.pow(x, n)) / factorial(n);
+                    break;
+                case 'exp':
+                    originalValue = Math.exp(x);
+                    for (let n = 0; n <= order; n++) taylorValue += Math.pow(x, n) / factorial(n);
+                    break;
+            }
+            originalData.push(originalValue);
+            taylorData.push(taylorValue);
+        }
+        taylorChart.data.labels = labels;
+        taylorChart.data.datasets[0].data = originalData;
+        taylorChart.data.datasets[1].data = taylorData;
+        taylorChart.update();
+    }
+
+    function setupBernsteinChart() {
+        if(!document.getElementById('bernsteinChart')) return;
+        const ctx = document.getElementById('bernsteinChart').getContext('2d');
+        bernsteinChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'f(x) = sin(2*pi*x)', data: [], borderColor: '#0891b2',
+                        borderWidth: 3, pointRadius: 0,
+                    },
+                    {
+                        label: 'Bernstein-Polynom p_n(x)', data: [], borderColor: '#f472b6',
+                        borderWidth: 2, pointRadius: 0, borderDash: [5, 5]
+                    }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                scales: {
+                    y: { min: -1.1, max: 1.1, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#9ca3af' } },
+                    x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#9ca3af' } }
+                },
+                plugins: { legend: { labels: { color: '#e5e7eb' } } }
+            }
+        });
+        updateBernsteinChart();
+    }
+
+    function updateBernsteinChart() {
+        if(!bernsteinChart) return;
+        const n = parseInt(bernsteinSlider.value);
+        document.getElementById('bernstein-n-label').textContent = n;
+        const originalFunc = x => Math.sin(2 * Math.PI * x);
+        const bernsteinPoly = (x) => {
+            let sum = 0;
+            for (let k = 0; k <= n; k++) {
+                const bernsteinBasis = combinations(n, k) * Math.pow(x, k) * Math.pow(1 - x, n - k);
+                sum += originalFunc(k / n) * bernsteinBasis;
+            }
+            return sum;
+        };
+        const labels = [], originalData = [], bernsteinData = [];
+        for (let i = 0; i <= 100; i++) {
+            const x = i / 100;
+            labels.push(x.toFixed(2));
+            originalData.push(originalFunc(x));
+            bernsteinData.push(bernsteinPoly(x));
+        }
+        bernsteinChart.data.labels = labels;
+        bernsteinChart.data.datasets[0].data = originalData;
+        bernsteinChart.data.datasets[1].data = bernsteinData;
+        bernsteinChart.update();
+    }
+
+    function setupEulerVisualizer() {
+        const canvas = document.getElementById('eulerCanvas');
+        if (!canvas) return;
+        updateEulerVisualizer();
+    }
+
+    function updateEulerVisualizer() {
+        const canvas = document.getElementById('eulerCanvas');
+        if(!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const angleDegrees = document.getElementById('euler-angle-slider').value;
+        document.getElementById('euler-angle-label').textContent = angleDegrees;
+        const angleRadians = angleDegrees * Math.PI / 180;
+        const width = canvas.width, height = canvas.height;
+        const center = { x: width / 2, y: height / 2 };
+        const radius = width * 0.4;
+        ctx.clearRect(0, 0, width, height);
+        ctx.strokeStyle = '#4b5563';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(0, center.y); ctx.lineTo(width, center.y); ctx.moveTo(center.x, 0); ctx.lineTo(center.x, height); ctx.stroke();
+        ctx.fillStyle = '#9ca3af'; ctx.fillText('Re', width - 20, center.y - 5); ctx.fillText('Im', center.x + 5, 15);
+        ctx.beginPath(); ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI); ctx.setLineDash([2, 4]); ctx.stroke(); ctx.setLineDash([]);
+        const x = Math.cos(angleRadians), y = Math.sin(angleRadians);
+        const pointX = center.x + radius * x, pointY = center.y - radius * y;
+        ctx.beginPath(); ctx.moveTo(center.x, center.y); ctx.lineTo(pointX, pointY); ctx.strokeStyle = '#0891b2'; ctx.lineWidth = 3; ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(center.x, pointY); ctx.lineTo(pointX, pointY); ctx.strokeStyle = '#f472b6'; ctx.lineWidth = 2; ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(pointX, center.y); ctx.lineTo(pointX, pointY); ctx.strokeStyle = '#34d399'; ctx.lineWidth = 2; ctx.stroke();
+        ctx.beginPath(); ctx.arc(pointX, pointY, 5, 0, 2 * Math.PI); ctx.fillStyle = '#0891b2'; ctx.fill();
+        const outputDiv = document.getElementById('euler-output');
+        outputDiv.innerHTML = `
+            <div>cos(${angleDegrees}°) = <span class="text-pink-400">${x.toFixed(3)}</span></div>
+            <div>sin(${angleDegrees}°) = <span class="text-emerald-400">${y.toFixed(3)}</span></div>
+            <div class="mt-2">e<sup>i${angleDegrees}°</sup> = <span class="text-pink-400">${x.toFixed(3)}</span> + i(<span class="text-emerald-400">${y.toFixed(3)}</span>)</div>`;
+    }
+
+    function analyzeExtremum() {
+        if(!document.getElementById('2d-function-input')) return;
+        const funcStr = document.getElementById('2d-function-input').value;
+        const pointStr = document.getElementById('2d-point-input').value;
+        const resultDiv = document.getElementById('extremum-result');
+        try {
+            const [x0, y0] = pointStr.split(',').map(Number);
+            if (isNaN(x0) || isNaN(y0)) throw new Error("Ungültiger Punkt. Bitte im Format 'x, y' eingeben.");
+            const f = simpleMathParser.parse(funcStr);
+            const h = 0.00001;
+            const fx = (f(x0 + h, y0) - f(x0 - h, y0)) / (2 * h);
+            const fy = (f(x0, y0 + h) - f(x0, y0 - h)) / (2 * h);
+            const fxx = (f(x0 + h, y0) - 2 * f(x0, y0) + f(x0 - h, y0)) / (h * h);
+            const fyy = (f(x0, y0 + h) - 2 * f(x0, y0) + f(x0, y0 - h)) / (h * h);
+            const fxy = (f(x0 + h, y0 + h) - f(x0 + h, y0 - h) - f(x0 - h, y0 + h) + f(x0 - h, y0 - h)) / (4 * h * h);
+            const gradNorm = Math.sqrt(fx*fx + fy*fy);
+            let resultHTML = `<p>Analyse am Punkt \\((${x0}, ${y0})\\):</p>`;
+            resultHTML += `<p class="mt-2">Gradient \\( \\nabla f \\approx \\begin{pmatrix} ${fx.toFixed(5)} \\\\ ${fy.toFixed(5)} \\end{pmatrix} \\)</p>`;
+            if (gradNorm < 1e-6) {
+                resultHTML += `<p class="text-green-400">Kritischer Punkt, da \\( \\nabla f \\approx 0 \\).</p>`;
+                resultHTML += `<p class="mt-2">Hesse-Matrix \\( H_f \\approx \\)</p>`;
+                resultHTML += `<div class="font-mono text-center p-2">\\( \\begin{pmatrix} ${fxx.toFixed(5)} & ${fxy.toFixed(5)} \\\\ ${fxy.toFixed(5)} & ${fyy.toFixed(5)} \\end{pmatrix} \\)</div>`;
+                const detH = fxx * fyy - fxy * fxy;
+                resultHTML += `<p>Determinante \\( \\det(H) \\approx ${detH.toFixed(5)} \\)</p>`;
+                if (Math.abs(detH) < 1e-7) {
+                    resultHTML += `<p class="text-gray-500">⇒ Test nicht schlüssig (\\( \\det(H) \\approx 0 \\))</p>`;
+                } else if (detH > 0) {
+                    if (fxx > 0) resultHTML += `<p class="text-cyan-400">⇒ Lokales Minimum (\\( \\det(H) > 0, f_{xx} > 0 \\))</p>`;
+                    else resultHTML += `<p class="text-purple-400">⇒ Lokales Maximum (\\( \\det(H) > 0, f_{xx} < 0 \\))</p>`;
+                } else {
+                    resultHTML += `<p class="text-orange-400">⇒ Sattelpunkt (\\( \\det(H) < 0 \\))</p>`;
+                }
+            } else {
+                resultHTML += `<p class="text-amber-400">Kein kritischer Punkt, da \\( \\nabla f \\not\\approx 0 \\).</p>`;
+            }
+            resultDiv.innerHTML = resultHTML;
+            if (window.MathJax) MathJax.typesetPromise([resultDiv]);
+        } catch(e) {
+            resultDiv.innerHTML = `<p class="text-red-400">Fehler bei der Analyse: ${e.message}</p>`;
+        }
+    }
+    
+    function analyzeLagrange() {
+        if(!document.getElementById('lagrange-f')) return;
+        function getDerivative(funcStr, variable) {
+            funcStr = funcStr.trim().replace(/\s/g, '');
+            if (funcStr === 'x+y' || funcStr === 'y+x') return '1';
+            if (funcStr === 'x^2+y^2-1' || funcStr === 'y^2+x^2-1') {
+                return variable === 'x' ? '2x' : '2y';
+            }
+            return `\\frac{\\partial}{\\partial ${variable}}(${funcStr})`;
+        }
+        const fStr = document.getElementById('lagrange-f').value;
+        const gStr = document.getElementById('lagrange-g').value;
+        const resultDiv = document.getElementById('lagrange-result');
+        let resultHTML = `<h4 class="font-semibold mb-2 text-white">Notwendiges Gleichungssystem:</h4>`;
+        resultHTML += `<p>1. \\( \\frac{\\partial f}{\\partial x} + \\lambda \\frac{\\partial g}{\\partial x} = 0 \\quad \\Rightarrow \\quad ${getDerivative(fStr, 'x')} + \\lambda \\cdot (${getDerivative(gStr, 'x')}) = 0 \\)</p>`;
+        resultHTML += `<p>2. \\( \\frac{\\partial f}{\\partial y} + \\lambda \\frac{\\partial g}{\\partial y} = 0 \\quad \\Rightarrow \\quad ${getDerivative(fStr, 'y')} + \\lambda \\cdot (${getDerivative(gStr, 'y')}) = 0 \\)</p>`;
+        resultHTML += `<p>3. \\( g(x, y) = 0 \\quad \\Rightarrow \\quad ${gStr} = 0 \\)</p>`;
+        resultDiv.innerHTML = resultHTML;
+        if (window.MathJax) MathJax.typesetPromise([resultDiv]);
+    }
+
+    const ExamGenerator = {
+        getRandomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; },
+        getRandomNonZeroInt(min, max) { let num; do { num = this.getRandomInt(min, max); } while (num === 0); return num; },
+        getRandomElement(arr) { return arr[Math.floor(Math.random() * arr.length)]; },
+        generateTask1() {
+            const pool = [
+                { q: (a) => `Für alle reellen Zahlen \\(x > ${a}\\) gilt \\(\\sqrt{(x-${a})^2} = x-${a}\\).`, a: (a) => true, expl: (a) => `Die Wurzel aus einer quadrierten Zahl ist der Absolutbetrag. Da \\(x > ${a}\\) ist, ist \\(x-${a}\\) positiv, also \\(|x-${a}| = x-${a}\\).` },
+                { q: () => `Jede differenzierbare Funktion ist auch stetig.`, a: () => true, expl: () => `Differenzierbarkeit ist eine stärkere Bedingung als Stetigkeit. Wenn eine Funktion eine Ableitung hat, kann sie keine Sprünge haben.` },
+                { q: (a) => `Die Funktion \\(f(x) = |x - ${a}|\\) ist bei \\(x=${a}\\) nicht differenzierbar.`, a: () => true, expl: (a) => `Die Betragsfunktion hat an der Stelle \\(x=${a}\\) einen 'Knick', an dem die Steigung nicht eindeutig definiert ist.` },
+                { q: (a, b) => `Der Vektor \\(\\begin{pmatrix}${a}\\\\${b}\\end{pmatrix}\\) ist ein Eigenvektor von \\(\\begin{pmatrix}${a+b}&${a}\\\\${b}&${a+b}\\end{pmatrix}\\).`, a: () => false, expl: (a, b) => `Ein Gegenbeispiel: Multiplikation der Matrix mit dem Vektor ergibt nicht ein skalares Vielfaches des Vektors.` },
+                { q: () => `Wenn \\(\\det(H_f) = 0\\) an einem kritischen Punkt, kann man keine Aussage über die Art des Extremums treffen.`, a: () => true, expl: () => `Wenn die Determinante der Hesse-Matrix null ist, ist der Test nicht schlüssig und es könnten ein Minimum, Maximum oder Sattelpunkt vorliegen.` }
+            ];
+            let content = `<h3 class="text-2xl font-bold text-cyan-400 mb-4">Aufgabe 1: Richtig oder Falsch (10 Punkte)</h3><div class="space-y-4">`;
+            const usedIndices = new Set();
+            while(usedIndices.size < 5) usedIndices.add(this.getRandomInt(0, pool.length - 1));
+            Array.from(usedIndices).forEach((idx, i) => {
+                const item = pool[idx], a = this.getRandomInt(1, 5), b = this.getRandomInt(1, 5);
+                content += `<div class="question-block"><p>${i+1}. ${item.q(a, b)}</p><div class="solution p-3 mt-2 rounded-md"><span class="font-semibold text-cyan-300">${item.a(a, b) ? 'Richtig' : 'Falsch'}.</span> ${item.expl(a, b)}</div></div>`;
+            });
+            return content + '</div>';
+        },
+        generateTask2() {
+            const pool = [
+                { q: (a,b) => `f(x) = \\sin(${a}x) e^{${b}x}`, sol: (a,b) => `Produkt- und Kettenregel: \\(f'(x) = ${a}\\cos(${a}x)e^{${b}x} + ${b}\\sin(${a}x)e^{${b}x}\\)` },
+                { q: (a,b) => `f(x) = \\frac{x^${a}}{x^${b}+1}`, sol: (a,b) => `Quotientenregel: \\(f'(x) = \\frac{${a}x^{${a-1}}(x^{${b}}+1) - x^{${a}}(${b}x^{${b-1}})}{(x^{${b}}+1)^2}\\)`},
+                { q: (a) => `f(x) = \\ln(x^2 + ${a})`, sol: (a) => `Kettenregel: \\(f'(x) = \\frac{2x}{x^2+${a}}\\)`}
+            ];
+            const item = this.getRandomElement(pool), a = this.getRandomInt(2, 4), b = this.getRandomInt(1, 3);
+            return `<h3 class="text-2xl font-bold text-cyan-400 mb-4">Aufgabe 2: Differentialrechnung (10 Punkte)</h3><div class="question-block"><p class="mb-4">Berechnen Sie die erste Ableitung \\(f'(x)\\) der Funktion \\(${item.q(a,b)}\\).</p><div class="solution p-4 mt-2 rounded-md">${item.sol(a,b)}</div></div>`;
+        },
+        generateTask3() {
+            const pool = [
+                { q: (a) => `g(x) = \\cos(${a}x)`, sol: (a) => `\\(g(0)=1, g'(x)=-${a}\\sin(${a}x) \\Rightarrow g'(0)=0, g''(x)=-${a*a}\\cos(${a}x) \\Rightarrow g''(0)=-${a*a}\\). Daher: \\(T_2(x) = 1 - \\frac{${a*a}}{2}x^2\\)` },
+                { q: (a) => `g(x) = \\frac{1}{1-${a}x}`, sol: (a) => `\\(g(0)=1, g'(x)=${a}(1-${a}x)^{-2} \\Rightarrow g'(0)=${a}, g''(x)=2${a*a}(1-${a}x)^{-3} \\Rightarrow g''(0)=2${a*a}\\). Daher: \\(T_2(x) = 1 + ${a}x + ${a*a}x^2\\)` }
+            ];
+            const item = this.getRandomElement(pool), a = this.getRandomInt(2, 3);
+            return `<h3 class="text-2xl font-bold text-cyan-400 mb-4">Aufgabe 3: Taylor-Entwicklung (10 Punkte)</h3><div class="question-block"><p class="mb-4">Bestimmen Sie die Taylor-Entwicklung von \\(${item.q(a)}\\) bis zur zweiten Ordnung um den Entwicklungspunkt \\(x_0 = 0\\).</p><div class="solution p-4 mt-2 rounded-md">${item.sol(a)}</div></div>`;
+        },
+        generateTask4() {
+            const a = this.getRandomInt(2, 4), b = this.getRandomInt(1, 3), c = this.getRandomNonZeroInt(-4, 4), d = this.getRandomNonZeroInt(-4, 4);
+            const det = 4*a - b*b;
+            let critX = 0, critY = 0;
+            if (det !== 0) { critX = (b*d - 2*a*c) / det; critY = (b*c - 2*d) / det; }
+            let type = '';
+            if (det > 0) type = 'ein lokales Minimum (da \\(f_{xx}=2>0\\))';
+            else if (det < 0) type = 'einen Sattelpunkt';
+            else type = 'einen Punkt, über den keine Aussage getroffen werden kann';
+            const func = `f(x,y) = x^2 + ${a}y^2 - ${b}xy + ${c}x + ${d}y`;
+            const sol = `Gradient: \\(\\nabla f = \\begin{pmatrix} 2x - ${b}y + ${c} \\\\ ${2*a}y - ${b}x + ${d} \\end{pmatrix}\\). Nullsetzen ergibt den kritischen Punkt \\((${critX.toFixed(2)}, ${critY.toFixed(2)})\\). Hesse-Matrix: \\(H_f = \\begin{pmatrix} 2 & -${b} \\\\ -${b} & ${2*a} \\end{pmatrix}\\). Die Determinante ist \\(${4*a} - ${b*b} = ${det}\\). Daher liegt bei diesem Punkt ${type}.`;
+            return `<h3 class="text-2xl font-bold text-cyan-400 mb-4">Aufgabe 4: Mehrdimensionale Analysis (10 Punkte)</h3><div class="question-block"><p class="mb-4">Analysieren Sie die Funktion \\(${func}\\) auf lokale Extrema. Bestimmen Sie den kritischen Punkt und klassifizieren Sie ihn.</p><div class="solution p-4 mt-2 rounded-md">${sol}</div></div>`;
+        },
+        generateTask5() {
+            const pool = [
+                { q: `Sei \\(f(x)\\) eine stetige Funktion auf \\([a,b]\\). Muss \\(f(x)\\) auf diesem Intervall ein Maximum annehmen? Begründen Sie.`, sol: `Ja. Dies ist der Satz vom Minimum und Maximum (oder Extremwertsatz). Er besagt, dass jede auf einem abgeschlossenen, beschränkten Intervall stetige Funktion dort ein globales Maximum und Minimum annimmt.`},
+                { q: `Sei \\(f(x,y)\\) eine Funktion mit \\(\\nabla f(x_0, y_0) = 0\\) und \\(\\det(H_f(x_0, y_0)) > 0\\). Was können Sie über den Punkt \\((x_0, y_0)\\) aussagen? Begründen Sie.`, sol: `Der Punkt ist entweder ein lokales Minimum oder ein lokales Maximum. Um dies zu entscheiden, muss das Vorzeichen von \\(f_{xx}(x_0, y_0)\\) geprüft werden. Ist es positiv, liegt ein Minimum vor. Ist es negativ, ein Maximum.`},
+                { q: `Was ist die geometrische Bedeutung des Gradienten \\(\\nabla f(x,y)\\)?`, sol: `Der Gradientenvektor \\(\\nabla f\\) an einem Punkt \\((x,y)\\) zeigt in die Richtung des steilsten Anstiegs der Funktion \\(f\\). Seine Länge entspricht der Größe dieser Steigung.`},
+                { q: `Erklären Sie kurz die Idee hinter der Methode der Lagrange-Multiplikatoren.`, sol: `Die Methode sucht nach Punkten, an denen der Gradient der Funktion \\(f\\) parallel zum Gradienten der Nebenbedingungsfunktion \\(g\\) ist. An diesen Punkten berührt eine Niveaulinie von \\(f\\) die Kurve der Nebenbedingung, was auf ein Extremum hindeutet.`}
+            ];
+            const item = this.getRandomElement(pool);
+            return `<h3 class="text-2xl font-bold text-cyan-400 mb-4">Aufgabe 5: Theorie (10 Punkte)</h3><div class="question-block"><p class="mb-4">${item.q}</p><div class="solution p-4 mt-2 rounded-md">${item.sol}</div></div>`;
+        }
+    };
+
+    function generateMafiExam() {
+        const container = document.getElementById('exam-container');
+        if(!container) return;
+        container.innerHTML = '';
+        const tasks = [
+            ExamGenerator.generateTask1(), ExamGenerator.generateTask2(),
+            ExamGenerator.generateTask3(), ExamGenerator.generateTask4(),
+            ExamGenerator.generateTask5()
+        ];
+        tasks.forEach(taskHTML => {
+            const taskDiv = document.createElement('div');
+            taskDiv.className = 'card p-6 rounded-2xl shadow-xl';
+            taskDiv.innerHTML = taskHTML;
+            taskDiv.innerHTML += `<button class="toggle-solution-btn mt-4 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500 transition-colors">Lösung anzeigen</button>`;
+            container.appendChild(taskDiv);
+        });
+        container.querySelectorAll('.toggle-solution-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const solution = e.target.parentElement.querySelector('.solution');
+                const isVisible = solution.style.display === 'block';
+                solution.style.display = isVisible ? 'none' : 'block';
+                e.target.textContent = isVisible ? 'Lösung anzeigen' : 'Lösung verbergen';
+            });
+        });
+        if (window.MathJax) MathJax.typesetPromise([container]);
+    }
+
+    // --- START THE APP ---
+    init();
+});
+</script>
+
+</body>
+</html>
