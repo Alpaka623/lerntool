@@ -234,7 +234,13 @@
         </div>
 
         <!-- Subject Hub View -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div id="subject-hub" class="subject-view">
+            <header class="text-center mb-12 relative">
+                 <button id="logout-btn" class="absolute top-0 right-0 px-4 py-2 bg-red-800/80 text-white rounded-lg hover:bg-red-700 transition-colors">Logout</button>
+                <h1 class="text-5xl font-bold text-white">Lerntool</h1>
+                <p class="text-xl text-gray-400 mt-2">Wähle dein Fach aus</p>
+            </header>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-subject="ccn">
                     <h2 class="text-3xl font-bold text-cyan-400">CCN</h2>
                     <p class="text-gray-300 mt-2">Computer & Communication Networks</p>
@@ -245,17 +251,19 @@
                     <p class="text-gray-300 mt-2">Mathe für Informatiker 2</p>
                     <p class="text-gray-400 mt-4 exam-countdown" data-subject-id="mafi2"></p>
                 </div>
+                <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-subject="aud">
+                    <h2 class="text-3xl font-bold text-cyan-400">AuD</h2>
+                    <!--<p class="text-gray-300 mt-2">Algorithmen und Datenstrukturen</p>-->
+                    <p class="text-gray-300 mt-2">Coming Soon</p>
+                    <p class="text-gray-400 mt-4 exam-countdown" data-subject-id="aud"></p>
+                </div>
                 <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-subject="insi">
                     <h2 class="text-3xl font-bold text-cyan-400">Insi</h2>
                     <p class="text-gray-300 mt-2">Informationssicherheit</p>
                     <p class="text-gray-400 mt-4 exam-countdown" data-subject-id="insi"></p>
                 </div>
-                <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-subject="aud">
-                    <h2 class="text-3xl font-bold text-cyan-400">AuD</h2>
-                    <p class="text-gray-300 mt-2">Algorithmen und Datenstrukturen</p>
-                    <p class="text-gray-400 mt-4 exam-countdown" data-subject-id="aud"></p>
-                </div>
             </div>
+        </div>
 
         <!-- CCN App View -->
         <div id="ccn-app" class="subject-view">
