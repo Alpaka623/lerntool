@@ -1138,7 +1138,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     desc: '<b>Schritt 2 (Offer):</b> Ein oder mehrere DHCP-Server, die die Discover-Nachricht empfangen, antworten mit einer DHCPOFFER-Nachricht. Diese enthält ein Angebot für eine IP-Adresse sowie weitere Konfigurationsparameter (Subnetzmaske, Gateway, DNS-Server).'
                 },
                 {
-                    diagram: `<div class="text-center"><b>Client</b> → � (Broadcast)</div><p class="text-center mt-2 font-bold text-cyan-300">R: Request</p>`,
+                    diagram: `<div class="text-center"><b>Client</b> → 🌐 (Broadcast)</div><p class="text-center mt-2 font-bold text-cyan-300">R: Request</p>`,
                     desc: '<b>Schritt 3 (Request):</b> Der Client wählt eines der Angebote aus (normalerweise das erste, das er empfängt) und sendet eine DHCPREQUEST-Nachricht, wieder als Broadcast. Dies informiert den ausgewählten Server, dass sein Angebot angenommen wird, und die anderen Server, dass ihre Angebote abgelehnt wurden.'
                 },
                 {
@@ -1155,7 +1155,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     desc: '<b>Schritt 1: Link-Local-Adresse generieren.</b> Der Host erzeugt eine Link-Local-Adresse (LLA) im `fe80::/10`-Bereich, meist aus seiner MAC-Adresse (EUI-64) oder zufällig (Privacy Extensions).'
                 },
                 {
-                    diagram: `<div class="text-center"><b>Host</b> → � (Multicast)</div><p class="text-center mt-2 font-mono text-cyan-300">Neighbor Solicitation (DAD)</p>`,
+                    diagram: `<div class="text-center"><b>Host</b> → 🌐 (Multicast)</div><p class="text-center mt-2 font-mono text-cyan-300">Neighbor Solicitation (DAD)</p>`,
                     desc: '<b>Schritt 2: Duplicate Address Detection (DAD).</b> Der Host sendet eine Neighbor Solicitation an die "solicited-node multicast address" seiner gerade erzeugten LLA, um zu prüfen, ob die Adresse bereits verwendet wird. Als Quell-IP wird `::` (unspecified) genutzt.'
                 },
                 {
@@ -2330,14 +2330,25 @@ document.addEventListener('DOMContentLoaded', function() {
             taskDiv.innerHTML += `<button class="toggle-solution-btn mt-4 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500 transition-colors">Lösung anzeigen</button>`;
             container.appendChild(taskDiv);
         });
+        
+        // Add event listeners to the new buttons
         container.querySelectorAll('.toggle-solution-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const solution = e.target.parentElement.querySelector('.solution');
-                const isVisible = solution.style.display === 'block';
-                solution.style.display = isVisible ? 'none' : 'block';
-                e.target.textContent = isVisible ? 'Lösung anzeigen' : 'Lösung verbergen';
+                // Find all solution elements within the same task card
+                const solutions = e.target.parentElement.querySelectorAll('.solution');
+                if (solutions.length > 0) {
+                    // Check visibility of the first solution to determine the action
+                    const isVisible = solutions[0].style.display === 'block';
+                    // Toggle all solutions
+                    solutions.forEach(solution => {
+                        solution.style.display = isVisible ? 'none' : 'block';
+                    });
+                    // Update button text
+                    e.target.textContent = isVisible ? 'Lösung anzeigen' : 'Lösung verbergen';
+                }
             });
         });
+
         if (window.MathJax) MathJax.typesetPromise([container]);
     }
 
