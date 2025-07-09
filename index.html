@@ -234,31 +234,28 @@
         </div>
 
         <!-- Subject Hub View -->
-        <div id="subject-hub" class="subject-view">
-            <header class="text-center mb-12 relative">
-                 <button id="logout-btn" class="absolute top-0 right-0 px-4 py-2 bg-red-800/80 text-white rounded-lg hover:bg-red-700 transition-colors">Logout</button>
-                <h1 class="text-5xl font-bold text-white">Lerntool</h1>
-                <p class="text-xl text-gray-400 mt-2">Wähle dein Fach aus</p>
-            </header>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-subject="ccn">
                     <h2 class="text-3xl font-bold text-cyan-400">CCN</h2>
                     <p class="text-gray-300 mt-2">Computer & Communication Networks</p>
+                    <p class="text-gray-400 mt-4 exam-countdown" data-subject-id="ccn"></p>
                 </div>
                 <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-subject="mafi2">
                     <h2 class="text-3xl font-bold text-cyan-400">Mafi 2</h2>
                     <p class="text-gray-300 mt-2">Mathe für Informatiker 2</p>
+                    <p class="text-gray-400 mt-4 exam-countdown" data-subject-id="mafi2"></p>
                 </div>
                 <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-subject="insi">
                     <h2 class="text-3xl font-bold text-cyan-400">Insi</h2>
                     <p class="text-gray-300 mt-2">Informationssicherheit</p>
+                    <p class="text-gray-400 mt-4 exam-countdown" data-subject-id="insi"></p>
                 </div>
                 <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-subject="aud">
                     <h2 class="text-3xl font-bold text-cyan-400">AuD</h2>
                     <p class="text-gray-300 mt-2">Algorithmen und Datenstrukturen</p>
+                    <p class="text-gray-400 mt-4 exam-countdown" data-subject-id="aud"></p>
                 </div>
             </div>
-        </div>
 
         <!-- CCN App View -->
         <div id="ccn-app" class="subject-view">
@@ -1180,6 +1177,48 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+
+    const examDates = {
+        'ccn': new Date(2025, 7, 4),
+        'mafi2': new Date(2025, 7, 7),
+        'insi': new Date(2025, 7, 22),
+        'aud': new Date(2025, 7, 14)
+    };
+
+    function updateExamCountdowns() {
+        const countdownElements = document.querySelectorAll('.exam-countdown');
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Wichtig für eine saubere Tagesdifferenz
+        console.log(today);
+
+        countdownElements.forEach(el => {
+            const subjectId = el.dataset.subjectId;
+            const examDate = examDates[subjectId];
+
+            if (examDate) {
+                const diffTime = examDate.getTime() - today.getTime();
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffDays < 0) {
+                    el.textContent = "Klausur vorbei";
+                } else if (diffDays === 0) {
+                    el.textContent = "Heute!";
+                    el.classList.add('text-red-500', 'font-bold');
+                } else if (diffDays === 1) {
+                    el.textContent = "Morgen!";
+                     el.classList.add('text-red-500', 'font-bold');
+                }
+                else {
+                    el.textContent = `${diffDays} Tage verbleibend`;
+                    if (diffDays <= 7) {
+                        el.classList.add('text-red-500', 'font-bold');
+                    } else {
+                        el.classList.remove('text-red-500', 'font-bold');
+                    }
+                }
+            }
+        });
+    }
     
     // A robust parser for mathematical expressions from strings.
     const simpleMathParser = {
@@ -1615,6 +1654,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- INITIALIZATION ---
     function init() {
+        updateExamCountdowns();
+
         // Login Logic
         if (loginForm) {
             loginForm.addEventListener('submit', function(event) {
