@@ -177,7 +177,6 @@ function setupAud() {
 
 
     // --- STACK & QUEUE ---
-    // ... (Code für Stack & Queue bleibt unverändert) ...
     const stackInput = document.getElementById('stack-input');
     const stackPushBtn = document.getElementById('stack-push-btn');
     const stackPopBtn = document.getElementById('stack-pop-btn');
@@ -245,7 +244,6 @@ function setupAud() {
     updateQueue();
 
     // --- BINARY SEARCH TREE ---
-    // ... (Code für BST und AVL bleibt unverändert) ...
     const bstInput = document.getElementById('bst-input');
     const bstInsertBtn = document.getElementById('bst-insert-btn');
     const bstSearchBtn = document.getElementById('bst-search-btn');
@@ -775,7 +773,6 @@ function setupAud() {
 
 
     // --- EXERCISE GENERATOR ---
-    // ... (Code für Übungsgenerator bleibt unverändert) ...
     const generateAudExercisesBtn = document.getElementById('generate-aud-exercises-btn');
     const audExercisesContainer = document.getElementById('aud-exercises-container');
 
@@ -812,7 +809,7 @@ function setupAud() {
             const solution = "Die korrekten Antworten sind markiert. " + (item.options.find(o=>o.expl)?.expl || '');
 
             return {
-                title: 'Aufgabe 1: Multiple Choice (Wissen)',
+                title: 'Aufgabe: Multiple Choice (Wissen)',
                 question: `<p class="mb-4">${item.q}</p><div class="space-y-2">${optionsHTML}</div>`,
                 solution
             };
@@ -821,23 +818,23 @@ function setupAud() {
         createComplexityTask() {
             const functions = [
                 {
-                    code: `static void proc(int n) {\n  for (int a=0; a < n; a++) {\n    for (int b=1; b < n; b++) {\n      tuwas(n);\n    }\n  }\n}`,
+                    code: `static void proc(int n) {\\n  for (int a=0; a < n; a++) {\\n    for (int b=1; b < n; b++) {\\n      tuwas(n);\\n    }\\n  }\\n}`,
                     calls_n4: "4 * 3 = 12",
                     calls_n: "n * (n-1)",
-                    complexity: "O(n² * n) = O(n³)"
+                    complexity: "O(n²)"
                 },
                 {
-                    code: `static void proc(int n) {\n  if (n > 1) {\n    tuwas(n);\n    proc(n/2);\n    proc(n/2);\n  }\n}`,
-                    calls_n4: "1 (n=4) + 2*(n=2) = 3",
-                    calls_n: "n - 1",
-                    complexity: "O(n * n) = O(n²)"
+                    code: `static void proc(int n) {\\n  if (n > 1) {\\n    tuwas(n);\\n    proc(n/2);\\n    proc(n/2);\\n  }\\n}`,
+                    calls_n4: "1 (n=4) + 2*(n=2) + 4*(n=1) = 7", // korrigiert
+                    calls_n: "2^log2(n) - 1 = n - 1",
+                    complexity: "O(n)"
                 }
             ];
             const item = this.getRandomElement(functions);
             return {
-                title: 'Aufgabe 2: Komplexität & Rekursion',
-                question: `Bestimmen Sie für die folgende Prozedur (Annahme: \`tuwas(n)\` hat die Komplexität O(n)):
-                           <div class="code-block my-4">${item.code}</div>
+                title: 'Aufgabe: Komplexität & Rekursion',
+                question: `Bestimmen Sie für die folgende Prozedur (Annahme: \`tuwas()\` hat die Komplexität O(1)):
+                           <div class="code-block my-4">${item.code.replace(/\\n/g, '\\n<br>')}</div>
                            Füllen Sie die folgende Tabelle aus:
                            <table class="w-full text-left mt-2"><thead><tr><th class="p-2 border">Anzahl Aufrufe für n=4</th><th class="p-2 border">Aufrufe als Funktion von n</th><th class="p-2 border">Zeitkomplexität</th></tr></thead>
                            <tbody><tr><td class="p-2 border">?</td><td class="p-2 border">?</td><td class="p-2 border">?</td></tr></tbody></table>`,
@@ -849,26 +846,197 @@ function setupAud() {
         createCodeCompletionTasks() {
             return [
                 {
-                    title: "Aufgabe 3: Listen",
-                    question: `<p class="mb-2">Vervollständigen Sie die Methode \`enqueue\`, welche eine Person am Ende der Warteschlange (einfach verkettete Liste ohne \`ende\`-Zeiger) einfügt.</p><pre class="code-block">public void enqueue (Person p) {\n  assert (p!= null);\n  Link&lt;Person&gt; neu = new Link&lt;&gt;(p, null);\n  // TODO: Fügen Sie hier Ihre Lösung ein\n}</pre>`,
-                    solution: `<pre class="solution-code">public void enqueue (Person p) {\n  assert (p!= null);\n  Link&lt;Person&gt; neu = new Link&lt;&gt;(p, null);\n  if (anfang == null) {\n    anfang = neu;\n  } else {\n    Link&lt;Person&gt; current = anfang;\n    while (current.naechster != null) {\n      current = current.naechster;\n    }\n    current.naechster = neu;\n  }\n}</pre>`
+                    title: "Aufgabe: Listen",
+                    question: `<p class="mb-2">Vervollständigen Sie die Methode \`enqueue\`, welche eine Person am Ende der Warteschlange (einfach verkettete Liste ohne \`ende\`-Zeiger) einfügt.</p><pre class="code-block">public void enqueue (Person p) {\\n  assert (p!= null);\\n  Link&lt;Person&gt; neu = new Link&lt;&gt;(p, null);\\n  // TODO: Fügen Sie hier Ihre Lösung ein\\n}</pre>`,
+                    solution: `<pre class="solution-code">public void enqueue (Person p) {\\n  assert (p!= null);\\n  Link&lt;Person&gt; neu = new Link&lt;&gt;(p, null);\\n  if (anfang == null) {\\n    anfang = neu;\\n  } else {\\n    Link&lt;Person&gt; current = anfang;\\n    while (current.naechster != null) {\\n      current = current.naechster;\\n    }\\n    current.naechster = neu;\\n  }\\n}</pre>`
                 },
                 {
-                    title: "Aufgabe 4: Binäre Suchbäume",
-                    question: `<p class="mb-2">Vervollständigen Sie die Methode \`maximum\`, die iterativ den größten Schlüssel im Suchbaum bestimmt. Ist der Baum leer, soll -1 zurückgegeben werden.</p><pre class="code-block">public int maximum() {\n  // TODO: Fügen Sie hier Ihre Lösung ein\n}</pre>`,
-                    solution: `<pre class="solution-code">public int maximum() {\n  if (wurzel == null) {\n    return -1;\n  }\n  Knoten current = wurzel;\n  while (current.rechtesKind != null) {\n    current = current.rechtesKind;\n  }\n  return current.schluessel;\n}</pre>`
+                    title: "Aufgabe: Binäre Suchbäume",
+                    question: `<p class="mb-2">Vervollständigen Sie die Methode \`maximum\`, die iterativ den größten Schlüssel im Suchbaum bestimmt. Ist der Baum leer, soll -1 zurückgegeben werden.</p><pre class="code-block">public int maximum() {\\n  // TODO: Fügen Sie hier Ihre Lösung ein\\n}</pre>`,
+                    solution: `<pre class="solution-code">public int maximum() {\\n  if (wurzel == null) {\\n    return -1;\\n  }\\n  Knoten current = wurzel;\\n  while (current.rechtesKind != null) {\\n    current = current.rechtesKind;\\n  }\\n  return current.schluessel;\\n}</pre>`
+                },
+                {
+                    title: "Aufgabe: AVL-Bäume",
+                    question: `<p class="mb-2">Vervollständigen Sie die Methode \`istAVL\`, die rekursiv prüft, ob ein Baum die AVL-Eigenschaft erfüllt. Sie soll die Höhe des Baumes zurückgeben, wenn er ein AVL-Baum ist, und -1, wenn nicht.</p><pre class="code-block">private int istAVL (Knoten k) {\\n  // TODO: Fügen Sie hier Ihre Lösung ein\\n}</pre>`,
+                    solution: `<pre class="solution-code">private int istAVL (Knoten k) {\\n  if (k == null) {\\n    return 0; // Leerer Baum hat Höhe 0 und ist AVL\\n  }\\n\\n  int hoeheLinks = istAVL(k.linkesKind);\\n  if (hoeheLinks == -1) return -1;\\n\\n  int hoeheRechts = istAVL(k.rechtesKind);\\n  if (hoeheRechts == -1) return -1;\\n\\n  if (Math.abs(hoeheLinks - hoeheRechts) > 1) {\\n    return -1; // Verletzung der AVL-Bedingung\\n  }\\n\\n  return 1 + Math.max(hoeheLinks, hoeheRechts);\\n}</pre>`
                 }
             ];
+        },
+
+        createSortTraceTask() {
+            const arr = Array.from({length: 5}, () => this.getRandomInt(10, 99));
+            const initialArr = [...arr];
+            let solutionHTML = `<table class="w-full text-left mt-2"><thead><tr><th class="p-2 border">Nach Iteration i</th><th class="p-2 border">Zustand des Feldes</th></tr></thead><tbody>`;
+            solutionHTML += `<tr><td class="p-2 border">Start</td><td class="p-2 border font-mono">[${initialArr.join(', ')}]</td></tr>`;
+
+            for (let i = 1; i < arr.length; i++) {
+                let key = arr[i];
+                let j = i - 1;
+                while (j >= 0 && arr[j] > key) {
+                    arr[j + 1] = arr[j];
+                    j = j - 1;
+                }
+                arr[j + 1] = key;
+                solutionHTML += `<tr><td class="p-2 border">${i}</td><td class="p-2 border font-mono">[<span class="text-cyan-400">${arr.slice(0, i + 1).join(', ')}</span> | ${initialArr.slice(i + 1).join(', ')}]</td></tr>`;
+            }
+            solutionHTML += `</tbody></table>`;
+
+            return {
+                title: 'Aufgabe: Sortieren',
+                question: `<p class="mb-2">Wenden Sie <strong>Insertionsort</strong> auf das folgende Feld an. Geben Sie den Zustand des Feldes nach jeder Iteration der äußeren Schleife an.</p><div class="code-block my-4 text-center text-xl">${initialArr.join(' | ')}</div>`,
+                solution: solutionHTML
+            }
+        },
+
+        createHashingTask() {
+            const keys = Array.from({length: 4}, () => this.getRandomInt(1, 40));
+            const tableSize = 7;
+            const table = new Array(tableSize).fill(null);
+            let solutionHTML = `<p>Hash-Funktion: \\(h(k) = k \\pmod{7}\\). Kollisionsstrategie: Quadratisches Sondieren \\( (h(k) + i^2) \\pmod{7} \\).</p><ol class="list-decimal list-inside mt-2">`;
+
+            keys.forEach(key => {
+                let i = 0;
+                let index;
+                let steps = [];
+                while (true) {
+                    index = (key % tableSize + i * i) % tableSize;
+                    steps.push(`Versuch ${i+1}: \\((${key} + ${i*i}) \\pmod{7} = ${index}\\)`);
+                    if (table[index] === null) {
+                        table[index] = key;
+                        break;
+                    }
+                    i++;
+                }
+                solutionHTML += `<li><b>Schlüssel ${key}:</b> ${steps.join(' → ')}. Platziert an Index ${index}.</li>`;
+            });
+
+            let tableHTML = `<div class="grid grid-cols-7 gap-1 mt-4 text-center">`;
+            table.forEach((val, idx) => {
+                tableHTML += `<div class="bg-gray-900 p-2"><div class="text-xs text-gray-400">${idx}</div><div class="font-bold text-lg h-8">${val === null ? '' : val}</div></div>`;
+            });
+            tableHTML += `</div>`;
+            solutionHTML += `</ol><h4 class="font-bold mt-4">Endzustand der Tabelle:</h4>${tableHTML}`;
+
+            return {
+                title: 'Aufgabe: Hashing',
+                question: `<p class="mb-2">Fügen Sie nacheinander die Schlüssel <strong>${keys.join(', ')}</strong> in eine leere Hashtabelle der Größe 7 ein. Verwenden Sie die Hash-Funktion \\(h(k) = k \\pmod{7}\\) und als Kollisionsstrategie das <strong>Quadratische Sondieren</strong>.</p>`,
+                solution: solutionHTML
+            }
+        },
+
+        createGraphTask() {
+            const nodes = [
+                { id: 'A', x: 50, y: 50 },
+                { id: 'B', x: 200, y: 50 },
+                { id: 'C', x: 50, y: 150 },
+                { id: 'D', x: 200, y: 150 },
+                { id: 'E', x: 125, y: 220 }
+            ];
+            const nodeMap = new Map(nodes.map(n => [n.id, n]));
+
+            const edges = [
+                {u: 'A', v: 'B', w: this.getRandomInt(1, 9)}, {u: 'A', v: 'C', w: this.getRandomInt(2, 7)},
+                {u: 'B', v: 'D', w: this.getRandomInt(1, 9)}, {u: 'C', v: 'D', w: this.getRandomInt(2, 8)},
+                {u: 'C', v: 'E', w: this.getRandomInt(3, 10)}, {u: 'D', v: 'E', w: this.getRandomInt(1, 6)}
+            ];
+
+            // Adjazenzliste für Dijkstra erstellen
+            const adj = {};
+            nodes.forEach(n => adj[n.id] = {});
+            edges.forEach(edge => {
+                adj[edge.u][edge.v] = edge.w;
+                adj[edge.v][edge.u] = edge.w;
+            });
+
+            // SVG-Grafik des Graphen erstellen
+            let svgHTML = `<svg width="250" height="270" class="bg-gray-900/50 rounded-md my-4">`;
+            // Kanten zeichnen
+            edges.forEach(edge => {
+                const n1 = nodeMap.get(edge.u);
+                const n2 = nodeMap.get(edge.v);
+                svgHTML += `<line x1="${n1.x}" y1="${n1.y}" x2="${n2.x}" y2="${n2.y}" class="graph-edge" style="stroke: #6b7280; stroke-width: 2;" />`;
+                svgHTML += `<text x="${(n1.x + n2.x)/2 + 5}" y="${(n1.y + n2.y)/2}" class="edge-weight" style="fill: #e5e7eb; font-size: 14px;">${edge.w}</text>`;
+            });
+            // Knoten zeichnen
+            nodes.forEach(node => {
+                svgHTML += `<g class="graph-node">`;
+                svgHTML += `<circle cx="${node.x}" cy="${node.y}" r="15" style="stroke-width: 2px; stroke: #0891b2; fill: #1f2937;" />`;
+                svgHTML += `<text x="${node.x}" y="${node.y + 5}" text-anchor="middle" style="fill: #e5e7eb; font-size: 14px; font-weight: bold;">${node.id}</text>`;
+                svgHTML += `</g>`;
+            });
+            svgHTML += `</svg>`;
+
+            const startNode = 'A';
+
+            // --- Dijkstra's Algorithm zur Lösungsgenerierung ---
+            const dist = {};
+            const prev = {};
+            const pq = new Set(nodes.map(n => n.id));
+            nodes.forEach(n => { dist[n.id] = Infinity; prev[n] = null; });
+            dist[startNode] = 0;
+
+            let solutionHTML = `<table class="w-full text-left mt-2 text-sm"><thead><tr><th class="p-2 border">Markiert</th>`
+                + nodes.map(n => `<th class="p-2 border">${n.id} <br><span class="font-normal">(Länge/Vorg.)</span></th>`).join('')
+                + `</tr></thead><tbody>`;
+
+            while(pq.size > 0) {
+                let u = null;
+                let minDistance = Infinity;
+                for (const node of pq) {
+                    if (dist[node] < minDistance) {
+                        minDistance = dist[node];
+                        u = node;
+                    }
+                }
+
+                if (u === null) break;
+
+                pq.delete(u);
+
+                let rowHTML = `<tr><td class="p-2 border font-bold">${u}</td>`;
+                nodes.forEach(n => {
+                    rowHTML += `<td class="p-2 border font-mono">${dist[n.id] === Infinity ? '∞' : dist[n.id]} / ${prev[n.id] || '-'}</td>`;
+                });
+                rowHTML += `</tr>`;
+                solutionHTML += rowHTML;
+
+
+                for(const v in adj[u]) {
+                    if (pq.has(v)) {
+                        const weight = adj[u][v];
+                        if (dist[u] + weight < dist[v]) {
+                            dist[v] = dist[u] + weight;
+                            prev[v] = u;
+                        }
+                    }
+                }
+            }
+            solutionHTML += `</tbody></table>`;
+
+            return {
+                title: 'Aufgabe: Graphen (Dijkstra)',
+                question: `<p class="mb-2">Führen Sie den <strong>Algorithmus von Dijkstra</strong> auf dem folgenden Graphen aus, um die kürzesten Wege vom Startknoten <strong>A</strong> zu finden. Füllen Sie die Tabelle schrittweise aus.</p>${svgHTML}`,
+                solution: solutionHTML
+            }
         }
     };
 
     function generateAudExercises() {
         if(!audExercisesContainer) return;
         audExercisesContainer.innerHTML = '';
+
+        // --- Generate one of each type ---
+        const codeTasks = AudExerciseGenerator.createCodeCompletionTasks();
+
         const tasks = [
             AudExerciseGenerator.createMultipleChoiceTask(),
             AudExerciseGenerator.createComplexityTask(),
-            ...AudExerciseGenerator.createCodeCompletionTasks()
+            AudExerciseGenerator.createSortTraceTask(),
+            AudExerciseGenerator.createHashingTask(),
+            AudExerciseGenerator.createGraphTask(),
+            codeTasks[0], // List task
+            codeTasks[1], // BST task
+            codeTasks[2], // AVL task
         ];
 
         tasks.forEach(task => {
@@ -876,9 +1044,9 @@ function setupAud() {
             card.className = 'card p-6 rounded-2xl shadow-xl';
             card.innerHTML = `
                 <h3 class="text-xl font-bold text-cyan-400 mb-2">${task.title}</h3>
-                <div class="text-gray-300">${task.question}</div>
+                <div class="text-gray-300">${task.question.replace(/\\n/g, '<br>')}</div>
                 <button class="toggle-solution-btn mt-4 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500 transition-colors">Lösung anzeigen</button>
-                <div class="solution p-4 mt-2 rounded-md">${task.solution}</div>`;
+                <div class="solution p-4 mt-2 rounded-md">${task.solution.replace(/\\n/g, '<br>')}</div>`;
             audExercisesContainer.appendChild(card);
         });
 
