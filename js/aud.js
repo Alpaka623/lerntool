@@ -419,27 +419,19 @@ function setupAud() {
             }
         },
 
-        createCodeCompletionTask() {
-            const tasks = [
+        createCodeCompletionTasks() {
+            return [
                 {
                     title: "Aufgabe 3: Listen",
-                    description: "Vervollständigen Sie die Methode `enqueue`, welche eine Person am Ende der Warteschlange (einfach verkettete Liste ohne `ende`-Zeiger) einfügt.",
-                    code: `public void enqueue (Person p) {\n  assert (p!= null);\n  Link<Person> neu = new Link<>(p, null);\n  // TODO: Fügen Sie hier Ihre Lösung ein\n}`,
-                    solution: `public void enqueue (Person p) {\n  assert (p!= null);\n  Link<Person> neu = new Link<>(p, null);\n  if (anfang == null) {\n    anfang = neu;\n  } else {\n    Link<Person> current = anfang;\n    while (current.naechster != null) {\n      current = current.naechster;\n    }\n    current.naechster = neu;\n  }\n}`
+                    question: `<p class="mb-2">Vervollständigen Sie die Methode \`enqueue\`, welche eine Person am Ende der Warteschlange (einfach verkettete Liste ohne \`ende\`-Zeiger) einfügt.</p><pre class="code-block">public void enqueue (Person p) {\n  assert (p!= null);\n  Link&lt;Person&gt; neu = new Link&lt;&gt;(p, null);\n  // TODO: Fügen Sie hier Ihre Lösung ein\n}</pre>`,
+                    solution: `<pre class="solution-code">public void enqueue (Person p) {\n  assert (p!= null);\n  Link&lt;Person&gt; neu = new Link&lt;&gt;(p, null);\n  if (anfang == null) {\n    anfang = neu;\n  } else {\n    Link&lt;Person&gt; current = anfang;\n    while (current.naechster != null) {\n      current = current.naechster;\n    }\n    current.naechster = neu;\n  }\n}</pre>`
                 },
                 {
                     title: "Aufgabe 4: Binäre Suchbäume",
-                    description: "Vervollständigen Sie die Methode `maximum`, die iterativ den größten Schlüssel im Suchbaum bestimmt. Ist der Baum leer, soll -1 zurückgegeben werden.",
-                    code: `public int maximum() {\n  // TODO: Fügen Sie hier Ihre Lösung ein\n}`,
-                    solution: `public int maximum() {\n  if (wurzel == null) {\n    return -1;\n  }\n  Knoten current = wurzel;\n  while (current.rechtesKind != null) {\n    current = current.rechtesKind;\n  }\n  return current.schluessel;\n}`
+                    question: `<p class="mb-2">Vervollständigen Sie die Methode \`maximum\`, die iterativ den größten Schlüssel im Suchbaum bestimmt. Ist der Baum leer, soll -1 zurückgegeben werden.</p><pre class="code-block">public int maximum() {\n  // TODO: Fügen Sie hier Ihre Lösung ein\n}</pre>`,
+                    solution: `<pre class="solution-code">public int maximum() {\n  if (wurzel == null) {\n    return -1;\n  }\n  Knoten current = wurzel;\n  while (current.rechtesKind != null) {\n    current = current.rechtesKind;\n  }\n  return current.schluessel;\n}</pre>`
                 }
             ];
-            const item = this.getRandomElement(tasks);
-            return {
-                title: item.title,
-                question: `<p class="mb-2">${item.description}</p><div class="code-block">${item.code}</div>`,
-                solution: `<div class="solution-code">${item.solution}</div>`
-            }
         }
     };
 
@@ -448,7 +440,7 @@ function setupAud() {
         const tasks = [
             AudExerciseGenerator.createMultipleChoiceTask(),
             AudExerciseGenerator.createComplexityTask(),
-            AudExerciseGenerator.createCodeCompletionTask()
+            ...AudExerciseGenerator.createCodeCompletionTasks()
         ];
 
         tasks.forEach(task => {
