@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const topologyDescriptionBox = document.getElementById('topology-description-box');
     const encodingChartBtn = document.getElementById('update-encoding-chart');
     const routingSimulateBtn = document.getElementById('routing-simulate-btn');
-
+    let chartInterval;
 
     // --- DATA & STATE (for CCN Module) ---
     const layerDescriptions = {

@@ -41,37 +41,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     updateExamCountdowns();
 
-    const loginForm = document.getElementById('login-form');
-    const loginError = document.getElementById('login-error');
-    const logoutBtn = document.getElementById('logout-btn');
-    const loginView = document.getElementById('login-view');
-    const subjectHub = document.getElementById('subject-hub');
-
-    if (loginForm) {
-        loginForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            if (username === 'nhani' && password === 'jenin') {
-                loginView.classList.remove('active');
-                subjectHub.classList.add('active');
-                if (loginError) loginError.classList.add('hidden');
-                loginForm.reset();
-            } else {
-                if (loginError) loginError.classList.remove('hidden');
-                document.getElementById('password').value = '';
-            }
-        });
-    }
-
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-            subjectHub.classList.remove('active');
-            loginView.classList.add('active');
-        });
-    }
-
     document.body.addEventListener('click', function(event) {
         const card = event.target.closest('.subject-card');
         if (card && card.dataset.link) {
