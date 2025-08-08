@@ -1,10 +1,9 @@
-document.addEventListener('DOMContentLoaded', function(){
-    sessionStorage.setItem('selectedSemester', '2');
-    const backBtn = document.querySelector('.back-to-hub-btn');
-    if (backBtn) backBtn.addEventListener('click', () => { window.location.href = 'index.html'; });
-    setupCcn();
-});
-    // --- CCN SELECTORS ---
+(() => {
+sessionStorage.setItem('selectedSemester', '2');
+const backBtn = document.querySelector('.back-to-hub-btn');
+if (backBtn) backBtn.addEventListener('click', () => { window.dispatchEvent(new CustomEvent('navigate-back')); });
+
+// --- CCN SELECTORS ---
     const navButtons = document.querySelectorAll('.nav-button');
     const contentSections = document.querySelectorAll('.content-section');
     const protocolSelectorButtons = document.querySelectorAll('#protocol-selector button');
@@ -936,9 +935,12 @@ document.addEventListener('DOMContentLoaded', function(){
             }
         });
 
-        if (bestMatch) {
-            bestMatch.classList.add('highlight');
-        }
+    if (bestMatch) {
+        bestMatch.classList.add('highlight');
     }
+}
+
+setupCcn();
+})();
 
 

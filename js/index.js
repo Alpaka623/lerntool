@@ -9,9 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const semesterHub = document.getElementById('semester-hub');
     const subjectHub = document.getElementById('subject-hub');
     const comingSoon = document.getElementById('coming-soon');
+    const dynamicContent = document.getElementById('dynamic-content');
 
     function showView(view) {
-        [semesterHub, subjectHub, comingSoon].forEach(v => v.classList.remove('active'));
+        [semesterHub, subjectHub, comingSoon, dynamicContent].forEach(v => v.classList.remove('active'));
         view.classList.add('active');
     }
 
@@ -57,6 +58,50 @@ document.addEventListener('DOMContentLoaded', function() {
 
     updateExamCountdowns();
 
+    function loadPage(url) {
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const scripts = Array.from(doc.querySelectorAll('script'));
+                scripts.forEach(s => s.parentNode.removeChild(s));
+                dynamicContent.innerHTML = doc.body.innerHTML;
+
+                function loadScriptsSequentially(index = 0) {
+                    if (index >= scripts.length) {
+                        showView(dynamicContent);
+                        return;
+                    }
+
+                    const s = scripts[index];
+                    const newScript = document.createElement('script');
+                    if (s.id) newScript.id = s.id;
+                    if (s.type) newScript.type = s.type;
+                    newScript.async = false;
+
+                    if (s.src) {
+                        newScript.src = s.src;
+                        newScript.onload = () => loadScriptsSequentially(index + 1);
+                        newScript.onerror = () => loadScriptsSequentially(index + 1);
+                        dynamicContent.appendChild(newScript);
+                    } else {
+                        newScript.textContent = s.textContent;
+                        dynamicContent.appendChild(newScript);
+                        loadScriptsSequentially(index + 1);
+                    }
+                }
+
+                loadScriptsSequentially();
+            })
+            .catch(err => console.error('Fehler beim Laden der Seite:', err));
+    }
+
+    window.addEventListener('navigate-back', () => {
+        dynamicContent.innerHTML = '';
+        showView(subjectHub);
+    });
+
     document.body.addEventListener('click', function(event) {
         const semesterCard = event.target.closest('.semester-card');
         if (semesterCard) {
@@ -78,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const card = event.target.closest('.subject-card');
         if (card && card.dataset.link) {
-            window.location.href = card.dataset.link;
+            loadPage(card.dataset.link);
         }
     });
 });
