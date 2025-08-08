@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function showView(view) {
         [semesterHub, subjectHub, comingSoon, dynamicContent].forEach(v => v.classList.remove('active'));
         view.classList.add('active');
+        initAnimations(view);
     }
 
     const storedSemester = sessionStorage.getItem('selectedSemester');
