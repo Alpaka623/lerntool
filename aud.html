@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="css/styles.css">
     <style>
         .bar { transition: all 0.3s ease-in-out; }
-        .code-block { background-color: #2d3748; border-radius: 0.5rem; padding: 1rem; font-family: 'Courier New', Courier, monospace; white-space: pre-wrap; }
-        .solution-code { background-color: #1a202c; border-left: 4px solid #0891b2; padding: 1rem; margin-top: 1rem; }
+        .code-block { background-color: #2d3748; border-radius: 0.5rem; padding: 1rem; font-family: 'Courier New', Courier, monospace; white-space: pre; }
+        .solution-code { background-color: #1a202c; border-left: 4px solid #0891b2; padding: 1rem; margin-top: 1rem; border-radius: 0.5rem; font-family: 'Courier New', Courier, monospace; white-space: pre; }
     </style>
 </head>
 <body class="text-gray-200">
@@ -136,17 +136,27 @@
             </section>
 
             <section id="aud-baeume" class="aud-content-section">
-                <div class="card p-6 rounded-2xl shadow-2xl">
-                    <h2 class="text-3xl font-bold text-cyan-400 mb-4">Binärer Suchbaum (BST)</h2>
-                    <p class="mb-4 text-gray-300">Ein Binärer Suchbaum ist eine fundamentale Baum-Datenstruktur. Für jeden Knoten gilt die <strong>Suchbaum-Eigenschaft</strong>: Alle Werte im linken Teilbaum sind kleiner als der Wert des Knotens, und alle Werte im rechten Teilbaum sind größer. Diese Eigenschaft ermöglicht eine sehr effiziente Suche, die im Durchschnitt eine Komplexität von \(O(\log n)\) hat. Im schlechtesten Fall (wenn der Baum zu einer Liste degeneriert) kann die Suche jedoch \(O(n)\) dauern. Um dies zu verhindern, werden balancierte Bäume wie AVL-Bäume oder B-Bäume verwendet.</p>
-                    <div class="flex gap-2 mb-4">
-                        <input type="number" id="bst-input" placeholder="Zahl..." class="w-32 px-3 py-2 rounded-md shadow-sm">
-                        <button id="bst-insert-btn" class="px-4 py-2 bg-cyan-700 text-white rounded-lg hover:bg-cyan-600">Einfügen</button>
-                        <button id="bst-search-btn" class="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-500">Suchen</button>
-                        <button id="bst-reset-btn" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500">Reset</button>
+                <div class="space-y-8">
+                    <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Binärer Suchbaum (BST)</h2>
+                        <p class="mb-4 text-gray-300">Ein Binärer Suchbaum ist eine fundamentale Baum-Datenstruktur. Für jeden Knoten gilt die <strong>Suchbaum-Eigenschaft</strong>: Alle Werte im linken Teilbaum sind kleiner als der Wert des Knotens, und alle Werte im rechten Teilbaum sind größer. Diese Eigenschaft ermöglicht eine sehr effiziente Suche, die im Durchschnitt eine Komplexität von \(O(\log n)\) hat. Im schlechtesten Fall (wenn der Baum zu einer Liste degeneriert) kann die Suche jedoch \(O(n)\) dauern. Um dies zu verhindern, werden balancierte Bäume wie AVL-Bäume oder B-Bäume verwendet.</p>
+                        <div class="flex gap-2 mb-4">
+                            <input type="number" id="bst-input" placeholder="Zahl..." class="w-32 px-3 py-2 rounded-md shadow-sm">
+                            <button id="bst-insert-btn" class="px-4 py-2 bg-cyan-700 text-white rounded-lg hover:bg-cyan-600">Einfügen</button>
+                            <button id="bst-search-btn" class="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-500">Suchen</button>
+                            <button id="bst-reset-btn" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500">Reset</button>
+                        </div>
+                        <div id="bst-container" class="w-full min-h-64 bg-gray-800/50 p-4 rounded-lg overflow-x-auto relative">
+                            <p class="text-center text-gray-400">Füge Zahlen hinzu, um den Baum aufzubauen.</p>
+                        </div>
                     </div>
-                    <div id="bst-container" class="w-full min-h-64 bg-gray-800/50 p-4 rounded-lg overflow-x-auto relative">
-                        <p class="text-center text-gray-400">Füge Zahlen hinzu, um den Baum aufzubauen.</p>
+                    <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">AVL-Bäume</h2>
+                        <p class="mb-4 text-gray-300">AVL-Bäume sind selbstbalancierende Binärbäume. Für jeden Knoten unterscheidet sich die Höhe der beiden Teilbäume höchstens um eins. Durch Rotationen wird diese Balance nach Einfüge- oder Löschoperationen wiederhergestellt, wodurch die Höhe des Baumes immer \(O(\log n)\) bleibt.</p>
+                    </div>
+                    <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">B-Bäume</h2>
+                        <p class="mb-4 text-gray-300">B-Bäume sind mehrwegige Suchbäume und kommen häufig in Datenbanksystemen zum Einsatz. Jeder Knoten kann mehrere Schlüssel und Kinder besitzen, wodurch sich die Höhe des Baumes reduziert und Einfüge- sowie Löschoperationen effizient bleiben.</p>
                     </div>
                 </div>
             </section>
