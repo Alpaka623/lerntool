@@ -1,9 +1,6 @@
-document.addEventListener('DOMContentLoaded', function(){
-    sessionStorage.setItem('selectedSemester', '2');
-    const backBtn = document.querySelector('.back-to-hub-btn');
-    if (backBtn) backBtn.addEventListener('click', () => { window.location.href = 'index.html'; });
-    setupInsi();
-});
+sessionStorage.setItem('selectedSemester', '2');
+const backBtn = document.querySelector('.back-to-hub-btn');
+if (backBtn) backBtn.addEventListener('click', () => { window.dispatchEvent(new CustomEvent('navigate-back')); });
 
 const insiNavButtons = document.querySelectorAll('.insi-nav-button');
 const insiContentSections = document.querySelectorAll('.insi-content-section');
@@ -298,4 +295,6 @@ const exercisesContainer = document.getElementById('exercises-container');
             MathJax.typesetPromise(Array.from(exercisesContainer.children));
         }
     }
+
+setupInsi();
     

@@ -1,17 +1,15 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // --- GENERAL SETUP ---
-    sessionStorage.setItem('selectedSemester', '2');
-    const backBtn = document.querySelector('.back-to-hub-btn');
-    if (backBtn) {
-        backBtn.addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
-    }
+// --- GENERAL SETUP ---
+sessionStorage.setItem('selectedSemester', '2');
+const backBtn = document.querySelector('.back-to-hub-btn');
+if (backBtn) {
+    backBtn.addEventListener('click', () => {
+        window.dispatchEvent(new CustomEvent('navigate-back'));
+    });
+}
 
-    if (document.getElementById('aud-app')) {
-        setupAud();
-    }
-});
+if (document.getElementById('aud-app')) {
+    setupAud();
+}
 
 
 function setupAud() {

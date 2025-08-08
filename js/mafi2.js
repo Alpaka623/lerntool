@@ -1,9 +1,7 @@
-document.addEventListener('DOMContentLoaded', function(){
-    sessionStorage.setItem('selectedSemester', '2');
-    const backBtn = document.querySelector('.back-to-hub-btn');
-    if (backBtn) backBtn.addEventListener('click', () => { window.location.href = 'index.html'; });
-    setupMafi2();
-});
+sessionStorage.setItem('selectedSemester', '2');
+const backBtn = document.querySelector('.back-to-hub-btn');
+if (backBtn) backBtn.addEventListener('click', () => { window.dispatchEvent(new CustomEvent('navigate-back')); });
+
 
     const simpleMathParser = {
         parse: function(expr) {
@@ -485,6 +483,8 @@ const eulerAngleSlider = document.getElementById('euler-angle-slider');
             });
         });
 
-        if (window.MathJax) MathJax.typesetPromise([container]);
-    }
+    if (window.MathJax) MathJax.typesetPromise([container]);
+}
+
+setupMafi2();
 
