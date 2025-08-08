@@ -6,6 +6,15 @@ document.addEventListener('DOMContentLoaded', function() {
         'aud': new Date(2025, 7, 14)
     };
 
+    const semesterHub = document.getElementById('semester-hub');
+    const subjectHub = document.getElementById('subject-hub');
+    const comingSoon = document.getElementById('coming-soon');
+
+    function showView(view) {
+        [semesterHub, subjectHub, comingSoon].forEach(v => v.classList.remove('active'));
+        view.classList.add('active');
+    }
+
     function updateExamCountdowns() {
         const countdownElements = document.querySelectorAll('.exam-countdown');
         const today = new Date();
@@ -42,6 +51,21 @@ document.addEventListener('DOMContentLoaded', function() {
     updateExamCountdowns();
 
     document.body.addEventListener('click', function(event) {
+        const semesterCard = event.target.closest('.semester-card');
+        if (semesterCard) {
+            if (semesterCard.dataset.semester === '2') {
+                showView(subjectHub);
+            } else {
+                showView(comingSoon);
+            }
+            return;
+        }
+
+        if (event.target.closest('.back-button')) {
+            showView(semesterHub);
+            return;
+        }
+
         const card = event.target.closest('.subject-card');
         if (card && card.dataset.link) {
             window.location.href = card.dataset.link;
