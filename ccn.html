@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCN - Lerntool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/1599/1599145.png">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="text-gray-200">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
+        <div id="ccn-app" class="subject-view">
+            <header class="text-center mb-12 relative">
+                <button class="back-to-hub-btn absolute top-0 left-0 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">&larr; Zurück</button>
+                <h1 class="text-5xl font-bold text-white">CCN Klausur-Lerntool</h1>
+                <p class="text-xl text-gray-400 mt-2">Dein interaktiver Lernassistent</p>
+            </header>
+
+            <nav class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12">
+                <button data-target="grundlagen" class="nav-button active font-semibold py-2 px-5 rounded-full">Grundlagen</button>
+                <button data-target="technologien" class="nav-button font-semibold py-2 px-5 rounded-full">Konzepte & Technologien</button>
+                <button data-target="header" class="nav-button font-semibold py-2 px-5 rounded-full">Protokoll-Header</button>
+                <button data-target="berechnungen" class="nav-button font-semibold py-2 px-5 rounded-full">Berechnungen</button>
+                <button data-target="prozesse" class="nav-button font-semibold py-2 px-5 rounded-full">Prozessabläufe</button>
+                <button data-target="anwendungen" class="nav-button font-semibold py-2 px-5 rounded-full">Anwendungsprotokolle</button>
+                <button data-target="vergleiche" class="nav-button font-semibold py-2 px-5 rounded-full">Vergleiche</button>
+            </nav>
+
+            <main>
+                <!-- SECTION: Grundlagen -->
+                <section id="grundlagen" class="content-section active">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                            <h2 class="text-3xl font-bold text-cyan-400 mb-4">Das OSI-Modell & Datenkapselung</h2>
+                            <p class="mb-6 text-gray-300">Ein zentrales Konzept der Netzwerkkommunikation ist die Schichtung von Aufgaben. Klicken Sie auf eine Schicht, um mehr über ihre spezifische Rolle zu erfahren.</p>
+                            
+                            <div class="flex flex-col items-center space-y-2" id="osi-model-container">
+                                <div class="osi-layer text-center p-3 w-full max-w-lg bg-blue-900/50 border-l-4 border-blue-400 rounded-lg" data-layer="7">
+                                    <span class="font-bold text-white">7. Application</span>
+                                </div>
+                                <div class="text-2xl text-gray-500">↓</div>
+                                <div class="osi-layer text-center p-3 w-full max-w-lg bg-green-900/50 border-l-4 border-green-400 rounded-lg" data-layer="6">
+                                    <span class="font-bold text-white">6. Presentation</span>
+                                </div>
+                                <div class="text-2xl text-gray-500">↓</div>
+                                <div class="osi-layer text-center p-3 w-full max-w-lg bg-purple-900/50 border-l-4 border-purple-400 rounded-lg" data-layer="5">
+                                     <span class="font-bold text-white">5. Session</span>
+                                </div>
+                                <div class="text-2xl text-gray-500">↓</div>
+                                <div class="osi-layer text-center p-3 w-full max-w-lg bg-indigo-900/50 border-l-4 border-indigo-400 rounded-lg" data-layer="4">
+                                     <span class="font-bold text-white">4. Transport</span>
+                                </div>
+                                <div class="text-2xl text-gray-500">↓</div>
+                                 <div class="osi-layer text-center p-3 w-full max-w-lg bg-teal-900/50 border-l-4 border-teal-400 rounded-lg" data-layer="3">
+                                    <span class="font-bold text-white">3. Network</span>
+                                </div>
+                                <div class="text-2xl text-gray-500">↓</div>
+                                <div class="osi-layer text-center p-3 w-full max-w-lg bg-pink-900/50 border-l-4 border-pink-400 rounded-lg" data-layer="2">
+                                   <span class="font-bold text-white">2. Data Link</span>
+                                </div>
+                                <div class="text-2xl text-gray-500">↓</div>
+                                <div class="osi-layer text-center p-3 w-full max-w-lg bg-gray-700/50 border-l-4 border-gray-400 rounded-lg" data-layer="1">
+                                    <span class="font-bold text-white">1. Physical</span>
+                                </div>
+                            </div>
+                            <div id="layer-description-box" class="mt-6 p-4 bg-gray-800/70 rounded-lg border border-gray-700 min-h-[80px]"></div>
+                        </div>
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                            <h2 class="text-3xl font-bold text-cyan-400 mb-4">Netzwerk-Klassifizierung</h2>
+                            <p class="mb-6 text-gray-300">Netzwerke können nach verschiedenen Kriterien klassifiziert werden. Die Topologie beschreibt die physikalische oder logische Anordnung der Geräte.</p>
+                             <div class="flex flex-col items-center space-y-2" id="topology-container">
+                                <div class="topology-item text-center p-3 w-full max-w-lg bg-gray-700/50 border-l-4 border-gray-400 rounded-lg" data-topology="bus">
+                                    <span class="font-bold text-white">Bus-Topologie</span>
+                                </div>
+                                <div class="topology-item text-center p-3 w-full max-w-lg bg-gray-700/50 border-l-4 border-gray-400 rounded-lg" data-topology="star">
+                                    <span class="font-bold text-white">Stern-Topologie</span>
+                                </div>
+                                <div class="topology-item text-center p-3 w-full max-w-lg bg-gray-700/50 border-l-4 border-gray-400 rounded-lg" data-topology="ring">
+                                    <span class="font-bold text-white">Ring-Topologie</span>
+                                </div>
+                                <div class="topology-item text-center p-3 w-full max-w-lg bg-gray-700/50 border-l-4 border-gray-400 rounded-lg" data-topology="mesh">
+                                    <span class="font-bold text-white">Mesh-Topologie (Vermascht)</span>
+                                </div>
+                            </div>
+                            <div id="topology-description-box" class="mt-6 p-4 bg-gray-800/70 rounded-lg border border-gray-700 min-h-[120px]"></div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- SECTION: Technologien -->
+                <section id="technologien" class="content-section">
+                    <div class="space-y-8">
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                            <h2 class="text-3xl font-bold text-cyan-400 mb-4">Physikalische Übertragung</h2>
+                            <p class="mb-6 text-gray-300">Die Bitübertragungsschicht (Layer 1) befasst sich damit, wie Bits physikalisch über ein Medium gesendet werden. Leitungscodierung und Multiplexing sind hierbei Schlüsselkonzepte.</p>
+                            <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">Leitungscodierungs-Visualisierer</h3>
+                                <div class="flex items-center gap-4 mb-4 flex-wrap">
+                                    <label for="encoding-input" class="text-gray-400">Bitfolge:</label>
+                                    <input type="text" id="encoding-input" value="010110" class="flex-grow px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 font-mono">
+                                    <button id="update-encoding-chart" class="px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300">Anzeigen</button>
+                                </div>
+                                <div class="chart-container bg-gray-800/50 p-4 rounded-lg h-64">
+                                    <canvas id="encodingChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                             <h2 class="text-3xl font-bold text-cyan-400 mb-4">Hardware & Virtuelle LANs (VLANs)</h2>
+                             <div class="grid md:grid-cols-2 gap-8">
+                                 <div>
+                                     <h3 class="text-xl font-semibold mb-2 text-cyan-300">Kopplungselemente</h3>
+                                     <p class="text-gray-300">Ein <span class="tooltip-term">Hub<span class="tooltip-box">Layer-1-Gerät. Leitet eingehende Signale an alle anderen Ports weiter. Alle angeschlossenen Geräte teilen sich eine Kollisionsdomäne.</span></span> arbeitet auf Layer 1 und leitet Signale einfach an alle Ports weiter. Ein <span class="tooltip-term">Switch<span class="tooltip-box">Layer-2-Gerät. Leitet Frames gezielt an den richtigen Port basierend auf der Ziel-MAC-Adresse weiter. Jeder Port ist eine eigene Kollisionsdomäne.</span></span> arbeitet auf Layer 2 und leitet Daten-Frames intelligent nur an den Zielport weiter, was die Effizienz und Sicherheit erhöht.</p>
+                                 </div>
+                                 <div>
+                                     <h3 class="text-xl font-semibold mb-2 text-cyan-300">VLAN-Konfiguration (Port-basiert)</h3>
+                                     <p class="text-gray-300 mb-4">VLANs segmentieren ein physisches LAN logisch in mehrere Broadcast-Domänen. Klicken Sie auf einen Port, um ihn einem VLAN zuzuweisen.</p>
+                                     <div id="vlan-switch" class="bg-gray-800 p-4 rounded-lg flex justify-around items-center"></div>
+                                     <div class="flex justify-center gap-4 mt-4">
+                                         <button class="vlan-assign-btn px-3 py-1 bg-red-600 rounded" data-vlan="10">VLAN 10</button>
+                                         <button class="vlan-assign-btn px-3 py-1 bg-green-600 rounded" data-vlan="20">VLAN 20</button>
+                                         <button class="vlan-assign-btn px-3 py-1 bg-blue-600 rounded" data-vlan="30">VLAN 30</button>
+                                     </div>
+                                 </div>
+                             </div>
+                        </div>
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                             <h2 class="text-3xl font-bold text-cyan-400 mb-4">Routing & NAT</h2>
+                             <div class="grid md:grid-cols-2 gap-8">
+                                 <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                     <h3 class="text-xl font-semibold mb-2 text-cyan-300">Routing-Tabellen-Simulator</h3>
+                                     <p class="mb-4 text-gray-400 text-sm">Geben Sie eine Ziel-IP ein, um zu sehen, welche Route nach dem "Longest Match"-Prinzip gewählt wird.</p>
+                                     <input type="text" id="routing-dest-ip" placeholder="z.B. 192.168.3.15" class="w-full px-3 py-2 rounded-md shadow-sm mb-2">
+                                     <button id="routing-simulate-btn" class="px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600">Route finden</button>
+                                     <div id="routing-table-container" class="mt-4 overflow-x-auto"></div>
+                                 </div>
+                                 <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                     <h3 class="text-xl font-semibold mb-2 text-cyan-300">Network Address Translation (NAT)</h3>
+                                     <p class="text-gray-300">NAT ermöglicht es Geräten mit privaten IP-Adressen (z.B. aus 192.168.x.x), mit dem Internet zu kommunizieren, indem es ihre private IP-Adresse in eine öffentliche IP-Adresse übersetzt. Meist wird <span class="tooltip-term">PAT<span class="tooltip-box">Port Address Translation. Eine Form von NAT, bei der mehrere private IPs auf eine öffentliche IP abgebildet werden, indem unterschiedliche Portnummern verwendet werden.</span></span> (Port Address Translation) verwendet, um viele interne Geräte über eine einzige öffentliche IP zu "maskieren".</p>
+                                     <div id="nat-explanation" class="mt-4 p-3 bg-gray-900/70 rounded-md text-sm font-mono">
+                                         <p><span class="text-yellow-400">Intern:</span> 192.168.1.10:50000 → <span class="text-green-400">Extern:</span> 203.0.113.5:12345</p>
+                                         <p><span class="text-yellow-400">Intern:</span> 192.168.1.11:50001 → <span class="text-green-400">Extern:</span> 203.0.113.5:12346</p>
+                                     </div>
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION: Header -->
+                <section id="header" class="content-section">
+                     <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Interaktive Protokoll-Header</h2>
+                        <p class="mb-6 text-gray-300">Das Zeichnen von Headern ist eine typische Klausuraufgabe. Wählen Sie ein Protokoll aus und klicken Sie auf die einzelnen Felder, um eine detaillierte Beschreibung ihrer Funktion zu erhalten. Dies hilft, die Struktur und die Aufgaben der Protokolle zu verinnerlichen.</p>
+                        
+                        <div class="flex items-center justify-center gap-4 flex-wrap">
+                            <div id="protocol-selector" class="flex flex-wrap justify-center gap-2 mb-6">
+                                <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-protocol="ethernet">Ethernet II</button>
+                                <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-protocol="ipv4">IPv4</button>
+                                <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-protocol="ipv6">IPv6</button>
+                                <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-protocol="tcp">TCP</button>
+                                <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-protocol="udp">UDP</button>
+                                <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300" data-protocol="icmp">ICMPv4</button>
+                            </div>
+                        </div>
+
+                        <div id="header-display" class="bg-gray-800/50 p-4 rounded-lg border border-gray-700"></div>
+                        <div id="description-box-container" class="mt-4"></div>
+                    </div>
+                </section>
+                
+                <!-- SECTION: Berechnungen -->
+                <section id="berechnungen" class="content-section">
+                    <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Interaktive Rechner</h2>
+                        <p class="mb-6 text-gray-300">Berechnungen sind ein fester Bestandteil der Klausur. Nutzen Sie diese Werkzeuge, um Ihr Verständnis für Kanalkapazität, Fehlererkennung und Adressplanung zu testen und zu festigen. Geben Sie die Werte ein, um die Ergebnisse und Lösungswege zu sehen.</p>
+                        
+                        <div class="space-y-8">
+                            <!-- Kanalkapazität -->
+                            <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">Kanalkapazität (Nyquist/Shannon)</h3>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-400">Bandbreite (B) in Hz</label>
+                                        <input type="number" id="bandwidth" value="3000" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-400">Signalstufen (V)</label>
+                                        <input type="number" id="signal_levels" value="2" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500">
+                                    </div>
+                                    <div class="md:col-span-2">
+                                        <label class="block text-sm font-medium text-gray-400">Signal-Rausch-Verhältnis (SNR) als Faktor (S/N)</label>
+                                        <input type="number" id="snr_ratio" value="1000" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500">
+                                    </div>
+                                </div>
+                                <button id="calculate_capacity" class="mt-4 px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300">Berechnen</button>
+                                <div id="capacity_result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300"></div>
+                            </div>
+
+                            <!-- CRC -->
+                            <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">Cyclic Redundancy Check (CRC)</h3>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-400">Daten (binär)</label>
+                                        <input type="text" id="crc_data" value="1001" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 font-mono">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-400">Generatorpolynom (binär)</label>
+                                        <input type="text" id="crc_poly" value="1011" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 font-mono">
+                                    </div>
+                                </div>
+                                <button id="calculate_crc" class="mt-4 px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300">Berechnen</button>
+                                <div id="crc_result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300 font-mono text-sm overflow-x-auto"></div>
+                            </div>
+
+                             <!-- VLSM -->
+                            <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">Variable Length Subnet Mask (VLSM)</h3>
+                                <div>
+                                     <label class="block text-sm font-medium text-gray-400">Adressblock (z.B. 10.10.0.0/21)</label>
+                                     <input type="text" id="vlsm_block" value="10.10.0.0/21" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500">
+                                </div>
+                                 <div class="mt-2">
+                                     <label class="block text-sm font-medium text-gray-400">Benötigte Hosts pro Subnetz (kommagetrennt)</label>
+                                     <input type="text" id="vlsm_hosts" value="300, 200, 200, 50, 50, 50, 50" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500">
+                                </div>
+                                <button id="calculate_vlsm" class="mt-4 px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300">Berechnen</button>
+                                <div id="vlsm_result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- SECTION: Prozesse -->
+                <section id="prozesse" class="content-section">
+                    <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Visualisierte Prozessabläufe</h2>
+                        <p class="mb-6 text-gray-300">Das Verständnis von Protokollabläufen ist fundamental. Diese interaktiven Diagramme führen Sie schrittweise durch die wichtigsten Kommunikationsprozesse. Klicken Sie auf "Nächster Schritt", um den Ablauf zu verfolgen und die dazugehörigen Erklärungen zu lesen.</p>
+                         
+                        <div id="process-selector" class="flex flex-wrap justify-center gap-2 mb-6">
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600" data-process="tcp-handshake">TCP 3-Wege-Handshake</button>
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600" data-process="tcp-termination">TCP Verbindungsabbau</button>
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600" data-process="tcp-sliding-window">TCP Sliding Window</button>
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600" data-process="arp">ARP-Prozess</button>
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600" data-process="dhcp">DHCP DORA</button>
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600" data-process="ipv6-slaac">IPv6 SLAAC</button>
+                        </div>
+
+                        <div id="process-display" class="bg-gray-800/50 p-4 rounded-lg border border-gray-700 min-h-[300px]"></div>
+                    </div>
+                </section>
+
+                <!-- SECTION: Anwendungsprotokolle -->
+                <section id="anwendungen" class="content-section">
+                     <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Anwendungsprotokolle (Layer 7)</h2>
+                        <p class="mb-6 text-gray-300">Diese Protokolle stellen die Schnittstelle zu den Anwendungen dar, die wir täglich nutzen. Hier werden die Prozesse für die Namensauflösung (DNS) und den Abruf von Webseiten (HTTP/HTTPS) visualisiert.</p>
+                         
+                        <div id="app-process-selector" class="flex flex-wrap justify-center gap-2 mb-6">
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600" data-app-process="dns">DNS Namensauflösung</button>
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600" data-app-process="http">HTTP Request/Response</button>
+                            <button class="px-4 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600" data-app-process="tls">TLS Handshake (HTTPS)</button>
+                        </div>
+
+                        <div id="app-process-display" class="bg-gray-800/50 p-4 rounded-lg border border-gray-700 min-h-[300px]"></div>
+                    </div>
+                </section>
+
+                <!-- SECTION: Vergleiche -->
+                <section id="vergleiche" class="content-section">
+                    <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Protokoll-Vergleiche</h2>
+                        <p class="mb-6 text-gray-300">Das Gegenüberstellen von Protokollen und Konzepten hilft, ihre spezifischen Stärken, Schwächen und Anwendungsfälle zu verstehen.</p>
+
+                        <div class="space-y-8">
+                            <!-- TCP vs UDP & IPv4 vs IPv6 Tables -->
+                            <div class="grid md:grid-cols-2 gap-8">
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-2 text-cyan-300">TCP vs. UDP</h3>
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full text-left border-collapse">
+                                            <thead>
+                                                <tr>
+                                                    <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">Merkmal</th>
+                                                    <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">TCP</th>
+                                                    <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">UDP</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Verbindung</td><td class="border-b border-gray-700 p-3 table-cell">Verbindungsorientiert</td><td class="border-b border-gray-700 p-3 table-cell">Verbindungslos</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Zuverlässigkeit</td><td class="border-b border-gray-700 p-3 table-cell">Hoch (Bestätigungen)</td><td class="border-b border-gray-700 p-3 table-cell">Niedrig (Best Effort)</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Reihenfolge</td><td class="border-b border-gray-700 p-3 table-cell">Garantiert</td><td class="border-b border-gray-700 p-3 table-cell">Nicht garantiert</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Kontrolle</td><td class="border-b border-gray-700 p-3 table-cell">Fluss- & Überlastkontrolle</td><td class="border-b border-gray-700 p-3 table-cell">Keine</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Overhead</td><td class="border-b border-gray-700 p-3 table-cell">Hoch (20+ B Header)</td><td class="border-b border-gray-700 p-3 table-cell">Niedrig (8 B Header)</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="p-3 table-cell">Anwendung</td><td class="p-3 table-cell">HTTP, FTP, E-Mail</td><td class="p-3 table-cell">DNS, VoIP, Gaming</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                 <div>
+                                    <h3 class="text-xl font-semibold mb-2 text-cyan-300">IPv4 vs. IPv6</h3>
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full text-left border-collapse">
+                                            <thead>
+                                                <tr>
+                                                    <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">Merkmal</th>
+                                                    <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">IPv4</th>
+                                                    <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">IPv6</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Adresslänge</td><td class="border-b border-gray-700 p-3 table-cell">32-Bit</td><td class="border-b border-gray-700 p-3 table-cell">128-Bit</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Adressraum</td><td class="border-b border-gray-700 p-3 table-cell">~4.3 Milliarden</td><td class="border-b border-gray-700 p-3 table-cell">~3.4 x 10^38</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Header</td><td class="border-b border-gray-700 p-3 table-cell">Variabel (20-60 B)</td><td class="border-b border-gray-700 p-3 table-cell">Fest (40 B)</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Fragmentierung</td><td class="border-b border-gray-700 p-3 table-cell">Durch Router & Sender</td><td class="border-b border-gray-700 p-3 table-cell">Nur durch Sender</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Prüfsumme</td><td class="border-b border-gray-700 p-3 table-cell">Im Header</td><td class="border-b border-gray-700 p-3 table-cell">Entfernt</td></tr>
+                                                <tr class="hover:bg-gray-700/50 transition-colors"><td class="p-3 table-cell">Konfiguration</td><td class="p-3 table-cell">Manuell / DHCP</td><td class="p-3 table-cell">SLAAC / DHCPv6</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                             <!-- CSMA/CD vs CSMA/CA -->
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">CSMA/CD vs. CSMA/CA</h3>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">Merkmal</th>
+                                                <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">CSMA/CD (Ethernet)</th>
+                                                <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">CSMA/CA (WLAN)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Verfahren</td><td class="border-b border-gray-700 p-3 table-cell">Collision Detection</td><td class="border-b border-gray-700 p-3 table-cell">Collision Avoidance</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Reaktion</td><td class="border-b border-gray-700 p-3 table-cell">Senden, bei Kollision abbrechen</td><td class="border-b border-gray-700 p-3 table-cell">Vor dem Senden auf freies Medium warten</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell">Effizienz</td><td class="border-b border-gray-700 p-3 table-cell">Effektiv in kabelgebundenen Netzen</td><td class="border-b border-gray-700 p-3 table-cell">Notwendig bei Funk (Hidden/Exposed Station)</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="p-3 table-cell">Bestätigung</td><td class="p-3 table-cell">Keine auf Layer 2</td><td class="p-3 table-cell">ACKs für jeden Frame</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- TCP Congestion Control Chart -->
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">TCP Überlastkontrolle: Tahoe vs. Reno</h3>
+                                <p class="mb-4 text-gray-400">Dieses Diagramm zeigt die Entwicklung des Congestion Windows (cwnd) für TCP Tahoe und TCP Reno. Klicken Sie auf "Paketverlust simulieren", um zu sehen, wie die beiden Algorithmen auf drei Duplicate ACKs reagieren – ein Schlüsselunterschied für die Effizienz.</p>
+                                <div class="chart-container bg-gray-800/50 p-4 rounded-lg">
+                                    <canvas id="congestionChart"></canvas>
+                                </div>
+                                <div class="text-center mt-4">
+                                    <button id="simulate_loss" class="px-5 py-2 bg-amber-500 text-white rounded-lg shadow-lg hover:bg-amber-400 transition-all duration-300">Paketverlust simulieren (3 Dup-ACKs)</button>
+                                    <button id="reset_chart" class="ml-2 px-5 py-2 bg-gray-600 text-white rounded-lg shadow-lg hover:bg-gray-500 transition-all duration-300">Zurücksetzen</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+    </div>
+    <script src="js/ccn.js"></script>
+</body>
+</html>
