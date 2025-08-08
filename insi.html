@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insi - Lerntool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/1599/1599145.png">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="text-gray-200">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
+        <div id="insi-app" class="subject-view active">
+            <header class="text-center mb-12 relative">
+                <button class="back-to-hub-btn absolute top-0 left-0 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">&larr; Zurück</button>
+                <h1 class="text-5xl font-bold text-white">Informationssicherheit</h1>
+                <p class="text-xl text-gray-400 mt-2">Dein interaktiver Lernassistent für Insi</p>
+            </header>
+
+            <nav class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12">
+                <button data-insi-target="insi-grundlagen" class="insi-nav-button active font-semibold py-2 px-5 rounded-full">Grundlagen</button>
+                <button data-insi-target="insi-krypto" class="insi-nav-button font-semibold py-2 px-5 rounded-full">Kryptographie</button>
+                <button data-insi-target="insi-auth" class="insi-nav-button font-semibold py-2 px-5 rounded-full">Authentifikation</button>
+                <button data-insi-target="insi-zugriff" class="insi-nav-button font-semibold py-2 px-5 rounded-full">Zugriffskontrolle</button>
+                <button data-insi-target="insi-angriffe" class="insi-nav-button font-semibold py-2 px-5 rounded-full">Angriffe & Pentesting</button>
+                <button data-insi-target="insi-standards" class="insi-nav-button font-semibold py-2 px-5 rounded-full">Standards & Recht</button>
+                <button data-insi-target="insi-uebungen" class="insi-nav-button font-semibold py-2 px-5 rounded-full">Übungen</button>
+            </nav>
+
+            <main>
+                <!-- SECTION: Grundlagen -->
+                <section id="insi-grundlagen" class="insi-content-section active">
+                    <div class="space-y-8">
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                            <h2 class="text-3xl font-bold text-cyan-400 mb-4">Grundbegriffe und Schutzziele</h2>
+                            <p class="mb-4 text-gray-300">Die Informationssicherheit basiert auf einer klaren Terminologie. Ein <span class="tooltip-term">Asset<span class="tooltip-box">Ein schützenswerter Wert für eine Organisation, z.B. Kundendaten, Quellcode, Hardware oder die Reputation.</span></span> ist ein Wert, den wir schützen wollen. Eine <span class="tooltip-term">Schwachstelle<span class="tooltip-box">Eine Eigenschaft eines Assets oder einer Sicherheitsmaßnahme, die von einer Bedrohung ausgenutzt werden kann.</span></span> ist eine inhärente Schwäche, die ein System <span class="tooltip-term">verwundbar<span class="tooltip-box">Eine ausnutzbare Schwachstelle, die die Sicherheit des Systems kompromittieren kann.</span></span> macht. Eine <span class="tooltip-term">Bedrohung<span class="tooltip-box">Eine mögliche Ursache für einen unerwünschten Vorfall, der zu einem Schaden führen kann (z.B. ein Angreifer, ein technischer Fehler, eine Naturkatastrophe).</span></span> ist eine potentielle Gefahr, die eine Schwachstelle ausnutzen kann. Das <span class="tooltip-term">Risiko<span class="tooltip-box">Die Kombination aus der Eintrittswahrscheinlichkeit eines Schadensereignisses und dessen potenzieller Höhe. Risiko = Schaden × Wahrscheinlichkeit.</span></span> quantifiziert diese Gefahr.</p>
+                            <div class="p-4 bg-gray-800/50 rounded-lg border border-cyan-700">
+                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Die CIA-Triade: Kernziele der Sicherheit</h3>
+                                <p class="mb-4 text-gray-300">Die klassischen Schutzziele werden durch die CIA-Triade beschrieben, oft ergänzt um weitere, wie Authentizität und Nicht-Abstreitbarkeit.</p>
+                                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+                                    <div class="p-3 bg-gray-900/50 rounded-lg border border-blue-500">
+                                        <h4 class="text-lg font-bold text-blue-400">Confidentiality (Vertraulichkeit)</h4>
+                                        <p class="mt-1 text-sm text-gray-300">Informationen sind nur für autorisierte Personen zugänglich.</p>
+                                    </div>
+                                    <div class="p-3 bg-gray-900/50 rounded-lg border border-green-500">
+                                        <h4 class="text-lg font-bold text-green-400">Integrity (Integrität)</h4>
+                                        <p class="mt-1 text-sm text-gray-300">Informationen sind korrekt, vollständig und wurden nicht unbemerkt verändert.</p>
+                                    </div>
+                                    <div class="p-3 bg-gray-900/50 rounded-lg border border-yellow-500">
+                                        <h4 class="text-lg font-bold text-yellow-400">Availability (Verfügbarkeit)</h4>
+                                        <p class="mt-1 text-sm text-gray-300">Systeme und Daten sind bei Bedarf für autorisierte Nutzer zugänglich.</p>
+                                    </div>
+                                    <div class="p-3 bg-gray-900/50 rounded-lg border border-purple-500">
+                                        <h4 class="text-lg font-bold text-purple-400">Authenticity (Authentizität)</h4>
+                                        <p class="mt-1 text-sm text-gray-300">Die Echtheit und Glaubwürdigkeit einer Entität ist gewährleistet.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                            <h2 class="text-3xl font-bold text-cyan-400 mb-4">System- & Bedrohungsmodellierung</h2>
+                            <p class="mb-4 text-gray-300">Um Bedrohungen systematisch zu finden, muss man das System zunächst verstehen und modellieren. Eine gängige Methode ist das <span class="tooltip-term">Data Flow Diagram (DFD)<span class="tooltip-box">Ein Diagramm, das den Fluss von Daten durch ein System visualisiert. Es hilft, Komponenten und deren Interaktionen zu verstehen.</span></span>.</p>
+                            <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">Beispiel: DFD einer Online-Banküberweisung</h3>
+                                <div class="grid grid-cols-5 items-center gap-4 my-4">
+                                    <div class="dfd-element">Bankkunde</div>
+                                    <div class="dfd-arrow"></div>
+                                    <div class="dfd-element dfd-process">Browser</div>
+                                    <div class="dfd-arrow"></div>
+                                    <div class="dfd-element dfd-process">Web App</div>
+                                </div>
+                                <p class="text-sm text-gray-400">Auf Basis eines solchen DFDs wird eine Bedrohungsanalyse durchgeführt, z.B. mit der <span class="tooltip-term">STRIDE-Methode<span class="tooltip-box">Ein von Microsoft entwickeltes Modell zur Klassifizierung von Bedrohungen in sechs Kategorien: Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege.</span></span>. Für jedes Element im DFD (Prozess, Datenfluss, Speicher) wird geprüft, welche STRIDE-Bedrohungen relevant sind.</p>
+                                <div class="overflow-x-auto mt-4">
+                                    <table class="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">STRIDE-Kategorie</th>
+                                                <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">Beschreibung</th>
+                                                <th class="border-b-2 border-cyan-800 p-3 bg-gray-800/50 table-header">Typische Gegenmaßnahme</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell font-bold">Spoofing</td><td class="border-b border-gray-700 p-3 table-cell">Vortäuschen einer falschen Identität</td><td class="border-b border-gray-700 p-3 table-cell">Authentifizierung</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell font-bold">Tampering</td><td class="border-b border-gray-700 p-3 table-cell">Unautorisierte Veränderung von Daten</td><td class="border-b border-gray-700 p-3 table-cell">Integritätsprüfungen (Hashes, MACs)</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell font-bold">Repudiation</td><td class="border-b border-gray-700 p-3 table-cell">Abstreiten einer durchgeführten Aktion</td><td class="border-b border-gray-700 p-3 table-cell">Sichere Protokollierung, Digitale Signaturen</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell font-bold">Information Disclosure</td><td class="border-b border-gray-700 p-3 table-cell">Offenlegung vertraulicher Informationen</td><td class="border-b border-gray-700 p-3 table-cell">Verschlüsselung, Zugriffskontrolle</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="border-b border-gray-700 p-3 table-cell font-bold">Denial of Service</td><td class="border-b border-gray-700 p-3 table-cell">Verhinderung des legitimen Zugriffs</td><td class="border-b border-gray-700 p-3 table-cell">Filterung, Lastverteilung</td></tr>
+                                            <tr class="hover:bg-gray-700/50 transition-colors"><td class="p-3 table-cell font-bold">Elevation of Privilege</td><td class="p-3 table-cell">Erlangen höherer Berechtigungen</td><td class="p-3 table-cell">Strikte Zugriffskontrolle, Least Privilege</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- SECTION: Kryptographie -->
+                <section id="insi-krypto" class="insi-content-section">
+                    <div class="space-y-8">
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                            <h2 class="text-3xl font-bold text-cyan-400 mb-4">Symmetrische Kryptographie</h2>
+                            <p class="mb-4 text-gray-300">Bei der symmetrischen Verschlüsselung verwenden Sender und Empfänger denselben geheimen Schlüssel. Das <span class="tooltip-term">Kerckhoffs'sche Prinzip<span class="tooltip-box">Die Sicherheit eines kryptographischen Systems darf nur von der Geheimhaltung des Schlüssels abhängen, nicht von der Geheimhaltung des Algorithmus.</span></span> ist hierbei fundamental. Der heutige Standard ist der <span class="tooltip-term">Advanced Encryption Standard (AES)<span class="tooltip-box">Ein weit verbreiteter und sicherer symmetrischer Blockchiffre-Algorithmus mit einer Blockgröße von 128 Bit und Schlüssellängen von 128, 192 oder 256 Bit.</span></span>, eine Blockchiffre, die Daten in 128-Bit-Blöcken verarbeitet.</p>
+                            <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">AES-Runden im Detail</h3>
+                                <p class="mb-4 text-gray-300">AES führt je nach Schlüssellänge 10, 12 oder 14 Runden durch. Jede Runde (außer der letzten) besteht aus vier Transformationen:</p>
+                                <ol class="list-decimal list-inside space-y-2 text-gray-300">
+                                    <li><b>SubBytes:</b> Jedes Byte des Zustands wird durch ein anderes Byte aus einer festen Nachschlagetabelle (der S-Box) ersetzt. Dies ist der einzige nicht-lineare Schritt und sorgt für <span class="tooltip-term">Konfusion<span class="tooltip-box">Ein Prinzip von Shannon, das besagt, dass die Beziehung zwischen Schlüssel und Chiffretext so komplex wie möglich sein sollte.</span></span>.</li>
+                                    <li><b>ShiftRows:</b> Die Bytes in den letzten drei Zeilen des Zustands werden zyklisch um eine bestimmte Anzahl von Positionen verschoben. Dies sorgt für <span class="tooltip-term">Diffusion<span class="tooltip-box">Ein Prinzip von Shannon, das besagt, dass die statistische Struktur des Klartextes im Chiffretext verschwinden soll. Eine kleine Änderung im Klartext soll eine große Änderung im Chiffretext bewirken.</span></span> über die Spalten hinweg.</li>
+                                    <li><b>MixColumns:</b> Jede Spalte des Zustands wird als Polynom über GF(2⁸) behandelt und mit einer festen Matrix multipliziert. Dies sorgt für Diffusion innerhalb der Spalten.</li>
+                                    <li><b>AddRoundKey:</b> Der aktuelle Zustand wird mit dem entsprechenden Rundenschlüssel per XOR verknüpft.</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                             <h2 class="text-3xl font-bold text-cyan-400 mb-4">Asymmetrische Kryptographie</h2>
+                             <p class="mb-4 text-gray-300">Asymmetrische (oder Public-Key-)Verfahren nutzen ein Schlüsselpaar: einen öffentlichen Schlüssel zum Verschlüsseln/Verifizieren und einen privaten Schlüssel zum Entschlüsseln/Signieren. Dies löst das <span class="tooltip-term">Schlüsselaustauschproblem<span class="tooltip-box">Wie können sich zwei Parteien auf einen geheimen Schlüssel einigen, ohne dass ein Angreifer diesen abhören kann? Asymmetrische Verfahren wie Diffie-Hellman lösen dies.</span></span>.</p>
+                             <div class="grid md:grid-cols-2 gap-8">
+                                 <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                     <h3 class="text-xl font-semibold mb-2 text-cyan-300">RSA-Algorithmus</h3>
+                                     <p class="text-gray-300">Die Sicherheit von RSA basiert auf der Schwierigkeit, große Zahlen in ihre <span class="tooltip-term">Primfaktoren<span class="tooltip-box">Die Primzahlen, deren Produkt die ursprüngliche Zahl ergibt. Die Zerlegung ist für große Zahlen extrem rechenaufwändig.</span></span> zu zerlegen. Ein öffentlicher Schlüssel \((n, e)\) wird zum Verschlüsseln verwendet (\(c \equiv m^e \pmod{n}\)), während der private Schlüssel \((n, d)\) zum Entschlüsseln dient (\(m \equiv c^d \pmod{n}\)). Heutige Schlüssellängen liegen bei 3072 Bit oder mehr.</p>
+                                 </div>
+                                 <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                     <h3 class="text-xl font-semibold mb-2 text-cyan-300">Elliptic Curve Cryptography (ECC)</h3>
+                                     <p class="text-gray-300">Basiert auf dem Problem des diskreten Logarithmus auf elliptischen Kurven. ECC bietet bei deutlich <span class="tooltip-term">kürzeren Schlüssellängen<span class="tooltip-box">Ein 256-Bit-ECC-Schlüssel bietet eine ähnliche Sicherheit wie ein 3072-Bit-RSA-Schlüssel.</span></span> ein vergleichbares Sicherheitsniveau wie RSA, was es effizienter für mobile und ressourcenbeschränkte Geräte macht. Verfahren wie ECDH (Elliptic-curve Diffie–Hellman) und ECDSA (Elliptic Curve Digital Signature Algorithm) sind weit verbreitet.</p>
+                                 </div>
+                             </div>
+                        </div>
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                             <h2 class="text-3xl font-bold text-cyan-400 mb-4">Digitale Signaturen, Hashfunktionen & MACs</h2>
+                             <p class="mb-4 text-gray-300">Diese Verfahren dienen primär der Sicherstellung von Integrität und Authentizität.</p>
+                             <ul class="list-disc list-inside space-y-3 text-gray-300">
+                                 <li><b>Hashfunktionen (z.B. SHA-2, SHA-3):</b> Erzeugen einen eindeutigen, festen "Fingerabdruck" (Hash) aus einer beliebigen Datenmenge. Sie sind Einwegfunktionen und (im Idealfall) kollisionsresistent. Hauptanwendung ist die Sicherstellung der Datenintegrität.</li>
+                                 <li><b>Message Authentication Codes (MAC):</b> Ein MAC ist im Wesentlichen ein Hash, in dessen Berechnung ein geheimer symmetrischer Schlüssel einfließt. Er garantiert sowohl die Integrität als auch die Authentizität einer Nachricht. Ein gängiges Verfahren ist HMAC (Hash-based MAC).</li>
+                                 <li><b>Digitale Signaturen:</b> Eine digitale Signatur wird mit dem privaten Schlüssel des Unterzeichners erstellt und kann mit dessen öffentlichem Schlüssel verifiziert werden. Sie bietet Integrität, Authentizität und zusätzlich <span class="tooltip-term">Nicht-Abstreitbarkeit<span class="tooltip-box">Der Unterzeichner kann nicht leugnen, die Nachricht signiert zu haben, da nur er im Besitz des privaten Schlüssels ist.</span></span>.</li>
+                             </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION: Authentifikation -->
+                <section id="insi-auth" class="insi-content-section">
+                    <div class="space-y-8">
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                            <h2 class="text-3xl font-bold text-cyan-400 mb-4">Methoden der Authentifikation</h2>
+                            <p class="mb-6 text-gray-300">Authentifikation ist der Prozess der Überprüfung einer behaupteten Identität. Man unterscheidet drei Faktoren, die für eine höhere Sicherheit in der <span class="tooltip-term">Multi-Faktor-Authentifizierung (MFA)<span class="tooltip-box">Ein Authentifizierungsverfahren, bei dem ein Benutzer zwei oder mehr Nachweise (oder Faktoren) aus den drei Kategorien (Wissen, Besitz, Eigenschaft) vorlegen muss.</span></span> kombiniert werden.</p>
+                            <div class="grid md:grid-cols-3 gap-6 text-center">
+                                <div class="p-4 bg-gray-800/50 rounded-lg border border-teal-500">
+                                    <h3 class="text-xl font-bold text-teal-400">Wissen</h3>
+                                    <p class="mt-2 text-gray-300">Etwas, das nur der Nutzer weiß. <br><i>Beispiel: Passwort, PIN, Sicherheitsfrage</i></p>
+                                </div>
+                                <div class="p-4 bg-gray-800/50 rounded-lg border border-amber-500">
+                                    <h3 class="text-xl font-bold text-amber-400">Besitz</h3>
+                                    <p class="mt-2 text-gray-300">Etwas, das nur der Nutzer hat. <br><i>Beispiel: Smartcard, Sicherheitstoken, Smartphone mit Authenticator-App</i></p>
+                                </div>
+                                <div class="p-4 bg-gray-800/50 rounded-lg border border-rose-500">
+                                    <h3 class="text-xl font-bold text-rose-400">Eigenschaft (Biometrie)</h3>
+                                    <p class="mt-2 text-gray-300">Etwas, das der Nutzer ist. <br><i>Beispiel: Fingerabdruck, Gesichtserkennung, Iris-Scan</i></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                            <h2 class="text-3xl font-bold text-cyan-400 mb-4">Sichere Passwort-Speicherung</h2>
+                            <p class="mb-4 text-gray-300">Passwörter dürfen niemals im Klartext gespeichert werden. Ein sicherer Prozess umfasst drei wesentliche Schritte, um sie gegen Offline-Angriffe (wie Wörterbuch- und Brute-Force-Angriffe auf geleakte Datenbanken) zu schützen:</p>
+                            <ol class="list-decimal list-inside space-y-4 text-gray-300">
+                                <li><b class="text-cyan-300">Hashing:</b> Das Passwort wird durch eine Einweg-Hashfunktion geschickt. Nur der Hash wird gespeichert.</li>
+                                <li><b class="text-cyan-300">Salting:</b> Vor dem Hashing wird dem Passwort ein zufälliger, benutzerspezifischer Wert (der "Salt") hinzugefügt. Dies verhindert <span class="tooltip-term">Rainbow-Table-Angriffe<span class="tooltip-box">Vorberechnete Tabellen von Hashes für häufige Passwörter. Durch den individuellen Salt wird für dasselbe Passwort bei jedem Nutzer ein anderer Hash erzeugt, was vorberechnete Angriffe unbrauchbar macht.</span></span>.</li>
+                                <li><b class="text-cyan-300">Langsames Hashing (Key Stretching):</b> Anstelle schneller Hashfunktionen wie SHA-256 werden bewusst langsame, rechenintensive Algorithmen wie <span class="tooltip-term">Argon2<span class="tooltip-box">Der Gewinner der Password Hashing Competition. Argon2 ist speicher- und rechenzeitintensiv und parallelisierbar, was Brute-Force-Angriffe mit spezialisierter Hardware (GPUs, ASICs) massiv erschwert.</span></span>, Scrypt oder PBKDF2 verwendet. Dies macht Brute-Force-Angriffe extrem zeit- und kostenaufwändig.</li>
+                            </ol>
+                            <div class="mt-6 p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">Passwort-Entropie-Rechner</h3>
+                                <p class="text-sm text-gray-400 mb-2">Die Stärke eines Passworts wird durch seine Entropie gemessen. Sie berechnet sich aus der Länge (L) und der Größe des möglichen Zeichenvorrats (N) als \(H = L \cdot \log_2(N)\).</p>
+                                <input type="text" id="entropy-password" placeholder="Passwort eingeben..." class="w-full px-3 py-2 rounded-md shadow-sm mb-2">
+                                <div id="entropy-result" class="mt-2 p-3 bg-gray-900/70 rounded-md text-center font-semibold"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- SECTION: Zugriffskontrolle -->
+                <section id="insi-zugriff" class="insi-content-section">
+                    <div class="space-y-8">
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                            <h2 class="text-3xl font-bold text-cyan-400 mb-4">Modelle der Zugriffskontrolle</h2>
+                            <p class="mb-6 text-gray-300">Zugriffskontrollmodelle definieren, wer (Subjekt) was (Operation) mit welcher Ressource (Objekt) tun darf. Sie sind entscheidend, um das <span class="tooltip-term">Prinzip der geringsten Rechte (Least Privilege)<span class="tooltip-box">Jedes Subjekt (Benutzer, Prozess) sollte nur die minimalen Berechtigungen erhalten, die zur Erfüllung seiner Aufgaben erforderlich sind.</span></span> umzusetzen.</p>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="p-4 bg-gray-800/50 rounded-lg">
+                                    <h3 class="text-xl font-bold text-cyan-300 mb-2">Discretionary Access Control (DAC)</h3>
+                                    <p class="text-gray-300">Der <span class="tooltip-term">Besitzer<span class="tooltip-box">Der Ersteller oder eine zugewiesene Entität.</span></span> einer Ressource entscheidet nach eigenem Ermessen, wer darauf zugreifen darf. <br><b>Vorteil:</b> Flexibel. <b>Nachteil:</b> Unübersichtlich, schwer zentral zu verwalten. <br><b>Beispiel:</b> Klassische Linux-Dateiberechtigungen (user, group, other).</p>
+                                </div>
+                                <div class="p-4 bg-gray-800/50 rounded-lg">
+                                    <h3 class="text-xl font-bold text-cyan-300 mb-2">Mandatory Access Control (MAC)</h3>
+                                    <p class="text-gray-300">Der Zugriff wird durch eine <span class="tooltip-term">zentrale Policy<span class="tooltip-box">Eine systemweite, vom Administrator festgelegte Regelmenge, die auf Sicherheits-Labels (z.B. 'geheim', 'öffentlich') basiert.</span></span> geregelt, die von den Nutzern nicht geändert werden kann. <br><b>Vorteil:</b> Hohe Sicherheit. <b>Nachteil:</b> Starr, hoher Verwaltungsaufwand. <br><b>Beispiel:</b> SELinux, Bell-LaPadula-Modell (Militär).</p>
+                                </div>
+                                <div class="p-4 bg-gray-800/50 rounded-lg">
+                                    <h3 class="text-xl font-bold text-cyan-300 mb-2">Role-Based Access Control (RBAC)</h3>
+                                    <p class="text-gray-300">Berechtigungen werden nicht direkt an Nutzer, sondern an <span class="tooltip-term">Rollen<span class="tooltip-box">Eine Sammlung von Berechtigungen, die einer Job-Funktion entspricht (z.B. "Administrator", "Redakteur").</span></span> vergeben. Nutzer erhalten dann eine oder mehrere Rollen. <br><b>Vorteil:</b> Gute Verwaltbarkeit in Organisationen. <b>Nachteil:</b> Kann zu "Role Explosion" führen. <br><b>Beispiel:</b> Datenbank-Rollen, AWS IAM Roles.</p>
+                                </div>
+                                <div class="p-4 bg-gray-800/50 rounded-lg">
+                                    <h3 class="text-xl font-bold text-cyan-300 mb-2">Attribute-Based Access Control (ABAC)</h3>
+                                    <p class="text-gray-300">Zugriffsentscheidungen werden dynamisch auf Basis von <span class="tooltip-term">Attributen<span class="tooltip-box">Eigenschaften des Subjekts (z.B. Rolle, Abteilung), des Objekts (z.B. Klassifizierung), der Aktion und der Umgebung (z.B. Tageszeit, IP-Adresse).</span></span> getroffen. <br><b>Vorteil:</b> Sehr flexibel und kontextsensitiv. <b>Nachteil:</b> Komplex in der Definition der Regeln. <br><b>Beispiel:</b> "Ärzte dürfen auf Patientenakten ihrer eigenen Abteilung während der Dienstzeit zugreifen."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                            <h2 class="text-3xl font-bold text-cyan-400 mb-4">Interaktiver `chmod`-Rechner</h2>
+                            <p class="mb-4 text-gray-300">Mit dem `chmod`-Befehl werden in Unix-Systemen Dateiberechtigungen gesetzt. Testen Sie hier, wie sich die Oktalnotation zusammensetzt.</p>
+                             <div class="bg-gray-800/70 p-4 rounded-lg">
+                                 <div class="grid grid-cols-3 gap-4 text-center">
+                                     <div>
+                                         <h4 class="font-bold text-white mb-2">Besitzer (User)</h4>
+                                         <div class="space-y-1" id="chmod-user">
+                                             <label class="flex items-center justify-center"><input type="checkbox" data-value="4" class="mr-2"> Lesen (r)</label>
+                                             <label class="flex items-center justify-center"><input type="checkbox" data-value="2" class="mr-2"> Schreiben (w)</label>
+                                             <label class="flex items-center justify-center"><input type="checkbox" data-value="1" class="mr-2"> Ausführen (x)</label>
+                                         </div>
+                                     </div>
+                                     <div>
+                                         <h4 class="font-bold text-white mb-2">Gruppe (Group)</h4>
+                                         <div class="space-y-1" id="chmod-group">
+                                             <label class="flex items-center justify-center"><input type="checkbox" data-value="4" class="mr-2"> Lesen (r)</label>
+                                             <label class="flex items-center justify-center"><input type="checkbox" data-value="2" class="mr-2"> Schreiben (w)</label>
+                                             <label class="flex items-center justify-center"><input type="checkbox" data-value="1" class="mr-2"> Ausführen (x)</label>
+                                         </div>
+                                     </div>
+                                     <div>
+                                         <h4 class="font-bold text-white mb-2">Andere (Other)</h4>
+                                         <div class="space-y-1" id="chmod-other">
+                                             <label class="flex items-center justify-center"><input type="checkbox" data-value="4" class="mr-2"> Lesen (r)</label>
+                                             <label class="flex items-center justify-center"><input type="checkbox" data-value="2" class="mr-2"> Schreiben (w)</label>
+                                             <label class="flex items-center justify-center"><input type="checkbox" data-value="1" class="mr-2"> Ausführen (x)</label>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div id="chmod-result" class="mt-4 p-3 bg-gray-900/70 rounded-md text-center font-mono text-xl font-semibold text-cyan-400"></div>
+                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION: Angriffe & Pentesting -->
+                <section id="insi-angriffe" class="insi-content-section">
+                    <div class="space-y-8">
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                            <h2 class="text-3xl font-bold text-cyan-400 mb-4">Klassifikation von Angriffen und Angreifern</h2>
+                            <p class="mb-6 text-gray-300">Angriffe lassen sich nach ihrer Interaktion mit dem System in passive und aktive Angriffe unterteilen. Angreifer werden oft nach ihrer Motivation klassifiziert.</p>
+                            <div class="grid md:grid-cols-2 gap-8">
+                                <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                    <h3 class="text-xl font-semibold mb-2 text-cyan-300">Passive vs. Aktive Angriffe</h3>
+                                    <p class="text-gray-300"><b>Passive Angriffe</b> (z.B. Sniffing, Port-Scanning) zielen auf Informationsgewinnung ab, ohne das System zu verändern. Sie sind schwer zu entdecken. <b>Aktive Angriffe</b> (z.B. DoS, Man-in-the-Middle, Spoofing) verändern das System oder dessen Betrieb und zielen auf Integrität und Verfügbarkeit.</p>
+                                </div>
+                                <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                    <h3 class="text-xl font-semibold mb-2 text-cyan-300">Angreifertypen (Hats)</h3>
+                                    <p class="text-gray-300"><b>White-Hat:</b> Ethische Hacker, die mit Erlaubnis handeln, um die Sicherheit zu verbessern. <b>Black-Hat:</b> Handeln mit krimineller Absicht (z.B. Datendiebstahl, Erpressung). <b>Grey-Hat:</b> Handeln oft ohne Erlaubnis, aber ohne böswillige Absicht, z.B. um auf Schwachstellen aufmerksam zu machen.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                            <h2 class="text-3xl font-bold text-cyan-400 mb-4">Penetration Testing (Pentesting)</h2>
+                            <p class="mb-6 text-gray-300">Ein Penetrationstest ist ein autorisierter, simulierter Angriff auf ein Computersystem, um Schwachstellen zu finden und deren Ausnutzbarkeit zu demonstrieren. Der <span class="tooltip-term">Penetration Testing Execution Standard (PTES)<span class="tooltip-box">Ein Standard, der einen Rahmen für die Durchführung von Penetrationstests bietet und den Prozess in sieben Phasen unterteilt.</span></span> ist ein bekannter Leitfaden.</p>
+                            <ol class="list-decimal list-inside space-y-2 text-gray-300 grid md:grid-cols-2 gap-x-8">
+                                <li><b>Pre-engagement Interactions:</b> Absprachen, Ziele und Regeln festlegen.</li>
+                                <li><b>Intelligence Gathering:</b> Passive und aktive Informationssammlung über das Ziel.</li>
+                                <li><b>Threat Modeling:</b> Identifikation von Bedrohungen und potenziellen Angriffswegen.</li>
+                                <li><b>Vulnerability Analysis:</b> Analyse der gesammelten Informationen auf Schwachstellen.</li>
+                                <li><b>Exploitation:</b> Aktives Ausnutzen der gefundenen Schwachstellen.</li>
+                                <li><b>Post Exploitation:</b> Analyse der kompromittierten Systeme, Rechteausweitung, Sicherung des Zugangs.</li>
+                                <li><b>Reporting:</b> Detaillierte Dokumentation der Ergebnisse, Risikobewertung und Handlungsempfehlungen.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- SECTION: Standards & Recht -->
+                <section id="insi-standards" class="insi-content-section">
+                    <div class="space-y-8">
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                            <h2 class="text-3xl font-bold text-cyan-400 mb-4">Rechtliche Rahmenbedingungen</h2>
+                            <p class="mb-4 text-gray-300">Die Informationssicherheit agiert nicht im luftleeren Raum, sondern ist durch Gesetze und Verordnungen geregelt.</p>
+                            <div class="space-y-4">
+                                <div class="p-4 bg-gray-800/50 rounded-lg">
+                                    <h3 class="text-lg font-semibold text-cyan-300">Datenschutz-Grundverordnung (DSGVO)</h3>
+                                    <p class="text-gray-300">Die DSGVO ist die zentrale EU-Verordnung zum Schutz <span class="tooltip-term">personenbezogener Daten<span class="tooltip-box">Alle Informationen, die sich auf eine identifizierte oder identifizierbare natürliche Person beziehen (z.B. Name, Adresse, IP-Adresse, Gesundheitsdaten).</span></span>. Sie basiert auf Grundsätzen wie Zweckbindung, Datenminimierung und "Privacy by Design/Default". Art. 32 DSGVO fordert "geeignete technische und organisatorische Maßnahmen" (TOMs), um ein dem Risiko angemessenes Schutzniveau zu gewährleisten.</p>
+                                </div>
+                                <div class="p-4 bg-gray-800/50 rounded-lg">
+                                    <h3 class="text-lg font-semibold text-cyan-300">IT-Sicherheitsgesetz (IT-SiG) & BSI-Gesetz</h3>
+                                    <p class="text-gray-300">In Deutschland regelt das BSI-Gesetz die Aufgaben des Bundesamtes für Sicherheit in der Informationstechnik. Das IT-Sicherheitsgesetz (aktuell IT-SiG 2.0) verpflichtet insbesondere Betreiber <span class="tooltip-term">Kritischer Infrastrukturen (KRITIS)<span class="tooltip-box">Organisationen oder Einrichtungen mit wichtiger Bedeutung für das staatliche Gemeinwesen, deren Ausfall oder Beeinträchtigung zu erheblichen Versorgungsengpässen oder Störungen der öffentlichen Sicherheit führen würde (z.B. Energie, Wasser, Gesundheit, Finanzen).</span></span> zur Einhaltung von Mindeststandards und zur Meldung von Sicherheitsvorfällen.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card p-6 rounded-2xl shadow-2xl">
+                            <h2 class="text-3xl font-bold text-cyan-400 mb-4">Standards & Best Practices: OWASP</h2>
+                            <p class="mb-6 text-gray-300">Das <span class="tooltip-term">Open Worldwide Application Security Project (OWASP)<span class="tooltip-box">Eine gemeinnützige Online-Community, die frei verfügbare Artikel, Methoden, Dokumentationen, Werkzeuge und Technologien im Bereich der Anwendungssicherheit erstellt.</span></span> ist eine der wichtigsten Quellen für Best Practices in der Anwendungsentwicklung. Zu den bekanntesten Projekten gehören:</p>
+                             <ul class="list-disc list-inside space-y-3 text-gray-300">
+                                 <li><b>OWASP Top 10:</b> Ein Awareness-Dokument, das die 10 kritischsten Sicherheitsrisiken für Webanwendungen auflistet und Entwicklern hilft, diese zu vermeiden.</li>
+                                 <li><b>OWASP SAMM (Software Assurance Maturity Model):</b> Ein Reifegradmodell, das Organisationen hilft, ihre Softwaresicherheitspraktiken zu bewerten, zu planen und zu verbessern.</li>
+                                 <li><b>OWASP ASVS (Application Security Verification Standard):</b> Ein Standard zur Überprüfung der Sicherheit von Webanwendungen, der eine Basis für Tests und vertragliche Anforderungen bietet.</li>
+                             </ul>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- SECTION: Übungen -->
+                <section id="insi-uebungen" class="insi-content-section">
+                    <div class="text-center mb-8">
+                        <button id="generate-exercises-btn" class="px-6 py-3 bg-amber-600 text-white rounded-lg shadow-lg hover:bg-amber-500 transition-all duration-300 text-lg font-semibold">
+                            Neue Übungsaufgaben generieren
+                        </button>
+                    </div>
+                    <div id="exercises-container" class="space-y-6">
+                        <!-- Dynamically generated exercises will be inserted here -->
+                    </div>
+                </section>
+            </main>
+        </div>
+
+    </div>
+    <script src="js/insi.js"></script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mafi 2 - Lerntool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/1599/1599145.png">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="text-gray-200">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
+        <div id="mafi2-app" class="subject-view active">
+             <header class="text-center mb-12 relative">
+                <button class="back-to-hub-btn absolute top-0 left-0 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">&larr; Zurück</button>
+                <h1 class="text-5xl font-bold text-white">Mafi 2 Klausur-Lerntool</h1>
+                <p class="text-xl text-gray-400 mt-2">Interaktive Übungen und Visualisierungen</p>
+            </header>
+            
+            <nav class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12">
+                <button data-mafi-target="mafi-grundlagen" class="mafi-nav-button active font-semibold py-2 px-5 rounded-full">Grundlagen</button>
+                <button data-mafi-target="mafi-funktionenraeume" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Funktionenräume</button>
+                <button data-mafi-target="mafi-diff1d" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Differentialrechnung (1D)</button>
+                <button data-mafi-target="mafi-taylor" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Taylorreihen</button>
+                <button data-mafi-target="mafi-complex" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Komplexe Zahlen & Euler</button>
+                <button data-mafi-target="mafi-diff2d" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Mehrdimensionale Analysis</button>
+                <button data-mafi-target="mafi-analytisch" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Analytische Funktionen</button>
+                <button data-mafi-target="mafi-lagrange" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Extrema mit Nebenbedingungen</button>
+                <button data-mafi-target="mafi-probeklausur" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Probeklausur</button>
+            </nav>
+
+            <main>
+                <section id="mafi-grundlagen" class="mafi-content-section active">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Grundlagen: Folgen, Grenzwerte und Stetigkeit</h2>
+                        <div class="space-y-6 text-gray-300 leading-relaxed">
+                            <div>
+                                <h3 class="text-2xl font-semibold text-cyan-300 mb-2">Folgen und Konvergenz</h3>
+                                <p>Eine <span class="tooltip-term">Folge<span class="tooltip-box">Eine geordnete, unendliche Liste von Zahlen, die durch eine Vorschrift definiert ist, z.B. \(a_n = 1/n\).</span></span> ist eine unendliche, geordnete Liste von Zahlen, z.B. \(a_n = \frac{1}{n}\) für \(n \ge 1\), was die Folge \(1, \frac{1}{2}, \frac{1}{3}, ...\) ergibt. Der zentrale Begriff ist der <span class="tooltip-term">Grenzwert<span class="tooltip-box">Der Wert, dem sich die Glieder einer Folge annähern, wenn n unendlich groß wird.</span></span> (Limes). Er beschreibt den Wert, dem sich die Folgenglieder annähern, wenn \(n\) unendlich groß wird. Für \(a_n = \frac{1}{n}\) ist der Grenzwert 0. Besitzt eine Folge einen solchen Grenzwert, nennen wir sie <span class="tooltip-term">konvergent<span class="tooltip-box">Eine Folge, die einen endlichen Grenzwert besitzt. Andernfalls heißt sie divergent.</span></span>.</p>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-semibold text-cyan-300 mb-2">Stetigkeit</h3>
+                                <p>Eine Funktion \(f\) ist an einer Stelle \(x_0\) <span class="tooltip-term">stetig<span class="tooltip-box">Eine Funktion ist stetig, wenn ihr Graph keine Sprünge macht. Kleine Änderungen im Input führen nur zu kleinen Änderungen im Output.</span></span>, wenn ihr Graph dort keine Sprünge macht. Das bedeutet, wenn wir uns auf der x-Achse dem Punkt \(x_0\) nähern, nähern sich die Funktionswerte \(f(x)\) dem Wert \(f(x_0)\) an. Formal ausgedrückt: Der Grenzwert der Funktion an der Stelle ist gleich dem Funktionswert. Alle Polynome, sowie sin, cos und exp sind auf ihrem gesamten Definitionsbereich stetig.</p>
+                            </div>
+                             <div>
+                                <h3 class="text-2xl font-semibold text-cyan-300 mb-2">Zwischenwertsatz</h3>
+                                <p>Der <span class="tooltip-term">Zwischenwertsatz<span class="tooltip-box">Eine stetige Funktion auf einem Intervall \([a,b]\) nimmt jeden Wert zwischen \(f(a)\) und \(f(b)\) mindestens einmal an.</span></span> ist eine wichtige Eigenschaft stetiger Funktionen. Er besagt: Wenn eine Funktion auf einem abgeschlossenen Intervall \([a, b]\) stetig ist, dann nimmt sie jeden Wert zwischen \(f(a)\) und \(f(b)\) mindestens einmal an. Man kann den Graphen also von \( (a, f(a)) \) nach \( (b, f(b)) \) zeichnen, ohne den Stift abzusetzen.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="mafi-funktionenraeume" class="mafi-content-section">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Funktionenräume & Bernstein-Approximation</h2>
+                        <p class="mb-6 text-gray-300 leading-relaxed">In der Mathematik kann man Mengen von Funktionen selbst als Räume betrachten. Ein wichtiger Raum ist der <span class="tooltip-term">Vektorraum<span class="tooltip-box">Eine Menge von Objekten (Vektoren), die addiert und mit Skalaren multipliziert werden können, wobei bestimmte Regeln (Axiome) gelten.</span></span> der stetigen Funktionen auf einem Intervall, oft als \(C([a,b])\) bezeichnet. Polynome sind eine Teilmenge davon. Der <span class="tooltip-term">Approximationssatz von Weierstraß<span class="tooltip-box">Besagt, dass jede stetige Funktion auf einem abgeschlossenen Intervall beliebig genau durch ein Polynom angenähert werden kann.</span></span> besagt, dass man jede stetige Funktion beliebig gut durch ein Polynom annähern kann. Eine Methode dafür sind die <span class="tooltip-term">Bernstein-Polynome<span class="tooltip-box">Eine spezielle Art von Polynomen, die zur konstruktiven Beweisführung des Weierstraßschen Approximationssatzes verwendet werden und eine gute Annäherung an eine stetige Funktion bieten.</span></span>.</p>
+                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-2">Bernstein-Approximation Visualisierer</h3>
+                             <p class="mb-4 text-gray-400 text-sm">Dieses Tool zeigt, wie sich eine Funktion (hier \(f(x) = \sin(2\pi x)\)) durch Bernstein-Polynome \(p_n(x)\) mit steigendem Grad \(n\) annähern lässt.</p>
+                            <div class="flex items-center gap-4 mb-4 flex-wrap">
+                                <label for="bernstein-n-slider" class="text-gray-400">Polynomgrad \(n\): <span id="bernstein-n-label">10</span></label>
+                                <input type="range" id="bernstein-n-slider" min="1" max="100" value="10" class="w-full">
+                            </div>
+                            <div class="chart-container bg-gray-800/50 p-4 rounded-lg">
+                                <canvas id="bernsteinChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="mafi-diff1d" class="mafi-content-section">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Differentialrechnung (1D)</h2>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="text-gray-300 space-y-4 leading-relaxed">
+                                <p>Die <span class="tooltip-term">Ableitung<span class="tooltip-box">Die Ableitung \(f'(x)\) einer Funktion misst die lokale Änderungsrate oder Steigung des Graphen an einem Punkt x.</span></span> einer Funktion \(f'(x)\) gibt die lokale Steigung der Funktion an einem Punkt an. Sie ist das wichtigste Werkzeug zur Untersuchung von Funktionen, z.B. zur Bestimmung von Extremwerten.</p>
+                                <h4 class="text-xl font-semibold text-cyan-300">Wichtige Ableitungsregeln:</h4>
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li><span class="tooltip-term">Produktregel<span class="tooltip-box">Regel zum Ableiten eines Produkts zweier Funktionen: \((u \cdot v)' = u'v + uv'\).</span></span>: \((u \cdot v)' = u'v + uv'\)</li>
+                                    <li><span class="tooltip-term">Quotientenregel<span class="tooltip-box">Regel zum Ableiten eines Bruchs zweier Funktionen: \((\frac{u}{v})' = \frac{u'v - uv'}{v^2}\).</span></span>: \((\frac{u}{v})' = \frac{u'v - uv'}{v^2}\)</li>
+                                    <li><span class="tooltip-term">Kettenregel<span class="tooltip-box">Regel zum Ableiten verketteter (ineinander verschachtelter) Funktionen: \((f(g(x)))' = f'(g(x)) \cdot g'(x)\).</span></span>: \((f(g(x)))' = f'(g(x)) \cdot g'(x)\)</li>
+                                </ul>
+                            </div>
+                            <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Interaktiver Ableitungs-Rechner</h3>
+                                 <div class="flex items-center gap-4">
+                                    <select id="mafi-function-select" class="block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500">
+                                        <option value="sin(x)">sin(x)</option>
+                                        <option value="cos(x)">cos(x)</option>
+                                        <option value="x^3">x^3</option>
+                                        <option value="exp(x)">e^x</option>
+                                        <option value="log(x)">ln(x)</option>
+                                        <option value="1/(1-x)">1/(1-x)</option>
+                                    </select>
+                                    <button id="mafi-calculate-derivative" class="px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300 whitespace-nowrap">Ableiten</button>
+                                </div>
+                                <div id="mafi-derivative-result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300 font-mono text-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="mafi-taylor" class="mafi-content-section">
+                     <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Taylorreihen</h2>
+                         <p class="mb-6 text-gray-300 leading-relaxed">Eine <span class="tooltip-term">Taylorreihe<span class="tooltip-box">Eine Darstellung einer Funktion als unendliche Summe von Potenztermen, die um einen Entwicklungspunkt gebildet wird.</span></span> ist eine Darstellung einer Funktion als unendliche Summe von Potenztermen. Sie erlaubt es, komplizierte Funktionen in der Nähe eines <span class="tooltip-term">Entwicklungspunktes<span class="tooltip-box">Der Punkt \(x_0\), um den eine Taylorreihe entwickelt wird. Die Approximation ist in der Nähe dieses Punktes am besten.</span></span> \(x_0\) durch einfachere Polynome anzunähern. Die allgemeine Formel lautet: \( T(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(x_0)}{n!}(x-x_0)^n \). Die <span class="tooltip-term">Ordnung<span class="tooltip-box">Gibt an, bis zu welcher Ableitung die Taylor-Approximation berechnet wird. Eine höhere Ordnung bedeutet meist eine bessere Näherung.</span></span> der Approximation gibt an, bis zu welcher Ableitung wir die Funktion annähern. Je höher die Ordnung, desto genauer ist die Näherung in der Umgebung von \(x_0\).</p>
+                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-2">Taylorreihen-Visualisierer (um \(x_0=0\))</h3>
+                            <div class="flex items-center gap-4 mb-4 flex-wrap">
+                                 <select id="taylor-function-select" class="block w-full sm:w-1/2 px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500">
+                                    <option value="sin">sin(x)</option>
+                                    <option value="cos">cos(x)</option>
+                                    <option value="exp">e^x</option>
+                                </select>
+                                <label for="taylor-order-slider" class="text-gray-400">Ordnung: <span id="taylor-order-label">3</span></label>
+                                <input type="range" id="taylor-order-slider" min="1" max="10" value="3" class="w-full">
+                            </div>
+                            <div class="chart-container bg-gray-800/50 p-4 rounded-lg">
+                                <canvas id="taylorChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="mafi-complex" class="mafi-content-section">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Komplexe Zahlen & die Eulersche Formel</h2>
+                        <p class="mb-6 text-gray-300 leading-relaxed">Eine der faszinierendsten Verbindungen in der Mathematik ist die <span class="tooltip-term">Eulersche Formel<span class="tooltip-box">Die Formel \(e^{i\phi} = \cos(\phi) + i\sin(\phi)\), die die komplexe Exponentialfunktion mit Sinus und Kosinus verbindet.</span></span>. Sie verknüpft die Exponentialfunktion mit den trigonometrischen Funktionen über die <span class="tooltip-term">imaginäre Einheit<span class="tooltip-box">Die Zahl \(i\), definiert durch die Eigenschaft \(i^2 = -1\). Sie ist die Grundlage der komplexen Zahlen.</span></span> \(i\):</p>
+                        <div class="p-4 my-2 bg-gray-800/50 rounded-md text-center text-2xl font-mono">\( e^{i\phi} = \cos(\phi) + i \sin(\phi) \)</div>
+                        <p class="my-6 text-gray-300 leading-relaxed">Diese Formel bedeutet, dass sich jede komplexe Zahl \(z\) in <span class="tooltip-term">Polarkoordinaten<span class="tooltip-box">Eine Darstellung einer komplexen Zahl durch ihren Betrag (Abstand vom Ursprung) und ihren Winkel zur reellen Achse.</span></span> als \(z = r \cdot e^{i\phi}\) darstellen lässt, wobei \(r = |z|\) der <span class="tooltip-term">Betrag<span class="tooltip-box">Der Abstand einer komplexen Zahl vom Ursprung in der komplexen Ebene, berechnet als \(|x+iy| = \sqrt{x^2+y^2}\).</span></span> und \(\phi\) das <span class="tooltip-term">Argument<span class="tooltip-box">Der Winkel einer komplexen Zahl zur positiven reellen Achse in der Polarkoordinatendarstellung.</span></span> ist. Der Term \(e^{i\phi}\) beschreibt einen Punkt auf dem Einheitskreis in der komplexen Ebene.</p>
+                        
+                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-2">Eulersche Formel Visualisierer</h3>
+                            <div class="flex flex-col md:flex-row items-center gap-8">
+                                <div class="w-full md:w-1/2">
+                                    <canvas id="eulerCanvas" width="300" height="300"></canvas>
+                                </div>
+                                <div class="w-full md:w-1/2 space-y-4">
+                                    <div>
+                                        <label for="euler-angle-slider" class="text-gray-400">Winkel \(\phi\): <span id="euler-angle-label">0</span>°</label>
+                                        <input type="range" id="euler-angle-slider" min="0" max="360" value="0" class="w-full">
+                                    </div>
+                                    <div id="euler-output" class="font-mono text-lg p-4 bg-gray-900/70 rounded-md"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="mafi-diff2d" class="mafi-content-section">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Mehrdimensionale Analysis & Extrema</h2>
+                        <p class="mb-6 text-gray-300 leading-relaxed">Um Extrema von Funktionen mit mehreren Variablen (z.B. \( f(x, y) \)) zu finden, gehen wir in mehreren Schritten vor:</p>
+                        <ol class="list-decimal list-inside space-y-4 mb-6">
+                            <li><span class="font-semibold text-cyan-300">Gradient berechnen:</span> Der <span class="tooltip-term">Gradient<span class="tooltip-box">Der Vektor der partiellen Ableitungen einer mehrdimensionalen Funktion. Er zeigt in Richtung des steilsten Anstiegs.</span></span> \(\nabla f = \begin{pmatrix} \partial f / \partial x \\ \partial f / \partial y \end{pmatrix}\) ist der Vektor der <span class="tooltip-term">partiellen Ableitungen<span class="tooltip-box">Die Ableitung einer Funktion mit mehreren Variablen nach einer dieser Variablen, wobei die anderen als Konstanten behandelt werden.</span></span>.</li>
+                            <li><span class="font-semibold text-cyan-300">Kritische Punkte finden:</span> Wir lösen die Gleichung \(\nabla f = 0\). Die Lösungen sind die <span class="tooltip-term">kritischen Punkte<span class="tooltip-box">Punkte, an denen der Gradient einer Funktion null ist. Sie sind die einzigen Kandidaten für lokale Extrema.</span></span> und die einzigen Kandidaten für lokale Extrema.</li>
+                            <li><span class="font-semibold text-cyan-300">Hesse-Matrix aufstellen:</span> Die <span class="tooltip-term">Hesse-Matrix<span class="tooltip-box">Die Matrix der zweiten partiellen Ableitungen einer Funktion. Sie wird verwendet, um kritische Punkte zu klassifizieren.</span></span> \( H_f = \begin{pmatrix} f_{xx} & f_{xy} \\ f_{yx} & f_{yy} \end{pmatrix} \) ist die Matrix der zweiten partiellen Ableitungen.</li>
+                            <li><span class="font-semibold text-cyan-300">Extrema über Eigenwerte klassifizieren:</span> Wir werten die Hesse-Matrix am kritischen Punkt aus und bestimmen ihre <span class="tooltip-term">Eigenwerte<span class="tooltip-box">Spezielle Skalare, die zu einer Matrix gehören. Ihre Vorzeichen bestimmen die Krümmung der Funktion in den Richtungen der Eigenvektoren.</span></span> \(\lambda_1, \lambda_2\).
+                                <ul class="list-disc list-inside ml-6 mt-2">
+                                    <li><strong>Alle Eigenwerte > 0</strong>: Lokales Minimum</li>
+                                    <li><strong>Alle Eigenwerte < 0</strong>: Lokales Maximum</li>
+                                    <li><strong>Positive und negative Eigenwerte</strong>: <span class="tooltip-term">Sattelpunkt<span class="tooltip-box">Ein kritischer Punkt, der weder ein lokales Minimum noch ein Maximum ist. Die Funktion steigt in eine Richtung an und fällt in eine andere ab.</span></span></li>
+                                    <li><strong>Mindestens ein Eigenwert = 0</strong>: Keine Aussage möglich (Test nicht schlüssig)</li>
+                                </ul>
+                            </li>
+                        </ol>
+                         <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-2">Interaktiver Extremwert-Analysator</h3>
+                            <div class="mb-4">
+                                <label for="2d-function-input" class="block text-sm font-medium text-gray-400">Funktion \(f(x, y)\) =</label>
+                                <input type="text" id="2d-function-input" value="x^2 - y^2" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 font-mono">
+                                <p class="text-xs text-gray-500 mt-1">Syntax: +, -, *, /, ^ (Potenz), exp(), sin(), etc.</p>
+                            </div>
+                            <div class="mb-4">
+                                <label for="2d-point-input" class="block text-sm font-medium text-gray-400">Zu analysierender Punkt \((x,y)\) =</label>
+                                <input type="text" id="2d-point-input" value="0, 0" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 font-mono">
+                            </div>
+                            <button id="analyze-extremum-btn" class="px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300">Analysieren</button>
+                            <div id="extremum-result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300"></div>
+                        </div>
+                    </div>
+                </section>
+                <section id="mafi-analytisch" class="mafi-content-section">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Analytische Funktionen und Taylor-Reihen</h2>
+                        <p class="mb-6 text-gray-300 leading-relaxed">
+                            Eine Funktion heißt <span class="tooltip-term">analytisch<span class="tooltip-box">Eine Funktion, die sich lokal durch eine konvergente Potenzreihe (ihre Taylor-Reihe) darstellen lässt.</span></span>, wenn sie sich in der Umgebung jedes Punktes ihres Definitionsbereichs durch ihre <span class="tooltip-term">Taylor-Reihe<span class="tooltip-box">Eine Darstellung einer Funktion als unendliche Summe von Potenztermen. Für analytische Funktionen konvergiert diese Reihe gegen die Funktion selbst.</span></span> darstellen lässt. Das bedeutet, die Funktion ist unendlich oft differenzierbar und das Taylor-Polynom nähert sich mit steigender Ordnung der Funktion perfekt an. Viele Standardfunktionen sind analytisch.
+                        </p>
+                        <h3 class="text-2xl font-semibold text-cyan-300 mb-4">Wichtige Taylor-Reihen (um \(x_0=0\))</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left math-table">
+                                <thead>
+                                    <tr class="bg-gray-800/50">
+                                        <th class="table-header">Funktion</th>
+                                        <th class="table-header">Taylor-Reihe</th>
+                                        <th class="table-header">Konvergenzbereich</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="hover:bg-gray-700/50">
+                                        <td class="table-cell">\(\frac{1}{1-x}\)</td>
+                                        <td class="table-cell">\(\sum_{n=0}^{\infty} x^n = 1 + x + x^2 + \dots\)</td>
+                                        <td class="table-cell">\(|x| < 1\)</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-700/50">
+                                        <td class="table-cell">\(e^x\)</td>
+                                        <td class="table-cell">\(\sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \dots\)</td>
+                                        <td class="table-cell">Für alle \(x \in \mathbb{C}\)</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-700/50">
+                                        <td class="table-cell">\(\sin(x)\)</td>
+                                        <td class="table-cell">\(\sum_{n=0}^{\infty} (-1)^n \frac{x^{2n+1}}{(2n+1)!} = x - \frac{x^3}{3!} + \dots\)</td>
+                                        <td class="table-cell">Für alle \(x \in \mathbb{C}\)</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-700/50">
+                                        <td class="table-cell">\(\cos(x)\)</td>
+                                        <td class="table-cell">\(\sum_{n=0}^{\infty} (-1)^n \frac{x^{2n}}{(2n)!} = 1 - \frac{x^2}{2!} + \dots\)</td>
+                                        <td class="table-cell">Für alle \(x \in \mathbb{C}\)</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-700/50">
+                                        <td class="table-cell">\(\ln(1+x)\)</td>
+                                        <td class="table-cell">\(\sum_{n=1}^{\infty} (-1)^{n+1} \frac{x^n}{n} = x - \frac{x^2}{2} + \frac{x^3}{3} - \dots\)</td>
+                                        <td class="table-cell">\(|x| < 1\) und \(x=1\)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+                <section id="mafi-lagrange" class="mafi-content-section">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Extrema mit Nebenbedingungen</h2>
+                        <p class="mb-6 text-gray-300 leading-relaxed">Oft sucht man das Maximum oder Minimum einer Funktion \(f(x,y)\) nicht auf der gesamten Ebene, sondern nur auf einer Kurve, die durch eine Gleichung \(g(x,y)=0\) beschrieben wird. Dies nennt man eine <span class="tooltip-term">Nebenbedingung<span class="tooltip-box">Eine zusätzliche Gleichung, die die Variablen einer Optimierungsaufgabe erfüllen müssen.</span></span>. Die Methode der <span class="tooltip-term">Lagrange-Multiplikatoren<span class="tooltip-box">Ein Verfahren zur Bestimmung von lokalen Extrema einer Funktion unter einer oder mehreren Nebenbedingungen.</span></span> ist ein mächtiges Werkzeug dafür.</p>
+                        <ol class="list-decimal list-inside space-y-4 mb-6">
+                            <li><span class="font-semibold text-cyan-300">Lagrange-Funktion aufstellen:</span> Wir bilden eine neue Hilfsfunktion \( \mathcal{L}(x, y, \lambda) \), indem wir die Nebenbedingung mit einem neuen Parameter \(\lambda\) (dem Lagrange-Multiplikator) multiplizieren und zur Originalfunktion addieren:
+                                <div class="p-2 my-2 bg-gray-800/50 rounded-md">\( \mathcal{L}(x, y, \lambda) = f(x, y) + \lambda \cdot g(x, y) \)</div>
+                            </li>
+                            <li><span class="font-semibold text-cyan-300">Gradient der Lagrange-Funktion null setzen:</span> Wir suchen nach den Punkten, an denen der Gradient von \(\mathcal{L}\) bezüglich aller Variablen (inklusive \(\lambda\)) null wird. Das führt zu einem Gleichungssystem.</li>
+                            <li><span class="font-semibold text-cyan-300">Gleichungssystem lösen:</span> Die Lösungen \((x,y)\) dieses Systems sind die Kandidaten für die lokalen Extrema von \(f\) unter der Nebenbedingung \(g=0\).</li>
+                        </ol>
+                         <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-2">Interaktiver Lagrange-Rechner</h3>
+                            <p class="mb-4 text-gray-400 text-sm">Dieses Tool stellt das notwendige Gleichungssystem auf. Die (symbolische) Lösung musst du selbst durchführen.</p>
+                            <div class="mb-4">
+                                <label for="lagrange-f" class="block text-sm font-medium text-gray-400">Funktion \(f(x, y)\) =</label>
+                                <input type="text" id="lagrange-f" value="x+y" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 font-mono">
+                            </div>
+                            <div class="mb-4">
+                                <label for="lagrange-g" class="block text-sm font-medium text-gray-400">Nebenbedingung \(g(x, y)\) = 0, mit \(g(x,y)\) =</label>
+                                <input type="text" id="lagrange-g" value="x^2 + y^2 - 1" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 font-mono">
+                            </div>
+                            <button id="analyze-lagrange-btn" class="px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300">Gleichungssystem aufstellen</button>
+                            <div id="lagrange-result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300"></div>
+                        </div>
+                    </div>
+                </section>
+                <section id="mafi-probeklausur" class="mafi-content-section">
+                    <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Probeklausur-Generator</h2>
+                        <p class="mb-6 text-gray-300">Erstelle eine zufällige Probeklausur, die auf der Struktur und den Themen der echten Klausur basiert. Klicke nach der Bearbeitung auf "Lösung anzeigen", um deine Ergebnisse zu überprüfen.</p>
+                        <div class="text-center">
+                            <button id="generate-exam-btn" class="px-6 py-3 bg-amber-500 text-white rounded-lg shadow-lg hover:bg-amber-400 transition-all duration-300 text-lg font-semibold">Neue Probeklausur generieren</button>
+                        </div>
+                        <div id="exam-container" class="mt-8 space-y-6"></div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+    </div>
+    <script src="js/mafi2.js"></script>
+</body>
+</html>
