@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // fade in on load
+    // fade in on load and hide loading overlay
+    const overlay = document.getElementById('loading-overlay');
+    if (overlay) {
+        overlay.classList.add('hidden');
+        overlay.addEventListener('transitionend', () => overlay.remove());
+    }
     document.body.classList.add('loaded');
 
     // handle forward navigation via data-link
