@@ -1,3 +1,4 @@
+(() => {
 // --- GENERAL SETUP ---
 sessionStorage.setItem('selectedSemester', '2');
 const backBtn = document.querySelector('.back-to-hub-btn');
@@ -1076,3 +1077,4 @@ function setupAud() {
     if(generateAudExercisesBtn) generateAudExercisesBtn.addEventListener('click', generateAudExercises);
     generateAudExercises();
 }
+})();

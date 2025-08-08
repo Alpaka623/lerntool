@@ -1,3 +1,4 @@
+(() => {
 sessionStorage.setItem('selectedSemester', '2');
 const backBtn = document.querySelector('.back-to-hub-btn');
 if (backBtn) backBtn.addEventListener('click', () => { window.dispatchEvent(new CustomEvent('navigate-back')); });
@@ -940,5 +941,6 @@ if (backBtn) backBtn.addEventListener('click', () => { window.dispatchEvent(new 
 }
 
 setupCcn();
+})();
 
 
