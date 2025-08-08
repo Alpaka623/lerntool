@@ -26,10 +26,10 @@
         }
 
         /* --- View and Section Visibility Control --- */
-        .subject-view, .content-section, .mafi-content-section, .insi-content-section {
+        .subject-view, .content-section, .mafi-content-section, .insi-content-section, .aud-content-section {
             display: none; /* Hide all views by default */
         }
-        .subject-view.active, .content-section.active, .mafi-content-section.active, .insi-content-section.active {
+        .subject-view.active, .content-section.active, .mafi-content-section.active, .insi-content-section.active, .aud-content-section.active {
             display: block; /* Show only the active view */
             animation: fadeIn 0.4s ease-out; /* Add a fade-in animation */
         }

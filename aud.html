@@ -9,16 +9,191 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/1599/1599145.png">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .bar { transition: all 0.3s ease-in-out; }
+        .code-block { background-color: #2d3748; border-radius: 0.5rem; padding: 1rem; font-family: 'Courier New', Courier, monospace; white-space: pre; }
+        .solution-code { background-color: #1a202c; border-left: 4px solid #0891b2; padding: 1rem; margin-top: 1rem; border-radius: 0.5rem; font-family: 'Courier New', Courier, monospace; white-space: pre; }
+    </style>
 </head>
 <body class="text-gray-200">
-    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
-        <div class="text-center relative p-8">
+<div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
+    <div id="aud-app" class="subject-view active">
+        <header class="text-center mb-12 relative">
             <button class="back-to-hub-btn absolute top-0 left-0 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">&larr; Zurück</button>
-            <h1 class="text-5xl font-bold text-white mt-20">Coming Soon</h1>
-            <p class="text-xl text-gray-400 mt-4">Inhalte für dieses Fach werden in Kürze hinzugefügt.</p>
-        </div>
+            <h1 class="text-5xl font-bold text-white">Algorithmen und Datenstrukturen</h1>
+            <p class="text-xl text-gray-400 mt-2">Dein interaktiver Lernassistent für AuD</p>
+        </header>
+
+        <nav class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12">
+            <button data-aud-target="aud-grundlagen" class="aud-nav-button active font-semibold py-2 px-5 rounded-full">Grundlagen & Komplexität</button>
+            <button data-aud-target="aud-sortieren" class="aud-nav-button font-semibold py-2 px-5 rounded-full">Sortieralgorithmen</button>
+            <button data-aud-target="aud-listen" class="aud-nav-button font-semibold py-2 px-5 rounded-full">Lineare Datenstrukturen</button>
+            <button data-aud-target="aud-baeume" class="aud-nav-button font-semibold py-2 px-5 rounded-full">Bäume</button>
+            <button data-aud-target="aud-graphen" class="aud-nav-button font-semibold py-2 px-5 rounded-full">Graphen</button>
+            <button data-aud-target="aud-uebungen" class="aud-nav-button font-semibold py-2 px-5 rounded-full">Klausurübungen</button>
+        </nav>
+
+        <main>
+            <section id="aud-grundlagen" class="aud-content-section active">
+                <div class="space-y-8">
+                    <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Was ist ein Algorithmus?</h2>
+                        <p class="mb-4 text-gray-300">Ein Algorithmus ist eine präzise und endliche Beschreibung eines allgemeinen Verfahrens, das aus gegebenen Eingabegrößen schrittweise die gesuchten Ausgabegrößen ermittelt. Die wichtigsten Eigenschaften sind:</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-300">
+                            <li><b>Allgemeinheit:</b> Löst eine ganze Klasse von Problemen, nicht nur einen Einzelfall (z.B. Sortieren beliebiger Zahlenfolgen, nicht nur der Folge 3,1,2).</li>
+                            <li><b>Eindeutigkeit:</b> Jeder Schritt ist unmissverständlich und klar definiert.</li>
+                            <li><b>Endlichkeit (Finitheit):</b> Die Beschreibung des Algorithmus muss endlich sein (statischer Aspekt) und er muss für jede gültige Eingabe nach endlich vielen Schritten terminieren (dynamischer Aspekt).</li>
+                            <li><b>Ausführbarkeit:</b> Jeder Einzelschritt des Algorithmus muss tatsächlich durchführbar sein.</li>
+                        </ul>
+                    </div>
+
+                    <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Asymptotische Komplexität (O-Notation)</h2>
+                        <p class="mb-4 text-gray-300">Die O-Notation ist das wichtigste Werkzeug, um die Effizienz von Algorithmen zu analysieren. Sie beschreibt das Wachstumsverhalten der Laufzeit (oder des Speicherbedarfs) in Abhängigkeit von der Größe der Eingabedaten \(n\), insbesondere für sehr großes \(n\). Dabei werden konstante Faktoren und Terme niedrigerer Ordnung ignoriert, um eine hardwareunabhängige Vergleichbarkeit zu ermöglichen. Ein Algorithmus mit einer Komplexität von \(O(n)\) ist also im Allgemeinen deutlich effizienter als einer mit \(O(n^2)\), auch wenn der \(O(n^2)\)-Algorithmus auf einem viel schnelleren Computer läuft.</p>
+                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold mb-2 text-cyan-300">Wichtige Komplexitätsklassen im Vergleich</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left">
+                                    <thead>
+                                    <tr class="text-gray-300">
+                                        <th class="p-2">Notation</th>
+                                        <th class="p-2">Name</th>
+                                        <th class="p-2">Beurteilung</th>
+                                        <th class="p-2">Beispiel</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="border-t border-gray-700"><td class="p-2 font-mono text-green-400">O(1)</td><td>Konstant</td><td>Exzellent</td><td>Array-Zugriff per Index</td></tr>
+                                    <tr class="border-t border-gray-700"><td class="p-2 font-mono text-cyan-400">O(log n)</td><td>Logarithmisch</td><td>Sehr gut</td><td>Binäre Suche</td></tr>
+                                    <tr class="border-t border-gray-700"><td class="p-2 font-mono text-blue-400">O(n)</td><td>Linear</td><td>Gut</td><td>Lineare Suche, Maximum finden</td></tr>
+                                    <tr class="border-t border-gray-700"><td class="p-2 font-mono text-yellow-400">O(n log n)</td><td>Log-Linear</td><td>Sehr gut</td><td>Effiziente Sortierverfahren (z.B. Mergesort, Heapsort)</td></tr>
+                                    <tr class="border-t border-gray-700"><td class="p-2 font-mono text-orange-400">O(n²)</td><td>Quadratisch</td><td>Mittelmäßig, nur für kleines n</td><td>Einfache Sortierverfahren (z.B. Bubblesort, Selectionsort)</td></tr>
+                                    <tr class="border-t border-gray-700"><td class="p-2 font-mono text-red-400">O(2ⁿ)</td><td>Exponentiell</td><td>Langsam, oft unbrauchbar</td><td>Türme von Hanoi (rekursiv)</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aud-sortieren" class="aud-content-section">
+                <div class="card p-6 rounded-2xl shadow-2xl">
+                    <h2 class="text-3xl font-bold text-cyan-400 mb-4">Visueller Sortier-Demonstrator</h2>
+                    <p class="mb-4 text-gray-300">Beobachte, wie verschiedene Sortieralgorithmen arbeiten. Die Höhe der Balken repräsentiert den Wert des Elements. Wähle einen Algorithmus und eine Geschwindigkeit, um die Visualisierung zu starten. Dies hilft, die unterschiedlichen Vorgehensweisen und Effizienzen zu verstehen.</p>
+                    <div class="flex flex-wrap items-center gap-4 mb-6">
+                        <select id="sort-algo-select" class="bg-gray-700 text-white px-3 py-2 rounded-md">
+                            <option value="bubble">Bubblesort - O(n²)</option>
+                            <option value="insertion">Insertionsort - O(n²)</option>
+                            <option value="selection">Selectionsort - O(n²)</option>
+                            <option value="quicksort">Quicksort - O(n log n) avg.</option>
+                        </select>
+                        <label for="sort-speed-slider">Speed: <span id="sort-speed-label">100</span>ms</label>
+                        <input type="range" id="sort-speed-slider" min="10" max="500" value="100" class="w-48">
+                        <button id="sort-start-btn" class="px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600">Start</button>
+                        <button id="sort-reset-btn" class="px-5 py-2 bg-gray-600 text-white rounded-lg shadow-lg hover:bg-gray-500">Neues Array</button>
+                    </div>
+                    <div id="sort-container" class="w-full h-64 bg-gray-800/50 p-2 rounded-lg flex items-end justify-between"></div>
+                    <div id="sort-explanation" class="mt-4 p-4 bg-gray-900/50 rounded-lg"></div>
+                </div>
+            </section>
+
+            <section id="aud-listen" class="aud-content-section">
+                <div class="space-y-8">
+                    <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Stack (LIFO-Prinzip)</h2>
+                        <p class="mb-4 text-gray-300">Ein Stack (Stapel oder Keller) ist eine Datenstruktur, die nach dem <strong>"Last-In, First-Out" (LIFO)</strong>-Prinzip arbeitet. Das bedeutet, das Element, das zuletzt hinzugefügt wurde, wird als erstes wieder entfernt. Eine gute Analogie ist ein Stapel Teller: Man legt einen neuen Teller immer oben drauf und nimmt auch immer den obersten Teller wieder weg. Die Hauptoperationen sind <strong>push</strong> (Element hinzufügen) und <strong>pop</strong> (Element entfernen).</p>
+                        <div class="flex flex-col md:flex-row gap-8 items-start">
+                            <div class="w-full md:w-1/2">
+                                <div class="flex gap-2">
+                                    <input type="text" id="stack-input" placeholder="Wert..." class="flex-grow px-3 py-2 rounded-md shadow-sm">
+                                    <button id="stack-push-btn" class="px-4 py-2 bg-cyan-700 text-white rounded-lg hover:bg-cyan-600">Push</button>
+                                    <button id="stack-pop-btn" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500">Pop</button>
+                                </div>
+                                <p class="text-sm text-gray-400 mt-2"><b>Push:</b> Element oben auf den Stapel legen. <b>Pop:</b> Oberstes Element entfernen.</p>
+                            </div>
+                            <div id="stack-container" class="w-full md:w-1/2 h-48 bg-gray-800/50 p-2 rounded-lg border-b-4 border-cyan-700 flex flex-col-reverse items-center gap-1"></div>
+                        </div>
+                    </div>
+                    <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Queue (FIFO-Prinzip)</h2>
+                        <p class="mb-4 text-gray-300">Eine Queue (Warteschlange) arbeitet nach dem <strong>"First-In, First-Out" (FIFO)</strong>-Prinzip. Das Element, das als erstes hinzugefügt wurde, wird auch als erstes wieder entfernt – genau wie bei einer Warteschlange an der Supermarktkasse. Die Hauptoperationen sind <strong>enqueue</strong> (Element hinten anstellen) und <strong>dequeue</strong> (vorderstes Element entfernen).</p>
+                        <div class="flex flex-col md:flex-row gap-8 items-start">
+                            <div class="w-full md:w-1/2">
+                                <div class="flex gap-2">
+                                    <input type="text" id="queue-input" placeholder="Wert..." class="flex-grow px-3 py-2 rounded-md shadow-sm">
+                                    <button id="queue-enqueue-btn" class="px-4 py-2 bg-cyan-700 text-white rounded-lg hover:bg-cyan-600">Enqueue</button>
+                                    <button id="queue-dequeue-btn" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500">Dequeue</button>
+                                </div>
+                                <p class="text-sm text-gray-400 mt-2"><b>Enqueue:</b> Element hinten anstellen. <b>Dequeue:</b> Vorderstes Element entfernen.</p>
+                            </div>
+                            <div id="queue-container" class="w-full md:w-1/2 h-16 bg-gray-800/50 p-2 rounded-lg border-2 border-cyan-700 flex items-center gap-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aud-baeume" class="aud-content-section">
+                <div class="space-y-8">
+                    <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Binärer Suchbaum (BST)</h2>
+                        <p class="mb-4 text-gray-300">Ein Binärer Suchbaum ist eine fundamentale Baum-Datenstruktur. Für jeden Knoten gilt die <strong>Suchbaum-Eigenschaft</strong>: Alle Werte im linken Teilbaum sind kleiner als der Wert des Knotens, und alle Werte im rechten Teilbaum sind größer. Diese Eigenschaft ermöglicht eine sehr effiziente Suche, die im Durchschnitt eine Komplexität von \(O(\log n)\) hat. Im schlechtesten Fall (wenn der Baum zu einer Liste degeneriert) kann die Suche jedoch \(O(n)\) dauern. Um dies zu verhindern, werden balancierte Bäume wie AVL-Bäume oder B-Bäume verwendet.</p>
+                        <div class="flex gap-2 mb-4">
+                            <input type="number" id="bst-input" placeholder="Zahl..." class="w-32 px-3 py-2 rounded-md shadow-sm">
+                            <button id="bst-insert-btn" class="px-4 py-2 bg-cyan-700 text-white rounded-lg hover:bg-cyan-600">Einfügen</button>
+                            <button id="bst-search-btn" class="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-500">Suchen</button>
+                            <button id="bst-reset-btn" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500">Reset</button>
+                        </div>
+                        <div id="bst-container" class="w-full min-h-64 bg-gray-800/50 p-4 rounded-lg overflow-x-auto relative">
+                            <p class="text-center text-gray-400">Füge Zahlen hinzu, um den Baum aufzubauen.</p>
+                        </div>
+                    </div>
+                    <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">AVL-Bäume</h2>
+                        <p class="mb-4 text-gray-300">AVL-Bäume sind selbstbalancierende Binärbäume. Für jeden Knoten unterscheidet sich die Höhe der beiden Teilbäume höchstens um eins. Durch Rotationen wird diese Balance nach Einfüge- oder Löschoperationen wiederhergestellt, wodurch die Höhe des Baumes immer \(O(\log n)\) bleibt.</p>
+                    </div>
+                    <div class="card p-6 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">B-Bäume</h2>
+                        <p class="mb-4 text-gray-300">B-Bäume sind mehrwegige Suchbäume und kommen häufig in Datenbanksystemen zum Einsatz. Jeder Knoten kann mehrere Schlüssel und Kinder besitzen, wodurch sich die Höhe des Baumes reduziert und Einfüge- sowie Löschoperationen effizient bleiben.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aud-graphen" class="aud-content-section">
+                <div class="card p-6 rounded-2xl shadow-2xl">
+                    <h2 class="text-3xl font-bold text-cyan-400 mb-4">Dijkstra & Kruskal Algorithmen</h2>
+                    <p class="mb-4 text-gray-300">Graphen sind eine vielseitige Datenstruktur zur Modellierung von Netzwerken und Beziehungen. Zwei zentrale Algorithmen für gewichtete Graphen sind Dijkstra und Kruskal.</p>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold mb-2 text-cyan-300">Dijkstra: Kürzeste Wege</h3>
+                            <p class="text-gray-300">Der Algorithmus von Dijkstra findet den kürzesten Weg von einem Startknoten zu allen anderen Knoten in einem Graphen mit nicht-negativen Kantengewichten. Er arbeitet "gierig", indem er schrittweise den Knoten mit der bisher geringsten bekannten Distanz auswählt, diesen als "besucht" markiert und die Distanzen zu dessen Nachbarn aktualisiert.</p>
+                        </div>
+                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold mb-2 text-cyan-300">Kruskal: Minimaler Spannbaum</h3>
+                            <p class="text-gray-300">Der Algorithmus von Kruskal findet einen minimalen Spannbaum (MST) für einen zusammenhängenden, ungerichteten Graphen. Ein MST ist ein Teilgraph, der alle Knoten ohne Zyklen verbindet und dabei die Summe der Kantengewichte minimiert. Der Algorithmus sortiert alle Kanten nach Gewicht und fügt sie nacheinander hinzu, solange sie keinen Zyklus erzeugen.</p>
+                        </div>
+                    </div>
+                    <div id="graph-visualizer-container" class="mt-6">
+                        <p class="text-center text-gray-400 p-8 bg-gray-800/50 rounded-lg">Eine interaktive Graphen-Visualisierung wird in Kürze hinzugefügt.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aud-uebungen" class="aud-content-section">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-cyan-400 mb-4">Interaktive Klausurübungen</h2>
+                    <p class="mb-4 text-gray-300">Teste dein Wissen mit Aufgaben, die im Stil der echten AuD-Klausuren gestaltet sind. Klicke auf "Neue Aufgaben", um eine neue Zusammenstellung zu erhalten.</p>
+                    <button id="generate-aud-exercises-btn" class="px-6 py-3 bg-amber-600 text-white rounded-lg shadow-lg hover:bg-amber-500 transition-all duration-300 text-lg font-semibold">
+                        Neue Aufgaben generieren
+                    </button>
+                </div>
+                <div id="aud-exercises-container" class="space-y-6"></div>
+            </section>
+        </main>
     </div>
-    <script src="js/aud.js"></script>
+</div>
+<script src="js/aud.js"></script>
 </body>
 </html>
