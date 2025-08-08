@@ -15,6 +15,13 @@ document.addEventListener('DOMContentLoaded', function() {
         view.classList.add('active');
     }
 
+    const storedSemester = sessionStorage.getItem('selectedSemester');
+    if (storedSemester === '2') {
+        showView(subjectHub);
+    } else if (storedSemester && storedSemester !== '2') {
+        showView(comingSoon);
+    }
+
     function updateExamCountdowns() {
         const countdownElements = document.querySelectorAll('.exam-countdown');
         const today = new Date();
@@ -53,7 +60,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.addEventListener('click', function(event) {
         const semesterCard = event.target.closest('.semester-card');
         if (semesterCard) {
-            if (semesterCard.dataset.semester === '2') {
+            const semester = semesterCard.dataset.semester;
+            sessionStorage.setItem('selectedSemester', semester);
+            if (semester === '2') {
                 showView(subjectHub);
             } else {
                 showView(comingSoon);
@@ -62,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (event.target.closest('.back-button')) {
+            sessionStorage.removeItem('selectedSemester');
             showView(semesterHub);
             return;
         }
