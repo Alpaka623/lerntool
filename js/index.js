@@ -76,9 +76,5 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const card = event.target.closest('.subject-card');
-        if (card && card.dataset.link) {
-            window.location.href = card.dataset.link;
-        }
     });
 });
