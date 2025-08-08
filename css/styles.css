@@ -6,18 +6,18 @@
         }
 
         /* --- Navigation Button Styling (for all subjects) --- */
-        .nav-button, .mafi-nav-button, .insi-nav-button {
+        .nav-button, .mafi-nav-button, .insi-nav-button, .aud-nav-button {
             transition: all 0.3s ease;
             background-color: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: #9ca3af; /* Medium gray text */
         }
-        .nav-button:hover, .mafi-nav-button:hover, .insi-nav-button:hover {
+        .nav-button:hover, .mafi-nav-button:hover, .insi-nav-button:hover, .aud-nav-button:hover {
             background-color: rgba(13, 202, 240, 0.1); /* Light cyan on hover */
             color: #0dcaf0;
             border-color: rgba(13, 202, 240, 0.3);
         }
-        .nav-button.active, .mafi-nav-button.active, .insi-nav-button.active {
+        .nav-button.active, .mafi-nav-button.active, .insi-nav-button.active, .aud-nav-button.active {
             background-color: #0891b2; /* Strong cyan for active state */
             color: white;
             transform: translateY(-2px);
