@@ -1,3 +1,16 @@
+function initAnimations(root = document) {
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    root.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const examDates = {
         'ccn': new Date(2025, 7, 4),
@@ -57,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     updateExamCountdowns();
+    initAnimations();
 
     function loadPage(url) {
         fetch(url)
@@ -67,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const scripts = Array.from(doc.querySelectorAll('script'));
                 scripts.forEach(s => s.parentNode.removeChild(s));
                 dynamicContent.innerHTML = doc.body.innerHTML;
+                initAnimations(dynamicContent);
 
                 function loadScriptsSequentially(index = 0) {
                     if (index >= scripts.length) {

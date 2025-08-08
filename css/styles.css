@@ -1,193 +1,259 @@
-        /* General Body and Font Styles */
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #111827; /* Dark blue-gray background */
-            color: #e5e7eb; /* Light gray text */
-        }
+/* Modern Dark Theme */
+:root {
+    --color-bg: #0d1117;
+    --color-surface: #1f2937;
+    --color-border: rgba(255,255,255,0.1);
+    --color-text: #e5e7eb;
+    --color-accent: #0ea5e9;
+    --color-accent-hover: #38bdf8;
+}
 
-        /* --- Navigation Button Styling (for all subjects) --- */
-        .nav-button, .mafi-nav-button, .insi-nav-button, .aud-nav-button {
-            transition: all 0.3s ease;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #9ca3af; /* Medium gray text */
-        }
-        .nav-button:hover, .mafi-nav-button:hover, .insi-nav-button:hover, .aud-nav-button:hover {
-            background-color: rgba(13, 202, 240, 0.1); /* Light cyan on hover */
-            color: #0dcaf0;
-            border-color: rgba(13, 202, 240, 0.3);
-        }
-        .nav-button.active, .mafi-nav-button.active, .insi-nav-button.active, .aud-nav-button.active {
-            background-color: #0891b2; /* Strong cyan for active state */
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(13, 202, 240, 0.2);
-            border-color: #0891b2;
-        }
+/* Animated gradient background */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b, #0f172a);
+    background-size: 400% 400%;
+    animation: gradientShift 20s ease infinite;
+    color: var(--color-text);
+    min-height: 100vh;
+    transition: background 0.5s, color 0.5s;
+}
 
-        /* --- View and Section Visibility Control --- */
-        .subject-view, .content-section, .mafi-content-section, .insi-content-section, .aud-content-section {
-            display: none; /* Hide all views by default */
-        }
-        .subject-view.active, .content-section.active, .mafi-content-section.active, .insi-content-section.active, .aud-content-section.active {
-            display: block; /* Show only the active view */
-            animation: fadeIn 0.4s ease-out; /* Add a fade-in animation */
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
 
-        /* --- Card Styling --- */
-        .card {
-            background-color: rgba(31, 41, 55, 0.7); /* Semi-transparent dark card background */
-            backdrop-filter: blur(10px); /* Frosted glass effect */
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .subject-card, .semester-card {
-            transition: all 0.3s ease;
-        }
-        .subject-card:hover, .semester-card:hover {
-            transform: translateY(-5px); /* Lift card on hover */
-            box-shadow: 0 10px 25px rgba(13, 202, 240, 0.2); /* Cyan glow on hover */
-        }
+/* Basic fade/slide animation */
+@keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-        /* --- Tooltip Styling --- */
-        .tooltip-term {
-            color: #2dd4bf; /* Teal color for terms */
-            cursor: pointer;
-            position: relative;
-            border-bottom: 1px dotted #2dd4bf;
-            font-weight: 600;
-        }
-        
-        .tooltip-box {
-            visibility: hidden;
-            width: 280px;
-            background-color: #1f2937;
-            color: #e5e7eb;
-            text-align: left;
-            border-radius: 6px;
-            padding: 10px;
-            position: absolute;
-            z-index: 10;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -140px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            border: 1px solid #374151;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            font-size: 0.875rem;
-            line-height: 1.4;
-            font-weight: 400;
-        }
+/* Navigation buttons */
+.nav-button,
+.mafi-nav-button,
+.insi-nav-button,
+.aud-nav-button {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-surface));
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    transition: background-position 0.4s, color 0.3s, box-shadow 0.4s, transform 0.3s;
+}
 
-        .tooltip-box::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #1f2937 transparent transparent transparent;
-        }
+.nav-button:hover,
+.mafi-nav-button:hover,
+.insi-nav-button:hover,
+.aud-nav-button:hover {
+    background-position: 0 0;
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(14,165,233,0.3);
+}
 
-        .tooltip-term:hover .tooltip-box {
-            visibility: visible;
-            opacity: 1;
-        }
+.nav-button.active,
+.mafi-nav-button.active,
+.insi-nav-button.active,
+.aud-nav-button.active {
+    background-position: 0 0;
+    color: #fff;
+    box-shadow: 0 10px 25px rgba(14,165,233,0.5);
+}
 
-        /* --- Form and Table Styling --- */
-        input, .table-header, .table-cell, select, textarea {
-            background-color: #374151;
-            border-color: #4b5563;
-            color: #e5e7eb;
-        }
-        input:focus, select:focus, textarea:focus {
-            --tw-ring-color: #0891b2;
-            border-color: #0891b2;
-        }
-        .math-table td, .math-table th {
-            padding: 8px 12px;
-            border: 1px solid #4b5563;
-        }
-        
-        /* --- INSI Specific Styles --- */
-        .dfd-element {
-            border: 2px solid #6b7280;
-            padding: 0.5rem 1rem;
-            text-align: center;
-            background-color: #374151;
-            border-radius: 0.5rem;
-        }
-        .dfd-process {
-            border-radius: 9999px; /* Circle */
-            border-color: #0891b2;
-        }
-        .dfd-arrow {
-            position: relative;
-            width: 100%;
-            height: 2px;
-            background-color: #9ca3af;
-        }
-        .dfd-arrow::after {
-            content: '▶';
-            position: absolute;
-            right: -5px;
-            top: -9px;
-            color: #9ca3af;
-        }
-        .solution {
-            display: none;
-            border-left: 4px solid #0891b2;
-            background-color: #1f2937;
-            padding: 1rem;
-            margin-top: 0.5rem;
-            border-radius: 0.5rem;
-        }
+/* Views & sections */
+.subject-view,
+.content-section,
+.mafi-content-section,
+.insi-content-section,
+.aud-content-section {
+    display: none;
+}
 
-        /* --- CCN Specific Styles --- */
-        .osi-layer, .topology-item {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .osi-layer:hover, .topology-item:hover {
-            transform: translateX(5px);
-            border-left-width: 6px;
-        }
-        .osi-layer.selected, .topology-item.selected {
-            box-shadow: 0 0 20px rgba(13, 202, 240, 0.3);
-            border-left-width: 6px;
-        }
-        .header-field {
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            background-color: #374151;
-            border-color: #4b5563;
-        }
-        .header-field:hover {
-            background-color: #4b5563;
-            transform: scale(1.02);
-        }
-        .header-field.selected {
-            background-color: #0891b2;
-            color: white;
-            border-color: #0dcafo;
-            box-shadow: 0 0 15px rgba(13, 202, 240, 0.3);
-        }
-        .description-box {
-            display: none;
-            background-color: #1f2937;
-            border-left-color: #0891b2;
-        }
-        .routing-table tr:hover {
-            background-color: #374151;
-        }
-        .routing-table tr.highlight {
-            background-color: #0891b2;
-            color: white;
-        }
+.subject-view.active,
+.content-section.active,
+.mafi-content-section.active,
+.insi-content-section.active,
+.aud-content-section.active {
+    display: block;
+    animation: fadeSlideIn 0.6s ease both;
+}
 
+/* Cards */
+
+.card {
+    background-color: rgba(31, 41, 55, 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--color-border);
+    transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.reveal.animate {
+    animation: fadeSlideIn 0.6s forwards;
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(14,165,233,0.2);
+}
+
+/* Tooltips */
+.tooltip-term {
+    color: #2dd4bf;
+    cursor: pointer;
+    position: relative;
+    border-bottom: 1px dotted #2dd4bf;
+    font-weight: 600;
+}
+
+.tooltip-box {
+    visibility: hidden;
+    width: 280px;
+    background-color: #1f2937;
+    color: var(--color-text);
+    text-align: left;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 10;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -140px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    border: 1px solid #374151;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    font-size: 0.875rem;
+    line-height: 1.4;
+    font-weight: 400;
+}
+
+.tooltip-box::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #1f2937 transparent transparent transparent;
+}
+
+.tooltip-term:hover .tooltip-box {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Form & table styling */
+input, .table-header, .table-cell, select, textarea {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: var(--color-text);
+}
+
+input:focus, select:focus, textarea:focus {
+    --tw-ring-color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.math-table td, .math-table th {
+    padding: 8px 12px;
+    border: 1px solid #4b5563;
+}
+
+/* INSI Specific Styles */
+.dfd-element {
+    border: 2px solid #6b7280;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    background-color: #374151;
+    border-radius: 0.5rem;
+}
+.dfd-process {
+    border-radius: 9999px;
+    border-color: var(--color-accent);
+}
+.dfd-arrow {
+    position: relative;
+    width: 100%;
+    height: 2px;
+    background-color: #9ca3af;
+}
+.dfd-arrow::after {
+    content: '▶';
+    position: absolute;
+    right: -5px;
+    top: -9px;
+    color: #9ca3af;
+}
+.solution {
+    display: none;
+    border-left: 4px solid var(--color-accent);
+    background-color: #1f2937;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+/* CCN Specific Styles */
+.osi-layer, .topology-item {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.osi-layer:hover, .topology-item:hover {
+    transform: translateX(5px);
+    border-left-width: 6px;
+}
+.osi-layer.selected, .topology-item.selected {
+    box-shadow: 0 0 20px rgba(14,165,233,0.3);
+    border-left-width: 6px;
+}
+.header-field {
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    background-color: #374151;
+    border-color: #4b5563;
+}
+.header-field:hover {
+    background-color: #4b5563;
+    transform: scale(1.02);
+}
+.header-field.selected {
+    background-color: var(--color-accent);
+    color: white;
+    border-color: #0dcaf0;
+    box-shadow: 0 0 15px rgba(13, 202, 240, 0.3);
+}
+.description-box {
+    display: none;
+    background-color: #1f2937;
+    border-left-color: var(--color-accent);
+}
+.routing-table tr:hover {
+    background-color: #374151;
+}
+.routing-table tr.highlight {
+    background-color: var(--color-accent);
+    color: white;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    body {
+        animation: none;
+    }
+    .reveal.animate {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+}
