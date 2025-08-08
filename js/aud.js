@@ -799,6 +799,33 @@ function setupAud() {
                         { text: "Im Worst-Case sind Heapsort und Mergesort gleich schnell.", correct: true, expl: "Beide haben eine garantierte Laufzeit von O(n log n)." },
                         { text: "Im Average-Case ist Insertionsort langsamer als Bubblesort.", correct: false, expl: "Insertionsort ist im Schnitt schneller als Bubblesort." }
                     ]
+                },
+                {
+                    q: "Welche zwei der folgenden Aussagen zum Suchverfahren auf Datenstrukturen treffen zu?",
+                    options: [
+                        { text: "Binäres Suchen hat bei geordneten Schlüsseln im Worst Case eine Komplexität von O(log n).", correct: true },
+                        { text: "Lineares Suchen hat bei geordneten Schlüsseln im Worst Case eine Komplexität von O(n).", correct: true },
+                        { text: "Lineares Suchen hat bei ungeordneten Schlüsseln im Average Case eine Komplexität von O(log n).", correct: false },
+                        { text: "Interpolationssuche hat bei geordneten Schlüsseln im Worst Case eine Komplexität von O(n²).", correct: false }
+                    ]
+                },
+                {
+                    q: "Welche zwei der folgenden Aussagen charakterisieren Aspekte des Hash-Verfahrens korrekt?",
+                    options: [
+                        { text: "Für das Ablegen eines Datensatzes wird durch die Hash-Funktion für einen gegebenen Schlüssel eine Hash-Adresse berechnet.", correct: true },
+                        { text: "Bei einer Adresskollision ist das Quadratische Sondieren eine mögliche Strategie, um einen passenden Platz zu ermitteln.", correct: true },
+                        { text: "Bei einer Adresskollision ist die Verwendung eines Hash-Puffers eine mögliche Strategie.", correct: false, expl: "Ein Hash-Puffer ist keine Standardstrategie zur Kollisionsbehandlung. Gängige Methoden sind Sondieren oder Verkettung." },
+                        { text: "Die Hash-Funktion führt eine binäre Suche durch.", correct: false, expl: "Eine Hash-Funktion berechnet direkt einen Index, sie führt keine Suche durch." }
+                    ]
+                },
+                {
+                    q: "Welche Aussage charakterisiert einen AVL-Baum korrekt? (Nur eine Antwort)",
+                    options: [
+                        { text: "Im AVL-Baum darf sich die Höhe der Teilbäume an jedem Knoten um maximal 1 unterscheiden.", correct: true },
+                        { text: "Im AVL-Baum sind die Blätter von links nach rechts absteigend sortiert.", correct: false, expl: "In einem Suchbaum sind die Elemente aufsteigend sortiert (In-Order-Traversierung)." },
+                        { text: "Ein AVL-Baum ist immer ein vollständiger Binärbaum.", correct: false, expl: "Ein AVL-Baum ist höhenbalanciert, aber nicht notwendigerweise vollständig." },
+                        { text: "Rotationen sind im AVL-Baum nur beim Löschen von Knoten notwendig.", correct: false, expl: "Rotationen sind sowohl beim Einfügen als auch beim Löschen notwendig, um die Balance zu wahren." }
+                    ]
                 }
             ];
             const item = this.getRandomElement(questions);
