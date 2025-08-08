@@ -15,32 +15,9 @@
 </head>
 <body class="text-gray-200">
     <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
-        <!-- Login View -->
-        <div id="login-view" class="subject-view active">
-            <div class="flex items-center justify-center min-h-screen">
-                <div class="card p-8 rounded-2xl shadow-2xl w-full max-w-md">
-                    <h1 class="text-4xl font-bold text-white text-center mb-2">Lerntool</h1>
-                    <p class="text-center text-gray-400 mb-8">Bitte anmelden</p>
-                    <form id="login-form">
-                        <div class="mb-4">
-                            <label for="username" class="block mb-2 text-sm font-medium text-gray-300">Benutzername</label>
-                            <input type="text" id="username" class="w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500" required>
-                        </div>
-                        <div class="mb-6">
-                            <label for="password" class="block mb-2 text-sm font-medium text-gray-300">Passwort</label>
-                            <input type="password" id="password" class="w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500" required>
-                        </div>
-                        <div id="login-error" class="hidden text-red-400 text-center mb-4">Falscher Benutzername oder Passwort.</div>
-                        <button type="submit" class="w-full px-5 py-3 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300 font-semibold">Anmelden</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
         <!-- Subject Hub View -->
-        <div id="subject-hub" class="subject-view">
-            <header class="text-center mb-12 relative">
-                <button id="logout-btn" class="absolute top-0 right-0 px-4 py-2 bg-red-800/80 text-white rounded-lg hover:bg-red-700 transition-colors">Logout</button>
+        <div id="subject-hub" class="subject-view active">
+            <header class="text-center mb-12">
                 <h1 class="text-5xl font-bold text-white">Lerntool</h1>
                 <p class="text-xl text-gray-400 mt-2">Wähle dein Fach aus</p>
             </header>
