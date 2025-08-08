@@ -151,12 +151,21 @@
                         </div>
                     </div>
                     <div class="card p-6 rounded-2xl shadow-2xl">
-                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">AVL-Bäume</h2>
-                        <p class="mb-4 text-gray-300">AVL-Bäume sind selbstbalancierende Binärbäume. Für jeden Knoten unterscheidet sich die Höhe der beiden Teilbäume höchstens um eins. Durch Rotationen wird diese Balance nach Einfüge- oder Löschoperationen wiederhergestellt, wodurch die Höhe des Baumes immer \(O(\log n)\) bleibt.</p>
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">AVL-Baum</h2>
+                        <p class="mb-4 text-gray-300">AVL-Bäume sind selbstbalancierende Binärbäume. Für jeden Knoten unterscheidet sich die Höhe der beiden Teilbäume höchstens um eins. Durch <strong>Rotationen</strong> wird diese Balance nach Einfüge- oder Löschoperationen wiederhergestellt, wodurch die Höhe des Baumes immer \(O(\log n)\) bleibt und ein Entarten verhindert wird.</p>
+                        <div class="flex gap-2 mb-4">
+                            <input type="number" id="avl-input" placeholder="Zahl..." class="w-32 px-3 py-2 rounded-md shadow-sm">
+                            <button id="avl-insert-btn" class="px-4 py-2 bg-cyan-700 text-white rounded-lg hover:bg-cyan-600">Einfügen</button>
+                            <button id="avl-delete-btn" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500">Löschen</button>
+                            <button id="avl-reset-btn" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500">Reset</button>
+                        </div>
+                        <div id="avl-container" class="w-full min-h-64 bg-gray-800/50 p-4 rounded-lg overflow-x-auto relative">
+                            <p class="text-center text-gray-400">Füge Zahlen hinzu, um den Baum aufzubauen.</p>
+                        </div>
                     </div>
                     <div class="card p-6 rounded-2xl shadow-2xl">
                         <h2 class="text-3xl font-bold text-cyan-400 mb-4">B-Bäume</h2>
-                        <p class="mb-4 text-gray-300">B-Bäume sind mehrwegige Suchbäume und kommen häufig in Datenbanksystemen zum Einsatz. Jeder Knoten kann mehrere Schlüssel und Kinder besitzen, wodurch sich die Höhe des Baumes reduziert und Einfüge- sowie Löschoperationen effizient bleiben.</p>
+                        <p class="mb-4 text-gray-300">B-Bäume sind mehrwegige Suchbäume und kommen häufig in Datenbanksystemen zum Einsatz. Jeder Knoten kann mehrere Schlüssel und Kinder besitzen, wodurch sich die Höhe des Baumes reduziert und Einfüge- sowie Löschoperationen effizient bleiben. Die Ordnung \(m\) des Baumes legt dabei fest, dass jeder Knoten (außer der Wurzel) zwischen \(m\) und \(2m\) Schlüssel enthalten darf. Wenn ein Knoten beim Einfügen überläuft (mehr als \(2m\) Schlüssel), wird er geteilt. Dies garantiert, dass der Baum immer balanciert bleibt und die Höhe logarithmisch zur Anzahl der Elemente ist.</p>
                     </div>
                 </div>
             </section>

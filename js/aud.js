@@ -88,7 +88,7 @@ function setupAud() {
     }
 
     async function sleep() {
-        return new Promise(resolve => setTimeout(resolve, sort_delay));
+        return new Promise(resolve => setTimeout(resolve, 300)); // Fixed sleep time for tree animations
     }
 
     async function bubbleSort(arr) {
@@ -99,7 +99,7 @@ function setupAud() {
                     [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
                 }
                 drawBars(arr, [j, j + 1], Array.from({length: i}, (_, k) => n - 1 - k));
-                await sleep();
+                await new Promise(resolve => setTimeout(resolve, document.getElementById('sort-speed-slider').value));
             }
         }
         drawBars(arr, [], Array.from(Array(n).keys()));
@@ -113,7 +113,7 @@ function setupAud() {
             while (j >= 0 && arr[j] > key) {
                 arr[j + 1] = arr[j];
                 drawBars(arr, [j, j+1], []);
-                await sleep();
+                await new Promise(resolve => setTimeout(resolve, document.getElementById('sort-speed-slider').value));
                 j = j - 1;
             }
             arr[j + 1] = key;
@@ -128,7 +128,7 @@ function setupAud() {
             for (let j = i + 1; j < n; j++){
                 if (arr[j] < arr[min_idx]) min_idx = j;
                 drawBars(arr, [i, j, min_idx], Array.from({length: i}, (_, k) => k));
-                await sleep();
+                await new Promise(resolve => setTimeout(resolve, document.getElementById('sort-speed-slider').value));
             }
             [arr[min_idx], arr[i]] = [arr[i], arr[min_idx]];
         }
@@ -147,7 +147,7 @@ function setupAud() {
         let i = low - 1;
         for (let j = low; j < high; j++) {
             drawBars(arr, [j, i], [], high);
-            await sleep();
+            await new Promise(resolve => setTimeout(resolve, document.getElementById('sort-speed-slider').value));
             if (arr[j] < pivot) {
                 i++;
                 [arr[i], arr[j]] = [arr[j], arr[i]];
@@ -279,51 +279,65 @@ function setupAud() {
             bstContainer.innerHTML = '<p class="text-center text-gray-400">Füge Zahlen hinzu, um den Baum aufzubauen.</p>';
             return;
         }
-        renderBstNode(bstRoot, bstContainer, 50, 5, true);
+        renderBstNodeRecursive(bstRoot, bstContainer, 50, 10, 0);
     }
 
-    function renderBstNode(node, container, x, y, isRoot) {
+    function createBstLine(container, x1_pct, y1_pct, x2_pct, y2_pct) {
+        const line = document.createElement('div');
+        line.className = 'absolute h-px bg-gray-500';
+        line.style.zIndex = '0';
+
+        const p1 = { x: (x1_pct / 100) * container.offsetWidth, y: (y1_pct / 100) * container.offsetHeight };
+        const p2 = { x: (x2_pct / 100) * container.offsetWidth, y: (y2_pct / 100) * container.offsetHeight };
+
+        const length = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+        const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI);
+
+        line.style.width = `${length}px`;
+        line.style.left = `${p1.x}px`;
+        line.style.top = `${p1.y}px`;
+        line.style.transformOrigin = '0 0';
+        line.style.transform = `rotate(${angle}deg)`;
+
+        return line;
+    }
+
+    function renderBstNodeRecursive(node, container, x, y, level, isAvl = false) {
         if (!node) return;
 
-        const nodeEl = document.createElement('div');
-        nodeEl.className = 'absolute w-10 h-10 bg-cyan-600 rounded-full flex items-center justify-center text-white transition-all duration-300';
-        nodeEl.style.left = `${x}%`;
-        nodeEl.style.top = `${y}%`;
-        nodeEl.textContent = node.value;
-        node.el = nodeEl;
-        container.appendChild(nodeEl);
+        const horizontalOffset = 50 / Math.pow(2, level + 2);
+        const verticalOffset = 15;
 
-        const levelGap = 25; // How much horizontal space per level
-        const nextY = y + 15;
+        const nextY = y + verticalOffset;
+        const nextLevel = level + 1;
 
         if (node.left) {
-            const nextX = x - (levelGap / ((y/15)+1));
-            const line = document.createElement('div');
-            line.className = 'absolute h-0.5 bg-gray-500 origin-top-right';
-            const dx = (x-nextX), dy = nextY-y;
-            const length = Math.hypot(dx,dy) * (container.offsetWidth/100);
-            const angle = -Math.atan2(dy,dx) * (180/Math.PI);
-            line.style.width = `${length}px`;
-            line.style.left = `${x}%`;
-            line.style.top = `${y+5}%`;
-            line.style.transform = `rotate(${angle}deg)`;
-            container.appendChild(line);
-            renderBstNode(node.left, container, nextX, nextY, false);
+            const nextX = x - horizontalOffset;
+            container.appendChild(createBstLine(container, x, y, nextX, nextY));
+            renderBstNodeRecursive(node.left, container, nextX, nextY, nextLevel, isAvl);
         }
+
         if (node.right) {
-            const nextX = x + (levelGap / ((y/15)+1));
-            const line = document.createElement('div');
-            line.className = 'absolute h-0.5 bg-gray-500 origin-top-left';
-            const dx = (nextX-x), dy = nextY-y;
-            const length = Math.hypot(dx,dy) * (container.offsetWidth/100);
-            const angle = Math.atan2(dy,dx) * (180/Math.PI);
-            line.style.width = `${length}px`;
-            line.style.left = `${x}%`;
-            line.style.top = `${y+5}%`;
-            line.style.transform = `rotate(${angle}deg)`;
-            container.appendChild(line);
-            renderBstNode(node.right, container, nextX, nextY, false);
+            const nextX = x + horizontalOffset;
+            container.appendChild(createBstLine(container, x, y, nextX, nextY));
+            renderBstNodeRecursive(node.right, container, nextX, nextY, nextLevel, isAvl);
         }
+
+        const nodeEl = document.createElement('div');
+        nodeEl.className = 'absolute w-10 h-10 bg-cyan-600 rounded-full flex items-center justify-center text-white transition-all duration-300 transform -translate-x-1/2 -translate-y-1/2';
+        nodeEl.style.left = `${x}%`;
+        nodeEl.style.top = `${y}%`;
+        nodeEl.style.zIndex = '1';
+        node.el = nodeEl;
+
+        if (isAvl) {
+            const balanceFactor = (node.height > 0) ? (getHeight(node.right) - getHeight(node.left)) : 0;
+            nodeEl.innerHTML = `${node.key}<span class="absolute text-xs -bottom-4 text-amber-300">${balanceFactor}</span>`;
+        } else {
+            nodeEl.textContent = node.value;
+        }
+
+        container.appendChild(nodeEl);
     }
 
     bstInsertBtn.addEventListener('click', () => {
@@ -337,7 +351,7 @@ function setupAud() {
     bstSearchBtn.addEventListener('click', async () => {
         const val = parseInt(bstInput.value);
         if (!isNaN(val)) {
-            renderBst(); // Reset colors
+            renderBst();
             await searchBstNode(bstRoot, val);
             bstInput.value = '';
         }
@@ -347,6 +361,152 @@ function setupAud() {
         bstRoot = null;
         renderBst();
     });
+    renderBst();
+
+    // --- AVL TREE ---
+    const avlInput = document.getElementById('avl-input');
+    const avlInsertBtn = document.getElementById('avl-insert-btn');
+    const avlDeleteBtn = document.getElementById('avl-delete-btn');
+    const avlResetBtn = document.getElementById('avl-reset-btn');
+    const avlContainer = document.getElementById('avl-container');
+    let avlRoot = null;
+
+    class AvlNode {
+        constructor(key) {
+            this.key = key;
+            this.left = null;
+            this.right = null;
+            this.height = 1;
+        }
+    }
+
+    const getHeight = (node) => node ? node.height : 0;
+    const getBalance = (node) => node ? getHeight(node.right) - getHeight(node.left) : 0;
+    const updateHeight = (node) => {
+        if(node) node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
+    }
+
+    function rotateRR(y) {
+        let x = y.left;
+        let T2 = x.right;
+        x.right = y;
+        y.left = T2;
+        updateHeight(y);
+        updateHeight(x);
+        return x;
+    }
+
+    function rotateLL(x) {
+        let y = x.right;
+        let T2 = y.left;
+        y.left = x;
+        x.right = T2;
+        updateHeight(x);
+        updateHeight(y);
+        return y;
+    }
+
+    function insertAvlNode(node, key) {
+        if (!node) return new AvlNode(key);
+        if (key < node.key) node.left = insertAvlNode(node.left, key);
+        else if (key > node.key) node.right = insertAvlNode(node.right, key);
+        else return node;
+
+        updateHeight(node);
+        let balance = getBalance(node);
+
+        if (balance > 1 && key > node.right.key) return rotateLL(node);
+        if (balance < -1 && key < node.left.key) return rotateRR(node);
+        if (balance > 1 && key < node.right.key) {
+            node.right = rotateRR(node.right);
+            return rotateLL(node);
+        }
+        if (balance < -1 && key > node.left.key) {
+            node.left = rotateLL(node.left);
+            return rotateRR(node);
+        }
+        return node;
+    }
+
+    function deleteAvlNode(node, key) {
+        if (!node) return node;
+
+        if (key < node.key) {
+            node.left = deleteAvlNode(node.left, key);
+        } else if (key > node.key) {
+            node.right = deleteAvlNode(node.right, key);
+        } else {
+            if (!node.left || !node.right) {
+                node = node.left || node.right;
+            } else {
+                let temp = minValueNode(node.right);
+                node.key = temp.key;
+                node.right = deleteAvlNode(node.right, temp.key);
+            }
+        }
+
+        if (!node) return node;
+
+        updateHeight(node);
+        let balance = getBalance(node);
+
+        if (balance > 1) { // Right heavy
+            if (getBalance(node.right) >= 0) {
+                return rotateLL(node);
+            } else {
+                node.right = rotateRR(node.right);
+                return rotateLL(node);
+            }
+        }
+        if (balance < -1) { // Left heavy
+            if (getBalance(node.left) <= 0) {
+                return rotateRR(node);
+            } else {
+                node.left = rotateLL(node.left);
+                return rotateRR(node);
+            }
+        }
+        return node;
+    }
+
+    function minValueNode(node) {
+        let current = node;
+        while (current.left !== null) current = current.left;
+        return current;
+    }
+
+    function renderAvl() {
+        avlContainer.innerHTML = '';
+        if (!avlRoot) {
+            avlContainer.innerHTML = '<p class="text-center text-gray-400">Füge Zahlen hinzu, um den Baum aufzubauen.</p>';
+            return;
+        }
+        renderBstNodeRecursive(avlRoot, avlContainer, 50, 10, 0, true);
+    }
+
+    avlInsertBtn.addEventListener('click', () => {
+        const val = parseInt(avlInput.value);
+        if (!isNaN(val)) {
+            avlRoot = insertAvlNode(avlRoot, val);
+            renderAvl();
+            avlInput.value = '';
+        }
+    });
+
+    avlDeleteBtn.addEventListener('click', () => {
+        const val = parseInt(avlInput.value);
+        if (!isNaN(val)) {
+            avlRoot = deleteAvlNode(avlRoot, val);
+            renderAvl();
+            avlInput.value = '';
+        }
+    });
+
+    avlResetBtn.addEventListener('click', () => {
+        avlRoot = null;
+        renderAvl();
+    });
+    renderAvl();
 
     // --- EXERCISE GENERATOR ---
     const generateAudExercisesBtn = document.getElementById('generate-aud-exercises-btn');
