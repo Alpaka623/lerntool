@@ -67,16 +67,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 const scripts = Array.from(doc.querySelectorAll('script'));
                 scripts.forEach(s => s.parentNode.removeChild(s));
                 dynamicContent.innerHTML = doc.body.innerHTML;
-                scripts.forEach(s => {
+
+                function loadScriptsSequentially(index = 0) {
+                    if (index >= scripts.length) {
+                        showView(dynamicContent);
+                        return;
+                    }
+
+                    const s = scripts[index];
                     const newScript = document.createElement('script');
+                    if (s.id) newScript.id = s.id;
+                    if (s.type) newScript.type = s.type;
+                    newScript.async = false;
+
                     if (s.src) {
                         newScript.src = s.src;
+                        newScript.onload = () => loadScriptsSequentially(index + 1);
+                        newScript.onerror = () => loadScriptsSequentially(index + 1);
+                        dynamicContent.appendChild(newScript);
                     } else {
                         newScript.textContent = s.textContent;
+                        dynamicContent.appendChild(newScript);
+                        loadScriptsSequentially(index + 1);
                     }
-                    dynamicContent.appendChild(newScript);
-                });
-                showView(dynamicContent);
+                }
+
+                loadScriptsSequentially();
             })
             .catch(err => console.error('Fehler beim Laden der Seite:', err));
     }
