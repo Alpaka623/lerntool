@@ -18,6 +18,8 @@ function setupAud() {
     const navButtons = document.querySelectorAll('.aud-nav-button');
     const contentSections = document.querySelectorAll('.aud-content-section');
 
+    let graphInitialized = false;
+
     navButtons.forEach(button => {
         button.addEventListener('click', () => {
             const targetId = button.dataset.audTarget;
@@ -29,6 +31,12 @@ function setupAud() {
                     section.classList.add('active');
                 }
             });
+
+            if (targetId === 'aud-graphen' && !graphInitialized) {
+                setupGraphVisualizer();
+                graphInitialized = true;
+            }
+
             if (window.MathJax) MathJax.typesetPromise();
         });
     });
@@ -52,27 +60,28 @@ function setupAud() {
     };
 
     function updateSortExplanation() {
-        sortExplanation.innerHTML = explanations[algoSelect.value] || '';
+        if(sortExplanation) sortExplanation.innerHTML = explanations[algoSelect.value] || '';
     }
 
-    speedSlider.addEventListener('input', (e) => {
+    if(speedSlider) speedSlider.addEventListener('input', (e) => {
         sort_delay = e.target.value;
-        speedLabel.textContent = `${sort_delay}`;
+        if(speedLabel) speedLabel.textContent = `${sort_delay}`;
     });
 
     function resetSorter() {
         sort_values = [];
-        sortContainer.innerHTML = '';
+        if(sortContainer) sortContainer.innerHTML = '';
         const numBars = 30;
         for (let i = 0; i < numBars; i++) {
             sort_values.push(Math.floor(Math.random() * 95) + 5);
         }
         drawBars(sort_values);
-        sortStartBtn.disabled = false;
+        if(sortStartBtn) sortStartBtn.disabled = false;
         updateSortExplanation();
     }
 
     function drawBars(arr, comparing = [], sorted = [], pivot = -1) {
+        if(!sortContainer) return;
         sortContainer.innerHTML = '';
         arr.forEach((val, i) => {
             const bar = document.createElement('div');
@@ -87,94 +96,88 @@ function setupAud() {
         });
     }
 
-    async function sleep() {
-        return new Promise(resolve => setTimeout(resolve, 300)); // Fixed sleep time for tree animations
+    async function sleep(ms = 100) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    async function bubbleSort(arr) {
-        let n = arr.length;
-        for (let i = 0; i < n - 1; i++) {
-            for (let j = 0; j < n - i - 1; j++) {
-                if (arr[j] > arr[j + 1]) {
-                    [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+    if (sortStartBtn) {
+        sortStartBtn.addEventListener('click', async () => {
+            sortStartBtn.disabled = true;
+            const algo = algoSelect.value;
+            const delay = document.getElementById('sort-speed-slider').value;
+
+            const sleepSort = () => new Promise(resolve => setTimeout(resolve, delay));
+
+            if (algo === 'bubble') {
+                let n = sort_values.length;
+                for (let i = 0; i < n - 1; i++) {
+                    for (let j = 0; j < n - i - 1; j++) {
+                        if (sort_values[j] > sort_values[j + 1]) {
+                            [sort_values[j], sort_values[j + 1]] = [sort_values[j + 1], sort_values[j]];
+                        }
+                        drawBars(sort_values, [j, j + 1], Array.from({length: i}, (_, k) => n - 1 - k));
+                        await sleepSort();
+                    }
                 }
-                drawBars(arr, [j, j + 1], Array.from({length: i}, (_, k) => n - 1 - k));
-                await new Promise(resolve => setTimeout(resolve, document.getElementById('sort-speed-slider').value));
+            } else if (algo === 'insertion') {
+                let n = sort_values.length;
+                for (let i = 1; i < n; i++) {
+                    let key = sort_values[i];
+                    let j = i - 1;
+                    while (j >= 0 && sort_values[j] > key) {
+                        sort_values[j + 1] = sort_values[j];
+                        drawBars(sort_values, [j + 1, i], Array.from({length: i}, (_, k) => k));
+                        await sleepSort();
+                        j = j - 1;
+                    }
+                    sort_values[j + 1] = key;
+                }
+            } else if (algo === 'selection') {
+                let n = sort_values.length;
+                for (let i = 0; i < n - 1; i++) {
+                    let min_idx = i;
+                    for (let j = i + 1; j < n; j++){
+                        if (sort_values[j] < sort_values[min_idx]) min_idx = j;
+                        drawBars(sort_values, [i, j, min_idx], Array.from({length: i}, (_, k) => k));
+                        await sleepSort();
+                    }
+                    [sort_values[min_idx], sort_values[i]] = [sort_values[i], sort_values[min_idx]];
+                }
+            } else if (algo === 'quicksort') {
+                async function partition(arr, low, high) {
+                    let pivot = arr[high];
+                    let i = low - 1;
+                    for (let j = low; j < high; j++) {
+                        drawBars(arr, [j, i], [], high);
+                        await sleepSort();
+                        if (arr[j] < pivot) {
+                            i++;
+                            [arr[i], arr[j]] = [arr[j], arr[i]];
+                        }
+                    }
+                    [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+                    return i + 1;
+                }
+                async function quickSort(arr, low, high) {
+                    if (low < high) {
+                        let pi = await partition(arr, low, high);
+                        await quickSort(arr, low, pi - 1);
+                        await quickSort(arr, pi + 1, high);
+                    }
+                }
+                await quickSort(sort_values, 0, sort_values.length - 1);
             }
-        }
-        drawBars(arr, [], Array.from(Array(n).keys()));
-    }
-
-    async function insertionSort(arr) {
-        let n = arr.length;
-        for (let i = 1; i < n; i++) {
-            let key = arr[i];
-            let j = i - 1;
-            while (j >= 0 && arr[j] > key) {
-                arr[j + 1] = arr[j];
-                drawBars(arr, [j, j+1], []);
-                await new Promise(resolve => setTimeout(resolve, document.getElementById('sort-speed-slider').value));
-                j = j - 1;
-            }
-            arr[j + 1] = key;
-        }
-        drawBars(arr, [], Array.from(Array(n).keys()));
-    }
-
-    async function selectionSort(arr) {
-        let n = arr.length;
-        for (let i = 0; i < n - 1; i++) {
-            let min_idx = i;
-            for (let j = i + 1; j < n; j++){
-                if (arr[j] < arr[min_idx]) min_idx = j;
-                drawBars(arr, [i, j, min_idx], Array.from({length: i}, (_, k) => k));
-                await new Promise(resolve => setTimeout(resolve, document.getElementById('sort-speed-slider').value));
-            }
-            [arr[min_idx], arr[i]] = [arr[i], arr[min_idx]];
-        }
-        drawBars(arr, [], Array.from(Array(n).keys()));
-    }
-
-    async function quickSort(arr, low, high) {
-        if (low < high) {
-            let pi = await partition(arr, low, high);
-            await quickSort(arr, low, pi - 1);
-            await quickSort(arr, pi + 1, high);
-        }
-    }
-    async function partition(arr, low, high) {
-        let pivot = arr[high];
-        let i = low - 1;
-        for (let j = low; j < high; j++) {
-            drawBars(arr, [j, i], [], high);
-            await new Promise(resolve => setTimeout(resolve, document.getElementById('sort-speed-slider').value));
-            if (arr[j] < pivot) {
-                i++;
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
-        }
-        [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
-        return i + 1;
-    }
-
-
-    sortStartBtn.addEventListener('click', async () => {
-        sortStartBtn.disabled = true;
-        const algo = algoSelect.value;
-        if (algo === 'bubble') await bubbleSort(sort_values);
-        else if (algo === 'insertion') await insertionSort(sort_values);
-        else if (algo === 'selection') await selectionSort(sort_values);
-        else if (algo === 'quicksort') {
-            await quickSort(sort_values, 0, sort_values.length - 1);
             drawBars(sort_values, [], Array.from(Array(sort_values.length).keys()));
-        }
-    });
-    sortResetBtn.addEventListener('click', resetSorter);
-    algoSelect.addEventListener('change', updateSortExplanation);
+        });
+    }
+
+    if(sortResetBtn) sortResetBtn.addEventListener('click', resetSorter);
+    if(algoSelect) algoSelect.addEventListener('change', updateSortExplanation);
     resetSorter();
 
 
     // --- STACK & QUEUE ---
+    // ... (Code für Stack & Queue bleibt unverändert) ...
     const stackInput = document.getElementById('stack-input');
     const stackPushBtn = document.getElementById('stack-push-btn');
     const stackPopBtn = document.getElementById('stack-pop-btn');
@@ -188,6 +191,7 @@ function setupAud() {
     let queue = [];
 
     function updateStack() {
+        if(!stackContainer) return;
         stackContainer.innerHTML = '';
         stack.forEach(val => {
             const el = document.createElement('div');
@@ -199,6 +203,7 @@ function setupAud() {
     }
 
     function updateQueue() {
+        if(!queueContainer) return;
         queueContainer.innerHTML = '';
         queue.forEach(val => {
             const el = document.createElement('div');
@@ -209,28 +214,28 @@ function setupAud() {
         });
     }
 
-    stackPushBtn.addEventListener('click', () => {
+    if(stackPushBtn) stackPushBtn.addEventListener('click', () => {
         if (stackInput.value && stack.length < 5) {
             stack.push(stackInput.value);
             stackInput.value = '';
             updateStack();
         }
     });
-    stackPopBtn.addEventListener('click', () => {
+    if(stackPopBtn) stackPopBtn.addEventListener('click', () => {
         if (stack.length > 0) {
             stack.pop();
             updateStack();
         }
     });
 
-    queueEnqueueBtn.addEventListener('click', () => {
+    if(queueEnqueueBtn) queueEnqueueBtn.addEventListener('click', () => {
         if (queueInput.value && queue.length < 5) {
             queue.push(queueInput.value);
             queueInput.value = '';
             updateQueue();
         }
     });
-    queueDequeueBtn.addEventListener('click', () => {
+    if(queueDequeueBtn) queueDequeueBtn.addEventListener('click', () => {
         if (queue.length > 0) {
             queue.shift();
             updateQueue();
@@ -240,6 +245,7 @@ function setupAud() {
     updateQueue();
 
     // --- BINARY SEARCH TREE ---
+    // ... (Code für BST und AVL bleibt unverändert) ...
     const bstInput = document.getElementById('bst-input');
     const bstInsertBtn = document.getElementById('bst-insert-btn');
     const bstSearchBtn = document.getElementById('bst-search-btn');
@@ -258,15 +264,17 @@ function setupAud() {
 
     async function searchBstNode(node, value) {
         if (!node) {
-            bstContainer.insertAdjacentHTML('beforeend', `<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-red-400 font-bold p-2 bg-gray-900 rounded">Nicht gefunden!</div>`);
+            if(bstContainer) bstContainer.insertAdjacentHTML('beforeend', `<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-red-400 font-bold p-2 bg-gray-900 rounded">Nicht gefunden!</div>`);
             return false;
         }
-        node.el.classList.add('animate-ping', 'bg-yellow-500');
-        await sleep();
-        node.el.classList.remove('animate-ping', 'bg-yellow-500');
+        if(node.el) {
+            node.el.classList.add('animate-ping', 'bg-yellow-500');
+            await sleep();
+            node.el.classList.remove('animate-ping', 'bg-yellow-500');
+        }
 
         if (value === node.value) {
-            node.el.classList.add('bg-green-500');
+            if(node.el) node.el.classList.add('bg-green-500');
             return true;
         }
         if (value < node.value) return await searchBstNode(node.left, value);
@@ -274,6 +282,7 @@ function setupAud() {
     }
 
     function renderBst() {
+        if(!bstContainer) return;
         bstContainer.innerHTML = '';
         if (!bstRoot) {
             bstContainer.innerHTML = '<p class="text-center text-gray-400">Füge Zahlen hinzu, um den Baum aufzubauen.</p>';
@@ -303,9 +312,9 @@ function setupAud() {
     }
 
     function renderBstNodeRecursive(node, container, x, y, level, isAvl = false) {
-        if (!node) return;
+        if (!node || !container) return;
 
-        const horizontalOffset = 50 / Math.pow(2, level + 2);
+        const horizontalOffset = 50 / Math.pow(2, level + 1);
         const verticalOffset = 15;
 
         const nextY = y + verticalOffset;
@@ -340,7 +349,7 @@ function setupAud() {
         container.appendChild(nodeEl);
     }
 
-    bstInsertBtn.addEventListener('click', () => {
+    if(bstInsertBtn) bstInsertBtn.addEventListener('click', () => {
         const val = parseInt(bstInput.value);
         if (!isNaN(val)) {
             bstRoot = insertBstNode(bstRoot, val);
@@ -348,7 +357,7 @@ function setupAud() {
             bstInput.value = '';
         }
     });
-    bstSearchBtn.addEventListener('click', async () => {
+    if(bstSearchBtn) bstSearchBtn.addEventListener('click', async () => {
         const val = parseInt(bstInput.value);
         if (!isNaN(val)) {
             renderBst();
@@ -357,13 +366,12 @@ function setupAud() {
         }
     });
 
-    bstResetBtn.addEventListener('click', () => {
+    if(bstResetBtn) bstResetBtn.addEventListener('click', () => {
         bstRoot = null;
         renderBst();
     });
     renderBst();
 
-    // --- AVL TREE ---
     const avlInput = document.getElementById('avl-input');
     const avlInsertBtn = document.getElementById('avl-insert-btn');
     const avlDeleteBtn = document.getElementById('avl-delete-btn');
@@ -476,6 +484,7 @@ function setupAud() {
     }
 
     function renderAvl() {
+        if(!avlContainer) return;
         avlContainer.innerHTML = '';
         if (!avlRoot) {
             avlContainer.innerHTML = '<p class="text-center text-gray-400">Füge Zahlen hinzu, um den Baum aufzubauen.</p>';
@@ -484,7 +493,7 @@ function setupAud() {
         renderBstNodeRecursive(avlRoot, avlContainer, 50, 10, 0, true);
     }
 
-    avlInsertBtn.addEventListener('click', () => {
+    if(avlInsertBtn) avlInsertBtn.addEventListener('click', () => {
         const val = parseInt(avlInput.value);
         if (!isNaN(val)) {
             avlRoot = insertAvlNode(avlRoot, val);
@@ -493,7 +502,7 @@ function setupAud() {
         }
     });
 
-    avlDeleteBtn.addEventListener('click', () => {
+    if(avlDeleteBtn) avlDeleteBtn.addEventListener('click', () => {
         const val = parseInt(avlInput.value);
         if (!isNaN(val)) {
             avlRoot = deleteAvlNode(avlRoot, val);
@@ -502,13 +511,271 @@ function setupAud() {
         }
     });
 
-    avlResetBtn.addEventListener('click', () => {
+    if(avlResetBtn) avlResetBtn.addEventListener('click', () => {
         avlRoot = null;
         renderAvl();
     });
     renderAvl();
 
+    // --- GRAPH VISUALIZER ---
+    function setupGraphVisualizer() {
+        const graphSvgContainer = document.getElementById('graph-svg-container');
+        const graphAlgoSelect = document.getElementById('graph-algo-select');
+        const dijkstraContainer = document.getElementById('dijkstra-start-node-container');
+        const dijkstraStartNodeInput = document.getElementById('dijkstra-start-node');
+        const graphNextStepBtn = document.getElementById('graph-next-step-btn');
+        const graphResetBtn = document.getElementById('graph-reset-btn');
+        const graphNewBtn = document.getElementById('graph-new-btn');
+        const graphExplanation = document.getElementById('graph-explanation');
+
+        let nodes = [], edges = [];
+        let currentAlgorithmGenerator = null;
+
+        function createGraph() {
+            if (!graphSvgContainer) return;
+            nodes = [];
+            edges = [];
+            const numNodes = 7;
+            const width = graphSvgContainer.clientWidth;
+            const height = graphSvgContainer.clientHeight;
+
+            for (let i = 0; i < numNodes; i++) {
+                nodes.push({
+                    id: String.fromCharCode(65 + i),
+                    x: Math.random() * (width - 100) + 50,
+                    y: Math.random() * (height - 100) + 50
+                });
+            }
+
+            for (let i = 0; i < numNodes; i++) {
+                for (let j = i + 1; j < numNodes; j++) {
+                    if (Math.random() > 0.6) {
+                        edges.push({
+                            source: nodes[i].id,
+                            target: nodes[j].id,
+                            weight: Math.floor(Math.random() * 20) + 1
+                        });
+                    }
+                }
+            }
+
+            for(let i = 0; i < numNodes-1; i++){
+                if(!edges.some(e => (e.source === nodes[i].id && e.target === nodes[i+1].id) || (e.source === nodes[i+1].id && e.target === nodes[i].id))){
+                    edges.push({ source: nodes[i].id, target: nodes[i+1].id, weight: Math.floor(Math.random() * 20) + 1});
+                }
+            }
+
+            setupAlgorithm();
+        }
+
+        function drawGraph() {
+            if (!graphSvgContainer) return;
+            graphSvgContainer.innerHTML = '';
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute('width', '100%');
+            svg.setAttribute('height', '100%');
+
+            edges.forEach(edge => {
+                const sourceNode = nodes.find(n => n.id === edge.source);
+                const targetNode = nodes.find(n => n.id === edge.target);
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute('x1', sourceNode.x);
+                line.setAttribute('y1', sourceNode.y);
+                line.setAttribute('x2', targetNode.x);
+                line.setAttribute('y2', targetNode.y);
+                line.classList.add('graph-edge');
+                edge.el = line;
+
+                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute('x', (sourceNode.x + targetNode.x) / 2 + 5);
+                text.setAttribute('y', (sourceNode.y + targetNode.y) / 2 - 5);
+                text.classList.add('edge-weight');
+                text.textContent = edge.weight;
+                edge.textEl = text;
+
+                svg.appendChild(line);
+                svg.appendChild(text);
+            });
+
+            nodes.forEach(node => {
+                const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                g.classList.add('graph-node');
+
+                const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                circle.setAttribute('cx', node.x);
+                circle.setAttribute('cy', node.y);
+                circle.setAttribute('r', 15);
+
+                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute('x', node.x);
+                text.setAttribute('y', node.y + 5);
+                text.setAttribute('text-anchor', 'middle');
+                text.textContent = node.id;
+
+                g.appendChild(circle);
+                g.appendChild(text);
+                node.el = g;
+                svg.appendChild(g);
+            });
+
+            graphSvgContainer.appendChild(svg);
+        }
+
+        function* dijkstraGenerator(startNodeId) {
+            let dist = {};
+            let prev = {};
+            let pq = new Set(nodes.map(n => n.id));
+            nodes.forEach(n => { dist[n.id] = Infinity; prev[n.id] = null; });
+            dist[startNodeId] = 0;
+
+            graphExplanation.textContent = `Initialisierung: Distanz zum Startknoten ${startNodeId} ist 0, zu allen anderen ∞.`;
+            yield;
+
+            while (pq.size > 0) {
+                let u = [...pq].reduce((a, b) => dist[a] < dist[b] ? a : b);
+                pq.delete(u);
+
+                nodes.forEach(n => n.el.classList.remove('active'));
+                const uNode = nodes.find(n => n.id === u);
+                uNode.el.classList.add('active');
+
+                graphExplanation.textContent = `Wähle den unbesuchten Knoten mit der geringsten Distanz: ${u} (Distanz: ${dist[u]}). Markiere ihn als besucht.`;
+                yield;
+                uNode.el.classList.remove('active');
+                uNode.el.classList.add('visited');
+                if(prev[u]) {
+                    const prevEdge = edges.find(e => (e.source === u && e.target === prev[u]) || (e.source === prev[u] && e.target === u));
+                    if(prevEdge) prevEdge.el.classList.add('mst');
+                }
+
+                const neighbors = edges.filter(e => e.source === u || e.target === u)
+                    .map(e => e.source === u ? e.target : e.source)
+                    .filter(id => pq.has(id));
+
+                if (neighbors.length === 0) {
+                    graphExplanation.textContent = `Knoten ${u} hat keine unbesuchten Nachbarn.`;
+                    yield;
+                } else {
+                    graphExplanation.textContent = `Untersuche alle Kanten von ${u} zu unbesuchten Nachbarn.`;
+                    yield;
+                }
+
+                for(const v of neighbors){
+                    const edge = edges.find(e => (e.source === u && e.target === v) || (e.source === v && e.target === u));
+                    edge.el.classList.add('highlighted');
+                    let alt = dist[u] + edge.weight;
+                    graphExplanation.textContent = `Prüfe Nachbar ${v}: Aktuelle Distanz ist ${dist[v] === Infinity ? '∞' : dist[v]}. Weg über ${u} ist ${dist[u]} + ${edge.weight} = ${alt}.`;
+                    yield;
+
+                    if(alt < dist[v]){
+                        dist[v] = alt;
+                        prev[v] = u;
+                        graphExplanation.textContent = `Update: Neuer, kürzerer Weg zu ${v} gefunden! Distanz ist jetzt ${alt}.`;
+                        yield;
+                    } else {
+                        graphExplanation.textContent = `Kein kürzerer Weg zu ${v} gefunden. Distanz bleibt bei ${dist[v]}.`;
+                        yield;
+                    }
+                    edge.el.classList.remove('highlighted');
+                }
+            }
+            graphExplanation.textContent = "Dijkstra abgeschlossen. Alle kürzesten Wege vom Startknoten gefunden.";
+        }
+
+        function* kruskalGenerator() {
+            let sortedEdges = [...edges].sort((a,b) => a.weight - b.weight);
+            let mst = [];
+            let parent = {};
+            nodes.forEach(n => parent[n.id] = n.id);
+
+            function find(i) {
+                if (parent[i] === i) return i;
+                return parent[i] = find(parent[i]);
+            }
+            function union(i, j) {
+                let rootI = find(i);
+                let rootJ = find(j);
+                if(rootI !== rootJ) parent[rootI] = rootJ;
+            }
+
+            graphExplanation.textContent = `Alle ${sortedEdges.length} Kanten wurden nach ihrem Gewicht sortiert.`;
+            yield;
+
+            for(const edge of sortedEdges){
+                edge.el.classList.add('highlighted');
+                edge.textEl.style.fontWeight = 'bold';
+                graphExplanation.textContent = `Prüfe Kante ${edge.source}-${edge.target} mit dem geringsten Gewicht ${edge.weight}.`;
+                yield;
+
+                const rootSource = find(edge.source);
+                const rootTarget = find(edge.target);
+
+                if(rootSource !== rootTarget){
+                    union(edge.source, edge.target);
+                    mst.push(edge);
+                    edge.el.classList.remove('highlighted');
+                    edge.el.classList.add('mst');
+                    graphExplanation.textContent = `Kante ${edge.source}-${edge.target} verbindet zwei verschiedene Komponenten. Füge sie zum MST hinzu.`;
+                    yield;
+                } else {
+                    edge.el.classList.remove('highlighted');
+                    edge.el.style.stroke = '#ef4444'; // red
+                    graphExplanation.textContent = `Kante ${edge.source}-${edge.target} würde einen Zyklus erzeugen. Ignoriere sie.`;
+                    yield;
+                }
+                edge.textEl.style.fontWeight = 'normal';
+            }
+            graphExplanation.textContent = `Kruskal abgeschlossen. Minimaler Spannbaum gefunden (Gesamtgewicht: ${mst.reduce((sum, e) => sum + e.weight, 0)}).`;
+        }
+
+        function setupAlgorithm() {
+            drawGraph();
+            graphNextStepBtn.disabled = false;
+
+            if (graphAlgoSelect.value === 'dijkstra') {
+                const startNodeId = dijkstraStartNodeInput.value.toUpperCase();
+                if (!nodes.find(n => n.id === startNodeId)) {
+                    graphExplanation.textContent = "Startknoten nicht gefunden!";
+                    graphNextStepBtn.disabled = true;
+                    currentAlgorithmGenerator = null;
+                    return;
+                }
+                currentAlgorithmGenerator = dijkstraGenerator(startNodeId);
+                graphExplanation.textContent = `Dijkstra bereit. Startknoten: ${startNodeId}. Klicke auf "Nächster Schritt", um zu beginnen.`;
+
+            } else { // Kruskal
+                currentAlgorithmGenerator = kruskalGenerator();
+                graphExplanation.textContent = `Kruskal bereit. Klicke auf "Nächster Schritt", um zu beginnen.`;
+            }
+        }
+
+        graphNextStepBtn.addEventListener('click', () => {
+            if (currentAlgorithmGenerator) {
+                const result = currentAlgorithmGenerator.next();
+                if (result.done) {
+                    graphNextStepBtn.disabled = true;
+                }
+            }
+        });
+
+        graphAlgoSelect.addEventListener('change', () => {
+            dijkstraContainer.style.display = (graphAlgoSelect.value === 'dijkstra') ? 'block' : 'none';
+            setupAlgorithm();
+        });
+
+        dijkstraStartNodeInput.addEventListener('change', () => {
+            if (graphAlgoSelect.value === 'dijkstra') setupAlgorithm();
+        });
+
+        graphResetBtn.addEventListener('click', setupAlgorithm);
+        graphNewBtn.addEventListener('click', createGraph);
+
+        createGraph();
+    }
+
+
     // --- EXERCISE GENERATOR ---
+    // ... (Code für Übungsgenerator bleibt unverändert) ...
     const generateAudExercisesBtn = document.getElementById('generate-aud-exercises-btn');
     const audExercisesContainer = document.getElementById('aud-exercises-container');
 
@@ -596,6 +863,7 @@ function setupAud() {
     };
 
     function generateAudExercises() {
+        if(!audExercisesContainer) return;
         audExercisesContainer.innerHTML = '';
         const tasks = [
             AudExerciseGenerator.createMultipleChoiceTask(),
@@ -638,6 +906,6 @@ function setupAud() {
         if (window.MathJax) MathJax.typesetPromise();
     }
 
-    generateAudExercisesBtn.addEventListener('click', generateAudExercises);
+    if(generateAudExercisesBtn) generateAudExercisesBtn.addEventListener('click', generateAudExercises);
     generateAudExercises();
 }
