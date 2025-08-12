@@ -518,7 +518,7 @@
         // --- GRAPH VISUALIZER ---
         function setupGraphVisualizer() {
             const graphSvgContainer = document.getElementById('graph-svg-container');
-            const graphTableContainer = document.getElementById('graph-table-container'); // NEU
+            const graphTableContainer = document.getElementById('graph-table-container');
             const graphAlgoSelect = document.getElementById('graph-algo-select');
             const dijkstraContainer = document.getElementById('dijkstra-start-node-container');
             const dijkstraStartNodeInput = document.getElementById('dijkstra-start-node');
@@ -537,18 +537,41 @@
                 const numNodes = 5;
                 const width = graphSvgContainer.clientWidth;
                 const height = graphSvgContainer.clientHeight;
+                const minDistance = 90; // NEU: Mindestabstand zwischen den Knoten
+                let maxAttempts = 100; // NEU: Verhindert Endlosschleifen
 
-                for (let i = 0; i < numNodes; i++) {
-                    nodes.push({
-                        id: String.fromCharCode(65 + i),
+                // NEUE LOGIK: Knoten mit Mindestabstand platzieren
+                while (nodes.length < numNodes) {
+                    if (maxAttempts-- <= 0) {
+                        console.error("Knoten konnten nicht mit genügend Abstand platziert werden.");
+                        break;
+                    }
+
+                    const newNode = {
+                        id: String.fromCharCode(65 + nodes.length),
                         x: Math.random() * (width - 100) + 50,
                         y: Math.random() * (height - 100) + 50
-                    });
+                    };
+
+                    let isTooClose = false;
+                    for (const existingNode of nodes) {
+                        const distance = Math.hypot(newNode.x - existingNode.x, newNode.y - existingNode.y);
+                        if (distance < minDistance) {
+                            isTooClose = true;
+                            break;
+                        }
+                    }
+
+                    if (!isTooClose) {
+                        nodes.push(newNode);
+                        maxAttempts = 100; // Versuche für nächsten Knoten zurücksetzen
+                    }
                 }
 
+                // Kanten wie zuvor generieren
                 for (let i = 0; i < numNodes; i++) {
                     for (let j = i + 1; j < numNodes; j++) {
-                        if (Math.random() > 0.6) {
+                        if (Math.random() > 0.5) {
                             edges.push({
                                 source: nodes[i].id,
                                 target: nodes[j].id,
@@ -626,7 +649,6 @@
                 graphSvgContainer.appendChild(svg);
             }
 
-            // GEÄNDERT: dijkstraGenerator erzeugt jetzt auch die Tabelle
             function* dijkstraGenerator(startNodeId, tableBody) {
                 let dist = {};
                 let prev = {};
@@ -634,14 +656,12 @@
                 nodes.forEach(n => { dist[n.id] = Infinity; prev[n.id] = null; });
                 dist[startNodeId] = 0;
 
-                // Initialen Tabellenzustand schreiben
                 let initialRow = `<tr><td class="p-2 border font-bold text-gray-400">-</td>`;
                 nodes.forEach(n => {
                     initialRow += `<td class="p-2 border font-mono">${dist[n.id] === Infinity ? '∞' : dist[n.id]} / ${prev[n.id] || '-'}</td>`;
                 });
                 initialRow += `</tr>`;
                 if (tableBody) tableBody.innerHTML = initialRow;
-
 
                 graphExplanation.textContent = `Initialisierung: Distanz zum Startknoten ${startNodeId} ist 0, zu allen anderen ∞.`;
                 yield;
@@ -654,9 +674,8 @@
                     const uNode = nodes.find(n => n.id === u);
                     uNode.el.classList.add('active');
 
-                    graphExplanation.textContent = `Wähle den unbesuchten Knoten mit der geringsten Distanz: ${u} (Distanz: ${dist[u]}). Markiere ihn als besucht.`;
+                    graphExplanation.textContent = `Wähle Knoten mit geringster Distanz: ${u} (Distanz: ${dist[u]}). Markiere als besucht.`;
 
-                    // Neue Tabellenzeile hinzufügen
                     let rowHTML = `<tr><td class="p-2 border font-bold">${u}</td>`;
                     nodes.forEach(n => {
                         rowHTML += `<td class="p-2 border font-mono">${dist[n.id] === Infinity ? '∞' : dist[n.id]} / ${prev[n.id] || '-'}</td>`;
@@ -681,7 +700,7 @@
                         graphExplanation.textContent = `Knoten ${u} hat keine unbesuchten Nachbarn.`;
                         yield;
                     } else {
-                        graphExplanation.textContent = `Untersuche alle Kanten von ${u} zu unbesuchten Nachbarn.`;
+                        graphExplanation.textContent = `Untersuche Kanten von ${u} zu unbesuchten Nachbarn.`;
                         yield;
                     }
 
@@ -697,7 +716,6 @@
                             prev[v] = u;
                             graphExplanation.textContent = `Update: Neuer, kürzerer Weg zu ${v} gefunden! Distanz ist jetzt ${alt}.`;
 
-                            // Tabellenzeile aktualisieren, um den Fortschritt anzuzeigen
                             tableBody.lastChild.remove();
                             let updatedRowHTML = `<tr><td class="p-2 border font-bold">${u}</td>`;
                             nodes.forEach(n => {
@@ -708,16 +726,16 @@
 
                             yield;
                         } else {
-                            graphExplanation.textContent = `Kein kürzerer Weg zu ${v} gefunden. Distanz bleibt bei ${dist[v]}.`;
+                            graphExplanation.textContent = `Kein kürzerer Weg zu ${v} gefunden.`;
                             yield;
                         }
                         edge.el.classList.remove('highlighted');
                     }
                 }
-                graphExplanation.textContent = "Dijkstra abgeschlossen. Alle kürzesten Wege vom Startknoten gefunden.";
+                graphExplanation.textContent = "Dijkstra abgeschlossen.";
             }
 
-            function* kruskalGenerator() {
+            function* kruskalGenerator(tableBody) {
                 let sortedEdges = [...edges].sort((a,b) => a.weight - b.weight);
                 let mst = [];
                 let parent = {};
@@ -733,41 +751,47 @@
                     if(rootI !== rootJ) parent[rootI] = rootJ;
                 }
 
-                graphExplanation.textContent = `Alle ${sortedEdges.length} Kanten wurden nach ihrem Gewicht sortiert.`;
+                if(tableBody) tableBody.innerHTML = '';
+
+                graphExplanation.textContent = `Alle ${sortedEdges.length} Kanten nach Gewicht sortiert.`;
                 yield;
 
                 for(const edge of sortedEdges){
                     edge.el.classList.add('highlighted');
                     edge.textEl.style.fontWeight = 'bold';
-                    graphExplanation.textContent = `Prüfe Kante ${edge.source}-${edge.target} mit dem geringsten Gewicht ${edge.weight}.`;
+                    graphExplanation.textContent = `Prüfe Kante ${edge.source}-${edge.target} mit Gewicht ${edge.weight}.`;
                     yield;
 
                     const rootSource = find(edge.source);
                     const rootTarget = find(edge.target);
+
+                    let rowHTML = `<tr><td class="p-2 border font-mono">(${edge.source},${edge.target})</td><td class="p-2 border">${edge.weight}</td>`;
 
                     if(rootSource !== rootTarget){
                         union(edge.source, edge.target);
                         mst.push(edge);
                         edge.el.classList.remove('highlighted');
                         edge.el.classList.add('mst');
-                        graphExplanation.textContent = `Kante ${edge.source}-${edge.target} verbindet zwei verschiedene Komponenten. Füge sie zum MST hinzu.`;
+                        graphExplanation.textContent = `Kante ${edge.source}-${edge.target} verbindet 2 Komponenten. Hinzufügen.`;
+                        rowHTML += `<td class="p-2 border text-green-400">Akzeptiert</td></tr>`;
                         yield;
                     } else {
                         edge.el.classList.remove('highlighted');
-                        edge.el.style.stroke = '#ef4444'; // red
-                        graphExplanation.textContent = `Kante ${edge.source}-${edge.target} würde einen Zyklus erzeugen. Ignoriere sie.`;
+                        edge.el.style.stroke = '#ef4444';
+                        graphExplanation.textContent = `Kante ${edge.source}-${edge.target} würde einen Zyklus erzeugen. Verwerfen.`;
+                        rowHTML += `<td class="p-2 border text-red-400">Verworfen</td></tr>`;
                         yield;
                     }
+                    if (tableBody) tableBody.innerHTML += rowHTML;
                     edge.textEl.style.fontWeight = 'normal';
                 }
-                graphExplanation.textContent = `Kruskal abgeschlossen. Minimaler Spannbaum gefunden (Gesamtgewicht: ${mst.reduce((sum, e) => sum + e.weight, 0)}).`;
+                graphExplanation.textContent = `Kruskal abgeschlossen. MST gefunden (Gewicht: ${mst.reduce((sum, e) => sum + e.weight, 0)}).`;
             }
 
-            // GEÄNDERT: setupAlgorithm initialisiert jetzt auch die Tabelle
             function setupAlgorithm() {
                 drawGraph();
                 graphNextStepBtn.disabled = false;
-                graphTableContainer.innerHTML = ''; // Tabelle bei jedem Reset/Neustart leeren
+                graphTableContainer.innerHTML = '';
 
                 if (graphAlgoSelect.value === 'dijkstra') {
                     const startNodeId = dijkstraStartNodeInput.value.toUpperCase();
@@ -778,7 +802,6 @@
                         return;
                     }
 
-                    // Tabelle initialisieren
                     const table = document.createElement('table');
                     table.className = 'w-full text-left text-sm table-fixed';
                     table.innerHTML = `<thead><tr class="text-gray-300"><th class="p-2 border border-gray-600 w-1/5">Markiert</th>`
@@ -787,10 +810,19 @@
                     graphTableContainer.appendChild(table);
 
                     currentAlgorithmGenerator = dijkstraGenerator(startNodeId, table.querySelector('tbody'));
-                    graphExplanation.textContent = `Dijkstra bereit. Startknoten: ${startNodeId}. Klicke auf "Nächster Schritt".`;
+                    graphExplanation.textContent = `Dijkstra bereit (Start: ${startNodeId}). Klicke auf "Nächster Schritt".`;
 
                 } else { // Kruskal
-                    currentAlgorithmGenerator = kruskalGenerator();
+                    const table = document.createElement('table');
+                    table.className = 'w-full text-left text-sm';
+                    table.innerHTML = `<thead><tr class="text-gray-300">
+                    <th class="p-2 border border-gray-600">Kante</th>
+                    <th class="p-2 border border-gray-600">Gewicht</th>
+                    <th class="p-2 border border-gray-600">Aktion</th>
+                    </tr></thead><tbody></tbody>`;
+                    graphTableContainer.appendChild(table);
+
+                    currentAlgorithmGenerator = kruskalGenerator(table.querySelector('tbody'));
                     graphExplanation.textContent = `Kruskal bereit. Klicke auf "Nächster Schritt".`;
                 }
             }
