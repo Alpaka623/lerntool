@@ -11,52 +11,6 @@
     <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/1599/1599145.png">
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="stylesheet" href="css/styles.css">
-    <style>
-        .bar { transition: all 0.3s ease-in-out; }
-        .code-block { background-color: #2d3748; border-radius: 0.5rem; padding: 1rem; font-family: 'Courier New', Courier, monospace; white-space: pre; }
-        .solution-code { background-color: #1a202c; border-left: 4px solid #0891b2; padding: 1rem; margin-top: 1rem; border-radius: 0.5rem; font-family: 'Courier New', Courier, monospace; white-space: pre; }
-        /* --- Graph Visualizer Styles --- */
-        .graph-node {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .graph-node circle {
-            stroke-width: 2px;
-            stroke: #0891b2;
-            fill: #1f2937;
-        }
-        .graph-node text {
-            fill: #e5e7eb;
-            font-size: 14px;
-            font-weight: bold;
-            pointer-events: none;
-        }
-        .graph-node.visited circle {
-            fill: #2dd4bf; /* teal */
-            stroke: #14b8a6;
-        }
-        .graph-node.active circle {
-            stroke: #facc15; /* yellow */
-            stroke-width: 4px;
-        }
-        .graph-edge {
-            stroke: #4b5563; /* gray */
-            stroke-width: 2px;
-            transition: all 0.3s ease;
-        }
-        .graph-edge.highlighted {
-            stroke: #fb923c; /* orange */
-            stroke-width: 4px;
-        }
-        .graph-edge.mst {
-            stroke: #2dd4bf; /* teal */
-            stroke-width: 4px;
-        }
-        .edge-weight {
-            fill: #d1d5db;
-            font-size: 12px;
-        }
-    </style>
 </head>
 <body class="text-gray-200">
 <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
