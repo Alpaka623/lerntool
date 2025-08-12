@@ -603,11 +603,17 @@ function setupAud() {
                 circle.setAttribute('cx', node.x);
                 circle.setAttribute('cy', node.y);
                 circle.setAttribute('r', 15);
+                circle.setAttribute('fill', '#1f2937');
+                circle.setAttribute('stroke', '#0891b2');
+                circle.setAttribute('stroke-width', 2);
 
                 const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
                 text.setAttribute('x', node.x);
                 text.setAttribute('y', node.y + 5);
                 text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('fill', '#e5e7eb');
+                text.setAttribute('font-size', '14');
+                text.setAttribute('font-weight', 'bold');
                 text.textContent = node.id;
 
                 g.appendChild(circle);
