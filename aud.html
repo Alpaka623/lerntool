@@ -193,8 +193,14 @@
                             <button id="graph-reset-btn" class="px-5 py-2 bg-gray-600 text-white rounded-lg shadow-lg hover:bg-gray-500">Reset</button>
                             <button id="graph-new-btn" class="px-5 py-2 bg-amber-600 text-white rounded-lg shadow-lg hover:bg-amber-500">Neuer Graph</button>
                         </div>
-                        <div class="w-full h-96 bg-gray-800/50 p-2 rounded-lg relative" id="graph-svg-container">
+
+                        <div class="grid md:grid-cols-2 gap-8 items-start">
+                            <div class="w-full h-96 bg-gray-800/50 p-2 rounded-lg relative" id="graph-svg-container">
+                            </div>
+                            <div id="graph-table-container" class="overflow-x-auto bg-gray-800/50 p-2 rounded-lg min-h-[24rem]">
+                            </div>
                         </div>
+
                         <div id="graph-explanation" class="mt-4 p-4 bg-gray-900/50 rounded-lg min-h-[50px]"></div>
                     </div>
                 </div>
