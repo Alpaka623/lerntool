@@ -534,7 +534,7 @@
                 if (!graphSvgContainer) return;
                 nodes = [];
                 edges = [];
-                const numNodes = 7;
+                const numNodes = 5;
                 const width = graphSvgContainer.clientWidth;
                 const height = graphSvgContainer.clientHeight;
 
