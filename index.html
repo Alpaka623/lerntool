@@ -40,8 +40,19 @@
             <div class="dialog-content">
                 <p>Bitte gewünschtes Datum für <span id="request-subject"></span> angeben:</p>
                 <input type="date" id="request-date-input" class="mt-2 p-2 w-full border rounded">
+                <div class="mt-4">
+                    <label class="block mb-1" for="request-name-input">Name</label>
+                    <div class="flex items-center">
+                        <input type="text" id="request-name-input" class="p-2 flex-grow border rounded" placeholder="Dein Name">
+                        <button id="name-info-button" class="ml-2 nav-button p-2 rounded" aria-label="Info">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <button class="dialog-button nav-button" id="request-date-send">Senden</button>
+            <button class="dialog-button nav-button" id="request-date-send" disabled>Senden</button>
             <button class="dialog-button nav-button" id="request-date-cancel">Abbrechen</button>
         </div>
     </div>

@@ -26,6 +26,11 @@
             border-color: #0891b2;
         }
 
+        .nav-button:disabled, .mafi-nav-button:disabled, .insi-nav-button:disabled, .aud-nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         /* --- View and Section Visibility Control --- */
         .subject-view, .content-section, .mafi-content-section, .insi-content-section, .aud-content-section {
             display: none; /* Hide all views by default */

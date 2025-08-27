@@ -11,6 +11,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const subjectHub = document.getElementById('subject-hub');
     const comingSoon = document.getElementById('coming-soon');
     const dynamicContent = document.getElementById('dynamic-content');
+    const dateInput = document.getElementById('request-date-input');
+    const nameInput = document.getElementById('request-name-input');
+    const sendButton = document.getElementById('request-date-send');
+
+    function updateSendButtonState() {
+        sendButton.disabled = !(dateInput.value && nameInput.value.trim());
+    }
+
+    dateInput.addEventListener('input', updateSendButtonState);
+    nameInput.addEventListener('input', updateSendButtonState);
+    document.getElementById('name-info-button').addEventListener('click', function() {
+        alert('Anfragen mit falschem Namen werden nicht beachtet');
+    });
 
     function showView(view) {
         [semesterHub, subjectHub, comingSoon, dynamicContent].forEach(v => v.classList.remove('active'));
@@ -67,7 +80,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.overflow = 'hidden';
         dialog.dataset.subjectId = subjectId;
         document.getElementById('request-subject').textContent = subjectId.toUpperCase();
-        document.getElementById('request-date-input').value = '';
+        dateInput.value = '';
+        nameInput.value = '';
+        updateSendButtonState();
     }
 
     function closeRequestDateDialog() {
@@ -78,8 +93,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('request-date-send').addEventListener('click', function() {
         const dialog = document.getElementById('requestDateDialog');
         const subjectId = dialog.dataset.subjectId;
-        const desiredDate = document.getElementById('request-date-input').value;
-        console.log(`Anfrage für ${subjectId}: ${desiredDate}`);
+        const desiredDate = dateInput.value;
+        const name = nameInput.value.trim();
+        console.log(`Anfrage für ${subjectId}: ${desiredDate} von ${name}`);
         // TODO: Mail an Admin mit gewünschtem Datum senden
         closeRequestDateDialog();
     });
