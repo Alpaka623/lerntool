@@ -33,6 +33,34 @@
             </button>
         </div>
     </div>
+
+    <div id="requestDateDialog" class="dialog-overlay hidden">
+        <div class="dialog-box">
+            <div class="dialog-header-info">Datum anfragen</div>
+            <div class="dialog-content">
+                <p>Bitte gewünschtes Datum für <span id="request-subject"></span> angeben:</p>
+                <input type="date" id="request-date-input" class="mt-2 p-2 w-full border rounded">
+                <div class="mt-4">
+                    <label class="block mb-1" for="request-name-input">Name</label>
+                    <div class="flex items-center">
+                        <input type="text" id="request-name-input" class="p-2 flex-grow border rounded" placeholder="Dein Name">
+                        <div class="relative ml-2">
+                            <button id="name-info-button" class="nav-button p-2 rounded" aria-label="Info">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
+                                </svg>
+                            </button>
+                            <div id="name-info-tooltip" class="hidden absolute right-0 mt-2 w-56 bg-gray-700 text-gray-200 text-sm p-2 rounded shadow-lg">
+                                Anfragen mit falschem Namen werden nicht beachtet
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="dialog-button nav-button" id="request-date-send" disabled>Senden</button>
+            <button class="dialog-button nav-button" id="request-date-cancel">Abbrechen</button>
+        </div>
+    </div>
     <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
         <!-- Semester Hub View -->
         <div id="semester-hub" class="subject-view active pt-16">
@@ -67,22 +95,50 @@
                 <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-link="ccn.html">
                     <h2 class="text-3xl font-bold text-cyan-400">CCN</h2>
                     <p class="text-gray-300 mt-2">Computer & Communication Networks</p>
-                    <p class="text-gray-400 mt-4 exam-countdown" data-subject-id="ccn"></p>
+                    <div class="mt-4 flex items-center justify-center space-x-2">
+                        <span class="text-gray-400 exam-countdown" data-subject-id="ccn"></span>
+                        <button class="request-date-button nav-button p-1 rounded" data-subject-id="ccn" aria-label="Datum anfragen">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16 8l-8 8H4v-4l8-8m0 0l1-1a2 2 0 112.828 2.828l-1 1z" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-link="mafi2.html">
                     <h2 class="text-3xl font-bold text-cyan-400">Mafi 2</h2>
                     <p class="text-gray-300 mt-2">Mathe für Informatiker 2</p>
-                    <p class="text-gray-400 mt-4 exam-countdown" data-subject-id="mafi2"></p>
+                    <div class="mt-4 flex items-center justify-center space-x-2">
+                        <span class="text-gray-400 exam-countdown" data-subject-id="mafi2"></span>
+                        <button class="request-date-button nav-button p-1 rounded" data-subject-id="mafi2" aria-label="Datum anfragen">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16 8l-8 8H4v-4l8-8m0 0l1-1a2 2 0 112.828 2.828l-1 1z" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-link="aud.html">
                     <h2 class="text-3xl font-bold text-cyan-400">AuD</h2>
                     <p class="text-gray-300 mt-2">Algorithmen und Datenstrukturen</p>
-                    <p class="text-gray-400 mt-4 exam-countdown" data-subject-id="aud"></p>
+                    <div class="mt-4 flex items-center justify-center space-x-2">
+                        <span class="text-gray-400 exam-countdown" data-subject-id="aud"></span>
+                        <button class="request-date-button nav-button p-1 rounded" data-subject-id="aud" aria-label="Datum anfragen">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16 8l-8 8H4v-4l8-8m0 0l1-1a2 2 0 112.828 2.828l-1 1z" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-link="insi.html">
                     <h2 class="text-3xl font-bold text-cyan-400">Insi</h2>
                     <p class="text-gray-300 mt-2">Informationssicherheit</p>
-                    <p class="text-gray-400 mt-4 exam-countdown" data-subject-id="insi"></p>
+                    <div class="mt-4 flex items-center justify-center space-x-2">
+                        <span class="text-gray-400 exam-countdown" data-subject-id="insi"></span>
+                        <button class="request-date-button nav-button p-1 rounded" data-subject-id="insi" aria-label="Datum anfragen">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16 8l-8 8H4v-4l8-8m0 0l1-1a2 2 0 112.828 2.828l-1 1z" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

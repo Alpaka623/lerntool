@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const examDates = {
         'ccn': new Date(2025, 7, 4),
         'mafi2': new Date(2025, 7, 7),
-        'insi': new Date(2025, 7, 22),
+        'insi': null,
         'aud': new Date(2025, 7, 14)
     };
 
@@ -11,6 +11,28 @@ document.addEventListener('DOMContentLoaded', function() {
     const subjectHub = document.getElementById('subject-hub');
     const comingSoon = document.getElementById('coming-soon');
     const dynamicContent = document.getElementById('dynamic-content');
+    const dateInput = document.getElementById('request-date-input');
+    const nameInput = document.getElementById('request-name-input');
+    const sendButton = document.getElementById('request-date-send');
+    const nameInfoButton = document.getElementById('name-info-button');
+    const nameInfoTooltip = document.getElementById('name-info-tooltip');
+
+    function updateSendButtonState() {
+        sendButton.disabled = !(dateInput.value && nameInput.value.trim());
+    }
+
+    dateInput.addEventListener('input', updateSendButtonState);
+    nameInput.addEventListener('input', updateSendButtonState);
+    nameInfoButton.addEventListener('click', function(e) {
+        e.stopPropagation();
+        nameInfoTooltip.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!nameInfoButton.contains(e.target)) {
+            nameInfoTooltip.classList.add('hidden');
+        }
+    });
 
     function showView(view) {
         [semesterHub, subjectHub, comingSoon, dynamicContent].forEach(v => v.classList.remove('active'));
@@ -33,31 +55,69 @@ document.addEventListener('DOMContentLoaded', function() {
             const subjectId = el.dataset.subjectId;
             const examDate = examDates[subjectId];
 
+            el.classList.remove('text-red-500', 'font-bold');
+
             if (examDate) {
                 const diffTime = examDate.getTime() - today.getTime();
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
                 if (diffDays < 0) {
-                    el.textContent = "Klausur vorbei";
+                    el.textContent = 'Klausur vorbei';
                 } else if (diffDays === 0) {
-                    el.textContent = "Heute!";
+                    el.textContent = 'Heute!';
                     el.classList.add('text-red-500', 'font-bold');
                 } else if (diffDays === 1) {
-                    el.textContent = "Morgen!";
+                    el.textContent = 'Morgen!';
                     el.classList.add('text-red-500', 'font-bold');
                 } else {
                     el.textContent = `${diffDays} Tage verbleibend`;
                     if (diffDays <= 7) {
                         el.classList.add('text-red-500', 'font-bold');
-                    } else {
-                        el.classList.remove('text-red-500', 'font-bold');
                     }
                 }
+            } else {
+                el.textContent = 'kein datum angegeben';
             }
         });
     }
 
     updateExamCountdowns();
+
+    function openRequestDateDialog(subjectId) {
+        const dialog = document.getElementById('requestDateDialog');
+        dialog.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        dialog.dataset.subjectId = subjectId;
+        document.getElementById('request-subject').textContent = subjectId.toUpperCase();
+        dateInput.value = '';
+        nameInput.value = '';
+        updateSendButtonState();
+        nameInfoTooltip.classList.add('hidden');
+    }
+
+    function closeRequestDateDialog() {
+        document.getElementById('requestDateDialog').classList.add('hidden');
+        document.body.style.overflow = '';
+        nameInfoTooltip.classList.add('hidden');
+    }
+
+    document.getElementById('request-date-send').addEventListener('click', function() {
+        const dialog = document.getElementById('requestDateDialog');
+        const subjectId = dialog.dataset.subjectId;
+        const desiredDate = dateInput.value;
+        const name = nameInput.value.trim();
+        console.log(`Anfrage für ${subjectId}: ${desiredDate} von ${name}`);
+        // TODO: Mail an Admin mit gewünschtem Datum senden
+        closeRequestDateDialog();
+    });
+
+    document.getElementById('request-date-cancel').addEventListener('click', closeRequestDateDialog);
+
+    document.getElementById('requestDateDialog').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeRequestDateDialog();
+        }
+    });
 
     function loadPage(url) {
         fetch(url)
@@ -122,6 +182,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        const requestBtn = event.target.closest('.request-date-button');
+        if (requestBtn) {
+            openRequestDateDialog(requestBtn.dataset.subjectId);
+            return;
+        }
+
         const card = event.target.closest('.subject-card');
         if (card && card.dataset.link) {
             loadPage(card.dataset.link);
@@ -168,7 +234,12 @@ document.getElementById('firstVisitDialog').addEventListener('click', function(e
 });
 
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && !document.getElementById('firstVisitDialog').classList.contains('hidden')) {
-        closeFirstVisitDialog();
+    if (e.key === 'Escape') {
+        if (!document.getElementById('firstVisitDialog').classList.contains('hidden')) {
+            closeFirstVisitDialog();
+        }
+        if (!document.getElementById('requestDateDialog').classList.contains('hidden')) {
+            closeRequestDateDialog();
+        }
     }
 });
