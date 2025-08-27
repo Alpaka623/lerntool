@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const dateInput = document.getElementById('request-date-input');
     const nameInput = document.getElementById('request-name-input');
     const sendButton = document.getElementById('request-date-send');
-    const nameInfoButton = document.getElementById('name-info-button');
     const nameInfoTooltip = document.getElementById('name-info-tooltip');
 
     function updateSendButtonState() {
@@ -23,16 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     dateInput.addEventListener('input', updateSendButtonState);
     nameInput.addEventListener('input', updateSendButtonState);
-    nameInfoButton.addEventListener('click', function(e) {
-        e.stopPropagation();
-        nameInfoTooltip.classList.toggle('hidden');
-    });
-
-    document.addEventListener('click', function(e) {
-        if (!nameInfoButton.contains(e.target)) {
-            nameInfoTooltip.classList.add('hidden');
-        }
-    });
 
     function showView(view) {
         [semesterHub, subjectHub, comingSoon, dynamicContent].forEach(v => v.classList.remove('active'));
