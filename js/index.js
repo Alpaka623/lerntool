@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const examDates = {
         'ccn': new Date(2025, 7, 4),
         'mafi2': new Date(2025, 7, 7),
-        'insi': new Date(2025, 7, 22),
+        'insi': null,
         'aud': new Date(2025, 7, 14)
     };
 
@@ -24,40 +24,51 @@ document.addEventListener('DOMContentLoaded', function() {
         showView(comingSoon);
     }
 
-    function updateExamCountdowns() {
-        const countdownElements = document.querySelectorAll('.exam-countdown');
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        countdownElements.forEach(el => {
+    function updateExamDates() {
+        const dateElements = document.querySelectorAll('.exam-date');
+        dateElements.forEach(el => {
             const subjectId = el.dataset.subjectId;
             const examDate = examDates[subjectId];
-
             if (examDate) {
-                const diffTime = examDate.getTime() - today.getTime();
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-                if (diffDays < 0) {
-                    el.textContent = "Klausur vorbei";
-                } else if (diffDays === 0) {
-                    el.textContent = "Heute!";
-                    el.classList.add('text-red-500', 'font-bold');
-                } else if (diffDays === 1) {
-                    el.textContent = "Morgen!";
-                    el.classList.add('text-red-500', 'font-bold');
-                } else {
-                    el.textContent = `${diffDays} Tage verbleibend`;
-                    if (diffDays <= 7) {
-                        el.classList.add('text-red-500', 'font-bold');
-                    } else {
-                        el.classList.remove('text-red-500', 'font-bold');
-                    }
-                }
+                el.textContent = examDate.toLocaleDateString('de-DE');
+            } else {
+                el.textContent = 'kein datum angegeben';
             }
         });
     }
 
-    updateExamCountdowns();
+    updateExamDates();
+
+    function openRequestDateDialog(subjectId) {
+        const dialog = document.getElementById('requestDateDialog');
+        dialog.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        dialog.dataset.subjectId = subjectId;
+        document.getElementById('request-subject').textContent = subjectId.toUpperCase();
+        document.getElementById('request-date-input').value = '';
+    }
+
+    function closeRequestDateDialog() {
+        document.getElementById('requestDateDialog').classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+
+    document.getElementById('request-date-send').addEventListener('click', function() {
+        const dialog = document.getElementById('requestDateDialog');
+        const subjectId = dialog.dataset.subjectId;
+        const desiredDate = document.getElementById('request-date-input').value;
+        console.log(`Anfrage für ${subjectId}: ${desiredDate}`);
+        // TODO: Mail an Admin mit gewünschtem Datum senden
+        closeRequestDateDialog();
+    });
+
+    document.getElementById('request-date-cancel').addEventListener('click', closeRequestDateDialog);
+
+    document.getElementById('requestDateDialog').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeRequestDateDialog();
+        }
+    });
 
     function loadPage(url) {
         fetch(url)
@@ -122,6 +133,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        const requestBtn = event.target.closest('.request-date-button');
+        if (requestBtn) {
+            openRequestDateDialog(requestBtn.dataset.subjectId);
+            return;
+        }
+
         const card = event.target.closest('.subject-card');
         if (card && card.dataset.link) {
             loadPage(card.dataset.link);
@@ -168,7 +185,12 @@ document.getElementById('firstVisitDialog').addEventListener('click', function(e
 });
 
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && !document.getElementById('firstVisitDialog').classList.contains('hidden')) {
-        closeFirstVisitDialog();
+    if (e.key === 'Escape') {
+        if (!document.getElementById('firstVisitDialog').classList.contains('hidden')) {
+            closeFirstVisitDialog();
+        }
+        if (!document.getElementById('requestDateDialog').classList.contains('hidden')) {
+            closeRequestDateDialog();
+        }
     }
 });
