@@ -14,6 +14,25 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="text-gray-200">
+    <div id="firstVisitDialog" class="dialog-overlay hidden">
+        <div class="dialog-box">
+            <div class="dialog-header">
+                Achtung!
+            </div>
+            <div class="dialog-content">
+                <p>Bitte denk daran, dass dieses Lerntool nur als eine zusätzliche Hilfe gedacht ist, um dich beim Lernen zu unterstützen.</p>
+
+                <p>Die Inhalte hier sind definitiv <strong>nicht vollständig</strong> und decken nur einen Teil der Themen ab. Sie können und sollen die offiziellen Kursmaterialien nicht ersetzen. Außerdem kann es sein, dass die Informationen nicht immer auf dem allerneuesten Stand sind.</p>
+
+                <p>Verlasse dich für deine Klausurvorbereitung also bitte unbedingt auf die offiziellen Skripte, Vorlesungsunterlagen und Übungen. Sieh dieses Tool als eine Ergänzung, um Dinge zu wiederholen oder zu visualisieren.</p>
+
+                <p><strong>Viel Erfolg beim Lernen!</strong></p>
+            </div>
+            <button class="dialog-button" onclick="closeFirstVisitDialog()">
+                Verstanden
+            </button>
+        </div>
+    </div>
     <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
         <!-- Semester Hub View -->
         <div id="semester-hub" class="subject-view active pt-16">

@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    checkFirstVisit();
     const examDates = {
         'ccn': new Date(2025, 7, 4),
         'mafi2': new Date(2025, 7, 7),
@@ -126,4 +127,31 @@ document.addEventListener('DOMContentLoaded', function() {
             loadPage(card.dataset.link);
         }
     });
+});
+
+function checkFirstVisit() {
+    if (!sessionStorage.getItem('notFirstTime')) {
+        document.getElementById('firstVisitDialog').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeFirstVisitDialog() {
+    sessionStorage.setItem('notFirstTime', 'true');
+
+    document.getElementById('firstVisitDialog').classList.add('hidden');
+
+    document.body.style.overflow = '';
+}
+
+document.getElementById('firstVisitDialog').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeFirstVisitDialog();
+    }
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !document.getElementById('firstVisitDialog').classList.contains('hidden')) {
+        closeFirstVisitDialog();
+    }
 });
