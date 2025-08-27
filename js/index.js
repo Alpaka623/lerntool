@@ -24,20 +24,42 @@ document.addEventListener('DOMContentLoaded', function() {
         showView(comingSoon);
     }
 
-    function updateExamDates() {
-        const dateElements = document.querySelectorAll('.exam-date');
-        dateElements.forEach(el => {
+    function updateExamCountdowns() {
+        const countdownElements = document.querySelectorAll('.exam-countdown');
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        countdownElements.forEach(el => {
             const subjectId = el.dataset.subjectId;
             const examDate = examDates[subjectId];
+
+            el.classList.remove('text-red-500', 'font-bold');
+
             if (examDate) {
-                el.textContent = examDate.toLocaleDateString('de-DE');
+                const diffTime = examDate.getTime() - today.getTime();
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffDays < 0) {
+                    el.textContent = 'Klausur vorbei';
+                } else if (diffDays === 0) {
+                    el.textContent = 'Heute!';
+                    el.classList.add('text-red-500', 'font-bold');
+                } else if (diffDays === 1) {
+                    el.textContent = 'Morgen!';
+                    el.classList.add('text-red-500', 'font-bold');
+                } else {
+                    el.textContent = `${diffDays} Tage verbleibend`;
+                    if (diffDays <= 7) {
+                        el.classList.add('text-red-500', 'font-bold');
+                    }
+                }
             } else {
                 el.textContent = 'kein datum angegeben';
             }
         });
     }
 
-    updateExamDates();
+    updateExamCountdowns();
 
     function openRequestDateDialog(subjectId) {
         const dialog = document.getElementById('requestDateDialog');
