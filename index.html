@@ -36,24 +36,14 @@
 
     <div id="requestDateDialog" class="dialog-overlay hidden">
         <div class="dialog-box">
-            <div class="dialog-header-info">Datum anfragen</div>
+            <div class="dialog-header-info">Datum setzen</div>
             <div class="dialog-content">
-                <p>Bitte gewünschtes Datum für <span id="request-subject"></span> angeben:</p>
+                <p>Bitte Datum für <span id="request-subject"></span> angeben:</p>
                 <input type="date" id="request-date-input" class="mt-2 p-2 w-full border rounded">
                 <div class="mt-4">
                     <label class="block mb-1" for="request-name-input">Name</label>
                     <div class="flex items-center">
                         <input type="text" id="request-name-input" class="p-2 flex-grow border rounded" placeholder="Dein Name">
-                        <div class="relative ml-2">
-                            <button id="name-info-button" class="nav-button p-2 rounded" aria-label="Info">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
-                                </svg>
-                            </button>
-                            <div id="name-info-tooltip" class="hidden absolute right-0 mt-2 w-56 bg-gray-700 text-gray-200 text-sm p-2 rounded shadow-lg">
-                                Anfragen mit falschem Namen werden nicht beachtet
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
