@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const dateInput = document.getElementById('request-date-input');
     const nameInput = document.getElementById('request-name-input');
     const sendButton = document.getElementById('request-date-send');
+    const nameInfoButton = document.getElementById('name-info-button');
+    const nameInfoTooltip = document.getElementById('name-info-tooltip');
 
     function updateSendButtonState() {
         sendButton.disabled = !(dateInput.value && nameInput.value.trim());
@@ -21,8 +23,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     dateInput.addEventListener('input', updateSendButtonState);
     nameInput.addEventListener('input', updateSendButtonState);
-    document.getElementById('name-info-button').addEventListener('click', function() {
-        alert('Anfragen mit falschem Namen werden nicht beachtet');
+    nameInfoButton.addEventListener('click', function(e) {
+        e.stopPropagation();
+        nameInfoTooltip.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!nameInfoButton.contains(e.target)) {
+            nameInfoTooltip.classList.add('hidden');
+        }
     });
 
     function showView(view) {
@@ -83,11 +92,13 @@ document.addEventListener('DOMContentLoaded', function() {
         dateInput.value = '';
         nameInput.value = '';
         updateSendButtonState();
+        nameInfoTooltip.classList.add('hidden');
     }
 
     function closeRequestDateDialog() {
         document.getElementById('requestDateDialog').classList.add('hidden');
         document.body.style.overflow = '';
+        nameInfoTooltip.classList.add('hidden');
     }
 
     document.getElementById('request-date-send').addEventListener('click', function() {
