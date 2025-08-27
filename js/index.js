@@ -1,4 +1,26 @@
-document.addEventListener('DOMContentLoaded', function() {
+import { getUser, signOut } from './auth.js';
+
+document.addEventListener('DOMContentLoaded', async function() {
+
+    const user = await getUser();
+    if (!user) {
+        window.location.href = 'login.html';
+        return;
+    }
+
+    const userEmailElement = document.getElementById('user-email');
+    const logoutButton = document.getElementById('logout-button');
+
+    if (userEmailElement) {
+        userEmailElement.textContent = user.email;
+    }
+
+    if (logoutButton) {
+        logoutButton.addEventListener('click', () => {
+            signOut();
+        });
+    }
+
     checkFirstVisit();
     const examDates = {
         'ccn': new Date(2025, 7, 4),
@@ -210,9 +232,7 @@ function checkFirstVisit() {
 
 function closeFirstVisitDialog() {
     setCookie('lerntool_warning_shown', 'true', 365);
-
     document.getElementById('firstVisitDialog').classList.add('hidden');
-
     document.body.style.overflow = '';
 }
 
@@ -228,7 +248,10 @@ document.addEventListener('keydown', function(e) {
             closeFirstVisitDialog();
         }
         if (!document.getElementById('requestDateDialog').classList.contains('hidden')) {
-            closeRequestDateDialog();
+            const closeDialog = window.closeRequestDateDialog;
+            if (closeDialog) {
+                closeDialog();
+            }
         }
     }
 });
