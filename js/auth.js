@@ -21,7 +21,8 @@ if (registerForm) {
             });
 
             if (verificationError) {
-                errorMessage.textContent = 'Server-Fehler. Prüfe den Funktionsnamen und Deployment-Status.';
+                const errorDetails = await verificationError.context.json();
+                errorMessage.textContent = 'Fehler: ' + (errorDetails.error || verificationError.message);
                 console.error('Invoke Error:', verificationError);
                 return;
             }
