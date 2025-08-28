@@ -1,4 +1,4 @@
-import { getUser, signOut } from './auth.js';
+import { getUser, signOut, getUserRole } from './auth.js';
 
 document.addEventListener('DOMContentLoaded', async function() {
 
@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         window.location.href = 'login.html';
         return;
     }
+
+    const userRole = await getUserRole();
+
 
     const userEmailElement = document.getElementById('user-email');
     const logoutButton = document.getElementById('logout-button');
@@ -38,6 +41,17 @@ document.addEventListener('DOMContentLoaded', async function() {
     const sendButton = document.getElementById('request-date-send');
     const nameInfoTooltip = document.getElementById('name-info-tooltip');
     const closeDialogButton = document.getElementById('close-dialog-btn');
+    const adminButton = document.getElementById('admin-button');
+
+    if (userRole === 'admin') {
+        if (adminButton) {
+            adminButton.classList.remove('hidden');
+            adminButton.addEventListener('click', () => {
+                window.location.href = 'admin.html';
+            });
+        }
+    }
+
 
     if (closeDialogButton) {
         closeDialogButton.addEventListener('click', closeFirstVisitDialog);

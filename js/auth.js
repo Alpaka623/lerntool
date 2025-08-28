@@ -16,7 +16,7 @@ if (registerForm) {
         const invitationCode = document.getElementById('invitation-code').value;
 
         try {
-            const { data: verificationData, error: verificationError } = await supabaseClient.functions.invoke('register-with-code', {
+            const { data: verificationData, error: verificationError } = await supabaseClient.functions.invoke('verify-invitation-code', {
                 body: { invitationCode },
             });
 
@@ -73,9 +73,30 @@ if (loginForm) {
 }
 
 export async function getUser() {
-    // Benutze hier den korrekten Client: supabaseClient
     const { data: { user } } = await supabaseClient.auth.getUser();
     return user;
+}
+
+export async function getUserRole() {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    if (!user) {
+        console.error("Kein Benutzer angemeldet.");
+        return null;
+    }
+
+    const { data, error } = await supabaseClient
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
+    if (error) {
+        console.error("Fehler beim Abrufen der Benutzerrolle:", error);
+        return null;
+    }
+
+    return data ? data.role : null;
 }
 
 export async function signOut() {
