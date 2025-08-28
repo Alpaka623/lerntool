@@ -13,17 +13,41 @@ if (registerForm) {
         errorMessage.textContent = '';
         const email = document.getElementById('register-email').value;
         const password = document.getElementById('register-password').value;
+        const invitationCode = document.getElementById('invitation-code').value;
 
-        const { data, error } = await supabaseClient.auth.signUp({
-            email: email,
-            password: password,
-        });
+        try {
+            const { data: verificationData, error: verificationError } = await supabaseClient.functions.invoke('register-with-code', {
+                body: { invitationCode },
+            });
 
-        if (error) {
-            errorMessage.textContent = 'Fehler: ' + error.message;
-        } else {
-            alert('Registrierung erfolgreich! Bitte prüfe dein Postfach, um deine E-Mail-Adresse zu bestätigen.');
-            window.location.href = 'login.html';
+            if (verificationError) {
+                errorMessage.textContent = 'Server-Fehler. Prüfe den Funktionsnamen und Deployment-Status.';
+                console.error('Invoke Error:', verificationError);
+                return;
+            }
+
+            if (verificationData.error) {
+                errorMessage.textContent = 'Fehler: ' + verificationData.error;
+                return;
+            }
+
+            if (verificationData.success) {
+                const { data, error: signUpError } = await supabaseClient.auth.signUp({
+                    email: email,
+                    password: password,
+                });
+
+                if (signUpError) {
+                    errorMessage.textContent = 'Fehler: ' + signUpError.message;
+                } else {
+                    alert('Registrierung erfolgreich! Bitte prüfe dein Postfach, um deine E-Mail-Adresse zu bestätigen.');
+                    window.location.href = 'login.html';
+                }
+            }
+
+        } catch (e) {
+            errorMessage.textContent = 'Ein unerwarteter Fehler ist aufgetreten.';
+            console.error(e);
         }
     });
 }

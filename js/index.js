@@ -37,6 +37,11 @@ document.addEventListener('DOMContentLoaded', async function() {
     const nameInput = document.getElementById('request-name-input');
     const sendButton = document.getElementById('request-date-send');
     const nameInfoTooltip = document.getElementById('name-info-tooltip');
+    const closeDialogButton = document.getElementById('close-dialog-btn');
+
+    if (closeDialogButton) {
+        closeDialogButton.addEventListener('click', closeFirstVisitDialog);
+    }
 
     function updateSendButtonState() {
         sendButton.disabled = !(dateInput.value && nameInput.value.trim());
