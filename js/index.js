@@ -1,4 +1,9 @@
 import { getUser, signOut, getUserRole } from './auth.js';
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+const supabaseUrl = 'https://omxdiviiahffcsmttprq.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9teGRpdmlpYWhmZmNzbXR0cHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzMDEzOTAsImV4cCI6MjA3MTg3NzM5MH0.KTJdhZNbKQFh2XYpYugoj3uLCi8cJ14nEXSoQIjOPHQ';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 document.addEventListener('DOMContentLoaded', async function() {
 
@@ -8,146 +13,124 @@ document.addEventListener('DOMContentLoaded', async function() {
         return;
     }
 
-    const userRole = await getUserRole();
-
-
     const userEmailElement = document.getElementById('user-email');
+    if (userEmailElement) userEmailElement.textContent = user.email;
+
     const logoutButton = document.getElementById('logout-button');
+    if (logoutButton) logoutButton.addEventListener('click', () => signOut());
 
-    if (userEmailElement) {
-        userEmailElement.textContent = user.email;
-    }
-
-    if (logoutButton) {
-        logoutButton.addEventListener('click', () => {
-            signOut();
-        });
+    const userRole = await getUserRole();
+    const adminButton = document.getElementById('admin-button');
+    if (userRole === 'admin' && adminButton) {
+        adminButton.classList.remove('hidden');
+        adminButton.addEventListener('click', () => { window.location.href = 'admin.html'; });
     }
 
     checkFirstVisit();
-    const examDates = {
-        'ccn': new Date(2025, 7, 4),
-        'mafi2': new Date(2025, 7, 7),
-        'insi': null,
-        'aud': new Date(2025, 7, 14)
+    const defaultExamDates = {
+        'ccn': null, 'mafi2': null, 'insi': null, 'aud': null
     };
+    let userExamDates = {};
 
     const semesterHub = document.getElementById('semester-hub');
     const subjectHub = document.getElementById('subject-hub');
     const comingSoon = document.getElementById('coming-soon');
     const dynamicContent = document.getElementById('dynamic-content');
-    const dateInput = document.getElementById('request-date-input');
-    const nameInput = document.getElementById('request-name-input');
-    const sendButton = document.getElementById('request-date-send');
-    const nameInfoTooltip = document.getElementById('name-info-tooltip');
     const closeDialogButton = document.getElementById('close-dialog-btn');
-    const adminButton = document.getElementById('admin-button');
+    if (closeDialogButton) closeDialogButton.addEventListener('click', closeFirstVisitDialog);
 
-    if (userRole === 'admin') {
-        if (adminButton) {
-            adminButton.classList.remove('hidden');
-            adminButton.addEventListener('click', () => {
-                window.location.href = 'admin.html';
-            });
+    async function loadUserExamDates() {
+        const { data, error } = await supabase
+            .from('exam_dates')
+            .select('subject_id, exam_date')
+            .eq('user_id', user.id);
+
+        if (error) {
+            console.error("Fehler beim Laden der Prüfungsdaten:", error);
+            return;
         }
+        userExamDates = Object.fromEntries(data.map(d => [d.subject_id, d.exam_date]));
+        updateAllCountdowns();
     }
 
-
-    if (closeDialogButton) {
-        closeDialogButton.addEventListener('click', closeFirstVisitDialog);
-    }
-
-    function updateSendButtonState() {
-        sendButton.disabled = !(dateInput.value && nameInput.value.trim());
-    }
-
-    dateInput.addEventListener('input', updateSendButtonState);
-    nameInput.addEventListener('input', updateSendButtonState);
-
-    function showView(view) {
-        [semesterHub, subjectHub, comingSoon, dynamicContent].forEach(v => v.classList.remove('active'));
-        view.classList.add('active');
-    }
-
-    const storedSemester = sessionStorage.getItem('selectedSemester');
-    if (storedSemester === '2') {
-        showView(subjectHub);
-    } else if (storedSemester && storedSemester !== '2') {
-        showView(comingSoon);
-    }
-
-    function updateExamCountdowns() {
+    function updateAllCountdowns() {
         const countdownElements = document.querySelectorAll('.exam-countdown');
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
         countdownElements.forEach(el => {
             const subjectId = el.dataset.subjectId;
-            const examDate = examDates[subjectId];
+            const userDate = userExamDates[subjectId];
+            const examDate = userDate ? new Date(userDate + 'T00:00:00') : defaultExamDates[subjectId];
 
             el.classList.remove('text-red-500', 'font-bold');
 
             if (examDate) {
+                examDate.setUTCHours(12, 0, 0, 0);
+                const today = new Date();
+                today.setUTCHours(0, 0, 0, 0);
+
                 const diffTime = examDate.getTime() - today.getTime();
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-                if (diffDays < 0) {
-                    el.textContent = 'Klausur vorbei';
-                } else if (diffDays === 0) {
-                    el.textContent = 'Heute!';
-                    el.classList.add('text-red-500', 'font-bold');
-                } else if (diffDays === 1) {
-                    el.textContent = 'Morgen!';
-                    el.classList.add('text-red-500', 'font-bold');
-                } else {
+                if (diffDays < 0) el.textContent = 'Prüfung vorbei';
+                else if (diffDays === 0) { el.textContent = 'Heute!'; el.classList.add('text-red-500', 'font-bold'); }
+                else if (diffDays === 1) { el.textContent = 'Morgen!'; el.classList.add('text-red-500', 'font-bold'); }
+                else {
                     el.textContent = `${diffDays} Tage verbleibend`;
-                    if (diffDays <= 7) {
-                        el.classList.add('text-red-500', 'font-bold');
-                    }
+                    if (diffDays <= 7) el.classList.add('text-red-500', 'font-bold');
                 }
             } else {
-                el.textContent = 'kein datum angegeben';
+                el.textContent = 'Datum setzen';
             }
         });
     }
 
-    updateExamCountdowns();
+    async function saveExamDate(subjectId, date) {
+        const { error } = await supabase
+            .from('exam_dates')
+            .upsert({
+                user_id: user.id,
+                subject_id: subjectId,
+                exam_date: date
+            }, { onConflict: 'user_id, subject_id' });
 
-    function openRequestDateDialog(subjectId) {
+        if (error) {
+            console.error("Fehler beim Speichern des Datums:", error);
+        } else {
+            await loadUserExamDates();
+        }
+    }
+
+    function openDateDialog(subjectId) {
         const dialog = document.getElementById('requestDateDialog');
         dialog.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
-        dialog.dataset.subjectId = subjectId;
+
         document.getElementById('request-subject').textContent = subjectId.toUpperCase();
-        dateInput.value = '';
-        nameInput.value = '';
-        updateSendButtonState();
-        nameInfoTooltip.classList.add('hidden');
+        const dateInput = document.getElementById('request-date-input');
+        dateInput.value = userExamDates[subjectId] || '';
+
+        const sendButton = document.getElementById('request-date-send');
+        sendButton.onclick = () => {
+            if (dateInput.value) {
+                saveExamDate(subjectId, dateInput.value);
+            }
+            closeDateDialog();
+        };
     }
 
-    function closeRequestDateDialog() {
+    function closeDateDialog() {
         document.getElementById('requestDateDialog').classList.add('hidden');
         document.body.style.overflow = '';
-        nameInfoTooltip.classList.add('hidden');
     }
 
-    document.getElementById('request-date-send').addEventListener('click', function() {
-        const dialog = document.getElementById('requestDateDialog');
-        const subjectId = dialog.dataset.subjectId;
-        const desiredDate = dateInput.value;
-        const name = nameInput.value.trim();
-        console.log(`Anfrage für ${subjectId}: ${desiredDate} von ${name}`);
-        // TODO: Mail an Admin mit gewünschtem Datum senden
-        closeRequestDateDialog();
-    });
+    const cancelBtn = document.getElementById('request-date-cancel');
+    if (cancelBtn) cancelBtn.addEventListener('click', closeDateDialog);
 
-    document.getElementById('request-date-cancel').addEventListener('click', closeRequestDateDialog);
-
-    document.getElementById('requestDateDialog').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeRequestDateDialog();
-        }
-    });
+    function showView(view) {
+        [semesterHub, subjectHub, comingSoon, dynamicContent].forEach(v => {
+            if(v) v.classList.remove('active');
+        });
+        if(view) view.classList.add('active');
+    }
 
     function loadPage(url) {
         fetch(url)
@@ -164,25 +147,22 @@ document.addEventListener('DOMContentLoaded', async function() {
                         showView(dynamicContent);
                         return;
                     }
-
                     const s = scripts[index];
                     const newScript = document.createElement('script');
-                    if (s.id) newScript.id = s.id;
-                    if (s.type) newScript.type = s.type;
+                    if(s.id) newScript.id = s.id;
+                    if(s.type) newScript.type = s.type;
                     newScript.async = false;
-
-                    if (s.src) {
+                    if(s.src) {
                         newScript.src = s.src;
                         newScript.onload = () => loadScriptsSequentially(index + 1);
                         newScript.onerror = () => loadScriptsSequentially(index + 1);
-                        dynamicContent.appendChild(newScript);
+                        document.body.appendChild(newScript);
                     } else {
                         newScript.textContent = s.textContent;
-                        dynamicContent.appendChild(newScript);
+                        document.body.appendChild(newScript);
                         loadScriptsSequentially(index + 1);
                     }
                 }
-
                 loadScriptsSequentially();
             })
             .catch(err => console.error('Fehler beim Laden der Seite:', err));
@@ -198,11 +178,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         if (semesterCard) {
             const semester = semesterCard.dataset.semester;
             sessionStorage.setItem('selectedSemester', semester);
-            if (semester === '2') {
-                showView(subjectHub);
-            } else {
-                showView(comingSoon);
-            }
+            if (semester === '2') showView(subjectHub);
+            else showView(comingSoon);
             return;
         }
 
@@ -214,7 +191,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         const requestBtn = event.target.closest('.request-date-button');
         if (requestBtn) {
-            openRequestDateDialog(requestBtn.dataset.subjectId);
+            openDateDialog(requestBtn.dataset.subjectId);
             return;
         }
 
@@ -223,6 +200,14 @@ document.addEventListener('DOMContentLoaded', async function() {
             loadPage(card.dataset.link);
         }
     });
+
+    await loadUserExamDates();
+    const storedSemester = sessionStorage.getItem('selectedSemester');
+    if (storedSemester === '2') {
+        showView(subjectHub);
+    } else {
+        showView(semesterHub);
+    }
 });
 
 function setCookie(name, value, days) {
@@ -243,34 +228,30 @@ function getCookie(name) {
 }
 
 function checkFirstVisit() {
-    if (!getCookie('lerntool_warning_shown')) {
-        document.getElementById('firstVisitDialog').classList.remove('hidden');
+    const dialog = document.getElementById('firstVisitDialog');
+    if (dialog && !getCookie('lerntool_warning_shown')) {
+        dialog.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
     }
 }
 
 function closeFirstVisitDialog() {
     setCookie('lerntool_warning_shown', 'true', 365);
-    document.getElementById('firstVisitDialog').classList.add('hidden');
+    const dialog = document.getElementById('firstVisitDialog');
+    if (dialog) dialog.classList.add('hidden');
     document.body.style.overflow = '';
 }
 
-document.getElementById('firstVisitDialog').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeFirstVisitDialog();
-    }
-});
-
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
-        if (!document.getElementById('firstVisitDialog').classList.contains('hidden')) {
+        const firstDialog = document.getElementById('firstVisitDialog');
+        if (firstDialog && !firstDialog.classList.contains('hidden')) {
             closeFirstVisitDialog();
         }
-        if (!document.getElementById('requestDateDialog').classList.contains('hidden')) {
-            const closeDialog = window.closeRequestDateDialog;
-            if (closeDialog) {
-                closeDialog();
-            }
+        const requestDialog = document.getElementById('requestDateDialog');
+        if (requestDialog && !requestDialog.classList.contains('hidden')) {
+            requestDialog.classList.add('hidden');
+            document.body.style.overflow = '';
         }
     }
 });

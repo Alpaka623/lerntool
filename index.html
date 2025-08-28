@@ -36,18 +36,12 @@
 
     <div id="requestDateDialog" class="dialog-overlay hidden">
         <div class="dialog-box">
-            <div class="dialog-header-info">Datum setzen</div>
+            <div class="dialog-header-info">Prüfungsdatum setzen</div>
             <div class="dialog-content">
-                <p>Bitte Datum für <span id="request-subject"></span> angeben:</p>
+                <p>Bitte gib dein persönliches Prüfungsdatum für <strong id="request-subject" class="text-cyan-400"></strong> an:</p>
                 <input type="date" id="request-date-input" class="mt-2 p-2 w-full border rounded">
-                <div class="mt-4">
-                    <label class="block mb-1" for="request-name-input">Name</label>
-                    <div class="flex items-center">
-                        <input type="text" id="request-name-input" class="p-2 flex-grow border rounded" placeholder="Dein Name">
-                    </div>
-                </div>
             </div>
-            <button class="dialog-button nav-button" id="request-date-send" disabled>Senden</button>
+            <button class="dialog-button nav-button" id="request-date-send">Speichern</button>
             <button class="dialog-button nav-button" id="request-date-cancel">Abbrechen</button>
         </div>
     </div>
