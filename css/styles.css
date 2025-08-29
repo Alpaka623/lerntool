@@ -7,18 +7,18 @@ body {
 }
 
 /* --- Navigation Button Styling (for all subjects) --- */
-.nav-button, .mafi-nav-button, .insi-nav-button, .aud-nav-button {
+.nav-button, .mafi-nav-button, .insi-nav-button, .aud-nav-button, .eidp-nav-button {
     transition: all 0.3s ease;
     background-color: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: #9ca3af; /* Medium gray text */
 }
-.nav-button:hover, .mafi-nav-button:hover, .insi-nav-button:hover, .aud-nav-button:hover {
+.nav-button:hover, .mafi-nav-button:hover, .insi-nav-button:hover, .aud-nav-button:hover, .eidp-nav-button:hover {
     background-color: rgba(13, 202, 240, 0.1); /* Light cyan on hover */
     color: #0dcaf0;
     border-color: rgba(13, 202, 240, 0.3);
 }
-.nav-button.active, .mafi-nav-button.active, .insi-nav-button.active, .aud-nav-button.active {
+.nav-button.active, .mafi-nav-button.active, .insi-nav-button.active, .aud-nav-button.active, .eidp-nav-button.active {
     background-color: #0891b2; /* Strong cyan for active state */
     color: white;
     transform: translateY(-2px);
@@ -26,16 +26,16 @@ body {
     border-color: #0891b2;
 }
 
-.nav-button:disabled, .mafi-nav-button:disabled, .insi-nav-button:disabled, .aud-nav-button:disabled {
+.nav-button:disabled, .mafi-nav-button:disabled, .insi-nav-button:disabled, .aud-nav-button:disabled, .eidp-nav-button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
 /* --- View and Section Visibility Control --- */
-.subject-view, .content-section, .mafi-content-section, .insi-content-section, .aud-content-section {
+.subject-view, .content-section, .mafi-content-section, .insi-content-section, .aud-content-section, .eidp-content-section {
     display: none; /* Hide all views by default */
 }
-.subject-view.active, .content-section.active, .mafi-content-section.active, .insi-content-section.active, .aud-content-section.active {
+.subject-view.active, .content-section.active, .mafi-content-section.active, .insi-content-section.active, .aud-content-section.active, .eidp-content-section.active {
     display: block; /* Show only the active view */
     animation: fadeIn 0.4s ease-out; /* Add a fade-in animation */
 }
