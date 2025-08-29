@@ -24,6 +24,9 @@
             <button data-mafi-target="mafi1-mengenlehre" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Mengenlehre</button>
             <button data-mafi-target="mafi1-abbildungen" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Abbildungen</button>
             <button data-mafi-target="mafi1-strukturen" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Algebraische Strukturen</button>
+            <button data-mafi-target="mafi1-komplexe-zahlen" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Komplexe Zahlen</button>
+            <button data-mafi-target="mafi1-vektoren-matrizen" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Vektoren & Matrizen</button>
+            <button data-mafi-target="mafi1-vektorraeume" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Vektorräume</button>
             <button data-mafi-target="mafi1-induktion" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Vollständige Induktion</button>
         </nav>
 
@@ -154,6 +157,87 @@
                             <div id="mod-result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300 font-mono text-lg"></div>
                         </div>
                     </div>
+                </div>
+            </section>
+            <section id="mafi1-komplexe-zahlen" class="mafi-content-section">
+                <div class="space-y-8">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Komplexe Zahlen (ℂ)</h2>
+                        <p class="mb-4 text-gray-300">Die reellen Zahlen werden erweitert, um Lösungen für Gleichungen wie \(x^2 = -1\) zu ermöglichen. Man führt die <span class="tooltip-term">imaginäre Einheit<span class="tooltip-box">Die Zahl i, definiert durch die Eigenschaft i² = -1.</span></span> \(i\) ein. Eine komplexe Zahl z hat die Form \(z = a + bi\), wobei \(a\) der <span class="tooltip-term">Realteil<span class="tooltip-box">Der reelle Anteil 'a' einer komplexen Zahl z = a + bi.</span></span> und \(b\) der <span class="tooltip-term">Imaginärteil<span class="tooltip-box">Der reelle Faktor 'b' vor der imaginären Einheit i in einer komplexen Zahl z = a + bi.</span></span> ist.</p>
+                        <ul class="list-disc list-inside space-y-3 text-gray-300">
+                            <li><strong>Komplexe Konjugation:</strong> Das Konjugat von \(z = a + bi\) ist \(\bar{z} = a - bi\). Nützlich für die Division.</li>
+                            <li><strong>Absolutbetrag:</strong> Der Betrag ist der Abstand vom Ursprung in der komplexen Ebene: \(|z| = \sqrt{a^2 + b^2}\). Es gilt \(z \cdot \bar{z} = |z|^2\).</li>
+                            <li><strong>Eulersche Formel:</strong> Verbindet die komplexe Exponentialfunktion mit der Trigonometrie: \(e^{ix} = \cos(x) + i\sin(x)\).</li>
+                        </ul>
+                        <div class="p-4 mt-6 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold mb-2 text-cyan-300">Komplexe-Zahlen-Rechner</h3>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span>(</span><input type="number" id="comp-a1" value="3" class="w-16 px-2 py-1 rounded"><span>+</span><input type="number" id="comp-b1" value="2" class="w-16 px-2 py-1 rounded"><span>i)</span>
+                                <select id="comp-op" class="px-3 py-2 rounded-md shadow-sm">
+                                    <option value="+">+</option>
+                                    <option value="-">-</option>
+                                    <option value="*">*</option>
+                                    <option value="/">/</option>
+                                </select>
+                                <span>(</span><input type="number" id="comp-a2" value="1" class="w-16 px-2 py-1 rounded"><span>+</span><input type="number" id="comp-b2" value="4" class="w-16 px-2 py-1 rounded"><span>i)</span>
+                            </div>
+                            <button id="calculate-comp-btn" class="mt-4 px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600">Berechnen</button>
+                            <div id="comp-result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300 font-mono text-lg"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="mafi1-vektoren-matrizen" class="mafi-content-section">
+                <div class="space-y-8">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Vektoren</h2>
+                        <p class="mb-4 text-gray-300">Ein <span class="tooltip-term">Vektor<span class="tooltip-box">Ein Objekt, das durch einen Betrag und eine Richtung definiert ist. In der Informatik oft als geordnete Liste von Zahlen (Spaltenvektor) dargestellt.</span></span> kann als Punkt oder als Pfeil im Raum interpretiert werden. Vektoren können addiert und mit Skalaren multipliziert werden.</p>
+                        <div class="p-4 mt-6 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold mb-2 text-cyan-300">Winkel zwischen Vektoren</h3>
+                            <p class="mb-4 text-gray-400">Der Winkel \(\alpha\) zwischen zwei Vektoren v und w lässt sich über das Skalarprodukt berechnen: \(\alpha = \arccos\left(\frac{\langle v, w \rangle}{||v|| \cdot ||w||}\right)\)</p>
+                            <div class="flex items-center gap-4 flex-wrap">
+                                <span>v = (</span><input type="number" id="vec-v1" value="2" class="w-16 px-2 py-1 rounded"><span>,</span><input type="number" id="vec-v2" value="1" class="w-16 px-2 py-1 rounded"><span>)</span>
+                                <span class="ml-4">w = (</span><input type="number" id="vec-w1" value="-2" class="w-16 px-2 py-1 rounded"><span>,</span><input type="number" id="vec-w2" value="1" class="w-16 px-2 py-1 rounded"><span>)</span>
+                            </div>
+                            <div id="winkel-result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300 font-mono"></div>
+                        </div>
+                        <div class="p-4 mt-6 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold mb-2 text-cyan-300">Wichtige Ungleichungen</h3>
+                            <p><strong>Cauchy-Schwarz-Ungleichung:</strong> Sie setzt das Skalarprodukt in Beziehung zu den Längen der Vektoren: \(|\langle v, w \rangle| \le ||v|| \cdot ||w||\). Gleichheit gilt genau dann, wenn die Vektoren linear abhängig sind (in die gleiche oder entgegengesetzte Richtung zeigen).</p>
+                            <p class="mt-2"><strong>Dreiecks-Ungleichung:</strong> Der direkte Weg ist immer der kürzeste. Für Vektoren bedeutet das: \(||v + w|| \le ||v|| + ||w||\). Die Länge der Summe zweier Vektoren ist höchstens so groß wie die Summe ihrer Einzellängen.</p>
+                        </div>
+                    </div>
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Matrizen</h2>
+                        <p class="mb-4 text-gray-300">Eine <span class="tooltip-term">Matrix<span class="tooltip-box">Ein rechteckiges Schema von Zahlen, angeordnet in Zeilen und Spalten.</span></span> ist eine Anordnung von Zahlen in einem rechteckigen Schema. Die Position eines Elements wird durch Zeilen- und Spaltenindex angegeben (z.B. \(a_{2,3}\) ist in der zweiten Zeile, dritten Spalte).</p>
+                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold mb-2 text-cyan-300">Matrix-Operationen</h3>
+                            <div class="flex flex-wrap justify-center gap-2 mb-4">
+                                <button class="matrix-op-btn nav-button" data-op="add">Addition</button>
+                                <button class="matrix-op-btn nav-button" data-op="multiply">Multiplikation</button>
+                                <button class="matrix-op-btn nav-button" data-op="transpose">Transposition</button>
+                                <button class="matrix-op-btn nav-button" data-op="scalar">Skalarmultiplikation</button>
+                            </div>
+                            <div id="matrix-op-explanation" class="text-gray-300 my-4 text-center"></div>
+                            <div class="flex items-center justify-center gap-4 flex-wrap">
+                                <div id="matrix-op-container"></div>
+                            </div>
+                            <p class="mt-4 text-gray-400 text-sm"><strong>Hinweis zu Matrizen über endlichen Körpern:</strong> Alle hier gezeigten Operationen funktionieren auch für Matrizen, deren Einträge z.B. aus \(\mathbb{Z}_7\) stammen. Man muss lediglich jede einzelne Addition und Multiplikation "modulo 7" durchführen. Z.B. wäre in \(\mathbb{Z}_7\): \(4+5=9 \equiv 2 \pmod 7\) und \(4 \cdot 5 = 20 \equiv 6 \pmod 7\).</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="mafi1-vektorraeume" class="mafi-content-section">
+                <div class="card p-8 rounded-2xl shadow-2xl">
+                    <h2 class="text-3xl font-bold text-cyan-400 mb-6">Vektorräume</h2>
+                    <p class="mb-4 text-gray-300">Ein <span class="tooltip-term">Vektorraum<span class="tooltip-box">Eine algebraische Struktur, bestehend aus einer Menge von Vektoren und einem Körper von Skalaren. Vektoren können addiert und mit Skalaren multipliziert werden, wobei bestimmte Axiome gelten.</span></span> ist eine Menge von Vektoren, die mit Skalaren aus einem Körper multipliziert und untereinander addiert werden können, wobei die Operationen bestimmten Regeln (Axiomen) gehorchen.</p>
+                    <ul class="list-disc list-inside space-y-3 text-gray-300">
+                        <li><strong>Linearkombination:</strong> Ein Ausdruck der Form \(\lambda_1v_1 + \lambda_2v_2 + \dots + \lambda_nv_n\).</li>
+                        <li><strong>Lineare Unabhängigkeit:</strong> Eine Menge von Vektoren ist linear unabhängig, wenn sich der Nullvektor nur trivial (alle Koeffizienten \(\lambda_i=0\)) als Linearkombination darstellen lässt.</li>
+                        <li><strong>Erzeugendensystem:</strong> Eine Menge von Vektoren, aus der sich jeder Vektor des Vektorraums als Linearkombination erzeugen lässt.</li>
+                        <li><strong>Basis:</strong> Ein linear unabhängiges Erzeugendensystem. Die Anzahl der Vektoren in einer Basis wird <span class="tooltip-term">Dimension<span class="tooltip-box">Die Anzahl der Vektoren in einer Basis eines Vektorraums. Sie ist für einen gegebenen Vektorraum eindeutig.</span></span> genannt.</li>
+                        <li><strong>Lineare Abbildung:</strong> Eine Abbildung \(\varphi: V \to W\) zwischen zwei Vektorräumen, die die Struktur erhält, d.h. \(\varphi(\alpha v + \beta w) = \alpha\varphi(v) + \beta\varphi(w)\).</li>
+                    </ul>
                 </div>
             </section>
             <section id="mafi1-induktion" class="mafi-content-section">

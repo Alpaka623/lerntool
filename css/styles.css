@@ -370,3 +370,34 @@
             color: #666;
         }
 
+        /* --- Matrix visualization styles --- */
+        .matrix-container {
+            position: relative;
+            display: inline-block;
+            padding: 4px;
+            margin: 0 8px;
+        }
+
+        .matrix-container::before,
+        .matrix-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 8px;
+            height: 100%;
+            border-color: #9ca3af;
+            border-style: solid;
+        }
+
+        .matrix-container::before {
+            left: 0;
+            border-width: 2px 0 2px 2px;
+            border-radius: 6px 0 0 6px;
+        }
+
+        .matrix-container::after {
+            right: 0;
+            border-width: 2px 2px 2px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
