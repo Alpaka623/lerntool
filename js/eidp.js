@@ -185,7 +185,7 @@ switch (note) {
 System.out.println(bewertung);`,
                     logic: (val, consoleEl) => {
                         let bewertung = "";
-                        switch (val) {
+                        switch (parseInt(val)) {
                             case 1: bewertung = "Sehr Gut"; break;
                             case 2: bewertung = "Gut"; break;
                             default: bewertung = "Andere Note"; break;
@@ -549,17 +549,15 @@ do {
         
         resetSelectionSort();
         
-        // --- OOP Simulator ---
+        // --- OOP / Vererbungs-Simulator ---
         const oopObjectsContainer = document.getElementById('oop-objects-container');
         const addMitarbeiterBtn = document.getElementById('oop-add-mitarbeiter-btn');
         const addManagerBtn = document.getElementById('oop-add-manager-btn');
         const oopNameInput = document.getElementById('oop-name-input');
         const oopWorkBtn = document.getElementById('oop-work-btn');
         const oopLog = document.getElementById('oop-log');
-        let firma = {
-            name: "TechFirma",
-            mitarbeiter: []
-        };
+        
+        let mitarbeiterListe = [];
         let nextEmployeeId = 0;
 
         function logOop(message) {
@@ -572,14 +570,12 @@ do {
             if(!oopObjectsContainer) return;
             oopObjectsContainer.innerHTML = '';
             
-            const firmaDiv = document.createElement('div');
-            firmaDiv.className = 'p-4 bg-gray-800/50 rounded-lg border border-gray-600';
-            firmaDiv.innerHTML = `<p class="font-semibold text-white">Firma-Objekt</p>
-                                  <p class="text-sm"><span class="text-gray-400">name:</span> "${firma.name}"</p>
-                                  <p class="text-sm"><span class="text-gray-400">mitarbeiterListe:</span> [${firma.mitarbeiter.map(m => `Ref(ID:${m.id})`).join(', ')}]</p>`;
-            oopObjectsContainer.appendChild(firmaDiv);
-            
-            firma.mitarbeiter.forEach(m => {
+            if (mitarbeiterListe.length === 0) {
+                oopObjectsContainer.innerHTML = '<p class="text-gray-400">Noch keine Mitarbeiter-Objekte erstellt.</p>';
+                return;
+            }
+
+            mitarbeiterListe.forEach(m => {
                  const div = document.createElement('div');
                  const type = m.isManager ? "Manager" : "Mitarbeiter";
                  const color = m.isManager ? "border-purple-500" : "border-blue-500";
@@ -591,8 +587,8 @@ do {
         }
 
         function addMitarbeiter(isManager = false) {
-             if(firma.mitarbeiter.length >= 5) {
-                logOop("Fehler: Maximal 5 Mitarbeiter erlaubt.");
+             if(mitarbeiterListe.length >= 4) {
+                logOop("Fehler: Maximal 4 Mitarbeiter erlaubt.");
                 return;
             }
             const name = oopNameInput.value.trim() || `${isManager ? 'Manager' : 'Mitarbeiter'} ${nextEmployeeId}`;
@@ -601,7 +597,7 @@ do {
                 name: name,
                 isManager: isManager
             };
-            firma.mitarbeiter.push(newEmployee);
+            mitarbeiterListe.push(newEmployee);
             oopNameInput.value = '';
             logOop(`${isManager ? 'Manager' : 'Mitarbeiter'} ${name} (ID ${newEmployee.id}) eingestellt.`);
             renderOopObjects();
@@ -610,18 +606,81 @@ do {
         if(addMitarbeiterBtn) addMitarbeiterBtn.addEventListener('click', () => addMitarbeiter(false));
         if(addManagerBtn) addManagerBtn.addEventListener('click', () => addMitarbeiter(true));
         if(oopWorkBtn) oopWorkBtn.addEventListener('click', () => {
-             logOop("--- Alle arbeiten lassen ---");
-             firma.mitarbeiter.forEach(m => {
+             logOop("--- Alle arbeiten lassen (Polymorphie) ---");
+             if (mitarbeiterListe.length === 0) {
+                 logOop("Keine Mitarbeiter vorhanden.");
+                 return;
+             }
+             mitarbeiterListe.forEach(m => {
                  if (m.isManager) {
-                     logOop(`${m.name} delegiert Aufgaben...`);
+                     logOop(`${m.name} delegiert Aufgaben...`); // Überschriebene Methode
                  } else {
-                     logOop(`${m.name} arbeitet...`);
+                     logOop(`${m.name} arbeitet...`); // Geerbte Methode
                  }
              });
         });
         
         renderOopObjects();
-        logOop("Firma 'TechFirma' erstellt.");
+        logOop("Firmen-Simulator für Vererbung bereit.");
+
+        // --- Assoziations-Simulator ---
+        const assocAddBtn = document.getElementById('assoc-add-auftrag-btn');
+        const assocRemoveBtn = document.getElementById('assoc-remove-auftrag-btn');
+        const assocLog = document.getElementById('assoc-log');
+        const assocContainer = document.getElementById('assoc-objects-container');
+        let kunde = { id: 101, name: "KFZ-Zubehör GmbH", auftraege: [] };
+        let nextAuftragId = 1;
+
+        function logAssoc(message) {
+            if(assocLog) {
+                assocLog.innerHTML += `> ${message}\n`;
+                assocLog.scrollTop = assocLog.scrollHeight;
+            }
+        }
+
+        function renderAssocObjects() {
+            if(!assocContainer) return;
+            assocContainer.innerHTML = '';
+
+            const kundeDiv = document.createElement('div');
+            kundeDiv.className = 'p-3 bg-gray-800/50 rounded-lg border border-cyan-600';
+            kundeDiv.innerHTML = `<p class="font-semibold text-white">Kunde-Objekt (ID: ${kunde.id})</p>
+                                 <p class="text-sm"><span class="text-gray-400">name:</span> "${kunde.name}"</p>
+                                 <p class="text-sm"><span class="text-gray-400">auftraege (Array):</span> [${kunde.auftraege.map(a => `Ref zu ID:${a.id}`).join(', ')}]</p>`;
+            assocContainer.appendChild(kundeDiv);
+
+            kunde.auftraege.forEach(a => {
+                const div = document.createElement('div');
+                div.className = 'p-3 bg-gray-800/50 rounded-lg border border-amber-500 ml-8';
+                div.innerHTML = `<p class="font-semibold text-white">Auftrag-Objekt (ID: ${a.id})</p>
+                                <p class="text-sm"><span class="text-gray-400">art:</span> "${a.art}"</p>`;
+                assocContainer.appendChild(div);
+            });
+        }
+
+        if(assocAddBtn) assocAddBtn.addEventListener('click', () => {
+            if (kunde.auftraege.length >= 5) {
+                logAssoc("Fehler: Maximal 5 Aufträge pro Kunde.");
+                return;
+            }
+            const newAuftrag = { id: nextAuftragId++, art: "Beratung" };
+            kunde.auftraege.push(newAuftrag);
+            logAssoc(`Auftrag ${newAuftrag.id} für Kunde '${kunde.name}' erstellt und Referenz im Array hinzugefügt.`);
+            renderAssocObjects();
+        });
+
+        if(assocRemoveBtn) assocRemoveBtn.addEventListener('click', () => {
+            if(kunde.auftraege.length > 0) {
+                const removed = kunde.auftraege.pop();
+                logAssoc(`Referenz auf Auftrag ${removed.id} von Kunde '${kunde.name}' entfernt. (Das Auftrag-Objekt existiert noch, wird aber vom Garbage Collector abgeräumt, wenn es keine Referenzen mehr gibt).`);
+                renderAssocObjects();
+            } else {
+                logAssoc("Keine Aufträge zum Entfernen vorhanden.");
+            }
+        });
+
+        renderAssocObjects();
+        logAssoc("Kunde-Objekt initialisiert.");
 
     } // end setupEidp
 })();

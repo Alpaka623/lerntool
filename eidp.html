@@ -30,7 +30,8 @@
             <button data-eidp-target="eidp-kontrollstrukturen" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Kontrollstrukturen</button>
             <button data-eidp-target="eidp-felder" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Felder (Arrays)</button>
             <button data-eidp-target="eidp-algorithmen" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Algorithmen & Sortieren</button>
-            <button data-eidp-target="eidp-oop" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Objektorientierung</button>
+            <button data-eidp-target="eidp-assoziationen" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Assoziationen</button>
+            <button data-eidp-target="eidp-vererbung" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Vererbung & Polymorphie</button>
         </nav>
 
         <main>
@@ -439,41 +440,86 @@ int[][] matrix = new int[3][4];
                 </div>
             </section>
 
-            <section id="eidp-oop" class="eidp-content-section">
+            <section id="eidp-assoziationen" class="eidp-content-section">
                 <div class="space-y-8">
                     <div class="card p-8 rounded-2xl shadow-2xl">
-                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Grundlagen der Objektorientierung (OOP)</h2>
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Assoziationen: Beziehungen zwischen Objekten</h2>
+                        <p class="mb-4 text-gray-300">Eine <span class="tooltip-term">Assoziation<span class="tooltip-box">Eine Beziehung zwischen zwei oder mehr Klassen, die beschreibt, wie deren Objekte miteinander in Verbindung stehen und interagieren können.</span></span> stellt eine Beziehung zwischen Objekten her. Statt Klassen isoliert zu betrachten, können wir definieren, wie sie zusammenarbeiten, z.B. wie ein `Kunde` mit seinen `Auftrag`-Objekten verbunden ist.</p>
+                        
+                        <h3 class="text-2xl font-semibold text-cyan-300 mb-2">Eigenschaften von Assoziationen</h3>
+                        <ul class="list-disc list-inside space-y-3 text-gray-300">
+                            <li><strong>Multiplizität:</strong> Definiert, wie viele Objekte einer Klasse mit einem Objekt der anderen Klasse in Beziehung stehen können. Z.B. `1` (genau eins), `*` (beliebig viele, auch null), `0..1` (kann, muss aber nicht), oder `1..*` (mindestens eins).</li>
+                            <li><strong>Navigierbarkeit:</strong> Ein Pfeil an einem Ende der Assoziationslinie zeigt an, dass von einer Klasse zur anderen "navigiert" werden kann, also dass ein Objekt der ersten Klasse eine Referenz auf das Objekt der zweiten Klasse hält. Eine Beziehung kann unidirektional (ein Pfeil) oder bidirektional (zwei Pfeile oder keine Pfeile) sein.</li>
+                            <li><strong>Rollen:</strong> Beschreiben die Bedeutung einer Klasse im Kontext der Assoziation (z.B. ein `Mitarbeiter` in der Rolle "Prüfer" und ein `Student` in der Rolle "Prüfling").</li>
+                        </ul>
+                        
+                        <div class="p-4 mt-6 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-2">Assoziationen in Java umsetzen (1-zu-n)</h3>
+                            <p class="mb-4 text-gray-400">In Java werden Assoziationen durch Referenz-Attribute realisiert. Die Multiplizität bestimmt dabei den Typ des Attributs.</p>
+                            <ul class="list-disc list-inside text-gray-300">
+                                <li><strong>Multiplizität `0..1` oder `1`:</strong> Ein einfaches Referenz-Attribut. Z.B. `private Auftrag einAuftrag;` in der Klasse `Kunde`.</li>
+                                <li><strong>Multiplizität `*`, `0..*` oder `1..*`:</strong> Ein Array oder eine Collection (z.B. `ArrayList`), um mehrere Referenzen zu speichern. Z.B. `private Auftrag[] dieAuftraege;`.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Interaktiver Assoziations-Simulator (Kunde 1-zu-n Auftrag)</h2>
+                        <p class="mb-4 text-gray-300">Simuliere eine 1-zu-n-Beziehung zwischen einem Kunden und seinen Aufträgen. Beobachte, wie die Objekte im Speicher referenziert werden und wie die Verwaltungsmethoden (`addAuftrag`, `removeAuftrag`) funktionieren.</p>
+                        <div class="grid lg:grid-cols-2 gap-8">
+                             <div class="space-y-4">
+                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Aktionen</h3>
+                                <div class="p-2 bg-gray-800/50 rounded-md space-y-2">
+                                    <div class="flex flex-wrap gap-2">
+                                        <button id="assoc-add-auftrag-btn" class="px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-500 flex-grow">Neuen Auftrag hinzufügen</button>
+                                        <button id="assoc-remove-auftrag-btn" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 flex-grow">Letzten Auftrag entfernen</button>
+                                    </div>
+                                </div>
+                                <h3 class="text-xl font-semibold text-cyan-300 mb-2 pt-4">Log</h3>
+                                <div id="assoc-log" class="p-2 bg-black rounded-md font-mono text-xs h-32 overflow-y-auto"></div>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Objekte im Speicher (Heap)</h3>
+                                <div id="assoc-objects-container" class="space-y-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="eidp-vererbung" class="eidp-content-section">
+                <div class="space-y-8">
+                     <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Vererbung: Klassen spezialisieren und erweitern</h2>
+                        <p class="mb-4 text-gray-300">
+                            Die <span class="tooltip-term">Vererbung<span class="tooltip-box">Ein Mechanismus, bei dem eine Klasse (Unterklasse) die Attribute und Methoden einer anderen Klasse (Oberklasse) übernimmt und diese erweitern oder anpassen kann.</span></span> ist ein Kernkonzept der OOP. Sie ermöglicht es, eine neue Klasse (Unterklasse, z.B. `Manager`) von einer bestehenden Klasse (Oberklasse, z.B. `Mitarbeiter`) abzuleiten. Die Unterklasse erbt dabei alle (nicht-privaten) Attribute und Methoden der Oberklasse und kann neue hinzufügen oder geerbte Methoden überschreiben. Dies fördert die Wiederverwendung von Code und bildet "ist-ein"-Beziehungen ab (z.B. "Ein `Manager` ist ein `Mitarbeiter`"). In Java wird Vererbung mit dem Schlüsselwort `extends` umgesetzt.
+                        </p>
+                        <h3 class="text-2xl font-semibold text-cyan-300 mb-2">Konstruktoren in der Vererbung</h3>
+                        <p class="mb-4 text-gray-300">Konstruktoren werden nicht direkt vererbt. Der Konstruktor einer Unterklasse muss jedoch immer einen Konstruktor der Oberklasse aufrufen. Dies geschieht entweder implizit (automatischer Aufruf des parameterlosen Konstruktors) oder explizit mit `super()` als erster Anweisung im Konstruktor der Unterklasse.</p>
+
+                        <div class="p-4 mt-6 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-2">Überschreiben von Methoden (@Override)</h3>
+                             <p class="mb-4 text-gray-300">Eine Unterklasse kann eine geerbte Methode <span class="tooltip-term">überschreiben<span class="tooltip-box">Eine Methode der Oberklasse in der Unterklasse mit der exakt gleichen Signatur neu implementieren, um ein spezialisiertes Verhalten zu erzielen.</span></span>, um ein spezifisches Verhalten zu implementieren. Der Aufruf `super.methodenName()` innerhalb der überschreibenden Methode ermöglicht es, die ursprüngliche Implementierung der Oberklasse aufzurufen. Dies ist ein Beispiel für <strong>Polymorphie</strong> (Vielgestaltigkeit).</p>
+                        </div>
+                    </div>
+
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Abstrakte Klassen & Schnittstellen</h2>
                         <div class="grid md:grid-cols-2 gap-8">
-                            <div>
-                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Klasse vs. Objekt</h3>
-                                <p class="text-gray-300">Eine <strong>Klasse</strong> ist ein Bauplan für Objekte. Sie definiert <strong>Attribute</strong> (Variablen, die den Zustand beschreiben) und <strong>Methoden</strong> (Funktionen, die das Verhalten festlegen). Ein <strong>Objekt</strong> ist eine konkrete Instanz, die nach dem Bauplan einer Klasse erstellt wird.</p>
+                            <div class="p-4 bg-gray-800/50 rounded-lg">
+                                <h3 class="text-xl font-bold text-cyan-300 mb-2">Abstrakte Klassen</h3>
+                                <p class="text-gray-300">Eine mit `abstract` markierte Klasse kann nicht direkt instanziiert (mit `new` erzeugt) werden. Sie dient als Vorlage für Unterklassen. Sie kann <span class="tooltip-term">abstrakte Methoden<span class="tooltip-box">Methoden, die nur einen Kopf (Signatur), aber keinen Rumpf (Implementierung) haben. Sie müssen von der ersten nicht-abstrakten Unterklasse implementiert werden.</span></span> enthalten, die von den Unterklassen implementiert werden müssen.</p>
                             </div>
-                            <div>
-                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Stack vs. Heap</h3>
-                                <p class="text-gray-300"><strong>Primitive Typen</strong> (wie `int` oder `boolean`) werden auf dem <strong>Stack</strong> gespeichert; ihre Variablen enthalten den Wert direkt. <strong>Objekte</strong> (Referenztypen) werden auf dem <strong>Heap</strong> gespeichert; ihre Variablen auf dem Stack enthalten nur eine <strong>Referenz</strong> (Speicheradresse) zum Objekt.</p>
-                            </div>
-                             <div>
-                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Kapselung & Sichtbarkeit</h3>
-                                <p class="text-gray-300">Das Prinzip der <strong>Kapselung</strong> besagt, dass der interne Zustand eines Objekts geschützt werden sollte. Attribute werden meist als `private` deklariert, sodass nur die Methoden derselben Klasse darauf zugreifen können. Der Zugriff von außen erfolgt über `public` Methoden (Getter/Setter).</p>
-                            </div>
-                             <div>
-                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Statische Member</h3>
-                                <p class="text-gray-300">Mit dem Schlüsselwort `static` werden Attribute oder Methoden der <strong>Klasse</strong> selbst zugeordnet, nicht einem einzelnen Objekt. Sie existieren nur einmal, egal wie viele Objekte es gibt, und werden über den Klassennamen aufgerufen (z.B. `Math.PI`).</p>
-                            </div>
-                             <div>
-                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Assoziationen</h3>
-                                <p class="text-gray-300">Eine Assoziation beschreibt eine Beziehung zwischen Klassen. Beispielsweise hat eine `Firma` eine 1-zu-n-Beziehung zu ihren `Mitarbeiter`-Objekten: Eine Firma kann viele Mitarbeiter haben.</p>
-                            </div>
-                             <div>
-                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Vererbung</h3>
-                                <p class="text-gray-300">Vererbung (`extends`) erlaubt es einer Klasse (Unterklasse), die Attribute und Methoden einer anderen Klasse (Oberklasse) zu erben. Ein `Manager` **ist ein** `Mitarbeiter`, hat aber zusätzliche Eigenschaften (z.B. eine Bonus-Regelung). Methoden können dabei **überschrieben** (`@Override`) werden, um ein spezifisches Verhalten zu implementieren.</p>
+                            <div class="p-4 bg-gray-800/50 rounded-lg">
+                                <h3 class="text-xl font-bold text-cyan-300 mb-2">Schnittstellen (Interfaces)</h3>
+                                <p class="text-gray-300">Eine `interface` ist ein reiner "Vertrag". Sie definiert eine Sammlung von abstrakten Methoden (und Konstanten). Eine Klasse, die eine Schnittstelle mit `implements` implementiert, verpflichtet sich, alle Methoden dieser Schnittstelle bereitzustellen. Eine Klasse kann nur von einer anderen Klasse erben, aber beliebig viele Schnittstellen implementieren, was eine Form der Mehrfachvererbung in Java ermöglicht.</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="card p-8 rounded-2xl shadow-2xl">
-                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Interaktiver Firmen-Simulator</h2>
-                        <p class="mb-4 text-gray-300">Hier kannst du die OOP-Konzepte in Aktion sehen. Erstelle eine Firma, stelle Mitarbeiter und Manager ein und beobachte, wie die Objekte interagieren.</p>
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Interaktiver Firmen-Simulator (Vererbung)</h2>
+                        <p class="mb-4 text-gray-300">Hier kannst du die Konzepte der Vererbung in Aktion sehen. Erstelle Objekte der Klassen `Mitarbeiter` und `Manager` (welche von `Mitarbeiter` erbt) und beobachte, wie die überschriebene `arbeitet()`-Methode je nach Objekttyp ein anderes Verhalten zeigt.</p>
                         <div class="grid lg:grid-cols-2 gap-8">
                             <div class="font-mono bg-gray-900/70 p-4 rounded-md text-sm text-sm">
                                 <pre><code>
@@ -487,18 +533,16 @@ public class Mitarbeiter {
 }
 
 public class Manager extends Mitarbeiter {
-    public Manager(String name) { super(name); }
+    // Erbt 'name' und 'getName()' von Mitarbeiter
+    public Manager(String name) {
+        // Ruft den Konstruktor der Oberklasse auf
+        super(name);
+    }
     
-    @Override
+    @Override // Methode wird überschrieben
     public void arbeitet() {
         System.out.println(getName() + " delegiert Aufgaben...");
     }
-}
-
-public class Firma {
-    private String name;
-    private Mitarbeiter[] mitarbeiterListe;
-    // ...
 }
                                 </code></pre>
                             </div>
@@ -525,7 +569,6 @@ public class Firma {
                     </div>
                 </div>
             </section>
-
         </main>
     </div>
 </div>
