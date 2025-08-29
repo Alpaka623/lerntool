@@ -30,6 +30,7 @@
             <button data-eidp-target="eidp-kontrollstrukturen" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Kontrollstrukturen</button>
             <button data-eidp-target="eidp-felder" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Felder (Arrays)</button>
             <button data-eidp-target="eidp-algorithmen" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Algorithmen & Sortieren</button>
+            <button data-eidp-target="eidp-oop" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Objektorientierung</button>
         </nav>
 
         <main>
@@ -433,6 +434,77 @@ int[][] matrix = new int[3][4];
                             <h3 class="text-xl font-semibold text-cyan-300 mb-2">Code & Variablen-Zustand</h3>
                             <div id="selection-sort-code" class="font-mono bg-gray-900/70 p-4 rounded-md text-sm"></div>
                              <div id="selection-sort-vars" class="mt-4 p-3 bg-gray-900/70 rounded-md font-mono text-sm min-h-[5rem]"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="eidp-oop" class="eidp-content-section">
+                <div class="space-y-8">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Grundlagen der Objektorientierung (OOP)</h2>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Klasse vs. Objekt</h3>
+                                <p class="text-gray-300">Eine <strong>Klasse</strong> ist ein Bauplan für Objekte. Sie definiert <strong>Attribute</strong> (Variablen, die den Zustand beschreiben) und <strong>Methoden</strong> (Funktionen, die das Verhalten festlegen). Ein <strong>Objekt</strong> ist eine konkrete Instanz, die nach dem Bauplan einer Klasse erstellt wird.</p>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Stack vs. Heap</h3>
+                                <p class="text-gray-300"><strong>Primitive Typen</strong> (`int`, `boolean` etc.) werden auf dem <strong>Stack</strong> gespeichert; ihre Variablen enthalten den Wert direkt. <strong>Objekte</strong> (Referenztypen) werden auf dem <strong>Heap</strong> gespeichert; ihre Variablen auf dem Stack enthalten nur eine <strong>Referenz</strong> (Speicheradresse) zum Objekt.</p>
+                            </div>
+                             <div>
+                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Kapselung & Sichtbarkeit</h3>
+                                <p class="text-gray-300">Das Prinzip der <strong>Kapselung</strong> besagt, dass der interne Zustand eines Objekts geschützt werden sollte. Attribute werden meist als `private` deklariert, sodass nur die Methoden derselben Klasse darauf zugreifen können. Der Zugriff von außen erfolgt über `public` Methoden (Getter/Setter).</p>
+                            </div>
+                             <div>
+                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Statische Member</h3>
+                                <p class="text-gray-300">Mit dem Schlüsselwort `static` werden Attribute oder Methoden der <strong>Klasse</strong> selbst zugeordnet, nicht einem einzelnen Objekt. Sie existieren nur einmal, egal wie viele Objekte es gibt, und werden über den Klassennamen aufgerufen (z.B. `Math.PI`).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Interaktiver Klassen-Simulator: `Konto`</h2>
+                        <p class="mb-4 text-gray-300">Hier kannst du mit einer `Konto`-Klasse interagieren. Erstelle Objekte (Instanzen) und rufe ihre Methoden auf, um zu sehen, wie sich ihr Zustand ändert.</p>
+                        <div class="grid lg:grid-cols-2 gap-8">
+                            <div class="font-mono bg-gray-900/70 p-4 rounded-md text-sm text-sm">
+                                <pre><code>
+public class Konto {
+    // Attribute
+    private String inhaber;
+    private double kontostand;
+
+    // Konstruktor
+    public Konto(String inhaber) {
+        this.inhaber = inhaber;
+        this.kontostand = 0.0;
+    }
+
+    // Methoden
+    public void einzahlen(double betrag) {
+        if (betrag > 0) {
+            this.kontostand += betrag;
+        }
+    }
+    public void abheben(double betrag) {
+        if (betrag > 0 && betrag <= this.kontostand) {
+            this.kontostand -= betrag;
+        }
+    }
+}
+                                </code></pre>
+                            </div>
+                            <div class="space-y-4">
+                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Aktionen</h3>
+                                <div class="flex flex-wrap gap-2 p-2 bg-gray-800/50 rounded-md">
+                                    <input type="text" id="oop-inhaber-input" placeholder="Inhabername" class="p-2 rounded-md flex-grow">
+                                    <button id="oop-create-btn" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-500">Neues Konto anlegen</button>
+                                </div>
+                                <h3 class="text-xl font-semibold text-cyan-300 mb-2 pt-4">Objekte im Speicher (Heap)</h3>
+                                <div id="oop-objects-container" class="space-y-4"></div>
+                                 <h3 class="text-xl font-semibold text-cyan-300 mb-2 pt-4">Log</h3>
+                                <div id="oop-log" class="p-2 bg-black rounded-md font-mono text-xs h-32 overflow-y-auto"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

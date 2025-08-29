@@ -159,7 +159,7 @@
         const examplesContainer = document.getElementById('control-structure-examples');
         if (examplesContainer) {
             const examples = [
-                {
+                 {
                     title: 'if-else Anweisung',
                     code: (val) => `int alter = ${val};
 if (alter >= 18) {
@@ -170,7 +170,8 @@ if (alter >= 18) {
                     logic: (val, consoleEl) => {
                         consoleEl.innerHTML = `<p class="text-green-400">> ${val >= 18 ? "Volljährig" : "Minderjährig"}</p>`;
                     },
-                    inputValue: 19
+                    inputValue: 19,
+                    label: "Alter:"
                 },
                  {
                     title: 'switch Anweisung',
@@ -191,7 +192,8 @@ System.out.println(bewertung);`,
                         }
                         consoleEl.innerHTML = `<p class="text-green-400">> ${bewertung}</p>`;
                     },
-                    inputValue: 2
+                    inputValue: 2,
+                    label: "Note:"
                 },
                 {
                     title: 'for-Schleife',
@@ -200,13 +202,14 @@ System.out.println(bewertung);`,
 }`,
                     logic: (val, consoleEl) => {
                         let output = '';
-                        if (val > 10) val = 10; // Limit
+                        if (val > 10) val = 10; 
                         for (let i = 0; i < val; i++) {
                             output += `> Runde: ${i}<br>`;
                         }
                         consoleEl.innerHTML = `<p class="text-green-400">${output || '> Schleife nicht betreten.'}</p>`;
                     },
-                    inputValue: 4
+                    inputValue: 4,
+                    label: "Anzahl Runden:"
                 },
                 {
                     title: 'while-Schleife',
@@ -226,7 +229,8 @@ while (i < 3) {
                         if (output === '') output = '> Schleife wurde nicht betreten.';
                         consoleEl.innerHTML = `<p class="text-green-400">${output}</p>`;
                     },
-                    inputValue: 0
+                    inputValue: 0,
+                    label: "Startwert i:"
                 },
                  {
                     title: 'do-while-Schleife',
@@ -245,7 +249,8 @@ do {
                         } while (val < 3 && count < 10);
                         consoleEl.innerHTML = `<p class="text-green-400">${output}</p>`;
                     },
-                    inputValue: 1
+                    inputValue: 1,
+                    label: "Startwert i:"
                 }
             ];
 
@@ -261,10 +266,10 @@ do {
                         </div>
                         <div class="flex flex-col">
                             <div class="mb-2">
-                                <label for="${id}-input">Startwert:</label>
+                                <label for="${id}-input">${ex.label}</label>
                                 <input type="number" id="${id}-input" class="w-24 p-1 rounded-md ml-2" value="${ex.inputValue}">
                             </div>
-                            <div class="bg-black p-4 rounded-t-md font-mono flex-grow text-gray-300 min-h-[100px]" id="${id}-console"></div>
+                            <div class="bg-black p-4 rounded-md font-mono flex-grow text-gray-300 min-h-[100px]" id="${id}-console"></div>
                         </div>
                     </div>`;
                 examplesContainer.appendChild(div);
@@ -275,6 +280,7 @@ do {
                 
                 const update = () => {
                     const val = parseInt(inputEl.value);
+                    if(isNaN(val)) return;
                     codeEl.innerHTML = `<code>${ex.code(val)}</code>`;
                     ex.logic(val, consoleEl);
                 };
@@ -294,7 +300,7 @@ do {
         function setupArraySimulator() {
             if(!arraySizeInput || !arrayValueInputsContainer || !arrayVisContainer) return;
 
-            const size = Math.min(8, Math.max(1, parseInt(arraySizeInput.value)));
+            const size = Math.min(8, Math.max(1, parseInt(arraySizeInput.value) || 1));
             arrayValueInputsContainer.innerHTML = '';
             let currentValues = [];
 
@@ -352,8 +358,6 @@ do {
             const rows = 3, cols = 4;
             array2dContainer.innerHTML = '';
             array2dContainer.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-            
-            let values = Array(rows).fill(0).map(() => Array(cols).fill(0));
             
             for(let i=0; i<rows; i++) {
                 for(let j=0; j<cols; j++) {
@@ -544,6 +548,94 @@ do {
         if(selectionSortResetBtn) selectionSortResetBtn.addEventListener('click', resetSelectionSort);
         
         resetSelectionSort();
+        
+        // --- OOP Simulator ---
+        const oopObjectsContainer = document.getElementById('oop-objects-container');
+        const oopCreateBtn = document.getElementById('oop-create-btn');
+        const oopInhaberInput = document.getElementById('oop-inhaber-input');
+        const oopLog = document.getElementById('oop-log');
+        let oopObjects = [];
+        let nextObjectId = 0;
 
-    }
+        function logOop(message) {
+            if(!oopLog) return;
+            oopLog.innerHTML += `> ${message}\n`;
+            oopLog.scrollTop = oopLog.scrollHeight;
+        }
+
+        function renderOopObjects() {
+            if(!oopObjectsContainer) return;
+            oopObjectsContainer.innerHTML = '';
+            oopObjects.forEach(obj => {
+                const div = document.createElement('div');
+                div.className = 'p-4 bg-gray-800/50 rounded-lg border border-gray-600';
+                div.innerHTML = `
+                    <p class="font-semibold text-white">Konto-Objekt (ID: ${obj.id})</p>
+                    <p class="text-sm"><span class="text-gray-400">inhaber:</span> "${obj.inhaber}"</p>
+                    <p class="text-sm"><span class="text-gray-400">kontostand:</span> ${obj.kontostand.toFixed(2)}</p>
+                    <div class="mt-2 flex flex-wrap gap-2">
+                         <input type="number" id="betrag-${obj.id}" class="w-24 p-1 rounded-md" placeholder="Betrag">
+                         <button data-id="${obj.id}" data-action="einzahlen" class="oop-action-btn px-2 py-1 text-xs bg-green-600 rounded">Einzahlen</button>
+                         <button data-id="${obj.id}" data-action="abheben" class="oop-action-btn px-2 py-1 text-xs bg-red-600 rounded">Abheben</button>
+                    </div>`;
+                oopObjectsContainer.appendChild(div);
+            });
+        }
+
+        if(oopCreateBtn) {
+            oopCreateBtn.addEventListener('click', () => {
+                if(oopObjects.length >= 4) {
+                    logOop("Fehler: Maximal 4 Konten erlaubt.");
+                    return;
+                }
+                const inhaber = oopInhaberInput.value.trim() || `Konto_${nextObjectId}`;
+                const newKonto = {
+                    id: nextObjectId++,
+                    inhaber: inhaber,
+                    kontostand: 0.0
+                };
+                oopObjects.push(newKonto);
+                oopInhaberInput.value = '';
+                logOop(`Konto für ${inhaber} (ID ${newKonto.id}) erstellt.`);
+                renderOopObjects();
+            });
+        }
+        
+        if (oopObjectsContainer) {
+            oopObjectsContainer.addEventListener('click', (e) => {
+                if(e.target.classList.contains('oop-action-btn')) {
+                    const id = parseInt(e.target.dataset.id);
+                    const action = e.target.dataset.action;
+                    const betragInput = document.getElementById(`betrag-${id}`);
+                    const betrag = parseFloat(betragInput.value);
+
+                    if(isNaN(betrag) || betrag <= 0) {
+                        logOop(`Fehler: Ungültiger Betrag für Konto ${id}.`);
+                        return;
+                    }
+
+                    const obj = oopObjects.find(o => o.id === id);
+                    if(!obj) return;
+                    
+                    if(action === 'einzahlen') {
+                        if (obj.kontostand + betrag > 1000000) {
+                             logOop(`Fehler: Einzahlung würde Kontolimit von 1.000.000 überschreiten.`);
+                             return;
+                        }
+                        obj.kontostand += betrag;
+                        logOop(`${betrag.toFixed(2)} auf Konto ${id} eingezahlt. Neuer Stand: ${obj.kontostand.toFixed(2)}`);
+                    } else if (action === 'abheben') {
+                        if (betrag > obj.kontostand) {
+                            logOop(`Fehler: Deckung für Abhebung von ${betrag.toFixed(2)} auf Konto ${id} nicht ausreichend.`);
+                            return;
+                        }
+                        obj.kontostand -= betrag;
+                        logOop(`${betrag.toFixed(2)} von Konto ${id} abgehoben. Neuer Stand: ${obj.kontostand.toFixed(2)}`);
+                    }
+                    betragInput.value = '';
+                    renderOopObjects();
+                }
+            });
+        }
+    } // end setupEidp
 })();
