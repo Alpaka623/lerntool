@@ -14,136 +14,146 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="text-gray-200">
-    <div id="firstVisitDialog" class="dialog-overlay hidden">
-        <div class="dialog-box">
-            <div class="dialog-header">
-                Achtung!
+<div id="firstVisitDialog" class="dialog-overlay hidden">
+    <div class="dialog-box">
+        <div class="dialog-header">
+            Achtung!
+        </div>
+        <div class="dialog-content">
+            <p>Bitte denk daran, dass dieses Lerntool nur als eine zusätzliche Hilfe gedacht ist, um dich beim Lernen zu unterstützen.</p>
+
+            <p>Die Inhalte hier sind definitiv <strong>nicht vollständig</strong> und decken nur einen Teil der Themen ab. Sie können und sollen die offiziellen Kursmaterialien nicht ersetzen. Außerdem kann es sein, dass die Informationen nicht immer auf dem allerneuesten Stand sind.</p>
+
+            <p>Verlasse dich für deine Klausurvorbereitung also bitte unbedingt auf die offiziellen Skripte, Vorlesungsunterlagen und Übungen. Sieh dieses Tool als eine Ergänzung, um Dinge zu wiederholen oder zu visualisieren.</p>
+
+            <p><strong>Viel Erfolg beim Lernen!</strong></p>
+        </div>
+        <button id="close-dialog-btn" class="dialog-button">
+            Verstanden
+        </button>
+    </div>
+</div>
+
+<div id="requestDateDialog" class="dialog-overlay hidden">
+    <div class="dialog-box">
+        <div class="dialog-header-info">Prüfungsdatum setzen</div>
+        <div class="dialog-content">
+            <p>Bitte gib dein persönliches Prüfungsdatum für <strong id="request-subject" class="text-cyan-400"></strong> an:</p>
+            <input type="date" id="request-date-input" class="mt-2 p-2 w-full border rounded">
+        </div>
+        <button class="dialog-button nav-button" id="request-date-send">Speichern</button>
+        <button class="dialog-button nav-button" id="request-date-cancel">Abbrechen</button>
+    </div>
+</div>
+<div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
+    <div id="semester-hub" class="subject-view active pt-16">
+        <header class="text-center mb-12 relative">
+            <div class="absolute top-0 right-0 flex items-center space-x-4 p-4">
+                <span id="user-email" class="text-gray-400"></span>
+                <button id="logout-button" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 transition-colors">Logout</button>
+                <button id="admin-button" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors hidden">Admin</button>
             </div>
-            <div class="dialog-content">
-                <p>Bitte denk daran, dass dieses Lerntool nur als eine zusätzliche Hilfe gedacht ist, um dich beim Lernen zu unterstützen.</p>
-
-                <p>Die Inhalte hier sind definitiv <strong>nicht vollständig</strong> und decken nur einen Teil der Themen ab. Sie können und sollen die offiziellen Kursmaterialien nicht ersetzen. Außerdem kann es sein, dass die Informationen nicht immer auf dem allerneuesten Stand sind.</p>
-
-                <p>Verlasse dich für deine Klausurvorbereitung also bitte unbedingt auf die offiziellen Skripte, Vorlesungsunterlagen und Übungen. Sieh dieses Tool als eine Ergänzung, um Dinge zu wiederholen oder zu visualisieren.</p>
-
-                <p><strong>Viel Erfolg beim Lernen!</strong></p>
+            <h1 class="text-5xl font-bold text-white">Lerntool</h1>
+            <p class="text-xl text-gray-400 mt-2">Wähle dein Semester aus</p>
+        </header>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="semester-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-semester="1">
+                <h2 class="text-3xl font-bold text-cyan-400">Semester 1</h2>
             </div>
-            <button id="close-dialog-btn" class="dialog-button">
-                Verstanden
-            </button>
+            <div class="semester-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-semester="2">
+                <h2 class="text-3xl font-bold text-cyan-400">Semester 2</h2>
+            </div>
+            <div class="semester-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-semester="3">
+                <h2 class="text-3xl font-bold text-cyan-400">Semester 3</h2>
+            </div>
+            <div class="semester-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-semester="4">
+                <h2 class="text-3xl font-bold text-cyan-400">Semester 4</h2>
+            </div>
         </div>
     </div>
 
-    <div id="requestDateDialog" class="dialog-overlay hidden">
-        <div class="dialog-box">
-            <div class="dialog-header-info">Prüfungsdatum setzen</div>
-            <div class="dialog-content">
-                <p>Bitte gib dein persönliches Prüfungsdatum für <strong id="request-subject" class="text-cyan-400"></strong> an:</p>
-                <input type="date" id="request-date-input" class="mt-2 p-2 w-full border rounded">
+    <div id="subject-hub-1" class="subject-view">
+        <button class="back-button nav-button px-4 py-2 rounded mb-8">Zurück</button>
+        <header class="text-center mb-12">
+            <h1 class="text-5xl font-bold text-white">Lerntool - Semester 1</h1>
+            <p class="text-xl text-gray-400 mt-2">Wähle dein Fach aus</p>
+        </header>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-link="mafi1.html">
+                <h2 class="text-3xl font-bold text-cyan-400">Mafi 1</h2>
+                <p class="text-gray-300 mt-2">Mathe für Informatiker 1</p>
             </div>
-            <button class="dialog-button nav-button" id="request-date-send">Speichern</button>
-            <button class="dialog-button nav-button" id="request-date-cancel">Abbrechen</button>
         </div>
     </div>
-    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
-        <!-- Semester Hub View -->
-        <div id="semester-hub" class="subject-view active pt-16">
-            <header class="text-center mb-12 relative">
-                <div class="absolute top-0 right-0 flex items-center space-x-4 p-4">
-                    <span id="user-email" class="text-gray-400"></span>
-                    <button id="logout-button" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 transition-colors">Logout</button>
-                    <button id="admin-button" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors hidden">Admin</button>
+
+    <div id="subject-hub-2" class="subject-view">
+        <button class="back-button nav-button px-4 py-2 rounded mb-8">Zurück</button>
+        <header class="text-center mb-12">
+            <h1 class="text-5xl font-bold text-white">Lerntool - Semester 2</h1>
+            <p class="text-xl text-gray-400 mt-2">Wähle dein Fach aus</p>
+        </header>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-link="ccn.html">
+                <h2 class="text-3xl font-bold text-cyan-400">CCN</h2>
+                <p class="text-gray-300 mt-2">Computer & Communication Networks</p>
+                <div class="mt-4 flex items-center justify-center space-x-2">
+                    <span class="text-gray-400 exam-countdown" data-subject-id="ccn"></span>
+                    <button class="request-date-button nav-button p-1 rounded" data-subject-id="ccn" aria-label="Datum anfragen">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16 8l-8 8H4v-4l8-8m0 0l1-1a2 2 0 112.828 2.828l-1 1z" />
+                        </svg>
+                    </button>
                 </div>
-                <h1 class="text-5xl font-bold text-white">Lerntool</h1>
-                <p class="text-xl text-gray-400 mt-2">Wähle dein Semester aus</p>
-            </header>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="semester-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-semester="1">
-                    <h2 class="text-3xl font-bold text-cyan-400">Semester 1</h2>
+            </div>
+            <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-link="mafi2.html">
+                <h2 class="text-3xl font-bold text-cyan-400">Mafi 2</h2>
+                <p class="text-gray-300 mt-2">Mathe für Informatiker 2</p>
+                <div class="mt-4 flex items-center justify-center space-x-2">
+                    <span class="text-gray-400 exam-countdown" data-subject-id="mafi2"></span>
+                    <button class="request-date-button nav-button p-1 rounded" data-subject-id="mafi2" aria-label="Datum anfragen">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16 8l-8 8H4v-4l8-8m0 0l1-1a2 2 0 112.828 2.828l-1 1z" />
+                        </svg>
+                    </button>
                 </div>
-                <div class="semester-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-semester="2">
-                    <h2 class="text-3xl font-bold text-cyan-400">Semester 2</h2>
+            </div>
+            <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-link="aud.html">
+                <h2 class="text-3xl font-bold text-cyan-400">AuD</h2>
+                <p class="text-gray-300 mt-2">Algorithmen und Datenstrukturen</p>
+                <div class="mt-4 flex items-center justify-center space-x-2">
+                    <span class="text-gray-400 exam-countdown" data-subject-id="aud"></span>
+                    <button class="request-date-button nav-button p-1 rounded" data-subject-id="aud" aria-label="Datum anfragen">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16 8l-8 8H4v-4l8-8m0 0l1-1a2 2 0 112.828 2.828l-1 1z" />
+                        </svg>
+                    </button>
                 </div>
-                <div class="semester-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-semester="3">
-                    <h2 class="text-3xl font-bold text-cyan-400">Semester 3</h2>
-                </div>
-                <div class="semester-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-semester="4">
-                    <h2 class="text-3xl font-bold text-cyan-400">Semester 4</h2>
+            </div>
+            <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-link="insi.html">
+                <h2 class="text-3xl font-bold text-cyan-400">Insi</h2>
+                <p class="text-gray-300 mt-2">Informationssicherheit</p>
+                <div class="mt-4 flex items-center justify-center space-x-2">
+                    <span class="text-gray-400 exam-countdown" data-subject-id="insi"></span>
+                    <button class="request-date-button nav-button p-1 rounded" data-subject-id="insi" aria-label="Datum anfragen">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16 8l-8 8H4v-4l8-8m0 0l1-1a2 2 0 112.828 2.828l-1 1z" />
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
-
-        <!-- Subject Hub View -->
-        <div id="subject-hub" class="subject-view">
-            <button class="back-button nav-button px-4 py-2 rounded mb-8">Zurück</button>
-            <header class="text-center mb-12">
-                <h1 class="text-5xl font-bold text-white">Lerntool</h1>
-                <p class="text-xl text-gray-400 mt-2">Wähle dein Fach aus</p>
-            </header>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-link="ccn.html">
-                    <h2 class="text-3xl font-bold text-cyan-400">CCN</h2>
-                    <p class="text-gray-300 mt-2">Computer & Communication Networks</p>
-                    <div class="mt-4 flex items-center justify-center space-x-2">
-                        <span class="text-gray-400 exam-countdown" data-subject-id="ccn"></span>
-                        <button class="request-date-button nav-button p-1 rounded" data-subject-id="ccn" aria-label="Datum anfragen">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16 8l-8 8H4v-4l8-8m0 0l1-1a2 2 0 112.828 2.828l-1 1z" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-link="mafi2.html">
-                    <h2 class="text-3xl font-bold text-cyan-400">Mafi 2</h2>
-                    <p class="text-gray-300 mt-2">Mathe für Informatiker 2</p>
-                    <div class="mt-4 flex items-center justify-center space-x-2">
-                        <span class="text-gray-400 exam-countdown" data-subject-id="mafi2"></span>
-                        <button class="request-date-button nav-button p-1 rounded" data-subject-id="mafi2" aria-label="Datum anfragen">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16 8l-8 8H4v-4l8-8m0 0l1-1a2 2 0 112.828 2.828l-1 1z" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-link="aud.html">
-                    <h2 class="text-3xl font-bold text-cyan-400">AuD</h2>
-                    <p class="text-gray-300 mt-2">Algorithmen und Datenstrukturen</p>
-                    <div class="mt-4 flex items-center justify-center space-x-2">
-                        <span class="text-gray-400 exam-countdown" data-subject-id="aud"></span>
-                        <button class="request-date-button nav-button p-1 rounded" data-subject-id="aud" aria-label="Datum anfragen">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16 8l-8 8H4v-4l8-8m0 0l1-1a2 2 0 112.828 2.828l-1 1z" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-link="insi.html">
-                    <h2 class="text-3xl font-bold text-cyan-400">Insi</h2>
-                    <p class="text-gray-300 mt-2">Informationssicherheit</p>
-                    <div class="mt-4 flex items-center justify-center space-x-2">
-                        <span class="text-gray-400 exam-countdown" data-subject-id="insi"></span>
-                        <button class="request-date-button nav-button p-1 rounded" data-subject-id="insi" aria-label="Datum anfragen">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16 8l-8 8H4v-4l8-8m0 0l1-1a2 2 0 112.828 2.828l-1 1z" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Coming Soon View -->
-        <div id="coming-soon" class="subject-view text-center">
-            <button class="back-button nav-button px-4 py-2 rounded mb-8">Zurück</button>
-            <h1 class="text-5xl font-bold text-white">Coming Soon</h1>
-            <p class="text-xl text-gray-400 mt-2">Inhalt für dieses Semester ist noch in Arbeit.</p>
-        </div>
-
-        <!-- Dynamically loaded subject content -->
-        <div id="dynamic-content" class="subject-view"></div>
     </div>
 
-    <script type="module" src="js/index.js"></script>
-    <script type="module" src="js/auth.js"></script>
+    <div id="coming-soon" class="subject-view text-center">
+        <button class="back-button nav-button px-4 py-2 rounded mb-8">Zurück</button>
+        <h1 class="text-5xl font-bold text-white">Coming Soon</h1>
+        <p class="text-xl text-gray-400 mt-2">Inhalt für dieses Semester ist noch in Arbeit.</p>
+    </div>
+
+    <div id="dynamic-content" class="subject-view"></div>
+</div>
+
+<script type="module" src="js/index.js"></script>
+<script type="module" src="js/auth.js"></script>
 </body>
 </html>

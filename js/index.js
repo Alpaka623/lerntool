@@ -33,7 +33,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     let userExamDates = {};
 
     const semesterHub = document.getElementById('semester-hub');
-    const subjectHub = document.getElementById('subject-hub');
+    const subjectHub1 = document.getElementById('subject-hub-1');
+    const subjectHub2 = document.getElementById('subject-hub-2');
     const comingSoon = document.getElementById('coming-soon');
     const dynamicContent = document.getElementById('dynamic-content');
     const closeDialogButton = document.getElementById('close-dialog-btn');
@@ -126,7 +127,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (cancelBtn) cancelBtn.addEventListener('click', closeDateDialog);
 
     function showView(view) {
-        [semesterHub, subjectHub, comingSoon, dynamicContent].forEach(v => {
+        [semesterHub, subjectHub1, subjectHub2, comingSoon, dynamicContent].forEach(v => {
             if(v) v.classList.remove('active');
         });
         if(view) view.classList.add('active');
@@ -170,7 +171,10 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     window.addEventListener('navigate-back', () => {
         dynamicContent.innerHTML = '';
-        showView(subjectHub);
+        const lastSemester = sessionStorage.getItem('selectedSemester');
+        if (lastSemester === '1') showView(subjectHub1);
+        else if (lastSemester === '2') showView(subjectHub2);
+        else showView(semesterHub);
     });
 
     document.body.addEventListener('click', function(event) {
@@ -178,7 +182,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         if (semesterCard) {
             const semester = semesterCard.dataset.semester;
             sessionStorage.setItem('selectedSemester', semester);
-            if (semester === '2') showView(subjectHub);
+            if (semester === '1') showView(subjectHub1);
+            else if (semester === '2') showView(subjectHub2);
             else showView(comingSoon);
             return;
         }
@@ -203,11 +208,9 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     await loadUserExamDates();
     const storedSemester = sessionStorage.getItem('selectedSemester');
-    if (storedSemester === '2') {
-        showView(subjectHub);
-    } else {
-        showView(semesterHub);
-    }
+    if (storedSemester === '1') showView(subjectHub1);
+    else if (storedSemester === '2') showView(subjectHub2);
+    else showView(semesterHub);
 });
 
 function setCookie(name, value, days) {
