@@ -20,16 +20,166 @@
         </header>
 
         <nav class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12">
-            <button data-mafi-target="mafi1-grundlagen" class="mafi-nav-button active font-semibold py-2 px-5 rounded-full">Grundlagen</button>
-
+            <button data-mafi-target="mafi1-aussagenlogik" class="mafi-nav-button active font-semibold py-2 px-5 rounded-full">Aussagenlogik</button>
+            <button data-mafi-target="mafi1-mengenlehre" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Mengenlehre</button>
+            <button data-mafi-target="mafi1-abbildungen" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Abbildungen</button>
+            <button data-mafi-target="mafi1-strukturen" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Algebraische Strukturen</button>
+            <button data-mafi-target="mafi1-induktion" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Vollständige Induktion</button>
         </nav>
 
         <main>
-            <section id="mafi1-grundlagen" class="mafi-content-section active">
+            <section id="mafi1-aussagenlogik" class="mafi-content-section active">
                 <div class="card p-8 rounded-2xl shadow-2xl">
-                    <h2 class="text-3xl font-bold text-cyan-400 mb-6">In Kürze verfügbar</h2>
-                    <div class="space-y-6 text-gray-300 leading-relaxed">
-                        <p>Die Inhalte für Mafi 1 werden in Kürze hinzugefügt.</p>
+                    <h2 class="text-3xl font-bold text-cyan-400 mb-6">Aussagenlogik</h2>
+                    <p class="mb-4 text-gray-300">Die Aussagenlogik ist die Grundlage der formalen Logik. Sie beschäftigt sich mit <span class="tooltip-term">Aussagen<span class="tooltip-box">Ein Satz, dem eindeutig ein Wahrheitswert (wahr oder falsch) zugeordnet werden kann. Z.B.: 'Es regnet.' ist eine Aussage. 'Wie geht es dir?' ist keine.</span></span> und wie diese durch <span class="tooltip-term">Junktoren<span class="tooltip-box">Logische Verknüpfungen wie UND (Konjunktion), ODER (Disjunktion) und NICHT (Negation).</span></span> zu neuen, komplexeren Aussagen verknüpft werden. Das wichtigste Werkzeug hierfür sind <span class="tooltip-term">Wahrheitstabellen<span class="tooltip-box">Eine Tabelle, die für alle möglichen Kombinationen von Wahrheitswerten der Teilaussagen den Wahrheitswert der Gesamtaussage angibt.</span></span>.</p>
+                    <div class="space-y-2 mb-6 text-gray-300">
+                        <p><strong>Konjunktion (UND / ∧):</strong> Die Aussage "A und B" ist nur dann wahr, wenn A und B beide wahr sind.</p>
+                        <p><strong>Disjunktion (ODER / ∨):</strong> Die Aussage "A oder B" ist wahr, wenn mindestens eine der beiden Aussagen A oder B wahr ist.</p>
+                        <p><strong>Implikation (⇒):</strong> Die Aussage "Aus A folgt B" ist nur dann falsch, wenn A wahr ist und B falsch ist. Man kann sie lesen als "Wenn A, dann B".</p>
+                        <p><strong>Äquivalenz (⇔):</strong> Die Aussage "A ist äquivalent zu B" ist wahr, wenn A und B denselben Wahrheitswert haben.</p>
+                    </div>
+                    <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                        <h3 class="text-xl font-semibold mb-2 text-cyan-300">Interaktive Wahrheitstabelle</h3>
+                        <p class="mb-4 text-gray-400 text-sm">Wähle eine logische Verknüpfung aus, um die zugehörige Wahrheitstabelle zu sehen.</p>
+                        <div class="flex flex-wrap justify-center gap-2 mb-4">
+                            <button class="verknüpfung-btn nav-button" data-op="and">Konjunktion (UND / ∧)</button>
+                            <button class="verknüpfung-btn nav-button" data-op="or">Disjunktion (ODER / ∨)</button>
+                            <button class="verknüpfung-btn nav-button" data-op="implies">Implikation (⇒)</button>
+                            <button class="verknüpfung-btn nav-button" data-op="iff">Äquivalenz (⇔)</button>
+                        </div>
+                        <div id="wahrheitstabelle-container" class="overflow-x-auto"></div>
+                    </div>
+                </div>
+            </section>
+            <section id="mafi1-mengenlehre" class="mafi-content-section">
+                <div class="card p-8 rounded-2xl shadow-2xl">
+                    <h2 class="text-3xl font-bold text-cyan-400 mb-6">Mengenlehre</h2>
+                    <p class="mb-4 text-gray-300">Die Mengenlehre beschäftigt sich mit der Untersuchung von <span class="tooltip-term">Mengen<span class="tooltip-box">Eine Zusammenfassung von bestimmten, wohlunterschiedenen Objekten unserer Anschauung oder unseres Denkens zu einem Ganzen. Z.B. die Menge aller geraden Zahlen.</span></span>. Die Objekte in einer Menge nennt man <span class="tooltip-term">Elemente<span class="tooltip-box">Die einzelnen Objekte, die zu einer Menge gehören. Z.B. ist die Zahl 4 ein Element der Menge der geraden Zahlen.</span></span>.</p>
+                    <div class="space-y-2 mb-6 text-gray-300">
+                        <p><strong>Vereinigung (A ∪ B):</strong> Enthält alle Elemente, die in A, in B oder in beiden Mengen enthalten sind.</p>
+                        <p><strong>Schnittmenge (A ∩ B):</strong> Enthält nur die Elemente, die sowohl in A als auch in B enthalten sind.</p>
+                        <p><strong>Differenz (A \ B):</strong> Enthält alle Elemente, die in A, aber nicht in B enthalten sind.</p>
+                    </div>
+                    <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                        <h3 class="text-xl font-semibold mb-2 text-cyan-300">Mengenoperationen-Visualisierer</h3>
+                        <p class="mb-4 text-gray-400 text-sm">Wähle eine Mengenoperation aus, um das Ergebnis im Venn-Diagramm (grün markiert) zu sehen.</p>
+                        <div class="flex flex-wrap justify-center gap-2 mb-4">
+                            <button class="mengen-op-btn nav-button" data-op="union">Vereinigung (A ∪ B)</button>
+                            <button class="mengen-op-btn nav-button" data-op="intersection">Schnittmenge (A ∩ B)</button>
+                            <button class="mengen-op-btn nav-button" data-op="diff_ab">Differenz (A \ B)</button>
+                            <button class="mengen-op-btn nav-button" data-op="diff_ba">Differenz (B \ A)</button>
+                        </div>
+                        <div id="venn-diagram-container" class="flex justify-center items-center h-48">
+                            <svg id="venn-svg" width="200" height="150" viewBox="0 0 200 150"></svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="mafi1-abbildungen" class="mafi-content-section">
+                <div class="space-y-8">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Abbildungen (Funktionen)</h2>
+                        <p class="mb-4 text-gray-300">Eine <span class="tooltip-term">Abbildung<span class="tooltip-box">Eine Vorschrift f, die jedem Element x aus einer Definitionsmenge A genau ein Element y aus einer Wertemenge B zuordnet. Schreibweise: f: A → B.</span></span> (oder Funktion) ist eine zentrale Idee der Mathematik. Sie beschreibt eine Beziehung zwischen zwei Mengen, der <span class="tooltip-term">Definitionsmenge<span class="tooltip-box">Die Menge A der erlaubten 'Eingabewerte' für eine Abbildung f.</span></span> und der <span class="tooltip-term">Wertemenge<span class="tooltip-box">Die Menge B, die alle möglichen 'Ausgabewerte' der Abbildung f enthält.</span></span>.</p>
+                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold mb-2 text-cyan-300">Eigenschaften von Abbildungen</h3>
+                            <p class="mb-4 text-gray-400 text-sm">Wähle einen Eigenschaftstyp aus, um eine beispielhafte Abbildung und deren Definition zu sehen.</p>
+                            <div class="flex flex-wrap justify-center gap-2 mb-4">
+                                <button class="abb-btn nav-button" data-type="injektiv">Injektiv</button>
+                                <button class="abb-btn nav-button" data-type="surjektiv">Surjektiv</button>
+                                <button class="abb-btn nav-button" data-type="bijektiv">Bijektiv</button>
+                                <button class="abb-btn nav-button" data-type="nichts">Allgemein</button>
+                            </div>
+                            <div class="flex flex-col md:flex-row gap-4 items-center">
+                                <div id="abbildung-visualisierung" class="w-full md:w-1/2 h-48"></div>
+                                <div id="abbildung-erklaerung" class="w-full md:w-1/2 text-gray-300"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Bild, Urbild und Umkehrabbildung</h2>
+                        <p class="mb-4 text-gray-300">Diese Begriffe beschreiben, wie Abbildungen auf Teilmengen wirken.</p>
+                        <ul class="list-disc list-inside space-y-3 text-gray-300">
+                            <li><strong>Bild:</strong> Das <span class="tooltip-term">Bild<span class="tooltip-box">Die Menge aller tatsächlich erreichten Werte in der Wertemenge B. Schreibweise: Bild(f) oder f(A).</span></span> einer Abbildung f: A → B ist die Menge aller Elemente in B, die tatsächlich als Funktionswert auftreten. Es ist immer eine Teilmenge der Wertemenge.</li>
+                            <li><strong>Urbild:</strong> Das <span class="tooltip-term">Urbild<span class="tooltip-box">Für eine Teilmenge Y ⊆ B ist das Urbild f⁻¹(Y) die Menge aller Elemente in A, deren Funktionswert in Y liegt.</span></span> einer Teilmenge Y der Wertemenge ist die Menge aller Elemente in der Definitionsmenge A, die auf ein Element in Y abgebildet werden.</li>
+                            <li><strong>Umkehrabbildung:</strong> Eine <span class="tooltip-term">Umkehrabbildung<span class="tooltip-box">Eine Abbildung f⁻¹: B → A, die die ursprüngliche Abbildung 'rückgängig' macht. Sie existiert nur, wenn die Abbildung bijektiv ist.</span></span> (oder inverse Funktion) existiert nur für <strong>bijektive</strong> Abbildungen. Sie kehrt die Zuordnung um, d.h. wenn f(x) = y, dann ist f⁻¹(y) = x.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <section id="mafi1-strukturen" class="mafi-content-section">
+                <div class="space-y-8">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Algebraische Strukturen: Gruppen & Körper</h2>
+                        <p class="mb-4 text-gray-300">In der Algebra untersucht man Mengen zusammen mit Verknüpfungen (wie Addition oder Multiplikation) und deren gemeinsamen Eigenschaften. Diese Strukturen sind die Bausteine für fast alle Bereiche der Mathematik.</p>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">Gruppe</h3>
+                                <p class="mb-2 text-gray-400">Eine <span class="tooltip-term">Gruppe<span class="tooltip-box">Eine Menge G mit einer Verknüpfung *, die vier Axiome erfüllt: Abgeschlossenheit, Assoziativität, neutrales Element und inverses Element.</span></span> ist eine Menge mit einer Verknüpfung, die bestimmte Regeln erfüllt. Ein klassisches Beispiel ist die Menge der ganzen Zahlen (ℤ) mit der Addition (+).</p>
+                                <ul class="list-decimal list-inside text-sm text-gray-300 space-y-1">
+                                    <li><b>Abgeschlossenheit:</b> a * b ist wieder in G.</li>
+                                    <li><b>Assoziativität:</b> (a * b) * c = a * (b * c).</li>
+                                    <li><b>Neutrales Element:</b> Es gibt ein e, sodass a * e = a.</li>
+                                    <li><b>Inverses Element:</b> Zu jedem a gibt es ein a⁻¹, sodass a * a⁻¹ = e.</li>
+                                </ul>
+                                <p class="mt-2 text-gray-400">Wenn zusätzlich das <span class="tooltip-term">Kommutativgesetz<span class="tooltip-box">a * b = b * a. Die Reihenfolge der Operanden spielt keine Rolle.</span></span> (a * b = b * a) gilt, spricht man von einer <strong>abelschen Gruppe</strong>.</p>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2 text-cyan-300">Körper</h3>
+                                <p class="mb-2 text-gray-400">Ein <span class="tooltip-term">Körper<span class="tooltip-box">Eine Menge K mit zwei Verknüpfungen (+, ·), sodass (K, +) und (K\{0}, ·) abelsche Gruppen sind und das Distributivgesetz gilt.</span></span> ist eine noch reichhaltigere Struktur mit zwei Verknüpfungen (typischerweise Addition und Multiplikation). Bekannte Beispiele sind die rationalen Zahlen (ℚ) und die reellen Zahlen (ℝ).</p>
+                                <ul class="list-decimal list-inside text-sm text-gray-300 space-y-1">
+                                    <li>(K, +) ist eine abelsche Gruppe (mit neutralem Element 0).</li>
+                                    <li>(K \ {0}, ·) ist eine abelsche Gruppe (mit neutralem Element 1).</li>
+                                    <li><b>Distributivgesetz:</b> a · (b + c) = a · b + a · c.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Modulare Arithmetik</h2>
+                        <p class="mb-4 text-gray-300">Die modulare Arithmetik, auch "Rechnen mit Resten" genannt, betrachtet die Reste bei der Division durch eine feste Zahl, den <span class="tooltip-term">Modul<span class="tooltip-box">Die Zahl n, durch die geteilt wird. Das Ergebnis von 'a mod n' ist der Rest bei der Division von a durch n.</span></span>. Zwei Zahlen heißen <span class="tooltip-term">kongruent<span class="tooltip-box">Zwei Zahlen a und b sind kongruent modulo n, wenn sie bei Division durch n den gleichen Rest lassen. Schreibweise: a ≡ b (mod n).</span></span> modulo n, wenn sie bei Division durch n denselben Rest lassen. Z.B. ist 17 ≡ 2 (mod 5), da beide den Rest 2 lassen.</p>
+                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold mb-2 text-cyan-300">Modulo-Rechner</h3>
+                            <div class="flex items-center gap-4 flex-wrap">
+                                <input type="number" id="mod-a" value="17" class="w-24 px-3 py-2 rounded-md shadow-sm">
+                                <select id="mod-op" class="px-3 py-2 rounded-md shadow-sm">
+                                    <option value="+">+</option>
+                                    <option value="-">-</option>
+                                    <option value="*">*</option>
+                                </select>
+                                <input type="number" id="mod-b" value="5" class="w-24 px-3 py-2 rounded-md shadow-sm">
+                                <span class="font-bold">mod</span>
+                                <input type="number" id="mod-n" value="12" class="w-24 px-3 py-2 rounded-md shadow-sm">
+                            </div>
+                            <button id="calculate-mod-btn" class="mt-4 px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600">Berechnen</button>
+                            <div id="mod-result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300 font-mono text-lg"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="mafi1-induktion" class="mafi-content-section">
+                <div class="card p-8 rounded-2xl shadow-2xl">
+                    <h2 class="text-3xl font-bold text-cyan-400 mb-6">Vollständige Induktion</h2>
+                    <p class="mb-4 text-gray-300">Die vollständige Induktion ist eine fundamentale Beweismethode in der Mathematik, um Aussagen für alle natürlichen Zahlen (oder eine Teilmenge davon, die bei einem Startwert beginnt) zu beweisen. Sie funktioniert wie ein Dominoeffekt:</p>
+                    <ol class="list-decimal list-inside space-y-2 text-gray-300">
+                        <li><b>Induktionsanfang (IA):</b> Man zeigt, dass die Aussage für die erste Zahl (meist n=1 oder n=0) gilt. Damit stößt man den ersten Dominostein an.</li>
+                        <li><b>Induktionsvoraussetzung (IV):</b> Man nimmt an, dass die Aussage für ein beliebiges, aber festes n gilt. Man geht also davon aus, dass ein beliebiger Dominostein in der Reihe fällt.</li>
+                        <li><b>Induktionsschritt (IS):</b> Man zeigt, dass *wenn* die Aussage für n gilt (IV), sie auch für den Nachfolger n+1 gelten muss. Man beweist also, dass jeder fallende Stein auch seinen Nachfolger umstößt.</li>
+                    </ol>
+                    <p class="mt-4 text-gray-300">Wenn sowohl der Anfang als auch der Schritt bewiesen sind, gilt die Aussage für alle natürlichen Zahlen ab dem Startwert, da die Kette der fallenden Dominosteine nie abreißt.</p>
+                    <div class="p-4 mt-6 border border-gray-700 rounded-lg bg-gray-800/50">
+                        <h3 class="text-xl font-semibold mb-2 text-cyan-300">Beispiel: Gaußsche Summenformel</h3>
+                        <p class="mb-4 text-gray-400">Wir wollen beweisen: \( \forall n \in \mathbb{N}_{\ge 1}: \sum_{k=1}^{n} k = \frac{n(n+1)}{2} \)</p>
+                        <div class="space-y-4">
+                            <p><b>IA (n=1):</b> Linke Seite: \( \sum_{k=1}^{1} k = 1 \). Rechte Seite: \( \frac{1(1+1)}{2} = 1 \). Die Aussage stimmt für n=1.</p>
+                            <p><b>IV:</b> Wir nehmen an, es gilt \( \sum_{k=1}^{n} k = \frac{n(n+1)}{2} \) für ein festes \( n \in \mathbb{N} \).</p>
+                            <p><b>IS (n → n+1):</b> Wir wollen zeigen: \( \sum_{k=1}^{n+1} k = \frac{(n+1)((n+1)+1)}{2} = \frac{(n+1)(n+2)}{2} \).
+                                <br>
+                                Wir starten mit der linken Seite der zu zeigenden Behauptung und formen sie um:
+                                <br>
+                                \( \sum_{k=1}^{n+1} k = (\sum_{k=1}^{n} k) + (n+1) \overset{IV}{=} \frac{n(n+1)}{2} + (n+1) = \frac{n(n+1) + 2(n+1)}{2} = \frac{(n+1)(n+2)}{2} \).
+                                <br>
+                                Dies ist genau die rechte Seite der Behauptung. Damit ist der Beweis abgeschlossen (q.e.d.).</p>
+                        </div>
                     </div>
                 </div>
             </section>
