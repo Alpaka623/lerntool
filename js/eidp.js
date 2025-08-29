@@ -551,11 +551,16 @@ do {
         
         // --- OOP Simulator ---
         const oopObjectsContainer = document.getElementById('oop-objects-container');
-        const oopCreateBtn = document.getElementById('oop-create-btn');
-        const oopInhaberInput = document.getElementById('oop-inhaber-input');
+        const addMitarbeiterBtn = document.getElementById('oop-add-mitarbeiter-btn');
+        const addManagerBtn = document.getElementById('oop-add-manager-btn');
+        const oopNameInput = document.getElementById('oop-name-input');
+        const oopWorkBtn = document.getElementById('oop-work-btn');
         const oopLog = document.getElementById('oop-log');
-        let oopObjects = [];
-        let nextObjectId = 0;
+        let firma = {
+            name: "TechFirma",
+            mitarbeiter: []
+        };
+        let nextEmployeeId = 0;
 
         function logOop(message) {
             if(!oopLog) return;
@@ -566,76 +571,57 @@ do {
         function renderOopObjects() {
             if(!oopObjectsContainer) return;
             oopObjectsContainer.innerHTML = '';
-            oopObjects.forEach(obj => {
-                const div = document.createElement('div');
-                div.className = 'p-4 bg-gray-800/50 rounded-lg border border-gray-600';
-                div.innerHTML = `
-                    <p class="font-semibold text-white">Konto-Objekt (ID: ${obj.id})</p>
-                    <p class="text-sm"><span class="text-gray-400">inhaber:</span> "${obj.inhaber}"</p>
-                    <p class="text-sm"><span class="text-gray-400">kontostand:</span> ${obj.kontostand.toFixed(2)}</p>
-                    <div class="mt-2 flex flex-wrap gap-2">
-                         <input type="number" id="betrag-${obj.id}" class="w-24 p-1 rounded-md" placeholder="Betrag">
-                         <button data-id="${obj.id}" data-action="einzahlen" class="oop-action-btn px-2 py-1 text-xs bg-green-600 rounded">Einzahlen</button>
-                         <button data-id="${obj.id}" data-action="abheben" class="oop-action-btn px-2 py-1 text-xs bg-red-600 rounded">Abheben</button>
-                    </div>`;
+            
+            const firmaDiv = document.createElement('div');
+            firmaDiv.className = 'p-4 bg-gray-800/50 rounded-lg border border-gray-600';
+            firmaDiv.innerHTML = `<p class="font-semibold text-white">Firma-Objekt</p>
+                                  <p class="text-sm"><span class="text-gray-400">name:</span> "${firma.name}"</p>
+                                  <p class="text-sm"><span class="text-gray-400">mitarbeiterListe:</span> [${firma.mitarbeiter.map(m => `Ref(ID:${m.id})`).join(', ')}]</p>`;
+            oopObjectsContainer.appendChild(firmaDiv);
+            
+            firma.mitarbeiter.forEach(m => {
+                 const div = document.createElement('div');
+                 const type = m.isManager ? "Manager" : "Mitarbeiter";
+                 const color = m.isManager ? "border-purple-500" : "border-blue-500";
+                div.className = `p-4 bg-gray-800/50 rounded-lg border ${color}`;
+                div.innerHTML = `<p class="font-semibold text-white">${type}-Objekt (ID: ${m.id})</p>
+                                   <p class="text-sm"><span class="text-gray-400">name:</span> "${m.name}"</p>`;
                 oopObjectsContainer.appendChild(div);
             });
         }
 
-        if(oopCreateBtn) {
-            oopCreateBtn.addEventListener('click', () => {
-                if(oopObjects.length >= 4) {
-                    logOop("Fehler: Maximal 4 Konten erlaubt.");
-                    return;
-                }
-                const inhaber = oopInhaberInput.value.trim() || `Konto_${nextObjectId}`;
-                const newKonto = {
-                    id: nextObjectId++,
-                    inhaber: inhaber,
-                    kontostand: 0.0
-                };
-                oopObjects.push(newKonto);
-                oopInhaberInput.value = '';
-                logOop(`Konto für ${inhaber} (ID ${newKonto.id}) erstellt.`);
-                renderOopObjects();
-            });
+        function addMitarbeiter(isManager = false) {
+             if(firma.mitarbeiter.length >= 5) {
+                logOop("Fehler: Maximal 5 Mitarbeiter erlaubt.");
+                return;
+            }
+            const name = oopNameInput.value.trim() || `${isManager ? 'Manager' : 'Mitarbeiter'} ${nextEmployeeId}`;
+            const newEmployee = {
+                id: nextEmployeeId++,
+                name: name,
+                isManager: isManager
+            };
+            firma.mitarbeiter.push(newEmployee);
+            oopNameInput.value = '';
+            logOop(`${isManager ? 'Manager' : 'Mitarbeiter'} ${name} (ID ${newEmployee.id}) eingestellt.`);
+            renderOopObjects();
         }
+
+        if(addMitarbeiterBtn) addMitarbeiterBtn.addEventListener('click', () => addMitarbeiter(false));
+        if(addManagerBtn) addManagerBtn.addEventListener('click', () => addMitarbeiter(true));
+        if(oopWorkBtn) oopWorkBtn.addEventListener('click', () => {
+             logOop("--- Alle arbeiten lassen ---");
+             firma.mitarbeiter.forEach(m => {
+                 if (m.isManager) {
+                     logOop(`${m.name} delegiert Aufgaben...`);
+                 } else {
+                     logOop(`${m.name} arbeitet...`);
+                 }
+             });
+        });
         
-        if (oopObjectsContainer) {
-            oopObjectsContainer.addEventListener('click', (e) => {
-                if(e.target.classList.contains('oop-action-btn')) {
-                    const id = parseInt(e.target.dataset.id);
-                    const action = e.target.dataset.action;
-                    const betragInput = document.getElementById(`betrag-${id}`);
-                    const betrag = parseFloat(betragInput.value);
+        renderOopObjects();
+        logOop("Firma 'TechFirma' erstellt.");
 
-                    if(isNaN(betrag) || betrag <= 0) {
-                        logOop(`Fehler: Ungültiger Betrag für Konto ${id}.`);
-                        return;
-                    }
-
-                    const obj = oopObjects.find(o => o.id === id);
-                    if(!obj) return;
-                    
-                    if(action === 'einzahlen') {
-                        if (obj.kontostand + betrag > 1000000) {
-                             logOop(`Fehler: Einzahlung würde Kontolimit von 1.000.000 überschreiten.`);
-                             return;
-                        }
-                        obj.kontostand += betrag;
-                        logOop(`${betrag.toFixed(2)} auf Konto ${id} eingezahlt. Neuer Stand: ${obj.kontostand.toFixed(2)}`);
-                    } else if (action === 'abheben') {
-                        if (betrag > obj.kontostand) {
-                            logOop(`Fehler: Deckung für Abhebung von ${betrag.toFixed(2)} auf Konto ${id} nicht ausreichend.`);
-                            return;
-                        }
-                        obj.kontostand -= betrag;
-                        logOop(`${betrag.toFixed(2)} von Konto ${id} abgehoben. Neuer Stand: ${obj.kontostand.toFixed(2)}`);
-                    }
-                    betragInput.value = '';
-                    renderOopObjects();
-                }
-            });
-        }
     } // end setupEidp
 })();

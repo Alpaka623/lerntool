@@ -488,25 +488,20 @@
         ];
         renderGaussMatrix();
         renderGaussControls();
-        if(gaussFeedback) gaussFeedback.textContent = 'Matrix zurückgesetzt.';
     }
 
     function renderGaussMatrix() {
-        if (!gaussMatrixContainer) return;
         gaussMatrixContainer.innerHTML = '';
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 4; j++) {
                 const input = document.createElement('input');
                 input.type = 'number';
-                input.value = parseFloat(gaussMatrix[i][j]).toFixed(2);
+                input.value = gaussMatrix[i][j];
                 input.className = 'w-full text-center p-1 rounded bg-gray-700 border border-gray-600';
                 input.dataset.row = i;
                 input.dataset.col = j;
                 input.addEventListener('change', (e) => {
-                    const val = parseFloat(e.target.value);
-                    if (!isNaN(val)) {
-                        gaussMatrix[i][j] = val;
-                    }
+                    gaussMatrix[i][j] = parseFloat(e.target.value);
                 });
                 gaussMatrixContainer.appendChild(input);
             }
@@ -514,22 +509,21 @@
     }
 
     function renderGaussControls() {
-        if (!gaussControlsContainer) return;
         gaussControlsContainer.innerHTML = `
             <div class="flex items-center gap-2">
-                <button class="gauss-btn" data-op="swap">Tauschen</button>
+                <button class="gauss-btn" data-op="swap">Zeile</button>
                 <select id="gauss-swap1" class="gauss-select"><option>1</option><option>2</option><option>3</option></select>
                 <span>↔</span>
                 <select id="gauss-swap2" class="gauss-select"><option>1</option><option selected>2</option><option>3</option></select>
             </div>
             <div class="flex items-center gap-2">
-                <button class="gauss-btn" data-op="scale">Skalieren</button>
+                <button class="gauss-btn" data-op="scale">Zeile</button>
                 <select id="gauss-scale-row" class="gauss-select"><option>1</option><option>2</option><option>3</option></select>
                 <span>⋅</span>
                 <input id="gauss-scale-val" type="number" value="2" class="w-16 p-1 rounded bg-gray-700 border border-gray-600">
             </div>
             <div class="flex items-center gap-2">
-                 <button class="gauss-btn" data-op="add">Addieren</button>
+                 <button class="gauss-btn" data-op="add">Zeile</button>
                 <select id="gauss-add-to" class="gauss-select"><option>1</option><option selected>2</option><option>3</option></select>
                 <span>+=</span>
                 <input id="gauss-add-val" type="number" value="-2" class="w-16 p-1 rounded bg-gray-700 border border-gray-600">
@@ -546,44 +540,33 @@
     }
 
     function performGaussOp(op) {
-        if (!gaussFeedback) return;
-        gaussFeedback.textContent = '';
         try {
-            let successMessage = '';
             switch(op) {
                 case 'swap':
                     const r1 = parseInt(document.getElementById('gauss-swap1').value) - 1;
                     const r2 = parseInt(document.getElementById('gauss-swap2').value) - 1;
-                    if (r1 === r2) throw new Error("Wähle zwei verschiedene Zeilen zum Tauschen.");
                     [gaussMatrix[r1], gaussMatrix[r2]] = [gaussMatrix[r2], gaussMatrix[r1]];
-                    successMessage = `Zeile ${r1 + 1} und ${r2 + 1} getauscht.`;
                     break;
                 case 'scale':
                      const r_scale = parseInt(document.getElementById('gauss-scale-row').value) - 1;
                      const val_scale = parseFloat(document.getElementById('gauss-scale-val').value);
-                     if (isNaN(val_scale)) throw new Error("Ungültiger Skalierungsfaktor.");
-                     if (val_scale === 0) throw new Error("Skalierung mit 0 ist nicht erlaubt.");
+                     if (val_scale === 0) throw new Error("Skalierung mit 0 nicht erlaubt.");
                      gaussMatrix[r_scale] = gaussMatrix[r_scale].map(x => x * val_scale);
-                     successMessage = `Zeile ${r_scale + 1} mit ${val_scale} multipliziert.`;
                     break;
                 case 'add':
                     const r_to = parseInt(document.getElementById('gauss-add-to').value) - 1;
                     const r_from = parseInt(document.getElementById('gauss-add-from').value) - 1;
                     const val_add = parseFloat(document.getElementById('gauss-add-val').value);
-                    if (isNaN(val_add)) throw new Error("Ungültiger Faktor.");
                     if (r_to === r_from) throw new Error("Zeilen müssen verschieden sein.");
                     for (let i=0; i<4; i++) {
                         gaussMatrix[r_to][i] += val_add * gaussMatrix[r_from][i];
                     }
-                    successMessage = `Das ${val_add}-fache von Zeile ${r_from + 1} zu Zeile ${r_to + 1} addiert.`;
                     break;
             }
-            gaussFeedback.textContent = successMessage;
-            gaussFeedback.className = 'text-center mt-4 text-green-400 h-5';
+            gaussFeedback.textContent = "";
             renderGaussMatrix();
         } catch(e) {
-            gaussFeedback.textContent = `Fehler: ${e.message}`;
-            gaussFeedback.className = 'text-center mt-4 text-red-400 h-5';
+            gaussFeedback.textContent = e.message;
         }
     }
     setupGauss();
