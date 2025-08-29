@@ -38,7 +38,7 @@
         const binaerInput = document.getElementById('binaer-input');
         const hexInput = document.getElementById('hex-input');
 
-        function updateFromDezimal() {
+        if(dezimalInput) dezimalInput.addEventListener('input', () => {
             const wert = parseInt(dezimalInput.value, 10);
             if (!isNaN(wert)) {
                 binaerInput.value = wert.toString(2);
@@ -47,8 +47,8 @@
                 binaerInput.value = '';
                 hexInput.value = '';
             }
-        }
-        function updateFromBinaer() {
+        });
+        if(binaerInput) binaerInput.addEventListener('input', () => {
             const wert = parseInt(binaerInput.value, 2);
             if (!isNaN(wert) && binaerInput.value.trim() !== '') {
                 dezimalInput.value = wert;
@@ -57,8 +57,8 @@
                 dezimalInput.value = '';
                 hexInput.value = '';
             }
-        }
-        function updateFromHex() {
+        });
+        if(hexInput) hexInput.addEventListener('input', () => {
             const wert = parseInt(hexInput.value, 16);
             if (!isNaN(wert) && hexInput.value.trim() !== '') {
                 dezimalInput.value = wert;
@@ -67,11 +67,7 @@
                 dezimalInput.value = '';
                 binaerInput.value = '';
             }
-        }
-
-        if(dezimalInput) dezimalInput.addEventListener('input', updateFromDezimal);
-        if(binaerInput) binaerInput.addEventListener('input', updateFromBinaer);
-        if(hexInput) hexInput.addEventListener('input', updateFromHex);
+        });
 
         // --- Token-Quiz ---
         const tokenSpans = document.querySelectorAll('#token-quiz-code span');
@@ -83,13 +79,57 @@
                     const type = span.dataset.tokenType;
                     const desc = span.dataset.tokenDesc;
                     tokenResultDiv.innerHTML = `<strong class="text-cyan-400">${type}:</strong> ${desc}`;
-                    
                     tokenSpans.forEach(s => s.classList.remove('bg-cyan-700', 'rounded', 'p-1'));
                     span.classList.add('bg-cyan-700', 'rounded', 'p-1');
                 });
             });
         }
         
+        // --- Zweierkomplement-Rechner ---
+        const twosComplementInput = document.getElementById('twos-complement-input');
+        const twosComplementResult = document.getElementById('twos-complement-result');
+        if (twosComplementInput) {
+            twosComplementInput.addEventListener('input', () => {
+                const num = parseInt(twosComplementInput.value);
+                if (isNaN(num) || num < -128 || num > 127) {
+                    twosComplementResult.textContent = 'Bitte eine Zahl zwischen -128 und 127 eingeben.';
+                    return;
+                }
+                
+                let result = '';
+                if (num >= 0) {
+                    const bin = num.toString(2).padStart(8, '0');
+                    result = `Positive Zahl: Direkte Binärdarstellung<br><b>${bin}</b>`;
+                } else {
+                    const posVal = -num;
+                    const posBin = posVal.toString(2).padStart(8, '0');
+                    result += `1. Positive Zahl (${posVal}) binär: ${posBin}<br>`;
+                    
+                    const inverted = posBin.split('').map(bit => bit === '1' ? '0' : '1').join('');
+                    result += `2. Alle Bits invertieren (Einerkomplement): ${inverted}<br>`;
+                    
+                    const twos = (parseInt(inverted, 2) + 1).toString(2).padStart(8, '0');
+                    result += `3. 1 addieren:<br><b>${twos}</b>`;
+                }
+                twosComplementResult.innerHTML = result;
+            });
+        }
+
+        // --- Expression Visualizer ---
+        const expressionInput = document.getElementById('expression-input');
+        const expressionResult = document.getElementById('expression-result');
+        if (expressionInput) {
+            expressionInput.addEventListener('input', () => {
+                const expr = expressionInput.value;
+                // Simple logic for visualization based on precedence
+                let result = expr.replace(/([a-zA-Z0-9]+)\s*([\*\/])\s*([a-zA-Z0-9]+)/g, '($1 $2 $3)');
+                result = result.replace(/([a-zA-Z0-9\(\)\s\*\/\"]+)\s*([\+\-])\s*([a-zA-Z0-9\(\)\s\*\/\"]+)/g, '($1 $2 $3)');
+                 result = result.replace(/\s*(=)\s*/g, ' $1 ');
+
+                expressionResult.textContent = result;
+            });
+        }
+
         // --- Ein-/Ausgabe Beispiel ---
         const runCodeBtn = document.getElementById('run-code-btn');
         const userInputName = document.getElementById('user-input-name');

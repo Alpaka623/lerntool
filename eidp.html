@@ -24,12 +24,14 @@
             <button data-eidp-target="eidp-zahlensysteme" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Datendarstellung & Zahlensysteme</button>
             <button data-eidp-target="eidp-sprachen" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Programme & Sprachen</button>
             <button data-eidp-target="eidp-syntax" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Java-Syntax & Token</button>
+            <button data-eidp-target="eidp-typen" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Datentypen & Operatoren</button>
+            <button data-eidp-target="eidp-methoden" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Ausdrücke & Methoden</button>
             <button data-eidp-target="eidp-variablen" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Variablen & Ein-/Ausgabe</button>
         </nav>
 
         <main>
             <section id="eidp-grundlagen" class="eidp-content-section active">
-                <div class="card p-8 rounded-2xl shadow-2xl space-y-6">
+                 <div class="card p-8 rounded-2xl shadow-2xl space-y-6">
                     <div>
                         <h2 class="text-3xl font-bold text-cyan-400 mb-4">Was ist Informatik? 🧠</h2>
                         <p class="text-gray-300 leading-relaxed">
@@ -69,7 +71,7 @@
                     <div class="card p-8 rounded-2xl shadow-2xl">
                         <h2 class="text-3xl font-bold text-cyan-400 mb-4">Zahlensysteme im Detail 🧮</h2>
                         <p class="mb-4 text-gray-300">Alle Zahlensysteme basieren auf dem <strong>Stellenwertprinzip</strong>: Der Wert einer Ziffer hängt von ihrer Position ab. Der Wert einer Zahl ergibt sich aus der Summe der Ziffern, multipliziert mit dem jeweiligen Stellenwert (einer Potenz der Basis).</p>
-
+                        
                         <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50 space-y-6">
                             <div>
                                 <h3 class="text-xl font-semibold text-cyan-300 mb-2">Umrechnung → ins Dezimalsystem</h3>
@@ -213,29 +215,90 @@
                 </div>
             </section>
 
+            <section id="eidp-typen" class="eidp-content-section">
+                <div class="space-y-8">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Primitive Datentypen in Java</h2>
+                        <p class="mb-4 text-gray-300">Java unterscheidet zwischen <strong>primitiven Datentypen</strong> und <strong>Referenzdatentypen</strong>. Primitive Typen speichern den Wert direkt in der Variable. Ihre Größe und ihr Wertebereich sind plattformunabhängig fest definiert.</p>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead>
+                                    <tr class="text-gray-300"><th class="p-2">Typ</th><th class="p-2">Inhalt</th><th class="p-2">Größe</th><th class="p-2">Wertebereich</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-t border-gray-700"><td class="p-2 font-mono text-cyan-400">boolean</td><td>Wahrheitswert</td><td>~1 Byte</td><td>`true`, `false`</td></tr>
+                                    <tr class="border-t border-gray-700"><td class="p-2 font-mono text-cyan-400">char</td><td>Unicode-Zeichen</td><td>2 Bytes</td><td>`\u0000` bis `\uffff` (0 bis 65.535)</td></tr>
+                                    <tr class="border-t border-gray-700"><td class="p-2 font-mono text-cyan-400">byte</td><td>Ganze Zahl</td><td>1 Byte</td><td>-128 bis 127</td></tr>
+                                    <tr class="border-t border-gray-700"><td class="p-2 font-mono text-cyan-400">short</td><td>Ganze Zahl</td><td>2 Bytes</td><td>-32.768 bis 32.767</td></tr>
+                                    <tr class="border-t border-gray-700"><td class="p-2 font-mono text-cyan-400">int</td><td>Ganze Zahl</td><td>4 Bytes</td><td>-2.147.483.648 bis 2.147.483.647</td></tr>
+                                    <tr class="border-t border-gray-700"><td class="p-2 font-mono text-cyan-400">long</td><td>Ganze Zahl</td><td>8 Bytes</td><td>-9.223.372.036.854.775.808 bis ...807</td></tr>
+                                    <tr class="border-t border-gray-700"><td class="p-2 font-mono text-cyan-400">float</td><td>Gleitkommazahl</td><td>4 Bytes</td><td>ca. 7 signifikante Dezimalstellen</td></tr>
+                                    <tr class="border-t border-gray-700"><td class="p-2 font-mono text-cyan-400">double</td><td>Gleitkommazahl</td><td>8 Bytes</td><td>ca. 15 signifikante Dezimalstellen</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Das Zweierkomplement 🔄</h2>
+                        <p class="mb-4 text-gray-300">Um negative ganze Zahlen darzustellen, verwendet Java das <strong>Zweierkomplement</strong>. Dabei zeigt das höchstwertige Bit (das "Most Significant Bit") das Vorzeichen an (1 = negativ, 0 = positiv). Der große Vorteil ist, dass die Subtraktion auf eine Addition zurückgeführt werden kann, was die Hardware vereinfacht.</p>
+                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-2">Interaktiver Zweierkomplement-Rechner (8-Bit)</h3>
+                            <p class="text-sm text-gray-400 mb-2">Gib eine Zahl zwischen -128 und 127 ein, um die Umwandlung ins Zweierkomplement zu sehen.</p>
+                            <input type="number" id="twos-complement-input" class="w-full px-3 py-2 rounded-md shadow-sm font-mono" placeholder="z.B. -43">
+                            <div id="twos-complement-result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300 font-mono text-sm min-h-[100px]"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="eidp-methoden" class="eidp-content-section">
+                 <div class="space-y-8">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Ausdrücke und Operatoren</h2>
+                        <p class="mb-4 text-gray-300">Ein <strong>Ausdruck</strong> ist eine Verarbeitungsvorschrift, deren Ausführung einen Wert liefert (z.B. `5 * (radius + 2)`). Die Auswertungsreihenfolge wird durch <strong>Priorität</strong> ("Punkt- vor Strichrechnung") und <strong>Assoziativität</strong> (meist von links nach rechts) der Operatoren bestimmt. Klammern können verwendet werden, um die Reihenfolge zu erzwingen.</p>
+                         <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-2">Operator-Priorität Visualisierer</h3>
+                            <p class="text-sm text-gray-400 mb-2">Gib einen Ausdruck ein, um die Auswertungsreihenfolge visualisiert zu sehen.</p>
+                            <input type="text" id="expression-input" class="w-full px-3 py-2 rounded-md shadow-sm font-mono" value="a = b + c * d">
+                            <div id="expression-result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300 font-mono text-center text-lg">a = (b + (c * d))</div>
+                        </div>
+                    </div>
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Methoden: Die Bausteine der Logik</h2>
+                        <p class="mb-4 text-gray-300">Eine <strong>Methode</strong> ist ein benannter Block von Anweisungen, der eine spezifische Aufgabe erledigt. Methoden ermöglichen es, Code zu strukturieren, Wiederholungen zu vermeiden und komplexe Probleme in kleinere, handhabbare Teile zu zerlegen.</p>
+                        <div class="p-4 font-mono bg-gray-900/70 rounded-md text-sm">
+                            <p><span class="text-purple-400">public static</span> <span class="text-cyan-400">int</span> <span class="text-yellow-300">addiere</span>(<span class="text-orange-400">int zahl1</span>, <span class="text-orange-400">int zahl2</span>) {</p>
+                            <p class="pl-4"><span class="text-blue-400">int summe = zahl1 + zahl2;</span></p>
+                            <p class="pl-4"><span class="text-purple-400">return</span> <span class="text-blue-400">summe</span>;</p>
+                            <p>}</p>
+                        </div>
+                        <ul class="list-disc list-inside mt-4 space-y-2 text-gray-300">
+                           <li><span class="text-cyan-400 font-semibold">Rückgabetyp (`int`):</span> Der Datentyp des Wertes, den die Methode zurückgibt. `void` bedeutet, die Methode gibt nichts zurück (eine Prozedur).</li>
+                           <li><span class="text-yellow-300 font-semibold">Methodenname (`addiere`):</span> Ein Bezeichner, über den die Methode aufgerufen wird.</li>
+                           <li><span class="text-orange-400 font-semibold">Parameter (`int zahl1, ...`):</span> Variablen, die Werte von außen entgegennehmen. Die Liste der Parametertypen bildet zusammen mit dem Namen die <strong>Signatur</strong> der Methode.</li>
+                           <li><span class="text-blue-400 font-semibold">Methodenrumpf (`{...}`):</span> Der Block mit den Anweisungen, die ausgeführt werden.</li>
+                           <li><span class="text-purple-400 font-semibold">`return`-Anweisung:</span> Beendet die Methode und gibt einen Wert an den Aufrufer zurück.</li>
+                        </ul>
+                         <p class="mt-4 text-gray-300">Man kann mehrere Methoden mit demselben Namen deklarieren, solange sich ihre Parameterlisten (Anzahl oder Typen der Parameter) unterscheiden. Dies nennt man <strong>Überladen</strong>.</p>
+                    </div>
+                 </div>
+            </section>
+            
             <section id="eidp-variablen" class="eidp-content-section">
                 <div class="card p-8 rounded-2xl shadow-2xl space-y-6">
                     <div>
-                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Variablen, Deklaration & Speicher</h2>
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Variablen & Zuweisungen</h2>
                         <p class="mb-4 text-gray-300">
                             Eine <strong>Variable</strong> ist ein Name für einen Speicherbereich im Computer, in dem ein Wert abgelegt werden kann. Jede Variable in Java hat:
                         </p>
                         <ul class="list-disc list-inside text-gray-300 space-y-2">
-                            <li>Einen <strong>Namen</strong> (Bezeichner), über den sie angesprochen wird.</li>
-                            <li>Einen <strong>Typ</strong>, der festlegt, welche Art von Daten sie speichern kann (z.B. `int` für ganze Zahlen, `String` für Text) und wie viel Speicherplatz sie belegt.</li>
-                            <li>Einen <strong>Wert</strong>, der im Speicher abgelegt ist.</li>
-                            <li>Einen <strong>Speicherort</strong>.</li>
+                            <li>Einen <strong>Namen</strong>, einen <strong>Typ</strong>, einen <strong>Wert</strong> und einen <strong>Speicherort</strong>.</li>
                         </ul>
                         <p class="mt-4 text-gray-300">
-                           Bevor eine Variable genutzt werden kann, muss sie <strong>deklariert</strong> werden. Dabei wird ihr Typ und Name festgelegt. Optional kann sie direkt <strong>initialisiert</strong>, also mit einem Startwert versehen werden.
+                           Bevor eine Variable genutzt werden kann, muss sie <strong>deklariert</strong> (Typ und Name festlegen) und initialisiert (einen Startwert zuweisen) werden.
                         </p>
                         <pre class="code-block my-2"><code>
-// Nur Deklaration: Der Variable 'ergebnis' wird Speicherplatz reserviert.
-// Ihr Wert ist zunächst undefiniert.
-int ergebnis;
-
 // Deklaration und Initialisierung in einem Schritt.
-// Die Variable 'zahl' wird erstellt und bekommt sofort den Wert 10.
 int zahl = 10;
 
 // Eine neue Zuweisung überschreibt den alten Wert.
@@ -245,11 +308,10 @@ zahl = 20;
                     <div>
                         <h2 class="text-3xl font-bold text-cyan-400 mb-4">Elementare Ein- und Ausgabe ⌨️</h2>
                         <p class="mb-4 text-gray-300">
-                            Um mit einem Programm interagieren zu können, benötigen wir Wege, Daten auszugeben und vom Benutzer einzulesen.
+                            Um mit einem Programm zu interagieren, benötigen wir Wege, Daten auszugeben und vom Benutzer einzulesen.
                         </p>
                         <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
                             <h3 class="text-xl font-semibold text-cyan-300 mb-2">Interaktives Beispiel</h3>
-                            <p class="mb-4 text-gray-400">Dieses Programm demonstriert die grundlegende Ein- und Ausgabe auf der Konsole.</p>
                             <div class="grid md:grid-cols-2 gap-6">
                                 <div class="font-mono bg-gray-900/70 p-4 rounded-md text-sm">
                                     <pre><code>
@@ -263,11 +325,9 @@ public class Begruessung {
     Scanner sc = new Scanner(System.in);
 
     // 2. Eine Aufforderung auf der Konsole ausgeben.
-    //    System.out.println() macht einen Zeilenumbruch danach.
     System.out.println("Bitte gib deinen Namen ein:");
 
-    // 3. Die next()-Methode liest die nächste Zeichenkette
-    //    bis zum nächsten Leerzeichen ein und speichert sie.
+    // 3. Die next()-Methode liest die nächste Zeichenkette ein.
     String name = sc.next();
     
     // 4. Den eingelesenen Namen in einer Begrüßung ausgeben.
