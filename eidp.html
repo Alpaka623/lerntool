@@ -16,24 +16,283 @@
         <header class="text-center mb-12 relative">
             <button class="back-to-hub-btn absolute top-0 left-0 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">&larr; Zurück</button>
             <h1 class="text-5xl font-bold text-white">Einführung in die Programmierung</h1>
-            <h1 class="text-4xl mt-1 font-bold text-white">(EidP)</h1>
-            <p class="text-xl text-gray-400 mt-2">Dein interaktiver Lernassistent</p>
+            <p class="text-xl text-gray-400 mt-2">Dein interaktiver Lernassistent für EidP</p>
         </header>
 
         <nav class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12">
-            <button data-eidp-target="eidp-grundlagen" class="eidp-nav-button active font-semibold py-2 px-5 rounded-full">Grundlagen</button>
+            <button data-eidp-target="eidp-grundlagen" class="eidp-nav-button active font-semibold py-2 px-5 rounded-full">Grundlagen & Architektur</button>
+            <button data-eidp-target="eidp-zahlensysteme" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Datendarstellung & Zahlensysteme</button>
+            <button data-eidp-target="eidp-sprachen" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Programme & Sprachen</button>
+            <button data-eidp-target="eidp-syntax" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Java-Syntax & Token</button>
+            <button data-eidp-target="eidp-variablen" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Variablen & Ein-/Ausgabe</button>
         </nav>
 
         <main>
             <section id="eidp-grundlagen" class="eidp-content-section active">
-                <div class="card p-8 rounded-2xl shadow-2xl">
-                    <h2 class="text-3xl font-bold text-cyan-400 mb-6">Inhalt in Kürze verfügbar</h2>
-                    <p class="text-gray-300">Dieser Bereich wird gerade erstellt. Schau bald wieder vorbei!</p>
+                <div class="card p-8 rounded-2xl shadow-2xl space-y-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Was ist Informatik? 🧠</h2>
+                        <p class="text-gray-300 leading-relaxed">
+                            Informatik ist die "Wissenschaft von der systematischen Darstellung, Speicherung, Verarbeitung und Übertragung von Informationen". Der Begriff selbst ist eine Kombination aus <strong>Information</strong> und <strong>Automatik</strong>. Sie ist weit mehr als nur "Programmieren" und gliedert sich in vier Hauptbereiche:
+                        </p>
+                        <ul class="list-disc list-inside mt-4 space-y-2 text-gray-300">
+                            <li><strong>Theoretische Informatik:</strong> Die mathematischen und logischen Grundlagen. Was kann überhaupt berechnet werden? (z.B. Automaten- und Komplexitätstheorie).</li>
+                            <li><strong>Praktische Informatik:</strong> Die Entwicklung von Software und die Lösung konkreter Probleme (z.B. Algorithmen, Datenstrukturen, Betriebssysteme, Compilerbau).</li>
+                            <li><strong>Technische Informatik:</strong> Die Brücke zur Elektrotechnik. Wie baut man einen Computer? (z.B. Rechnerarchitektur, Hardware-Design).</li>
+                            <li><strong>Angewandte Informatik:</strong> Der Einsatz von Informatik in anderen Fachbereichen (z.B. Wirtschafts-, Medien-, Medizininformatik).</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Die Von-Neumann-Architektur 🏛️</h2>
+                        <p class="text-gray-300 leading-relaxed">
+                            Fast jeder Computer, den du heute benutzt, folgt diesem grundlegenden Bauplan von John von Neumann aus dem Jahr 1946. Die Architektur besteht aus vier Hauptkomponenten:
+                        </p>
+                         <ul class="list-disc list-inside mt-4 space-y-2 text-gray-300">
+                            <li><strong>Rechenwerk (ALU):</strong> Führt arithmetische (z.B. +, -) und logische (z.B. AND, OR) Operationen durch.</li>
+                            <li><strong>Steuerwerk:</strong> Interpretiert die Befehle eines Programms und steuert das Rechenwerk und den Speicher. Rechen- und Steuerwerk bilden zusammen den <strong>Prozessor (CPU)</strong>.</li>
+                            <li><strong>Speicherwerk (Hauptspeicher):</strong> Speichert sowohl die Anweisungen (das Programm) als auch die Daten, die verarbeitet werden. Dies ist das <strong>entscheidende Kernprinzip</strong> der Von-Neumann-Architektur!</li>
+                            <li><strong>Ein-/Ausgabewerk (I/O):</strong> Ermöglicht die Kommunikation mit der Außenwelt (z.B. Tastatur, Bildschirm).</li>
+                        </ul>
+                        <p class="mt-4 text-gray-300">Diese Komponenten sind durch ein <strong>Bus-System</strong> verbunden, das Daten und Adressen zwischen ihnen transportiert.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="eidp-zahlensysteme" class="eidp-content-section">
+                <div class="space-y-8">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Bits, Bytes & Datendarstellung</h2>
+                        <p class="mb-4 text-gray-300">Die kleinste Informationseinheit im Computer ist das <strong>Bit</strong>, das zwei Zustände annehmen kann: 0 oder 1. Um komplexere Informationen darzustellen, werden mehrere Bits zu Folgen kombiniert. Mit N Bits kann man \(2^N\) verschiedene Zustände darstellen.</p>
+                        <p class="mb-4 text-gray-300">Die kleinste adressierbare Speichereinheit ist in der Regel ein <strong>Byte</strong>, das aus 8 Bits besteht und somit \(2^8 = 256\) verschiedene Werte annehmen kann.</p>
+                        <p class="mb-4 text-gray-300">Daten sind die reine Repräsentation von Information in Form von Bits. Die <strong>Interpretation</strong> dieser Daten (z.B. als Zahl, Buchstabe oder Pixel) verleiht ihnen erst ihre Bedeutung.</p>
+                    </div>
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Zahlensysteme im Detail 🧮</h2>
+                        <p class="mb-4 text-gray-300">Alle Zahlensysteme basieren auf dem <strong>Stellenwertprinzip</strong>: Der Wert einer Ziffer hängt von ihrer Position ab. Der Wert einer Zahl ergibt sich aus der Summe der Ziffern, multipliziert mit dem jeweiligen Stellenwert (einer Potenz der Basis).</p>
+
+                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50 space-y-6">
+                            <div>
+                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Umrechnung → ins Dezimalsystem</h3>
+                                <p class="text-sm text-gray-400 mb-2">Multipliziere jede Ziffer mit dem Wert ihrer Stelle (Basis hoch Position) und addiere die Ergebnisse.</p>
+                                <p class="mt-2 font-mono text-sm bg-gray-900/70 p-2 rounded-md">
+                                    <b>Binär → Dezimal:</b> \(101011_2\)<br>
+                                    = <b>1</b>·\(2^5\) + <b>0</b>·\(2^4\) + <b>1</b>·\(2^3\) + <b>0</b>·\(2^2\) + <b>1</b>·\(2^1\) + <b>1</b>·\(2^0\)<br>
+                                    = 32 + 0 + 8 + 0 + 2 + 1 = <b>43₁₀</b><br><br>
+                                    <b>Hexadezimal → Dezimal:</b> \(1A7_{16}\) (wobei A=10)<br>
+                                    = <b>1</b>·\(16^2\) + <b>10</b>·\(16^1\) + <b>7</b>·\(16^0\)<br>
+                                    = 256 + 160 + 7 = <b>423₁₀</b>
+                                </p>
+                            </div>
+
+                            <div>
+                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Umrechnung: Dezimal → Binär (Ganze Zahlen)</h3>
+                                <p class="text-sm text-gray-400 mb-2">Dieser Algorithmus nutzt die Division mit Rest.</p>
+                                <ol class="list-decimal list-inside text-gray-300">
+                                    <li>Teile die Dezimalzahl durch 2.</li>
+                                    <li>Notiere den <strong>Rest</strong> (0 oder 1). Dies ist die nächste Ziffer deiner Binärzahl (von rechts nach links).</li>
+                                    <li>Ersetze die Zahl durch das <strong>ganzzahlige Ergebnis</strong> der Division.</li>
+                                    <li>Wiederhole die Schritte, bis das Ergebnis 0 ist.</li>
+                                </ol>
+                                <p class="mt-2 font-mono text-sm bg-gray-900/70 p-2 rounded-md"><b>Beispiel für 43:</b><br>
+                                43 / 2 = 21 Rest <b>1</b><br>
+                                21 / 2 = 10 Rest <b>1</b><br>
+                                10 / 2 = 5  Rest <b>0</b><br>
+                                5  / 2 = 2  Rest <b>1</b><br>
+                                2  / 2 = 1  Rest <b>0</b><br>
+                                1  / 2 = 0  Rest <b>1</b><br>
+                                Ergebnis (von unten nach oben gelesen): <b>101011₂</b></p>
+                            </div>
+
+                            <div>
+                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Umrechnung: Dezimal → Binär (Nachkommastellen)</h3>
+                                <p class="text-sm text-gray-400 mb-2">Hier wird der Nachkommaanteil wiederholt mit 2 multipliziert.</p>
+                                <ol class="list-decimal list-inside text-gray-300">
+                                    <li>Multipliziere den <strong>Nachkommaanteil</strong> mit 2.</li>
+                                    <li>Die <strong>Vorkommastelle</strong> des Ergebnisses (0 oder 1) ist die nächste Ziffer deiner Binärzahl (von links nach rechts).</li>
+                                    <li>Ersetze den Wert durch den <strong>neuen Nachkommaanteil</strong>.</li>
+                                    <li>Wiederhole, bis der Nachkommaanteil 0 ist (oder die gewünschte Genauigkeit erreicht ist).</li>
+                                </ol>
+                                <p class="mt-2 font-mono text-sm bg-gray-900/70 p-2 rounded-md"><b>Beispiel für 0,6875:</b><br>
+                                0.6875 * 2 = <b>1</b>.375<br>
+                                0.375  * 2 = <b>0</b>.75<br>
+                                0.75   * 2 = <b>1</b>.5<br>
+                                0.5    * 2 = <b>1</b>.0<br>
+                                Ergebnis (von oben nach unten gelesen): <b>0,1011₂</b></p>
+                            </div>
+                            
+                            <div class="pt-4 border-t border-gray-600">
+                                <h3 class="text-xl font-semibold text-cyan-300 mb-2">Interaktiver Umrechner</h3>
+                                <p class="text-sm text-gray-400 mb-2">Gib eine Zahl in ein Feld ein, die anderen werden automatisch umgerechnet.</p>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div>
+                                        <label for="dezimal-input" class="block text-sm font-medium text-gray-400">Dezimal (Basis 10)</label>
+                                        <input type="text" id="dezimal-input" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm font-mono">
+                                    </div>
+                                    <div>
+                                        <label for="binaer-input" class="block text-sm font-medium text-gray-400">Binär (Basis 2)</label>
+                                        <input type="text" id="binaer-input" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm font-mono">
+                                    </div>
+                                    <div>
+                                        <label for="hex-input" class="block text-sm font-medium text-gray-400">Hexadezimal (Basis 16)</label>
+                                        <input type="text" id="hex-input" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm font-mono">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="eidp-sprachen" class="eidp-content-section">
+                 <div class="card p-8 rounded-2xl shadow-2xl space-y-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Von der Idee zum Programm 💡</h2>
+                        <p class="mb-4 text-gray-300">Die Erstellung von Software ist ein mehrstufiger Prozess, der Abstraktion erfordert. Man beginnt mit einem Problem aus der realen Welt und übersetzt es schrittweise in eine Form, die ein Computer versteht.</p>
+                        <ol class="list-decimal list-inside space-y-2">
+                            <li><strong>Problem:</strong> Eine umgangssprachliche, oft mehrdeutige Beschreibung.</li>
+                            <li><strong>Anforderungsspezifikation:</strong> Eine präzisere Beschreibung dessen, was das Programm leisten soll.</li>
+                            <li><strong>Modell und Algorithmen:</strong> Eine formale, aber noch nicht vollständig detaillierte Beschreibung der Lösungslogik.</li>
+                            <li><strong>Programmtext (Quellcode):</strong> Die Implementierung des Algorithmus in einer Programmiersprache mit exakter Syntax. Dies ist die Aufgabe des Programmierers.</li>
+                            <li><strong>Maschinenprogramm (Zielprogramm):</strong> Der vom Computer direkt ausführbare Code. Dies ist die Aufgabe von Compiler/Interpreter.</li>
+                        </ol>
+                    </div>
+                     <div>
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Compiler vs. Interpreter</h2>
+                        <p class="mb-4 text-gray-300">Um Quellcode in Maschinencode umzuwandeln, gibt es zwei grundlegende Ansätze:</p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="p-4 bg-gray-800/50 rounded-lg">
+                                <h3 class="text-xl font-bold text-cyan-300 mb-2">Compiler (z.B. für C++)</h3>
+                                <p>Ein Compiler übersetzt das <strong>gesamte</strong> Programm vor der Ausführung in eine ausführbare Datei.
+                                <br><b>+ Vorteil:</b> Sehr schnelle Ausführung.
+                                <br><b>- Nachteil:</b> Das Ergebnis ist plattformabhängig (z.B. nur für Windows x64). Für jede Plattform wird ein eigener Compiler benötigt.</p>
+                            </div>
+                            <div class="p-4 bg-gray-800/50 rounded-lg">
+                                <h3 class="text-xl font-bold text-cyan-300 mb-2">Interpreter (z.B. für Python)</h3>
+                                <p>Ein Interpreter liest den Quellcode Zeile für Zeile und führt die Anweisungen <strong>direkt</strong> aus.
+                                <br><b>+ Vorteil:</b> Plattformunabhängig (benötigt nur den Interpreter für die Zielplattform).
+                                <br><b>- Nachteil:</b> Langsamere Ausführung als kompilierter Code.</p>
+                            </div>
+                        </div>
+                         <p class="mt-4 text-gray-300"><strong>Java's Ansatz:</strong> Java kombiniert beide Welten. Der Java-Compiler (`javac`) erzeugt einen plattformunabhängigen <strong>Bytecode</strong>. Dieser wird von der <strong>Java Virtual Machine (JVM)</strong> ausgeführt (`java`), die den Bytecode interpretiert oder mit einem <strong>Just-in-Time (JIT) Compiler</strong> zur Laufzeit in schnellen, nativen Maschinencode übersetzt. Dies vereint die Plattformunabhängigkeit mit guter Performance.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="eidp-syntax" class="eidp-content-section">
+                <div class="card p-8 rounded-2xl shadow-2xl space-y-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Die Bausteine eines Java-Programms: Token</h2>
+                        <p class="mb-4 text-gray-300">Jedes Programm lässt sich in seine kleinsten sinnvollen Einheiten, die <strong>Tokens</strong>, zerlegen. Whitespace (Leerzeichen, Tabs, Zeilenumbrüche) dient nur der Trennung von Tokens und wird vom Compiler ignoriert.</p>
+                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-2">Die 5 Token-Arten in Java</h3>
+                             <div id="token-quiz-code" class="p-4 bg-gray-900/70 rounded-md font-mono text-lg leading-relaxed cursor-pointer">
+                                <span data-token-type="Schlüsselwort" data-token-desc="Reservierte Wörter mit fester Bedeutung in Java (z.B. class, public, int, if).">public</span> <span data-token-type="Schlüsselwort" data-token-desc="Reservierte Wörter mit fester Bedeutung in Java (z.B. class, public, int, if).">class</span> <span data-token-type="Bezeichner" data-token-desc="Namen für Klassen, Methoden, Variablen etc., die du selbst vergibst (z.B. Rechner, meineVariable).">Rechner</span> <span data-token-type="Separator" data-token-desc="Trennzeichen, die die Struktur des Programms definieren (z.B. { } ( ) ; ,).">{</span>
+                                    <span data-token-type="Schlüsselwort" data-token-desc="Reservierte Wörter mit fester Bedeutung in Java (z.B. class, public, int, if).">int</span> <span data-token-type="Bezeichner" data-token-desc="Namen für Klassen, Methoden, Variablen etc., die du selbst vergibst (z.B. Rechner, meineVariable).">zahl</span> <span data-token-type="Operator" data-token-desc="Symbole, die eine Operation ausführen (z.B. = + - * /).">=</span> <span data-token-type="Literal" data-token-desc="Feste Werte im Quellcode (z.B. 10, 3.14, &quot;Hallo&quot;, true).">10</span><span data-token-type="Separator" data-token-desc="Trennzeichen, die die Struktur des Programms definieren (z.B. { } ( ) ; ,).">;</span>
+                                <span data-token-type="Separator" data-token-desc="Trennzeichen, die die Struktur des Programms definieren (z.B. { } ( ) ; ,).">}</span>
+                            </div>
+                            <div id="token-quiz-result" class="mt-4 p-3 bg-gray-900/70 rounded-md min-h-[6rem]">Klicke auf ein Token, um seine Art und Beschreibung zu sehen.</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Struktur & Konventionen</h2>
+                        <p class="mb-4 text-gray-300">Eine Java-Quellcodedatei (`.java`) besteht typischerweise aus:</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-300">
+                            <li>Einer optionalen `package`-Angabe.</li>
+                            <li>Keiner, einer oder mehreren `import`-Anweisungen.</li>
+                            <li>Einer oder mehreren Klassen- oder Interface-Definitionen. Pro Datei darf es maximal eine `public` Klasse geben.</li>
+                        </ul>
+                        <p class="mt-4 text-gray-300">Jedes ausführbare Java-Programm benötigt eine `main`-Methode als Einstiegspunkt. Sie muss exakt so aussehen (nur der Name `args` kann variieren):</p>
+                        <pre class="code-block my-2"><code>public static void main(String[] args) { ... }</code></pre>
+                        <p class="mt-4 text-gray-300">Zusätzlich zu den festen Regeln der Syntax gibt es wichtige <strong>Konventionen</strong>, die die Lesbarkeit erhöhen:</p>
+                         <ul class="list-disc list-inside space-y-2 text-gray-300">
+                            <li><strong>Klassennamen</strong> beginnen mit einem Großbuchstaben (z.B. `Rechner`).</li>
+                            <li><strong>Variablen- und Methodennamen</strong> beginnen mit einem Kleinbuchstaben (z.B. `meineZahl`, `berechneSumme()`).</li>
+                            <li>Codeblöcke innerhalb von `{...}` werden eingerückt.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="eidp-variablen" class="eidp-content-section">
+                <div class="card p-8 rounded-2xl shadow-2xl space-y-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Variablen, Deklaration & Speicher</h2>
+                        <p class="mb-4 text-gray-300">
+                            Eine <strong>Variable</strong> ist ein Name für einen Speicherbereich im Computer, in dem ein Wert abgelegt werden kann. Jede Variable in Java hat:
+                        </p>
+                        <ul class="list-disc list-inside text-gray-300 space-y-2">
+                            <li>Einen <strong>Namen</strong> (Bezeichner), über den sie angesprochen wird.</li>
+                            <li>Einen <strong>Typ</strong>, der festlegt, welche Art von Daten sie speichern kann (z.B. `int` für ganze Zahlen, `String` für Text) und wie viel Speicherplatz sie belegt.</li>
+                            <li>Einen <strong>Wert</strong>, der im Speicher abgelegt ist.</li>
+                            <li>Einen <strong>Speicherort</strong>.</li>
+                        </ul>
+                        <p class="mt-4 text-gray-300">
+                           Bevor eine Variable genutzt werden kann, muss sie <strong>deklariert</strong> werden. Dabei wird ihr Typ und Name festgelegt. Optional kann sie direkt <strong>initialisiert</strong>, also mit einem Startwert versehen werden.
+                        </p>
+                        <pre class="code-block my-2"><code>
+// Nur Deklaration: Der Variable 'ergebnis' wird Speicherplatz reserviert.
+// Ihr Wert ist zunächst undefiniert.
+int ergebnis;
+
+// Deklaration und Initialisierung in einem Schritt.
+// Die Variable 'zahl' wird erstellt und bekommt sofort den Wert 10.
+int zahl = 10;
+
+// Eine neue Zuweisung überschreibt den alten Wert.
+zahl = 20; 
+                        </code></pre>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Elementare Ein- und Ausgabe ⌨️</h2>
+                        <p class="mb-4 text-gray-300">
+                            Um mit einem Programm interagieren zu können, benötigen wir Wege, Daten auszugeben und vom Benutzer einzulesen.
+                        </p>
+                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-2">Interaktives Beispiel</h3>
+                            <p class="mb-4 text-gray-400">Dieses Programm demonstriert die grundlegende Ein- und Ausgabe auf der Konsole.</p>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="font-mono bg-gray-900/70 p-4 rounded-md text-sm">
+                                    <pre><code>
+// Importiert die Scanner-Klasse, die wir zum Lesen brauchen.
+import java.util.Scanner;
+
+public class Begruessung {
+  public static void main(String[] args) {
+    // 1. Ein Scanner-Objekt erzeugen, das von der
+    //    Standard-Eingabe (System.in) liest.
+    Scanner sc = new Scanner(System.in);
+
+    // 2. Eine Aufforderung auf der Konsole ausgeben.
+    //    System.out.println() macht einen Zeilenumbruch danach.
+    System.out.println("Bitte gib deinen Namen ein:");
+
+    // 3. Die next()-Methode liest die nächste Zeichenkette
+    //    bis zum nächsten Leerzeichen ein und speichert sie.
+    String name = sc.next();
+    
+    // 4. Den eingelesenen Namen in einer Begrüßung ausgeben.
+    System.out.println("Hallo, " + name + "!");
+  }
+}
+                                    </code></pre>
+                                </div>
+                                <div class="flex flex-col">
+                                    <div id="eingabe-konsole" class="bg-black p-4 rounded-t-md font-mono flex-grow text-gray-300 min-h-[200px]">
+                                        <p>&gt; Bitte gib deinen Namen ein:</p>
+                                        <div class="flex">
+                                            <span>&gt; </span>
+                                            <input type="text" id="user-input-name" class="bg-transparent border-none focus:outline-none text-white w-full" placeholder="Tippe hier...">
+                                        </div>
+                                    </div>
+                                    <button id="run-code-btn" class="w-full py-2 bg-cyan-700 text-white rounded-b-md hover:bg-cyan-600 transition-colors">Programm ausführen</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </main>
     </div>
-
 </div>
 <script src="js/eidp.js"></script>
 </body>
