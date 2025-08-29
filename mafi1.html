@@ -27,12 +27,14 @@
             <button data-mafi-target="mafi1-komplexe-zahlen" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Komplexe Zahlen</button>
             <button data-mafi-target="mafi1-vektoren-matrizen" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Vektoren & Matrizen</button>
             <button data-mafi-target="mafi1-vektorraeume" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Vektorräume</button>
+            <button data-mafi-target="mafi1-lgs" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Lineare Gleichungssysteme</button>
+            <button data-mafi-target="mafi1-determinante" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Determinante & Eigenwerte</button>
             <button data-mafi-target="mafi1-induktion" class="mafi-nav-button font-semibold py-2 px-5 rounded-full">Vollständige Induktion</button>
         </nav>
 
         <main>
             <section id="mafi1-aussagenlogik" class="mafi-content-section active">
-                <div class="card p-8 rounded-2xl shadow-2xl">
+                 <div class="card p-8 rounded-2xl shadow-2xl">
                     <h2 class="text-3xl font-bold text-cyan-400 mb-6">Aussagenlogik</h2>
                     <p class="mb-4 text-gray-300">Die Aussagenlogik ist die Grundlage der formalen Logik. Sie beschäftigt sich mit <span class="tooltip-term">Aussagen<span class="tooltip-box">Ein Satz, dem eindeutig ein Wahrheitswert (wahr oder falsch) zugeordnet werden kann. Z.B.: 'Es regnet.' ist eine Aussage. 'Wie geht es dir?' ist keine.</span></span> und wie diese durch <span class="tooltip-term">Junktoren<span class="tooltip-box">Logische Verknüpfungen wie UND (Konjunktion), ODER (Disjunktion) und NICHT (Negation).</span></span> zu neuen, komplexeren Aussagen verknüpft werden. Das wichtigste Werkzeug hierfür sind <span class="tooltip-term">Wahrheitstabellen<span class="tooltip-box">Eine Tabelle, die für alle möglichen Kombinationen von Wahrheitswerten der Teilaussagen den Wahrheitswert der Gesamtaussage angibt.</span></span>.</p>
                     <div class="space-y-2 mb-6 text-gray-300">
@@ -55,10 +57,10 @@
                 </div>
             </section>
             <section id="mafi1-mengenlehre" class="mafi-content-section">
-                <div class="card p-8 rounded-2xl shadow-2xl">
+                 <div class="card p-8 rounded-2xl shadow-2xl">
                     <h2 class="text-3xl font-bold text-cyan-400 mb-6">Mengenlehre</h2>
                     <p class="mb-4 text-gray-300">Die Mengenlehre beschäftigt sich mit der Untersuchung von <span class="tooltip-term">Mengen<span class="tooltip-box">Eine Zusammenfassung von bestimmten, wohlunterschiedenen Objekten unserer Anschauung oder unseres Denkens zu einem Ganzen. Z.B. die Menge aller geraden Zahlen.</span></span>. Die Objekte in einer Menge nennt man <span class="tooltip-term">Elemente<span class="tooltip-box">Die einzelnen Objekte, die zu einer Menge gehören. Z.B. ist die Zahl 4 ein Element der Menge der geraden Zahlen.</span></span>.</p>
-                    <div class="space-y-2 mb-6 text-gray-300">
+                     <div class="space-y-2 mb-6 text-gray-300">
                         <p><strong>Vereinigung (A ∪ B):</strong> Enthält alle Elemente, die in A, in B oder in beiden Mengen enthalten sind.</p>
                         <p><strong>Schnittmenge (A ∩ B):</strong> Enthält nur die Elemente, die sowohl in A als auch in B enthalten sind.</p>
                         <p><strong>Differenz (A \ B):</strong> Enthält alle Elemente, die in A, aber nicht in B enthalten sind.</p>
@@ -83,7 +85,7 @@
                     <div class="card p-8 rounded-2xl shadow-2xl">
                         <h2 class="text-3xl font-bold text-cyan-400 mb-6">Abbildungen (Funktionen)</h2>
                         <p class="mb-4 text-gray-300">Eine <span class="tooltip-term">Abbildung<span class="tooltip-box">Eine Vorschrift f, die jedem Element x aus einer Definitionsmenge A genau ein Element y aus einer Wertemenge B zuordnet. Schreibweise: f: A → B.</span></span> (oder Funktion) ist eine zentrale Idee der Mathematik. Sie beschreibt eine Beziehung zwischen zwei Mengen, der <span class="tooltip-term">Definitionsmenge<span class="tooltip-box">Die Menge A der erlaubten 'Eingabewerte' für eine Abbildung f.</span></span> und der <span class="tooltip-term">Wertemenge<span class="tooltip-box">Die Menge B, die alle möglichen 'Ausgabewerte' der Abbildung f enthält.</span></span>.</p>
-                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                         <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
                             <h3 class="text-xl font-semibold mb-2 text-cyan-300">Eigenschaften von Abbildungen</h3>
                             <p class="mb-4 text-gray-400 text-sm">Wähle einen Eigenschaftstyp aus, um eine beispielhafte Abbildung und deren Definition zu sehen.</p>
                             <div class="flex flex-wrap justify-center gap-2 mb-4">
@@ -98,13 +100,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card p-8 rounded-2xl shadow-2xl">
+                     <div class="card p-8 rounded-2xl shadow-2xl">
                         <h2 class="text-3xl font-bold text-cyan-400 mb-6">Bild, Urbild und Umkehrabbildung</h2>
                         <p class="mb-4 text-gray-300">Diese Begriffe beschreiben, wie Abbildungen auf Teilmengen wirken.</p>
                         <ul class="list-disc list-inside space-y-3 text-gray-300">
                             <li><strong>Bild:</strong> Das <span class="tooltip-term">Bild<span class="tooltip-box">Die Menge aller tatsächlich erreichten Werte in der Wertemenge B. Schreibweise: Bild(f) oder f(A).</span></span> einer Abbildung f: A → B ist die Menge aller Elemente in B, die tatsächlich als Funktionswert auftreten. Es ist immer eine Teilmenge der Wertemenge.</li>
                             <li><strong>Urbild:</strong> Das <span class="tooltip-term">Urbild<span class="tooltip-box">Für eine Teilmenge Y ⊆ B ist das Urbild f⁻¹(Y) die Menge aller Elemente in A, deren Funktionswert in Y liegt.</span></span> einer Teilmenge Y der Wertemenge ist die Menge aller Elemente in der Definitionsmenge A, die auf ein Element in Y abgebildet werden.</li>
-                            <li><strong>Umkehrabbildung:</strong> Eine <span class="tooltip-term">Umkehrabbildung<span class="tooltip-box">Eine Abbildung f⁻¹: B → A, die die ursprüngliche Abbildung 'rückgängig' macht. Sie existiert nur, wenn die Abbildung bijektiv ist.</span></span> (oder inverse Funktion) existiert nur für <strong>bijektive</strong> Abbildungen. Sie kehrt die Zuordnung um, d.h. wenn f(x) = y, dann ist f⁻¹(y) = x.</li>
+                             <li><strong>Umkehrabbildung:</strong> Eine <span class="tooltip-term">Umkehrabbildung<span class="tooltip-box">Eine Abbildung f⁻¹: B → A, die die ursprüngliche Abbildung 'rückgängig' macht. Sie existiert nur, wenn die Abbildung bijektiv ist.</span></span> (oder inverse Funktion) existiert nur für <strong>bijektive</strong> Abbildungen. Sie kehrt die Zuordnung um, d.h. wenn f(x) = y, dann ist f⁻¹(y) = x.</li>
                         </ul>
                     </div>
                 </div>
@@ -129,7 +131,7 @@
                             <div>
                                 <h3 class="text-xl font-semibold mb-2 text-cyan-300">Körper</h3>
                                 <p class="mb-2 text-gray-400">Ein <span class="tooltip-term">Körper<span class="tooltip-box">Eine Menge K mit zwei Verknüpfungen (+, ·), sodass (K, +) und (K\{0}, ·) abelsche Gruppen sind und das Distributivgesetz gilt.</span></span> ist eine noch reichhaltigere Struktur mit zwei Verknüpfungen (typischerweise Addition und Multiplikation). Bekannte Beispiele sind die rationalen Zahlen (ℚ) und die reellen Zahlen (ℝ).</p>
-                                <ul class="list-decimal list-inside text-sm text-gray-300 space-y-1">
+                                 <ul class="list-decimal list-inside text-sm text-gray-300 space-y-1">
                                     <li>(K, +) ist eine abelsche Gruppe (mit neutralem Element 0).</li>
                                     <li>(K \ {0}, ·) ist eine abelsche Gruppe (mit neutralem Element 1).</li>
                                     <li><b>Distributivgesetz:</b> a · (b + c) = a · b + a · c.</li>
@@ -140,7 +142,7 @@
                     <div class="card p-8 rounded-2xl shadow-2xl">
                         <h2 class="text-3xl font-bold text-cyan-400 mb-6">Modulare Arithmetik</h2>
                         <p class="mb-4 text-gray-300">Die modulare Arithmetik, auch "Rechnen mit Resten" genannt, betrachtet die Reste bei der Division durch eine feste Zahl, den <span class="tooltip-term">Modul<span class="tooltip-box">Die Zahl n, durch die geteilt wird. Das Ergebnis von 'a mod n' ist der Rest bei der Division von a durch n.</span></span>. Zwei Zahlen heißen <span class="tooltip-term">kongruent<span class="tooltip-box">Zwei Zahlen a und b sind kongruent modulo n, wenn sie bei Division durch n den gleichen Rest lassen. Schreibweise: a ≡ b (mod n).</span></span> modulo n, wenn sie bei Division durch n denselben Rest lassen. Z.B. ist 17 ≡ 2 (mod 5), da beide den Rest 2 lassen.</p>
-                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                         <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
                             <h3 class="text-xl font-semibold mb-2 text-cyan-300">Modulo-Rechner</h3>
                             <div class="flex items-center gap-4 flex-wrap">
                                 <input type="number" id="mod-a" value="17" class="w-24 px-3 py-2 rounded-md shadow-sm">
@@ -165,13 +167,13 @@
                         <h2 class="text-3xl font-bold text-cyan-400 mb-6">Komplexe Zahlen (ℂ)</h2>
                         <p class="mb-4 text-gray-300">Die reellen Zahlen werden erweitert, um Lösungen für Gleichungen wie \(x^2 = -1\) zu ermöglichen. Man führt die <span class="tooltip-term">imaginäre Einheit<span class="tooltip-box">Die Zahl i, definiert durch die Eigenschaft i² = -1.</span></span> \(i\) ein. Eine komplexe Zahl z hat die Form \(z = a + bi\), wobei \(a\) der <span class="tooltip-term">Realteil<span class="tooltip-box">Der reelle Anteil 'a' einer komplexen Zahl z = a + bi.</span></span> und \(b\) der <span class="tooltip-term">Imaginärteil<span class="tooltip-box">Der reelle Faktor 'b' vor der imaginären Einheit i in einer komplexen Zahl z = a + bi.</span></span> ist.</p>
                         <ul class="list-disc list-inside space-y-3 text-gray-300">
-                            <li><strong>Komplexe Konjugation:</strong> Das Konjugat von \(z = a + bi\) ist \(\bar{z} = a - bi\). Nützlich für die Division.</li>
-                            <li><strong>Absolutbetrag:</strong> Der Betrag ist der Abstand vom Ursprung in der komplexen Ebene: \(|z| = \sqrt{a^2 + b^2}\). Es gilt \(z \cdot \bar{z} = |z|^2\).</li>
-                            <li><strong>Eulersche Formel:</strong> Verbindet die komplexe Exponentialfunktion mit der Trigonometrie: \(e^{ix} = \cos(x) + i\sin(x)\).</li>
+                             <li><strong>Komplexe Konjugation:</strong> Das Konjugat von \(z = a + bi\) ist \(\bar{z} = a - bi\). Nützlich für die Division.</li>
+                             <li><strong>Absolutbetrag:</strong> Der Betrag ist der Abstand vom Ursprung in der komplexen Ebene: \(|z| = \sqrt{a^2 + b^2}\). Es gilt \(z \cdot \bar{z} = |z|^2\).</li>
+                             <li><strong>Eulersche Formel:</strong> Verbindet die komplexe Exponentialfunktion mit der Trigonometrie: \(e^{ix} = \cos(x) + i\sin(x)\).</li>
                         </ul>
-                        <div class="p-4 mt-6 border border-gray-700 rounded-lg bg-gray-800/50">
+                         <div class="p-4 mt-6 border border-gray-700 rounded-lg bg-gray-800/50">
                             <h3 class="text-xl font-semibold mb-2 text-cyan-300">Komplexe-Zahlen-Rechner</h3>
-                            <div class="flex items-center gap-2 flex-wrap">
+                             <div class="flex items-center gap-2 flex-wrap">
                                 <span>(</span><input type="number" id="comp-a1" value="3" class="w-16 px-2 py-1 rounded"><span>+</span><input type="number" id="comp-b1" value="2" class="w-16 px-2 py-1 rounded"><span>i)</span>
                                 <select id="comp-op" class="px-3 py-2 rounded-md shadow-sm">
                                     <option value="+">+</option>
@@ -188,23 +190,23 @@
                 </div>
             </section>
             <section id="mafi1-vektoren-matrizen" class="mafi-content-section">
-                <div class="space-y-8">
+                 <div class="space-y-8">
                     <div class="card p-8 rounded-2xl shadow-2xl">
                         <h2 class="text-3xl font-bold text-cyan-400 mb-6">Vektoren</h2>
                         <p class="mb-4 text-gray-300">Ein <span class="tooltip-term">Vektor<span class="tooltip-box">Ein Objekt, das durch einen Betrag und eine Richtung definiert ist. In der Informatik oft als geordnete Liste von Zahlen (Spaltenvektor) dargestellt.</span></span> kann als Punkt oder als Pfeil im Raum interpretiert werden. Vektoren können addiert und mit Skalaren multipliziert werden.</p>
                         <div class="p-4 mt-6 border border-gray-700 rounded-lg bg-gray-800/50">
                             <h3 class="text-xl font-semibold mb-2 text-cyan-300">Winkel zwischen Vektoren</h3>
                             <p class="mb-4 text-gray-400">Der Winkel \(\alpha\) zwischen zwei Vektoren v und w lässt sich über das Skalarprodukt berechnen: \(\alpha = \arccos\left(\frac{\langle v, w \rangle}{||v|| \cdot ||w||}\right)\)</p>
-                            <div class="flex items-center gap-4 flex-wrap">
+                             <div class="flex items-center gap-4 flex-wrap">
                                 <span>v = (</span><input type="number" id="vec-v1" value="2" class="w-16 px-2 py-1 rounded"><span>,</span><input type="number" id="vec-v2" value="1" class="w-16 px-2 py-1 rounded"><span>)</span>
                                 <span class="ml-4">w = (</span><input type="number" id="vec-w1" value="-2" class="w-16 px-2 py-1 rounded"><span>,</span><input type="number" id="vec-w2" value="1" class="w-16 px-2 py-1 rounded"><span>)</span>
                             </div>
                             <div id="winkel-result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300 font-mono"></div>
                         </div>
-                        <div class="p-4 mt-6 border border-gray-700 rounded-lg bg-gray-800/50">
-                            <h3 class="text-xl font-semibold mb-2 text-cyan-300">Wichtige Ungleichungen</h3>
+                         <div class="p-4 mt-6 border border-gray-700 rounded-lg bg-gray-800/50">
+                             <h3 class="text-xl font-semibold mb-2 text-cyan-300">Wichtige Ungleichungen</h3>
                             <p><strong>Cauchy-Schwarz-Ungleichung:</strong> Sie setzt das Skalarprodukt in Beziehung zu den Längen der Vektoren: \(|\langle v, w \rangle| \le ||v|| \cdot ||w||\). Gleichheit gilt genau dann, wenn die Vektoren linear abhängig sind (in die gleiche oder entgegengesetzte Richtung zeigen).</p>
-                            <p class="mt-2"><strong>Dreiecks-Ungleichung:</strong> Der direkte Weg ist immer der kürzeste. Für Vektoren bedeutet das: \(||v + w|| \le ||v|| + ||w||\). Die Länge der Summe zweier Vektoren ist höchstens so groß wie die Summe ihrer Einzellängen.</p>
+                             <p class="mt-2"><strong>Dreiecks-Ungleichung:</strong> Der direkte Weg ist immer der kürzeste. Für Vektoren bedeutet das: \(||v + w|| \le ||v|| + ||w||\). Die Länge der Summe zweier Vektoren ist höchstens so groß wie die Summe ihrer Einzellängen.</p>
                         </div>
                     </div>
                     <div class="card p-8 rounded-2xl shadow-2xl">
@@ -212,7 +214,7 @@
                         <p class="mb-4 text-gray-300">Eine <span class="tooltip-term">Matrix<span class="tooltip-box">Ein rechteckiges Schema von Zahlen, angeordnet in Zeilen und Spalten.</span></span> ist eine Anordnung von Zahlen in einem rechteckigen Schema. Die Position eines Elements wird durch Zeilen- und Spaltenindex angegeben (z.B. \(a_{2,3}\) ist in der zweiten Zeile, dritten Spalte).</p>
                         <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
                             <h3 class="text-xl font-semibold mb-2 text-cyan-300">Matrix-Operationen</h3>
-                            <div class="flex flex-wrap justify-center gap-2 mb-4">
+                             <div class="flex flex-wrap justify-center gap-2 mb-4">
                                 <button class="matrix-op-btn nav-button" data-op="add">Addition</button>
                                 <button class="matrix-op-btn nav-button" data-op="multiply">Multiplikation</button>
                                 <button class="matrix-op-btn nav-button" data-op="transpose">Transposition</button>
@@ -228,23 +230,87 @@
                 </div>
             </section>
             <section id="mafi1-vektorraeume" class="mafi-content-section">
-                <div class="card p-8 rounded-2xl shadow-2xl">
-                    <h2 class="text-3xl font-bold text-cyan-400 mb-6">Vektorräume</h2>
-                    <p class="mb-4 text-gray-300">Ein <span class="tooltip-term">Vektorraum<span class="tooltip-box">Eine algebraische Struktur, bestehend aus einer Menge von Vektoren und einem Körper von Skalaren. Vektoren können addiert und mit Skalaren multipliziert werden, wobei bestimmte Axiome gelten.</span></span> ist eine Menge von Vektoren, die mit Skalaren aus einem Körper multipliziert und untereinander addiert werden können, wobei die Operationen bestimmten Regeln (Axiomen) gehorchen.</p>
-                    <ul class="list-disc list-inside space-y-3 text-gray-300">
-                        <li><strong>Linearkombination:</strong> Ein Ausdruck der Form \(\lambda_1v_1 + \lambda_2v_2 + \dots + \lambda_nv_n\).</li>
-                        <li><strong>Lineare Unabhängigkeit:</strong> Eine Menge von Vektoren ist linear unabhängig, wenn sich der Nullvektor nur trivial (alle Koeffizienten \(\lambda_i=0\)) als Linearkombination darstellen lässt.</li>
-                        <li><strong>Erzeugendensystem:</strong> Eine Menge von Vektoren, aus der sich jeder Vektor des Vektorraums als Linearkombination erzeugen lässt.</li>
-                        <li><strong>Basis:</strong> Ein linear unabhängiges Erzeugendensystem. Die Anzahl der Vektoren in einer Basis wird <span class="tooltip-term">Dimension<span class="tooltip-box">Die Anzahl der Vektoren in einer Basis eines Vektorraums. Sie ist für einen gegebenen Vektorraum eindeutig.</span></span> genannt.</li>
-                        <li><strong>Lineare Abbildung:</strong> Eine Abbildung \(\varphi: V \to W\) zwischen zwei Vektorräumen, die die Struktur erhält, d.h. \(\varphi(\alpha v + \beta w) = \alpha\varphi(v) + \beta\varphi(w)\).</li>
-                    </ul>
+                 <div class="space-y-8">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Vektorräume und Lineare Abbildungen</h2>
+                        <p class="mb-4 text-gray-300">Ein <span class="tooltip-term">Vektorraum<span class="tooltip-box">Eine algebraische Struktur, bestehend aus einer Menge von Vektoren und einem Körper von Skalaren. Vektoren können addiert und mit Skalaren multipliziert werden, wobei bestimmte Axiome gelten.</span></span> ist eine Menge von Vektoren, die mit Skalaren aus einem Körper multipliziert und untereinander addiert werden können, wobei die Operationen bestimmten Regeln (Axiomen) gehorchen.</p>
+                        <ul class="list-disc list-inside space-y-3 text-gray-300">
+                             <li><strong>Linearkombination:</strong> Ein Ausdruck der Form \(\lambda_1v_1 + \lambda_2v_2 + \dots + \lambda_nv_n\).</li>
+                             <li><strong>Lineare Unabhängigkeit:</strong> Eine Menge von Vektoren ist linear unabhängig, wenn sich der Nullvektor nur trivial (alle Koeffizienten \(\lambda_i=0\)) als Linearkombination darstellen lässt.</li>
+                             <li><strong>Erzeugendensystem:</strong> Eine Menge von Vektoren, aus der sich jeder Vektor des Vektorraums als Linearkombination erzeugen lässt.</li>
+                             <li><strong>Basis:</strong> Ein linear unabhängiges Erzeugendensystem. Die Anzahl der Vektoren in einer Basis wird <span class="tooltip-term">Dimension<span class="tooltip-box">Die Anzahl der Vektoren in einer Basis eines Vektorraums. Sie ist für einen gegebenen Vektorraum eindeutig.</span></span> genannt.</li>
+                             <li><strong>Lineare Abbildung:</strong> Eine Abbildung \(\varphi: V \to W\) zwischen zwei Vektorräumen, die die Struktur erhält, d.h. \(\varphi(\alpha v + \beta w) = \alpha\varphi(v) + \beta\varphi(w)\). Jede lineare Abbildung \(F^n \to F^m\) kann durch eine \(m \times n\)-Matrix dargestellt werden.</li>
+                        </ul>
+                    </div>
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Kern, Bild und Dimensionsformel</h2>
+                        <p class="mb-4 text-gray-300">Für eine lineare Abbildung \(\varphi: V \to W\), die durch eine Matrix A dargestellt wird, sind Kern und Bild fundamentale Konzepte.</p>
+                        <ul class="list-disc list-inside space-y-3 text-gray-300">
+                             <li><strong>Kern (Kernel):</strong> Der <span class="tooltip-term">Kern<span class="tooltip-box">Die Menge aller Vektoren v in V, die durch die Abbildung φ auf den Nullvektor in W abgebildet werden. ker(φ) = {v ∈ V | φ(v) = 0}.</span></span> ist die Menge aller Vektoren aus dem Definitionsraum, die auf den Nullvektor abgebildet werden. Er ist die Lösungsmenge des homogenen LGS \(Ax=0\) und immer ein Untervektorraum. Eine Abbildung ist genau dann injektiv, wenn ihr Kern nur den Nullvektor enthält.</li>
+                             <li><strong>Bild (Image):</strong> Das <span class="tooltip-term">Bild<span class="tooltip-box">Die Menge aller Vektoren w in W, die tatsächlich als Ergebnis der Abbildung φ auftreten. im(φ) = {φ(v) | v ∈ V}.</span></span> ist die Menge aller Vektoren im Zielraum, die tatsächlich "getroffen" werden. Das Bild wird von den Spaltenvektoren der Matrix A aufgespannt (sie bilden ein Erzeugendensystem des Bildes). Es ist ebenfalls ein Untervektorraum.</li>
+                             <li><strong>Dimensionsformel (Rang-Null-Satz):</strong> Diese wichtige Formel verknüpft die Dimensionen von Kern und Bild: \( \dim(\text{ker A}) + \dim(\text{im A}) = n \), wobei n die Dimension des Definitionsraums ist (die Anzahl der Spalten von A). Der Rang einer Matrix ist definiert als die Dimension ihres Bildes.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <section id="mafi1-lgs" class="mafi-content-section">
+                <div class="space-y-8">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Lineare Gleichungssysteme (LGS)</h2>
+                        <p class="mb-4 text-gray-300">Ein LGS ist eine Sammlung von linearen Gleichungen, die alle gleichzeitig erfüllt sein müssen. Es kann in der Form \(A \cdot x = b\) geschrieben werden, wobei A die Koeffizientenmatrix, x der Vektor der Unbekannten und b der Ergebnisvektor ist.</p>
+                         <p class="mb-4 text-gray-300">
+                            Ein <strong>homogenes LGS</strong> hat die Form \(A \cdot x = 0\). Die Lösungsmenge ist immer ein <span class="tooltip-term">Untervektorraum<span class="tooltip-box">Eine Teilmenge eines Vektorraums, die selbst wieder ein Vektorraum ist (enthält den Nullvektor, abgeschlossen unter Addition und Skalarmultiplikation).</span></span>. Stell dir alle Vektoren vor, die durch die Matrix A auf den Nullpunkt abgebildet werden. Diese Menge bildet eine Gerade oder Ebene (oder einen höherdimensionalen Raum), die durch den Ursprung geht.
+                        </p>
+                        <p class="mb-4 text-gray-300">
+                             Ein <strong>inhomogenes LGS</strong> hat die Form \(A \cdot x = b\) mit \(b \neq 0\). Die Lösungsmenge ist entweder leer (keine Lösung) oder eine <span class="tooltip-term">affine Hyperebene<span class="tooltip-box">Ein verschobener Untervektorraum. Man erhält ihn, indem man zu jedem Vektor des Lösungsraums des homogenen Systems eine spezielle Lösung des inhomogenen Systems addiert.</span></span>. Das bedeutet, die Lösungsmenge ist eine Gerade oder Ebene, die parallel zum Lösungsraum des zugehörigen homogenen Systems verläuft, aber nicht durch den Ursprung geht.
+                        </p>
+                    </div>
+                     <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Gauß-Eliminationsverfahren</h2>
+                        <p class="mb-4 text-gray-300">Das Gauß-Verfahren ist der Standardalgorithmus zur Lösung von LGS. Durch <span class="tooltip-term">elementare Zeilenoperationen<span class="tooltip-box">Drei erlaubte Umformungen: 1. Vertauschen zweier Zeilen, 2. Multiplikation einer Zeile mit einem Skalar ungleich Null, 3. Addition des Vielfachen einer Zeile zu einer anderen.</span></span>, welche die Lösungsmenge nicht verändern, wird die Matrix auf <span class="tooltip-term">Zeilenstufenform<span class="tooltip-box">Eine Form, bei der in jeder Zeile das erste von Null verschiedene Element weiter rechts steht als in der Zeile darüber. Alle Nullzeilen stehen unten.</span></span> gebracht. Aus dieser kann die Lösung dann einfach abgelesen oder durch Rückwärtseinsetzen bestimmt werden.</p>
+                         <div class="p-4 mt-6 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold mb-2 text-cyan-300">Interaktiver Gauß-Eliminierer (3x3)</h3>
+                            <div id="gauss-matrix" class="grid grid-cols-4 gap-2 items-center justify-center mx-auto max-w-sm"></div>
+                            <div id="gauss-controls" class="mt-4 flex flex-wrap justify-center gap-4">
+                                </div>
+                             <p id="gauss-feedback" class="text-center mt-4 text-amber-400 h-5"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+             <section id="mafi1-determinante" class="mafi-content-section">
+                <div class="space-y-8">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Determinante</h2>
+                        <p class="mb-4 text-gray-300">Die <span class="tooltip-term">Determinante<span class="tooltip-box">Eine spezielle Zahl, die einer quadratischen Matrix zugeordnet wird und wichtige Eigenschaften der Matrix und der zugehörigen linearen Abbildung beschreibt.</span></span>, geschrieben als \(det(A)\) oder \(|A|\), ist eine wichtige Kenngröße für quadratische Matrizen. Geometrisch beschreibt ihr Betrag, wie sich das Volumen unter der zugehörigen linearen Abbildung verändert. Für eine 2x2-Matrix \(A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}\) ist die Determinante \(det(A) = ad - bc\).</p>
+                        <p class="mb-4 text-gray-300">Eine der wichtigsten Eigenschaften ist: Eine Matrix ist genau dann <span class="tooltip-term">invertierbar<span class="tooltip-box">Eine Matrix A ist invertierbar, wenn eine Matrix A⁻¹ existiert, sodass A · A⁻¹ = I (Einheitsmatrix). Dies ist nur für quadratische Matrizen möglich.</span></span>, wenn ihre Determinante ungleich Null ist.</p>
+                         <div class="p-4 mt-6 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold mb-2 text-cyan-300">2x2-Determinanten-Rechner</h3>
+                            <div class="flex items-center justify-center gap-4 flex-wrap">
+                                <div class="matrix-container"><div class="grid grid-cols-2 gap-1" id="det-matrix-inputs"></div></div>
+                            </div>
+                            <div id="det-result" class="mt-4 text-center p-2 bg-gray-900/70 rounded-md text-lg"></div>
+                        </div>
+                    </div>
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-6">Eigenwerte & Eigenvektoren</h2>
+                         <p class="mb-4 text-gray-300">Ein <span class="tooltip-term">Eigenvektor<span class="tooltip-box">Ein Vektor v ≠ 0, dessen Richtung durch die Anwendung der Matrix A nicht verändert wird, sondern nur gestreckt wird. Es gilt Av = λv.</span></span> einer Matrix A ist ein Vektor, dessen Richtung durch die lineare Abbildung \(v \mapsto Av\) nicht verändert wird. Er wird lediglich um einen Faktor, den <span class="tooltip-term">Eigenwert<span class="tooltip-box">Der Skalierungsfaktor λ, um den ein Eigenvektor v bei der Abbildung mit der Matrix A gestreckt wird.</span></span> \(\lambda\), gestreckt.</p>
+                         <p class="mb-4 text-gray-300">Man findet die Eigenwerte, indem man die Nullstellen des <strong>charakteristischen Polynoms</strong> \(f_A(\lambda) = det(A - \lambda I)\) berechnet, wobei I die Einheitsmatrix ist. Diese Gleichung fragt im Grunde: "Für welche Streckungsfaktoren λ wird die transformierte Matrix \(A - \lambda I\) singulär (d.h., ihre Determinante ist Null)?". Eine singuläre Matrix bildet mindestens einen Vektor (den Eigenvektor) auf den Nullvektor ab, was genau der Bedingung \( (A - \lambda I)v = 0 \), also \(Av = \lambda v\), entspricht.</p>
+                         <div class="p-4 mt-6 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold mb-2 text-cyan-300">2x2-Eigenwert-Rechner</h3>
+                            <div class="flex items-center justify-center gap-4 flex-wrap">
+                                 <div class="matrix-container"><div class="grid grid-cols-2 gap-1" id="eigen-matrix-inputs"></div></div>
+                            </div>
+                            <div id="eigen-result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300 font-mono"></div>
+                        </div>
+                    </div>
                 </div>
             </section>
             <section id="mafi1-induktion" class="mafi-content-section">
                 <div class="card p-8 rounded-2xl shadow-2xl">
                     <h2 class="text-3xl font-bold text-cyan-400 mb-6">Vollständige Induktion</h2>
                     <p class="mb-4 text-gray-300">Die vollständige Induktion ist eine fundamentale Beweismethode in der Mathematik, um Aussagen für alle natürlichen Zahlen (oder eine Teilmenge davon, die bei einem Startwert beginnt) zu beweisen. Sie funktioniert wie ein Dominoeffekt:</p>
-                    <ol class="list-decimal list-inside space-y-2 text-gray-300">
+                     <ol class="list-decimal list-inside space-y-2 text-gray-300">
                         <li><b>Induktionsanfang (IA):</b> Man zeigt, dass die Aussage für die erste Zahl (meist n=1 oder n=0) gilt. Damit stößt man den ersten Dominostein an.</li>
                         <li><b>Induktionsvoraussetzung (IV):</b> Man nimmt an, dass die Aussage für ein beliebiges, aber festes n gilt. Man geht also davon aus, dass ein beliebiger Dominostein in der Reihe fällt.</li>
                         <li><b>Induktionsschritt (IS):</b> Man zeigt, dass *wenn* die Aussage für n gilt (IV), sie auch für den Nachfolger n+1 gelten muss. Man beweist also, dass jeder fallende Stein auch seinen Nachfolger umstößt.</li>
@@ -257,12 +323,12 @@
                             <p><b>IA (n=1):</b> Linke Seite: \( \sum_{k=1}^{1} k = 1 \). Rechte Seite: \( \frac{1(1+1)}{2} = 1 \). Die Aussage stimmt für n=1.</p>
                             <p><b>IV:</b> Wir nehmen an, es gilt \( \sum_{k=1}^{n} k = \frac{n(n+1)}{2} \) für ein festes \( n \in \mathbb{N} \).</p>
                             <p><b>IS (n → n+1):</b> Wir wollen zeigen: \( \sum_{k=1}^{n+1} k = \frac{(n+1)((n+1)+1)}{2} = \frac{(n+1)(n+2)}{2} \).
-                                <br>
-                                Wir starten mit der linken Seite der zu zeigenden Behauptung und formen sie um:
-                                <br>
-                                \( \sum_{k=1}^{n+1} k = (\sum_{k=1}^{n} k) + (n+1) \overset{IV}{=} \frac{n(n+1)}{2} + (n+1) = \frac{n(n+1) + 2(n+1)}{2} = \frac{(n+1)(n+2)}{2} \).
-                                <br>
-                                Dies ist genau die rechte Seite der Behauptung. Damit ist der Beweis abgeschlossen (q.e.d.).</p>
+                            <br>
+                            Wir starten mit der linken Seite der zu zeigenden Behauptung und formen sie um:
+                            <br>
+                            \( \sum_{k=1}^{n+1} k = (\sum_{k=1}^{n} k) + (n+1) \overset{IV}{=} \frac{n(n+1)}{2} + (n+1) = \frac{n(n+1) + 2(n+1)}{2} = \frac{(n+1)(n+2)}{2} \).
+                            <br>
+                            Dies ist genau die rechte Seite der Behauptung. Damit ist der Beweis abgeschlossen (q.e.d.).</p>
                         </div>
                     </div>
                 </div>

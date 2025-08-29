@@ -1,403 +1,422 @@
-        /* General Body and Font Styles */
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #111827; /* Dark blue-gray background */
-            color: #e5e7eb; /* Light gray text */
-            height: 100vh;
-        }
+/* General Body and Font Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #111827; /* Dark blue-gray background */
+    color: #e5e7eb; /* Light gray text */
+    height: 100vh;
+}
 
-        /* --- Navigation Button Styling (for all subjects) --- */
-        .nav-button, .mafi-nav-button, .insi-nav-button, .aud-nav-button {
-            transition: all 0.3s ease;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #9ca3af; /* Medium gray text */
-        }
-        .nav-button:hover, .mafi-nav-button:hover, .insi-nav-button:hover, .aud-nav-button:hover {
-            background-color: rgba(13, 202, 240, 0.1); /* Light cyan on hover */
-            color: #0dcaf0;
-            border-color: rgba(13, 202, 240, 0.3);
-        }
-        .nav-button.active, .mafi-nav-button.active, .insi-nav-button.active, .aud-nav-button.active {
-            background-color: #0891b2; /* Strong cyan for active state */
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(13, 202, 240, 0.2);
-            border-color: #0891b2;
-        }
+/* --- Navigation Button Styling (for all subjects) --- */
+.nav-button, .mafi-nav-button, .insi-nav-button, .aud-nav-button {
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #9ca3af; /* Medium gray text */
+}
+.nav-button:hover, .mafi-nav-button:hover, .insi-nav-button:hover, .aud-nav-button:hover {
+    background-color: rgba(13, 202, 240, 0.1); /* Light cyan on hover */
+    color: #0dcaf0;
+    border-color: rgba(13, 202, 240, 0.3);
+}
+.nav-button.active, .mafi-nav-button.active, .insi-nav-button.active, .aud-nav-button.active {
+    background-color: #0891b2; /* Strong cyan for active state */
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(13, 202, 240, 0.2);
+    border-color: #0891b2;
+}
 
-        .nav-button:disabled, .mafi-nav-button:disabled, .insi-nav-button:disabled, .aud-nav-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+.nav-button:disabled, .mafi-nav-button:disabled, .insi-nav-button:disabled, .aud-nav-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
 
-        /* --- View and Section Visibility Control --- */
-        .subject-view, .content-section, .mafi-content-section, .insi-content-section, .aud-content-section {
-            display: none; /* Hide all views by default */
-        }
-        .subject-view.active, .content-section.active, .mafi-content-section.active, .insi-content-section.active, .aud-content-section.active {
-            display: block; /* Show only the active view */
-            animation: fadeIn 0.4s ease-out; /* Add a fade-in animation */
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+/* --- View and Section Visibility Control --- */
+.subject-view, .content-section, .mafi-content-section, .insi-content-section, .aud-content-section {
+    display: none; /* Hide all views by default */
+}
+.subject-view.active, .content-section.active, .mafi-content-section.active, .insi-content-section.active, .aud-content-section.active {
+    display: block; /* Show only the active view */
+    animation: fadeIn 0.4s ease-out; /* Add a fade-in animation */
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-        /* --- Card Styling --- */
-        .card {
-            background-color: rgba(31, 41, 55, 0.7); /* Semi-transparent dark card background */
-            backdrop-filter: blur(10px); /* Frosted glass effect */
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .subject-card, .semester-card {
-            transition: all 0.3s ease;
-        }
-        .subject-card:hover, .semester-card:hover {
-            transform: translateY(-5px); /* Lift card on hover */
-            box-shadow: 0 10px 25px rgba(13, 202, 240, 0.2); /* Cyan glow on hover */
-        }
+/* --- Card Styling --- */
+.card {
+    background-color: rgba(31, 41, 55, 0.7); /* Semi-transparent dark card background */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-        /* --- Tooltip Styling --- */
-        .tooltip-term {
-            color: #2dd4bf; /* Teal color for terms */
-            cursor: pointer;
-            position: relative;
-            border-bottom: 1px dotted #2dd4bf;
-            font-weight: 600;
-        }
-        
-        .tooltip-box {
-            visibility: hidden;
-            width: 280px;
-            background-color: #1f2937;
-            color: #e5e7eb;
-            text-align: left;
-            border-radius: 6px;
-            padding: 10px;
-            position: absolute;
-            z-index: 10;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -140px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            border: 1px solid #374151;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            font-size: 0.875rem;
-            line-height: 1.4;
-            font-weight: 400;
-        }
+.subject-card, .semester-card {
+    transition: all 0.3s ease;
+}
+.subject-card:hover, .semester-card:hover {
+    transform: translateY(-5px); /* Lift card on hover */
+    box-shadow: 0 10px 25px rgba(13, 202, 240, 0.2); /* Cyan glow on hover */
+}
 
-        .tooltip-box::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #1f2937 transparent transparent transparent;
-        }
+/* --- Tooltip Styling --- */
+.tooltip-term {
+    color: #2dd4bf; /* Teal color for terms */
+    cursor: pointer;
+    position: relative;
+    border-bottom: 1px dotted #2dd4bf;
+    font-weight: 600;
+}
 
-        .tooltip-term:hover .tooltip-box {
-            visibility: visible;
-            opacity: 1;
-        }
+.tooltip-box {
+    visibility: hidden;
+    width: 280px;
+    background-color: #1f2937;
+    color: #e5e7eb;
+    text-align: left;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 10;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -140px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    border: 1px solid #374151;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    font-size: 0.875rem;
+    line-height: 1.4;
+    font-weight: 400;
+}
 
-        /* --- Form and Table Styling --- */
-        input, .table-header, .table-cell, select, textarea {
-            background-color: #374151;
-            border-color: #4b5563;
-            color: #e5e7eb;
-        }
-        input:focus, select:focus, textarea:focus {
-            --tw-ring-color: #0891b2;
-            border-color: #0891b2;
-        }
-        .math-table td, .math-table th {
-            padding: 8px 12px;
-            border: 1px solid #4b5563;
-        }
-        
-        /* --- INSI Specific Styles --- */
-        .dfd-element {
-            border: 2px solid #6b7280;
-            padding: 0.5rem 1rem;
-            text-align: center;
-            background-color: #374151;
-            border-radius: 0.5rem;
-        }
-        .dfd-process {
-            border-radius: 9999px; /* Circle */
-            border-color: #0891b2;
-        }
-        .dfd-arrow {
-            position: relative;
-            width: 100%;
-            height: 2px;
-            background-color: #9ca3af;
-        }
-        .dfd-arrow::after {
-            content: '▶';
-            position: absolute;
-            right: -5px;
-            top: -9px;
-            color: #9ca3af;
-        }
-        .solution {
-            display: none;
-            border-left: 4px solid #0891b2;
-            background-color: #1f2937;
-            padding: 1rem;
-            margin-top: 0.5rem;
-            border-radius: 0.5rem;
-        }
+.tooltip-box::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #1f2937 transparent transparent transparent;
+}
 
-        /* --- CCN Specific Styles --- */
-        .osi-layer, .topology-item {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .osi-layer:hover, .topology-item:hover {
-            transform: translateX(5px);
-            border-left-width: 6px;
-        }
-        .osi-layer.selected, .topology-item.selected {
-            box-shadow: 0 0 20px rgba(13, 202, 240, 0.3);
-            border-left-width: 6px;
-        }
-        .header-field {
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            background-color: #374151;
-            border-color: #4b5563;
-        }
-        .header-field:hover {
-            background-color: #4b5563;
-            transform: scale(1.02);
-        }
-        .header-field.selected {
-            background-color: #0891b2;
-            color: white;
-            border-color: #0dcafo;
-            box-shadow: 0 0 15px rgba(13, 202, 240, 0.3);
-        }
-        .description-box {
-            display: none;
-            background-color: #1f2937;
-            border-left-color: #0891b2;
-        }
-        .routing-table tr:hover {
-            background-color: #374151;
-        }
-        .routing-table tr.highlight {
-            background-color: #0891b2;
-            color: white;
-        }
+.tooltip-term:hover .tooltip-box {
+    visibility: visible;
+    opacity: 1;
+}
 
-        /* --- AuD Specific Styles --- */
-        .bar {
-            transition: all 0.3s ease-in-out;
-        }
-        .code-block {
-            background-color: #2d3748;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            font-family: 'Courier New', Courier, monospace;
-            white-space: pre;
-        }
-        .solution-code {
-            background-color: #1a202c;
-            border-left: 4px solid #0891b2;
-            padding: 1rem;
-            margin-top: 1rem;
-            border-radius: 0.5rem;
-            font-family: 'Courier New', Courier, monospace;
-            white-space: pre;
-        }
+/* --- Form and Table Styling --- */
+input, .table-header, .table-cell, select, textarea {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #e5e7eb;
+}
+input:focus, select:focus, textarea:focus {
+    --tw-ring-color: #0891b2;
+    border-color: #0891b2;
+}
+.math-table td, .math-table th {
+    padding: 8px 12px;
+    border: 1px solid #4b5563;
+}
 
-        /* --- Graph Visualizer Styles --- */
-        .graph-node {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .graph-node circle {
-            stroke-width: 2px;
-            stroke: #0891b2;
-            fill: #1f2937;
-        }
-        .graph-node text {
-            fill: #e5e7eb;
-            font-size: 14px;
-            font-weight: bold;
-            pointer-events: none;
-        }
-        .graph-node.visited circle {
-            fill: #2dd4bf; /* teal */
-            stroke: #14b8a6;
-        }
-        .graph-node.active circle {
-            stroke: #facc15; /* yellow */
-            stroke-width: 4px;
-        }
-        .graph-edge {
-            stroke: #4b5563; /* gray */
-            stroke-width: 2px;
-            transition: all 0.3s ease;
-        }
-        .graph-edge.highlighted {
-            stroke: #fb923c; /* orange */
-            stroke-width: 4px;
-        }
-        .graph-edge.mst {
-            stroke: #2dd4bf; /* teal */
-            stroke-width: 4px;
-        }
-        .edge-weight {
-            fill: #d1d5db;
-            font-size: 12px;
-        }
+/* --- INSI Specific Styles --- */
+.dfd-element {
+    border: 2px solid #6b7280;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    background-color: #374151;
+    border-radius: 0.5rem;
+}
+.dfd-process {
+    border-radius: 9999px; /* Circle */
+    border-color: #0891b2;
+}
+.dfd-arrow {
+    position: relative;
+    width: 100%;
+    height: 2px;
+    background-color: #9ca3af;
+}
+.dfd-arrow::after {
+    content: '▶';
+    position: absolute;
+    right: -5px;
+    top: -9px;
+    color: #9ca3af;
+}
+.solution {
+    display: none;
+    border-left: 4px solid #0891b2;
+    background-color: #1f2937;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    border-radius: 0.5rem;
+}
 
-        .dialog-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
+/* --- CCN Specific Styles --- */
+.osi-layer, .topology-item {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.osi-layer:hover, .topology-item:hover {
+    transform: translateX(5px);
+    border-left-width: 6px;
+}
+.osi-layer.selected, .topology-item.selected {
+    box-shadow: 0 0 20px rgba(13, 202, 240, 0.3);
+    border-left-width: 6px;
+}
+.header-field {
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    background-color: #374151;
+    border-color: #4b5563;
+}
+.header-field:hover {
+    background-color: #4b5563;
+    transform: scale(1.02);
+}
+.header-field.selected {
+    background-color: #0891b2;
+    color: white;
+    border-color: #0dcafo;
+    box-shadow: 0 0 15px rgba(13, 202, 240, 0.3);
+}
+.description-box {
+    display: none;
+    background-color: #1f2937;
+    border-left-color: #0891b2;
+}
+.routing-table tr:hover {
+    background-color: #374151;
+}
+.routing-table tr.highlight {
+    background-color: #0891b2;
+    color: white;
+}
 
-        .dialog-box {
-            background-color: #1f2937;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 24px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 0.3s ease-out;
-            color: #e5e7eb;
-        }
+/* --- AuD Specific Styles --- */
+.bar {
+    transition: all 0.3s ease-in-out;
+}
+.code-block {
+    background-color: #2d3748;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    font-family: 'Courier New', Courier, monospace;
+    white-space: pre;
+}
+.solution-code {
+    background-color: #1a202c;
+    border-left: 4px solid #0891b2;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+    font-family: 'Courier New', Courier, monospace;
+    white-space: pre;
+}
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
+/* --- Graph Visualizer Styles --- */
+.graph-node {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.graph-node circle {
+    stroke-width: 2px;
+    stroke: #0891b2;
+    fill: #1f2937;
+}
+.graph-node text {
+    fill: #e5e7eb;
+    font-size: 14px;
+    font-weight: bold;
+    pointer-events: none;
+}
+.graph-node.visited circle {
+    fill: #2dd4bf; /* teal */
+    stroke: #14b8a6;
+}
+.graph-node.active circle {
+    stroke: #facc15; /* yellow */
+    stroke-width: 4px;
+}
+.graph-edge {
+    stroke: #4b5563; /* gray */
+    stroke-width: 2px;
+    transition: all 0.3s ease;
+}
+.graph-edge.highlighted {
+    stroke: #fb923c; /* orange */
+    stroke-width: 4px;
+}
+.graph-edge.mst {
+    stroke: #2dd4bf; /* teal */
+    stroke-width: 4px;
+}
+.edge-weight {
+    fill: #d1d5db;
+    font-size: 12px;
+}
 
-        .dialog-header {
-            color: #d32f2f;
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-        }
+.dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
 
-        .dialog-header::before {
-            content: "⚠️";
-            margin-right: 8px;
-            font-size: 24px;
-        }
+.dialog-box {
+    background-color: #1f2937;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 24px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.3s ease-out;
+    color: #e5e7eb;
+}
 
-        .dialog-header-info {
-            color: #e5e7eb;
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-        }
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
 
-        .dialog-content {
-            line-height: 1.6;
-            color: #e5e7eb;
-            margin-bottom: 20px;
-        }
+.dialog-header {
+    color: #d32f2f;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+}
 
-        .dialog-content p {
-            margin-bottom: 12px;
-        }
+.dialog-header::before {
+    content: "⚠️";
+    margin-right: 8px;
+    font-size: 24px;
+}
 
-        .dialog-button {
-            width: 100%;
-            padding: 12px 24px;
-            border-radius: 4px;
-        }
+.dialog-header-info {
+    color: #e5e7eb;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+}
 
-        .dialog-button + .dialog-button {
-            margin-top: 8px;
-        }
+.dialog-content {
+    line-height: 1.6;
+    color: #e5e7eb;
+    margin-bottom: 20px;
+}
 
-        .dialog-box input::placeholder {
-            color: #9ca3af;
-        }
+.dialog-content p {
+    margin-bottom: 12px;
+}
 
-        .dialog-box input,
-        .dialog-box input::-webkit-datetime-edit,
-        .dialog-box input::-webkit-datetime-edit-fields-wrapper,
-        .dialog-box input::-webkit-datetime-edit-text,
-        .dialog-box input::-webkit-datetime-edit-month-field,
-        .dialog-box input::-webkit-datetime-edit-day-field,
-        .dialog-box input::-webkit-datetime-edit-year-field {
-            color: #e5e7eb;
-        }
+.dialog-button {
+    width: 100%;
+    padding: 12px 24px;
+    border-radius: 4px;
+}
 
-        .dialog-box input::-webkit-calendar-picker-indicator {
-            filter: invert(1);
-        }
+.dialog-button + .dialog-button {
+    margin-top: 8px;
+}
 
-        .hidden {
-            display: none;
-        }
+.dialog-box input::placeholder {
+    color: #9ca3af;
+}
 
-        .demo-content {
-            padding: 20px;
-            text-align: center;
-            color: #666;
-        }
+.dialog-box input,
+.dialog-box input::-webkit-datetime-edit,
+.dialog-box input::-webkit-datetime-edit-fields-wrapper,
+.dialog-box input::-webkit-datetime-edit-text,
+.dialog-box input::-webkit-datetime-edit-month-field,
+.dialog-box input::-webkit-datetime-edit-day-field,
+.dialog-box input::-webkit-datetime-edit-year-field {
+    color: #e5e7eb;
+}
 
-        /* --- Matrix visualization styles --- */
-        .matrix-container {
-            position: relative;
-            display: inline-block;
-            padding: 4px;
-            margin: 0 8px;
-        }
+.dialog-box input::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
 
-        .matrix-container::before,
-        .matrix-container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            width: 8px;
-            height: 100%;
-            border-color: #9ca3af;
-            border-style: solid;
-        }
+.hidden {
+    display: none;
+}
 
-        .matrix-container::before {
-            left: 0;
-            border-width: 2px 0 2px 2px;
-            border-radius: 6px 0 0 6px;
-        }
+.demo-content {
+    padding: 20px;
+    text-align: center;
+    color: #666;
+}
 
-        .matrix-container::after {
-            right: 0;
-            border-width: 2px 2px 2px 0;
-            border-radius: 0 6px 6px 0;
-        }
+/* --- Matrix visualization styles --- */
+.matrix-container {
+    position: relative;
+    display: inline-block;
+    padding: 4px;
+    margin: 0 8px;
+}
 
+.matrix-container::before,
+.matrix-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 8px;
+    height: 100%;
+    border-color: #9ca3af;
+    border-style: solid;
+}
+
+.matrix-container::before {
+    left: 0;
+    border-width: 2px 0 2px 2px;
+    border-radius: 6px 0 0 6px;
+}
+
+.matrix-container::after {
+    right: 0;
+    border-width: 2px 2px 2px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+/* --- Gauss-Elimination Styles --- */
+.gauss-btn {
+    padding: 0.25rem 0.75rem;
+    background-color: #0e7490; /* bg-cyan-700 */
+    color: white;
+    border-radius: 0.5rem; /* rounded-lg */
+    transition: background-color 0.15s ease-in-out;
+    font-size: 0.875rem; /* text-sm */
+    border: 1px solid #155e75; /* border-cyan-800 */
+}
+.gauss-btn:hover {
+    background-color: #155e75; /* hover:bg-cyan-800 */
+}
+.gauss-select {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    background-color: #374151; /* bg-gray-700 */
+    border: 1px solid #4b5563; /* border-gray-600 */
+}

@@ -21,7 +21,7 @@
                 section.classList.remove('active');
                 if (section.id === targetId) section.classList.add('active');
             });
-            if (window.MathJax) {
+             if (window.MathJax) {
                 MathJax.typesetPromise();
             }
         });
@@ -47,7 +47,7 @@
             ]
         },
         implies: {
-            headers: ['A', 'B', 'A ⇒ B'],
+             headers: ['A', 'B', 'A ⇒ B'],
             rows: [
                 ['w', 'w', 'w'], ['w', 'f', 'f'],
                 ['f', 'w', 'w'], ['f', 'f', 'w']
@@ -82,12 +82,12 @@
 
     verknüpfungBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            verknüpfungBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+             verknüpfungBtns.forEach(b => b.classList.remove('active'));
+             btn.classList.add('active');
             displayWahrheitstabelle(btn.dataset.op);
         });
     });
-
+    
     if (verknüpfungBtns.length > 0) {
         verknüpfungBtns[0].click();
     }
@@ -122,12 +122,12 @@
                 </g>`;
                 break;
             case 'intersection':
-                resultShape = `<g mask="url(#maskA)">
+                 resultShape = `<g mask="url(#maskA)">
                     <circle cx="${circleB.cx}" cy="${circleB.cy}" r="${circleB.r}" fill="#2dd4bf" />
                 </g>`;
                 break;
             case 'diff_ab':
-                resultShape = `<g mask="url(#maskA)">
+                 resultShape = `<g mask="url(#maskA)">
                     <rect x="0" y="0" width="200" height="150" fill="#2dd4bf" />
                     <circle cx="${circleB.cx}" cy="${circleB.cy}" r="${circleB.r}" fill="black" />
                 </g>`;
@@ -141,10 +141,10 @@
         }
         vennSvg.insertAdjacentHTML('beforeend', `<g style="opacity:0.7">${resultShape}</g>`);
     }
-    mengenOpBtns.forEach(btn => {
+     mengenOpBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            mengenOpBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+             mengenOpBtns.forEach(b => b.classList.remove('active'));
+             btn.classList.add('active');
             updateVennDiagram(btn.dataset.op);
         });
     });
@@ -152,7 +152,7 @@
     if (mengenOpBtns.length > 0) {
         mengenOpBtns[0].click();
     }
-
+    
     // --- Abbildungen ---
     const abbBtns = document.querySelectorAll('.abb-btn');
     const abbVis = document.getElementById('abbildung-visualisierung');
@@ -184,18 +184,18 @@
             map: [[0,0], [1,1], [2,2], [3,0]]
         }
     };
-
+    
     function displayAbbildung(type) {
         if (!abbVis || !abbErkl) return;
         const data = abbData[type];
-
+        
         const a_count = data.a_size;
         const b_count = data.b_size;
-
+        
         let svgHTML = `<svg width="100%" height="100%" viewBox="0 0 150 120">`;
         svgHTML += `<text x="20" y="10" class="font-bold fill-current text-cyan-200">A</text>`;
         svgHTML += `<text x="125" y="10" class="font-bold fill-current text-pink-200">B</text>`;
-
+        
         const y_offset_a = 100 / (a_count + 1);
         const y_offset_b = 100 / (b_count + 1);
 
@@ -209,7 +209,7 @@
         data.map.forEach(([from, to]) => {
             svgHTML += `<line x1="25" y1="${15 + y_offset_a * from}" x2="125" y2="${15 + y_offset_b * to}" stroke="#9ca3af" stroke-width="1"/>`;
         });
-
+        
         svgHTML += `</svg>`;
         abbVis.innerHTML = svgHTML;
         abbErkl.innerHTML = data.def;
@@ -217,15 +217,15 @@
 
     abbBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            abbBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+             abbBtns.forEach(b => b.classList.remove('active'));
+             btn.classList.add('active');
             displayAbbildung(btn.dataset.type);
         });
     });
-    if (abbBtns.length > 0) {
+     if (abbBtns.length > 0) {
         abbBtns[0].click();
     }
-
+    
     // --- Modulare Arithmetik ---
     const calculateModBtn = document.getElementById('calculate-mod-btn');
 
@@ -240,7 +240,7 @@
                 document.getElementById('mod-result').textContent = "Bitte gültige ganze Zahlen eingeben (n > 0).";
                 return;
             }
-
+            
             let result;
             switch(op) {
                 case '+': result = (a + b) % n; break;
@@ -248,20 +248,20 @@
                 case '*': result = (a * b) % n; break;
             }
             if (result < 0) result += n;
-
+            
             document.getElementById('mod-result').textContent = `${a} ${op} ${b} ≡ ${result} (mod ${n})`;
         } catch(e) {
             document.getElementById('mod-result').textContent = "Fehler bei der Berechnung.";
         }
     }
-
+    
     if(calculateModBtn) {
         const modInputs = ['mod-a', 'mod-b', 'mod-n', 'mod-op'];
         modInputs.forEach(id => {
             const element = document.getElementById(id);
             if (element) element.addEventListener('input', handleModCalculation);
         });
-
+        
         calculateModBtn.addEventListener('click', handleModCalculation);
         handleModCalculation();
     }
@@ -277,9 +277,9 @@
             const a2 = parseFloat(document.getElementById('comp-a2').value);
             const b2 = parseFloat(document.getElementById('comp-b2').value);
             const op = document.getElementById('comp-op').value;
-
+            
             let res_a, res_b;
-
+            
             switch(op) {
                 case '+': res_a = a1 + a2; res_b = b1 + b2; break;
                 case '-': res_a = a1 - a2; res_b = b1 - b2; break;
@@ -291,7 +291,7 @@
                     res_b = (b1*a2 - a1*b2) / nenner;
                     break;
             }
-
+            
             document.getElementById('comp-result').textContent = `${res_a.toFixed(2)} + ${res_b.toFixed(2)}i`;
 
         } catch(e) {
@@ -308,7 +308,7 @@
         calculateCompBtn.addEventListener('click', handleCompCalculation);
         handleCompCalculation();
     }
-
+    
     // --- Winkel zwischen Vektoren ---
     const winkelInputs = ['vec-v1', 'vec-v2', 'vec-w1', 'vec-w2'];
     function handleWinkelCalculation() {
@@ -318,16 +318,16 @@
             const v2 = parseFloat(document.getElementById('vec-v2').value);
             const w1 = parseFloat(document.getElementById('vec-w1').value);
             const w2 = parseFloat(document.getElementById('vec-w2').value);
-
+            
             const skalarprodukt = v1 * w1 + v2 * w2;
             const normV = Math.sqrt(v1*v1 + v2*v2);
             const normW = Math.sqrt(w1*w1 + w2*w2);
 
             if (normV === 0 || normW === 0) {
-                document.getElementById('winkel-result').textContent = "Winkel nicht definiert für Nullvektor.";
-                return;
+                 document.getElementById('winkel-result').textContent = "Winkel nicht definiert für Nullvektor.";
+                 return;
             }
-
+            
             const cosAlpha = skalarprodukt / (normV * normW);
             const alphaRad = Math.acos(Math.max(-1, Math.min(1, cosAlpha)));
             const alphaGrad = alphaRad * 180 / Math.PI;
@@ -339,7 +339,7 @@
             `;
 
         } catch(e) {
-            document.getElementById('winkel-result').textContent = "Fehler bei der Berechnung.";
+             document.getElementById('winkel-result').textContent = "Fehler bei der Berechnung.";
         }
     }
     winkelInputs.forEach(id => {
@@ -357,13 +357,13 @@
     const opExplanations = {
         add: "<strong>Addition:</strong> Matrizen gleicher Dimension werden addiert, indem ihre entsprechenden Elemente addiert werden.",
         multiply: "<strong>Multiplikation:</strong> Das Element in Zeile i, Spalte j der Ergebnismatrix ist das Skalarprodukt der i-ten Zeile der ersten Matrix mit der j-ten Spalte der zweiten Matrix.",
-        transpose: "<strong>Transposition:</strong> Die transponierte Matrix \(A^T\) entsteht durch Vertauschen der Zeilen und Spalten der ursprünglichen Matrix A.",
+        transpose: "<strong>Transposition:</strong> Die transponierte Matrix \\(A^T\\) entsteht durch Vertauschen der Zeilen und Spalten der ursprünglichen Matrix A.",
         scalar: "<strong>Skalarmultiplikation:</strong> Eine Matrix wird mit einem Skalar (einer Zahl) multipliziert, indem jedes Element der Matrix mit diesem Skalar multipliziert wird."
     };
 
     function displayMatrixOperation(op) {
         if (!matrixOpContainer || !matrixOpExplanation) return;
-
+        
         matrixOpExplanation.innerHTML = opExplanations[op];
         let html = '';
         switch(op) {
@@ -376,7 +376,7 @@
                     <div class="matrix-container"><div id="matrix-result-add" class="grid grid-cols-2 gap-1 p-2 bg-gray-900/70"></div></div>`;
                 break;
             case 'multiply':
-                html = `
+                 html = `
                     <div class="matrix-container"><div class="grid grid-cols-2 gap-1">${genMatrixInputs('m1_mul', [[1,2],[3,4]])}</div></div>
                     <span class="text-2xl font-bold">⋅</span>
                     <div class="matrix-container"><div class="grid grid-cols-2 gap-1">${genMatrixInputs('m2_mul', [[5,6],[7,8]])}</div></div>
@@ -402,7 +402,7 @@
         matrixOpContainer.innerHTML = html;
         attachMatrixHandlers(op);
     }
-
+    
     function genMatrixInputs(prefix, values) {
         return `
             <input type="number" class="matrix-input w-12 text-center p-1 rounded" id="${prefix}_11" value="${values[0][0]}">
@@ -410,7 +410,7 @@
             <input type="number" class="matrix-input w-12 text-center p-1 rounded" id="${prefix}_21" value="${values[1][0]}">
             <input type="number" class="matrix-input w-12 text-center p-1 rounded" id="${prefix}_22" value="${values[1][1]}">`;
     }
-
+    
     function genMatrixResult(res) {
         return `
             <div class="w-16 text-center p-2">${res.a.toFixed(2)}</div><div class="w-16 text-center p-2">${res.b.toFixed(2)}</div>
@@ -429,9 +429,9 @@
             a: parseFloat(document.getElementById(`${prefix}_11`).value), b: parseFloat(document.getElementById(`${prefix}_12`).value),
             c: parseFloat(document.getElementById(`${prefix}_21`).value), d: parseFloat(document.getElementById(`${prefix}_22`).value)
         });
-
+        
         let res, resultContainer;
-
+        
         switch(op) {
             case 'add':
                 const m1_add = getMatrix('m1');
@@ -439,11 +439,11 @@
                 res = { a: m1_add.a + m2_add.a, b: m1_add.b + m2_add.b, c: m1_add.c + m2_add.c, d: m1_add.d + m2_add.d };
                 resultContainer = document.getElementById('matrix-result-add');
                 break;
-            case 'multiply':
+             case 'multiply':
                 const m1_mul = getMatrix('m1_mul');
                 const m2_mul = getMatrix('m2_mul');
                 res = { a: m1_mul.a * m2_mul.a + m1_mul.b * m2_mul.c, b: m1_mul.a * m2_mul.b + m1_mul.b * m2_mul.d,
-                    c: m1_mul.c * m2_mul.a + m1_mul.d * m2_mul.c, d: m1_mul.c * m2_mul.b + m1_mul.d * m2_mul.d };
+                        c: m1_mul.c * m2_mul.a + m1_mul.d * m2_mul.c, d: m1_mul.c * m2_mul.b + m1_mul.d * m2_mul.d };
                 resultContainer = document.getElementById('matrix-result-mul');
                 break;
             case 'transpose':
@@ -463,7 +463,7 @@
             resultContainer.innerHTML = genMatrixResult(res);
         }
     }
-
+    
     matrixOpBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             matrixOpBtns.forEach(b => b.classList.remove('active'));
@@ -472,5 +472,179 @@
         });
     });
     if (matrixOpBtns.length > 0) matrixOpBtns[0].click();
+
+    // --- Gauß Elimination ---
+    const gaussMatrixContainer = document.getElementById('gauss-matrix');
+    const gaussControlsContainer = document.getElementById('gauss-controls');
+    const gaussFeedback = document.getElementById('gauss-feedback');
+    let gaussMatrix = [];
+
+    function setupGauss() {
+        if (!gaussMatrixContainer) return;
+        gaussMatrix = [
+            [1, 2, 3, 6],
+            [2, 5, 8, 15],
+            [3, 6, 10, 20]
+        ];
+        renderGaussMatrix();
+        renderGaussControls();
+        if(gaussFeedback) gaussFeedback.textContent = 'Matrix zurückgesetzt.';
+    }
+
+    function renderGaussMatrix() {
+        if (!gaussMatrixContainer) return;
+        gaussMatrixContainer.innerHTML = '';
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 4; j++) {
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.value = parseFloat(gaussMatrix[i][j]).toFixed(2);
+                input.className = 'w-full text-center p-1 rounded bg-gray-700 border border-gray-600';
+                input.dataset.row = i;
+                input.dataset.col = j;
+                input.addEventListener('change', (e) => {
+                    const val = parseFloat(e.target.value);
+                    if (!isNaN(val)) {
+                        gaussMatrix[i][j] = val;
+                    }
+                });
+                gaussMatrixContainer.appendChild(input);
+            }
+        }
+    }
+
+    function renderGaussControls() {
+        if (!gaussControlsContainer) return;
+        gaussControlsContainer.innerHTML = `
+            <div class="flex items-center gap-2">
+                <button class="gauss-btn" data-op="swap">Tauschen</button>
+                <select id="gauss-swap1" class="gauss-select"><option>1</option><option>2</option><option>3</option></select>
+                <span>↔</span>
+                <select id="gauss-swap2" class="gauss-select"><option>1</option><option selected>2</option><option>3</option></select>
+            </div>
+            <div class="flex items-center gap-2">
+                <button class="gauss-btn" data-op="scale">Skalieren</button>
+                <select id="gauss-scale-row" class="gauss-select"><option>1</option><option>2</option><option>3</option></select>
+                <span>⋅</span>
+                <input id="gauss-scale-val" type="number" value="2" class="w-16 p-1 rounded bg-gray-700 border border-gray-600">
+            </div>
+            <div class="flex items-center gap-2">
+                 <button class="gauss-btn" data-op="add">Addieren</button>
+                <select id="gauss-add-to" class="gauss-select"><option>1</option><option selected>2</option><option>3</option></select>
+                <span>+=</span>
+                <input id="gauss-add-val" type="number" value="-2" class="w-16 p-1 rounded bg-gray-700 border border-gray-600">
+                <span>⋅ Zeile</span>
+                <select id="gauss-add-from" class="gauss-select"><option>1</option><option>2</option><option>3</option></select>
+            </div>
+             <button id="gauss-reset" class="gauss-btn bg-amber-600 hover:bg-amber-500">Reset</button>
+        `;
+
+        gaussControlsContainer.querySelectorAll('.gauss-btn').forEach(btn => {
+            btn.addEventListener('click', () => performGaussOp(btn.dataset.op));
+        });
+        document.getElementById('gauss-reset').addEventListener('click', setupGauss);
+    }
+
+    function performGaussOp(op) {
+        if (!gaussFeedback) return;
+        gaussFeedback.textContent = '';
+        try {
+            let successMessage = '';
+            switch(op) {
+                case 'swap':
+                    const r1 = parseInt(document.getElementById('gauss-swap1').value) - 1;
+                    const r2 = parseInt(document.getElementById('gauss-swap2').value) - 1;
+                    if (r1 === r2) throw new Error("Wähle zwei verschiedene Zeilen zum Tauschen.");
+                    [gaussMatrix[r1], gaussMatrix[r2]] = [gaussMatrix[r2], gaussMatrix[r1]];
+                    successMessage = `Zeile ${r1 + 1} und ${r2 + 1} getauscht.`;
+                    break;
+                case 'scale':
+                     const r_scale = parseInt(document.getElementById('gauss-scale-row').value) - 1;
+                     const val_scale = parseFloat(document.getElementById('gauss-scale-val').value);
+                     if (isNaN(val_scale)) throw new Error("Ungültiger Skalierungsfaktor.");
+                     if (val_scale === 0) throw new Error("Skalierung mit 0 ist nicht erlaubt.");
+                     gaussMatrix[r_scale] = gaussMatrix[r_scale].map(x => x * val_scale);
+                     successMessage = `Zeile ${r_scale + 1} mit ${val_scale} multipliziert.`;
+                    break;
+                case 'add':
+                    const r_to = parseInt(document.getElementById('gauss-add-to').value) - 1;
+                    const r_from = parseInt(document.getElementById('gauss-add-from').value) - 1;
+                    const val_add = parseFloat(document.getElementById('gauss-add-val').value);
+                    if (isNaN(val_add)) throw new Error("Ungültiger Faktor.");
+                    if (r_to === r_from) throw new Error("Zeilen müssen verschieden sein.");
+                    for (let i=0; i<4; i++) {
+                        gaussMatrix[r_to][i] += val_add * gaussMatrix[r_from][i];
+                    }
+                    successMessage = `Das ${val_add}-fache von Zeile ${r_from + 1} zu Zeile ${r_to + 1} addiert.`;
+                    break;
+            }
+            gaussFeedback.textContent = successMessage;
+            gaussFeedback.className = 'text-center mt-4 text-green-400 h-5';
+            renderGaussMatrix();
+        } catch(e) {
+            gaussFeedback.textContent = `Fehler: ${e.message}`;
+            gaussFeedback.className = 'text-center mt-4 text-red-400 h-5';
+        }
+    }
+    setupGauss();
+    
+    // --- Determinante & Eigenwerte ---
+    function setupDeterminantCalculator() {
+        const container = document.getElementById('det-matrix-inputs');
+        if (!container) return;
+        container.innerHTML = genMatrixInputs('det', [[5, -2], [3, -1]]);
+        const inputs = container.querySelectorAll('input');
+        inputs.forEach(input => input.addEventListener('input', calculateDeterminant));
+        calculateDeterminant();
+    }
+
+    function calculateDeterminant() {
+        const container = document.getElementById('det-matrix-inputs');
+        if (!container) return;
+        const a = parseFloat(document.getElementById('det_11').value);
+        const b = parseFloat(document.getElementById('det_12').value);
+        const c = parseFloat(document.getElementById('det_21').value);
+        const d = parseFloat(document.getElementById('det_22').value);
+        const det = a * d - b * c;
+        const resultDiv = document.getElementById('det-result');
+        resultDiv.innerHTML = `det(A) = ${a}⋅${d} - ${b}⋅${c} = <span class="font-bold text-white">${det}</span>`;
+    }
+
+    function setupEigenwertCalculator() {
+        const container = document.getElementById('eigen-matrix-inputs');
+        if (!container) return;
+        container.innerHTML = genMatrixInputs('eigen', [[4, 1], [2, 3]]);
+        const inputs = container.querySelectorAll('input');
+        inputs.forEach(input => input.addEventListener('input', calculateEigenwerte));
+        calculateEigenwerte();
+    }
+
+    function calculateEigenwerte() {
+        const container = document.getElementById('eigen-matrix-inputs');
+        if (!container) return;
+        const a = parseFloat(document.getElementById('eigen_11').value);
+        const b = parseFloat(document.getElementById('eigen_12').value);
+        const c = parseFloat(document.getElementById('eigen_21').value);
+        const d = parseFloat(document.getElementById('eigen_22').value);
+        
+        const trace = a + d;
+        const det = a * d - b * c;
+        const diskriminante = trace*trace - 4 * det;
+        
+        const resultDiv = document.getElementById('eigen-result');
+        let html = `Char. Polynom: λ² - ${trace}λ + ${det} = 0<br>`;
+
+        if (diskriminante < 0) {
+            html += `Keine reellen Eigenwerte.`;
+        } else {
+            const lambda1 = (trace + Math.sqrt(diskriminante)) / 2;
+            const lambda2 = (trace - Math.sqrt(diskriminante)) / 2;
+            html += `Eigenwerte: λ₁ = ${lambda1.toFixed(2)}, λ₂ = ${lambda2.toFixed(2)}`;
+        }
+        resultDiv.innerHTML = html;
+    }
+
+    setupDeterminantCalculator();
+    setupEigenwertCalculator();
 
 })();
