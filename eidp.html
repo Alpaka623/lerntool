@@ -27,6 +27,9 @@
             <button data-eidp-target="eidp-typen" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Datentypen & Operatoren</button>
             <button data-eidp-target="eidp-methoden" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Ausdrücke & Methoden</button>
             <button data-eidp-target="eidp-variablen" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Variablen & Ein-/Ausgabe</button>
+            <button data-eidp-target="eidp-kontrollstrukturen" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Kontrollstrukturen</button>
+            <button data-eidp-target="eidp-felder" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Felder (Arrays)</button>
+            <button data-eidp-target="eidp-algorithmen" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Algorithmen & Sortieren</button>
         </nav>
 
         <main>
@@ -351,6 +354,90 @@ public class Begruessung {
                     </div>
                 </div>
             </section>
+            
+            <section id="eidp-kontrollstrukturen" class="eidp-content-section">
+                <div class="card p-8 rounded-2xl shadow-2xl space-y-8">
+                    <div>
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Kontrollstrukturen: Den Programmfluss steuern</h2>
+                        <p class="text-gray-300 leading-relaxed">
+                            Kontrollstrukturen sind das Herzstück der Programmierung. Sie erlauben es uns, den linearen Ablauf von Anweisungen zu durchbrechen und Code nur unter bestimmten Bedingungen (Auswahl) oder mehrfach (Wiederholung) auszuführen.
+                        </p>
+                    </div>
+                    <div id="control-structure-examples"></div>
+                </div>
+            </section>
+
+            <section id="eidp-felder" class="eidp-content-section">
+                 <div class="space-y-8">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Eindimensionale Felder (Arrays)</h2>
+                        <p class="text-gray-300 leading-relaxed">
+                            Ein <strong>Feld</strong> (oder Array) ist eine Sammlung von Variablen des gleichen Typs mit fester Größe. Anstatt vieler einzelner Variablen (`note1`, `note2`) können wir eine einzige Array-Variable verwenden und über einen <strong>Index</strong> (beginnend bei 0) auf die einzelnen Elemente zugreifen (z.B. `noten[0]`, `noten[1]`). In Java ist ein Feld ein <strong>Referenzdatentyp</strong>, d.h., die Variable speichert nur eine Adresse (Referenz), die auf den eigentlichen Speicherbereich im Haldenspeicher (Heap) zeigt.
+                        </p>
+                         <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-2">Interaktiver Array-Simulator</h3>
+                            <p class="mb-4 text-gray-400">Experimentiere mit einem Array. Lege die Größe fest und weise den einzelnen Indizes Werte zu.</p>
+                            <div class="grid md:grid-cols-2 gap-6 items-start">
+                               <div class="font-mono bg-gray-900/70 p-4 rounded-md text-sm">
+                                    <pre id="array-code-display"><code></code></pre>
+                               </div>
+                               <div class="space-y-4">
+                                    <div>
+                                        <label for="array-size-input">Array-Größe (1-8):</label>
+                                        <input type="number" id="array-size-input" min="1" max="8" value="5" class="w-20 p-1 rounded-md ml-2">
+                                    </div>
+                                    <div id="array-value-inputs" class="space-y-2"></div>
+                                    <h4 class="font-semibold text-gray-400 pt-4">Speicher-Visualisierung</h4>
+                                    <div id="array-visualizer-container" class="flex justify-center items-center flex-wrap gap-1 p-4 bg-gray-900/70 rounded-md min-h-[7rem]"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Mehrdimensionale Felder</h2>
+                         <p class="text-gray-300 leading-relaxed">
+                            Man kann auch Felder von Feldern erstellen, um mehrdimensionale Strukturen wie Matrizen oder Tabellen abzubilden. Ein zweidimensionales Feld `int[][] matrix` ist im Grunde ein Array, bei dem jedes Element selbst wieder ein Array ist.
+                        </p>
+                          <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-2">2D-Array Visualisierer (3x4)</h3>
+                            <p class="mb-4 text-gray-400">Ändere die Werte in der Matrix und beobachte, wie der Code zur Zuweisung aussehen würde.</p>
+                             <div class="grid md:grid-cols-2 gap-6 items-start">
+                                 <div id="2d-array-visualizer" class="grid grid-cols-4 gap-1"></div>
+                                 <div class="font-mono bg-gray-900/70 p-4 rounded-md text-sm">
+                                     <pre><code>// Deklaration & Erzeugung
+int[][] matrix = new int[3][4];
+
+// Zuweisungen
+<span id="2d-array-code-output"></span></code></pre>
+                                 </div>
+                             </div>
+                         </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="eidp-algorithmen" class="eidp-content-section">
+                <div class="card p-8 rounded-2xl shadow-2xl">
+                    <h2 class="text-3xl font-bold text-cyan-400 mb-4">Algorithmen: Sortieren durch Auswählen</h2>
+                    <p class="mb-4 text-gray-300">Ein Algorithmus ist eine schrittweise Anleitung zur Lösung eines Problems. "Sortieren durch Auswählen" (Selection Sort) ist ein einfacher, aber nicht sehr effizienter Sortieralgorithmus. Er teilt das Feld gedanklich in einen sortierten und einen unsortierten Teil. In jedem Schritt wird das kleinste Element aus dem unsortierten Teil gesucht und mit dem ersten Element des unsortierten Teils getauscht.</p>
+                    <div class="grid md:grid-cols-2 gap-8 items-start">
+                        <div>
+                             <div class="flex flex-wrap items-center gap-4 mb-6">
+                                <button id="selection-sort-next-btn" class="px-5 py-2 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600">Nächster Schritt</button>
+                                <button id="selection-sort-reset-btn" class="px-5 py-2 bg-gray-600 text-white rounded-lg shadow-lg hover:bg-gray-500">Neues Array</button>
+                            </div>
+                            <div id="selection-sort-container" class="w-full h-64 bg-gray-800/50 p-2 rounded-lg flex items-end justify-between"></div>
+                            <p id="selection-sort-explanation" class="mt-4 p-3 bg-gray-900/70 rounded-md min-h-[3rem]"></p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-2">Code & Variablen-Zustand</h3>
+                            <div id="selection-sort-code" class="font-mono bg-gray-900/70 p-4 rounded-md text-sm"></div>
+                             <div id="selection-sort-vars" class="mt-4 p-3 bg-gray-900/70 rounded-md font-mono text-sm min-h-[5rem]"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </main>
     </div>
 </div>
