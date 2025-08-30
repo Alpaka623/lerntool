@@ -30,6 +30,7 @@
             <button data-eidp-target="eidp-kontrollstrukturen" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Kontrollstrukturen</button>
             <button data-eidp-target="eidp-felder" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Felder (Arrays)</button>
             <button data-eidp-target="eidp-algorithmen" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Algorithmen & Sortieren</button>
+            <button data-eidp-target="eidp-oop" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">OOP-Grundlagen</button>
             <button data-eidp-target="eidp-assoziationen" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Assoziationen</button>
             <button data-eidp-target="eidp-vererbung" class="eidp-nav-button font-semibold py-2 px-5 rounded-full">Vererbung & Polymorphie</button>
         </nav>
@@ -435,6 +436,39 @@ int[][] matrix = new int[3][4];
                             <h3 class="text-xl font-semibold text-cyan-300 mb-2">Code & Variablen-Zustand</h3>
                             <div id="selection-sort-code" class="font-mono bg-gray-900/70 p-4 rounded-md text-sm"></div>
                              <div id="selection-sort-vars" class="mt-4 p-3 bg-gray-900/70 rounded-md font-mono text-sm min-h-[5rem]"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="eidp-oop" class="eidp-content-section">
+                <div class="card p-8 rounded-2xl shadow-2xl">
+                    <h2 class="text-3xl font-bold text-cyan-400 mb-6">Grundlagen der Objektorientierung (OOP) 📦</h2>
+                    <p class="mb-6 text-gray-300">Die Objektorientierte Programmierung ist ein Paradigma, das auf dem Konzept von "Objekten" basiert. Diese Objekte können Daten (in Form von Attributen) und Code (in Form von Methoden) enthalten. OOP hilft, komplexe Systeme zu strukturieren und besser wartbar zu machen.</p>
+                    <div class="grid md:grid-cols-2 gap-8 text-gray-300">
+                        <div class="p-4 bg-gray-800/50 rounded-lg">
+                            <h3 class="text-xl font-bold text-cyan-300 mb-2">Klasse vs. Objekt</h3>
+                            <p>Eine <span class="tooltip-term">Klasse<span class="tooltip-box">Ein Bauplan oder eine Vorlage für Objekte. Sie definiert die gemeinsamen Eigenschaften (Attribute) und Verhaltensweisen (Methoden).</span></span> ist ein Bauplan für Objekte. Sie definiert <span class="tooltip-term">Attribute<span class="tooltip-box">Variablen innerhalb einer Klasse, die den Zustand eines Objekts beschreiben.</span></span> (Variablen, die den Zustand beschreiben) und <span class="tooltip-term">Methoden<span class="tooltip-box">Funktionen innerhalb einer Klasse, die das Verhalten eines Objekts festlegen.</span></span> (Funktionen, die das Verhalten festlegen). Ein <span class="tooltip-term">Objekt<span class="tooltip-box">Eine konkrete Instanz einer Klasse, die im Speicher erstellt wird.</span></span> ist eine konkrete Instanz, die nach dem Bauplan einer Klasse erstellt wird.</p>
+                        </div>
+                        <div class="p-4 bg-gray-800/50 rounded-lg">
+                            <h3 class="text-xl font-bold text-cyan-300 mb-2">Stack vs. Heap</h3>
+                            <p>Primitive Typen (wie `int` oder `boolean`) werden auf dem <span class="tooltip-term">Stack<span class="tooltip-box">Ein schneller Speicherbereich für lokale Variablen und Methodenaufrufe. Die Speicherverwaltung erfolgt automatisch (LIFO).</span></span> gespeichert; ihre Variablen enthalten den Wert direkt. Objekte (Referenztypen) werden auf dem <span class="tooltip-term">Heap<span class="tooltip-box">Ein größerer, flexiblerer Speicherbereich für dynamisch erzeugte Objekte. Die Speicherverwaltung ist komplexer (Garbage Collection).</span></span> gespeichert; ihre Variablen auf dem Stack enthalten nur eine Referenz (Speicheradresse) zum Objekt.</p>
+                        </div>
+                        <div class="p-4 bg-gray-800/50 rounded-lg">
+                            <h3 class="text-xl font-bold text-cyan-300 mb-2">Kapselung & Sichtbarkeit</h3>
+                            <p>Das Prinzip der <span class="tooltip-term">Kapselung<span class="tooltip-box">Das Verbergen des internen Zustands eines Objekts und der Schutz vor direktem Zugriff von außen.</span></span> besagt, dass der interne Zustand eines Objekts geschützt werden sollte. Attribute werden meist als `private` deklariert, sodass nur die Methoden derselben Klasse darauf zugreifen können. Der Zugriff von außen erfolgt über `public` Methoden (Getter/Setter).</p>
+                        </div>
+                        <div class="p-4 bg-gray-800/50 rounded-lg">
+                            <h3 class="text-xl font-bold text-cyan-300 mb-2">Statische Member</h3>
+                            <p>Mit dem Schlüsselwort `static` werden Attribute oder Methoden der Klasse selbst zugeordnet, nicht einem einzelnen Objekt. Sie existieren nur einmal, egal wie viele Objekte es gibt, und werden über den Klassennamen aufgerufen (z.B. `Math.PI`).</p>
+                        </div>
+                        <div class="p-4 bg-gray-800/50 rounded-lg">
+                            <h3 class="text-xl font-bold text-cyan-300 mb-2">Assoziationen</h3>
+                            <p>Eine Assoziation beschreibt eine Beziehung zwischen Klassen. Beispielsweise hat eine `Firma` eine 1-zu-n-Beziehung zu ihren `Mitarbeiter`-Objekten: Eine Firma kann viele Mitarbeiter haben.</p>
+                        </div>
+                        <div class="p-4 bg-gray-800/50 rounded-lg">
+                            <h3 class="text-xl font-bold text-cyan-300 mb-2">Vererbung</h3>
+                            <p>Vererbung (`extends`) erlaubt es einer Klasse (Unterklasse), die Attribute und Methoden einer anderen Klasse (Oberklasse) zu erben. Ein `Manager` **ist ein** `Mitarbeiter`, hat aber zusätzliche Eigenschaften (z.B. eine Bonus-Regelung). Methoden können dabei überschrieben (`@Override`) werden, um ein spezifisches Verhalten zu implementieren.</p>
                         </div>
                     </div>
                 </div>
