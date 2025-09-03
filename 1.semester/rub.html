@@ -8,30 +8,138 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/1599/1599145.png">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body class="text-gray-200">
 <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
     <div id="rub-app" class="subject-view active">
-        <header class="text-center mb-12 relative">
-            <button class="back-to-hub-btn absolute top-0 left-0 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">&larr; Zurück</button>
-            <h1 class="text-5xl font-bold text-white">Rechnerstrukturen und Betriebssysteme</h1>
-            <p class="text-xl text-gray-400 mt-2">Dein interaktiver Lernassistent für RuB</p>
-        </header>
+        <header class="mb-12 grid grid-cols-6 items-center">
+            <div class="col-span-1 text-left">
+                <button class="back-to-hub-btn px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">&larr; Zurück</button>
+            </div>
+            <div class="col-span-4 text-center">
+                <h1 class="text-5xl font-bold text-white">Rechnerstrukturen und Betriebssysteme</h1>
+                <p class="text-xl text-gray-400 mt-2">Dein interaktiver Lernassistent für RuB</p>
+            </div>
+            <div class="col-span-1"></div> </header>
 
         <nav class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12">
-            </nav>
+            <button data-rub-target="rub-digitaltechnik" class="rub-nav-button active font-semibold py-2 px-5 rounded-full">Digitaltechnik</button>
+            <button data-rub-target="rub-darstellung" class="rub-nav-button font-semibold py-2 px-5 rounded-full">Zahlen- & Zeichendarstellung</button>
+            <button data-rub-target="rub-arithmetik" class="rub-nav-button font-semibold py-2 px-5 rounded-full">Arithmetik & Logik</button>
+        </nav>
 
         <main>
-            <section id="rub-placeholder" class="rub-content-section active">
-                 <div class="card p-8 rounded-2xl shadow-2xl space-y-6 text-center">
-                    <h2 class="text-3xl font-bold text-cyan-400 mb-4">Inhalte in Arbeit</h2>
-                    <p class="text-gray-300">Für dieses Fach sind noch keine Inhalte verfügbar.</p>
+            <section id="rub-digitaltechnik" class="rub-content-section active">
+                 <div class="card p-8 rounded-2xl shadow-2xl space-y-8">
+                    <div>
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Zahlensysteme & Umrechnung ⚙️</h2>
+                        <p class="text-gray-300 leading-relaxed">
+                            Alle Zahlensysteme basieren auf dem <strong>Stellenwertprinzip</strong>: Der Wert einer Ziffer hängt von ihrer Position ab. Der Gesamtwert einer Zahl \(Z\) zur Basis \(B\) berechnet sich aus der Summe der Ziffern \(z_i\) multipliziert mit der jeweiligen Potenz der Basis: \(Z = \sum z_i \cdot B^i\).
+                        </p>
+                        <p class="mt-4 text-gray-300">
+                           Um eine Dezimalzahl in ein anderes Zahlensystem (z.B. Binär- oder Hexadezimalsystem) umzuwandeln, verwendet man die <strong>Divisions-mit-Rest-Methode</strong>. Dabei wird die Zahl wiederholt durch die Zielbasis geteilt. Die Reste der Divisionen ergeben, von unten nach oben gelesen, die Ziffern der neuen Zahl.
+                        </p>
+                    </div>
+                    <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                        <h3 class="text-xl font-semibold text-cyan-300 mb-2">Interaktiver Umrechner</h3>
+                        <p class="text-sm text-gray-400 mb-4">Gib eine Zahl in ein Feld ein, die anderen werden automatisch umgerechnet.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label for="dezimal-input" class="block text-sm font-medium text-gray-400">Dezimal (Basis 10)</label>
+                                <input type="text" id="dezimal-input" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm font-mono">
+                            </div>
+                            <div>
+                                <label for="binaer-input" class="block text-sm font-medium text-gray-400">Binär (Basis 2)</label>
+                                <input type="text" id="binaer-input" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm font-mono">
+                            </div>
+                            <div>
+                                <label for="hex-input" class="block text-sm font-medium text-gray-400">Hexadezimal (Basis 16)</label>
+                                <input type="text" id="hex-input" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm font-mono">
+                            </div>
+                        </div>
+                    </div>
+                     <div>
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Schaltfunktionen & Normalformen 📝</h2>
+                        <p class="text-gray-300 leading-relaxed">
+                            Jede digitale Schaltung kann durch eine Wahrheitstabelle beschrieben werden. Aus dieser Tabelle lassen sich standardisierte algebraische Ausdrücke ableiten, die <strong>Normalformen</strong>. Sie sind die Grundlage für die systematische Realisierung von Schaltungen.
+                        </p>
+                        <ul class="list-disc list-inside mt-4 space-y-2 text-gray-300">
+                            <li><strong>Disjunktive Normalform (DNF):</strong> Eine ODER-Verknüpfung von UND-Termen (Mintermen). Für jede Zeile der Wahrheitstabelle, in der das Ergebnis 1 ist, wird ein Minterm gebildet.</li>
+                             <li><strong>Konjunktive Normalform (KNF):</strong> Eine UND-Verknüpfung von ODER-Termen (Maxtermen). Für jede Zeile, in der das Ergebnis 0 ist, wird ein Maxterm gebildet.</li>
+                        </ul>
+                    </div>
                 </div>
+            </section>
+            
+            <section id="rub-darstellung" class="rub-content-section">
+                <div class="space-y-8">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Darstellung ganzer Zahlen ➕➖</h2>
+                        <p class="mb-4 text-gray-300">Um auch negative Zahlen im Binärsystem abbilden zu können, gibt es verschiedene Verfahren. Das heute gebräuchlichste ist das <strong>Zweierkomplement</strong>, da es die Subtraktion auf eine Addition zurückführt und somit die Hardware (ALU) vereinfacht.</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-300">
+                           <li><b>Vorzeichen-Betragsdarstellung:</b> Das erste Bit (MSB) dient als Vorzeichen (0=positiv, 1=negativ), die restlichen Bits stellen den Betrag dar. Problem: Die Null hat zwei Darstellungen (+0 und -0) und die Arithmetik ist komplex.</li>
+                           <li><b>Einerkomplement:</b> Negative Zahlen werden durch Invertieren aller Bits der positiven Zahl gebildet. Problem: Auch hier gibt es zwei Darstellungen für die Null.</li>
+                           <li><b>Zweierkomplement:</b> Eine negative Zahl wird gebildet, indem man zuerst das Einerkomplement bildet und dann 1 addiert. Dieses Verfahren hat nur eine Darstellung für die Null und erlaubt Standard-Binärarithmetik.</li>
+                        </ul>
+                    </div>
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Interaktiver Zweierkomplement-Rechner (8-Bit) 🔄</h2>
+                        <p class="text-sm text-gray-400 mb-2">Gib eine Zahl zwischen -128 und 127 ein, um die schrittweise Umwandlung ins Zweierkomplement zu sehen.</p>
+                        <input type="number" id="twos-complement-input" class="w-full px-3 py-2 rounded-md shadow-sm font-mono" placeholder="z.B. -42">
+                        <div id="twos-complement-result" class="mt-4 p-4 bg-gray-900/70 rounded-md text-gray-300 font-mono text-sm min-h-[120px]"></div>
+                    </div>
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Zeichendarstellung: ASCII & Unicode 🔡</h2>
+                        <p class="mb-4 text-gray-300">
+                            <strong>ASCII</strong> (American Standard Code for Information Interchange) war einer der ersten weit verbreiteten Standards. Er verwendet 7 Bits, um 128 Zeichen (Buchstaben, Zahlen, Steuerzeichen) darzustellen. Für europäische Sprachen wurde er auf 8 Bit erweitert (z.B. ISO-8859-1), was aber für globale Anwendungen nicht ausreicht.
+                        </p>
+                        <p class="text-gray-300">
+                            <strong>Unicode</strong> ist der moderne Standard, der das Ziel hat, jedem Zeichen weltweit einen eindeutigen Code zuzuweisen. <strong>UTF-8</strong> ist die heute dominanteste Kodierung für Unicode. Sie ist abwärtskompatibel zu ASCII (die ersten 128 Zeichen sind identisch) und kodiert Zeichen mit variabler Länge (1 bis 4 Bytes), was sie sehr speichereffizient macht.
+                        </p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="rub-arithmetik" class="rub-content-section">
+                 <div class="card p-8 rounded-2xl shadow-2xl space-y-8">
+                    <div>
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Logische Bausteine: MUX & DEMUX 🔀</h2>
+                        <p class="mb-4 text-gray-300">
+                            Ein <strong>Multiplexer (MUX)</strong> ist wie eine Weiche: Er hat mehrere Dateneingänge, aber nur einen Ausgang. Über Steuerleitungen wird ausgewählt, welcher der Eingänge auf den Ausgang durchgeschaltet wird. Ein <strong>Demultiplexer (DEMUX)</strong> macht das Gegenteil: Er hat einen Dateneingang und verteilt dessen Signal, gesteuert durch Steuerleitungen, auf einen von mehreren Ausgängen.
+                        </p>
+                    </div>
+                     <div>
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Binäre Addition mit Addierwerken ➕</h2>
+                        <p class="mb-4 text-gray-300">
+                            Die Addition zweier Binärzahlen wird schrittweise, Bit für Bit, realisiert. Ein <strong>Halbaddierer</strong> addiert zwei einzelne Bits und liefert eine Summe (s) und einen Übertrag (carry, ü). Ein <strong>Volladdierer</strong> addiert zwei Bits und berücksichtigt zusätzlich einen Übertrag von der vorherigen, niederwertigeren Stelle.
+                        </p>
+                        <p class="text-gray-300">
+                            Um mehrstellige Zahlen zu addieren, kettet man mehrere Volladdierer zu einem <strong>Carry-Ripple-Addierer</strong> zusammen. Der Übertragsausgang jedes Volladdierers wird dabei mit dem Übertragseingang des nächsthöheren verbunden. Der Nachteil ist die Laufzeit, da der Übertrag von rechts nach links "durchrieseln" (to ripple) muss.
+                        </p>
+                    </div>
+                    <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                        <h3 class="text-xl font-semibold text-cyan-300 mb-2">Interaktiver 4-Bit Carry-Ripple-Addierer</h3>
+                        <p class="text-sm text-gray-400 mb-4">Gib zwei 4-Bit-Zahlen ein und beobachte, wie Summe und Überträge berechnet werden.</p>
+                        <div class="flex justify-center items-center gap-4 mb-4">
+                            <div class="text-center">
+                                <label for="adder-a" class="font-mono">Zahl A</label>
+                                <input type="text" id="adder-a" maxlength="4" value="1011" class="block w-24 text-center p-1 rounded-md mt-1 font-mono">
+                            </div>
+                             <span class="text-2xl font-bold">+</span>
+                             <div class="text-center">
+                                <label for="adder-b" class="font-mono">Zahl B</label>
+                                <input type="text" id="adder-b" maxlength="4" value="0110" class="block w-24 text-center p-1 rounded-md mt-1 font-mono">
+                            </div>
+                        </div>
+                        <div id="adder-visualization" class="flex flex-col items-center space-y-2 mt-4">
+                            </div>
+                    </div>
+                 </div>
             </section>
         </main>
     </div>
 </div>
-<script src="js/1.semester/rub.js"></script>
+<script src="../js/1.semester/rub.js"></script>
 </body>
 </html>
