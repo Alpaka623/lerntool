@@ -1,3 +1,5 @@
+// js/1.semester/bwl.js
+
 (() => {
     sessionStorage.setItem('selectedSemester', '1');
     const backBtn = document.querySelector('.back-to-hub-btn');
@@ -26,6 +28,7 @@
             });
         });
 
+        // --- HANDELSKALKULATION (UNVERÄNDERT) ---
         class Calculation {
             static roundNumber(value, step = 0.01) {
                 if (step === null) step = 1.0;
@@ -95,6 +98,7 @@
         ];
 
         function generateTask() {
+            if (!container) return;
             solution = new Calculation();
             container.innerHTML = '';
             stepsContainer.style.display = 'none';
@@ -109,12 +113,9 @@
                 'agentCommissionPercent', 'customerDiscountPercent', 'valueAddedTaxPercent'
             ]);
 
-            if (givenKeys.has(targetId)) {
-                givenKeys.delete(targetId);
-            }
+            if (givenKeys.has(targetId)) givenKeys.delete(targetId);
 
             const instructionTargetText = targetField.label.replace(/<[^>]*>/g, '') + (targetField.percentId ? ' in %' : ' in €');
-
             const instructionDiv = document.createElement('div');
             instructionDiv.className = 'calc-instruction';
             instructionDiv.innerHTML = `Berechnen Sie den <strong>${instructionTargetText}</strong> und tragen Sie alle Zwischenwerte in die leeren Felder ein.`;
@@ -127,75 +128,56 @@
                     container.appendChild(separator);
                     return;
                 }
-
                 const rowDiv = document.createElement('div');
                 rowDiv.className = 'calc-row';
-                if (row.id === targetId) {
-                    rowDiv.classList.add('target-row');
-                }
+                if (row.id === targetId) rowDiv.classList.add('target-row');
                 container.appendChild(rowDiv);
-
-                // Spalte 1: Bezeichnung
                 const labelDiv = document.createElement('div');
                 labelDiv.className = 'calc-label';
                 labelDiv.innerHTML = row.label;
                 rowDiv.appendChild(labelDiv);
-
-                // Spalte 2: Prozentsatz
                 let percentEl;
                 if (row.percentId) {
                     const isGiven = givenKeys.has(row.percentId);
                     percentEl = document.createElement(isGiven ? 'div' : 'input');
                     percentEl.className = `calc-percent ${isGiven ? 'given' : 'input'}`;
                     percentEl.id = `field-${row.percentId}`;
-                    if (isGiven) {
-                        percentEl.textContent = solution[row.percentId].toFixed(2) + ' %';
-                    } else {
+                    if (isGiven) percentEl.textContent = solution[row.percentId].toFixed(2) + ' %';
+                    else {
                         percentEl.type = 'number';
                         percentEl.step = '0.01';
                         percentEl.placeholder = '%';
                     }
-                } else {
-                    percentEl = document.createElement('div'); // Leerer Platzhalter
-                }
+                } else percentEl = document.createElement('div');
                 rowDiv.appendChild(percentEl);
-
-                // Spalte 3: Wert
                 let valueEl;
                 if (row.valueId) {
                     const isGiven = givenKeys.has(row.valueId);
                     valueEl = document.createElement(isGiven ? 'div' : 'input');
                     valueEl.className = `calc-value ${isGiven ? 'given' : 'input'}`;
                     valueEl.id = `field-${row.valueId}`;
-                    if (isGiven) {
-                        valueEl.textContent = solution[row.valueId].toFixed(2) + ' €';
-                    } else {
+                    if (isGiven) valueEl.textContent = solution[row.valueId].toFixed(2) + ' €';
+                    else {
                         valueEl.type = 'number';
                         valueEl.step = '0.01';
                         valueEl.placeholder = '€';
                     }
-                } else {
-                    valueEl = document.createElement('div'); // Leerer Platzhalter
-                }
+                } else valueEl = document.createElement('div');
                 rowDiv.appendChild(valueEl);
             });
         }
 
         function showSolution() {
             if (!solution) return;
-
             schema.forEach(row => {
                 if (row.isSeparator) return;
                 const fieldId = row.id;
                 if (!fieldId) return;
-
                 const correctValue = solution[fieldId];
                 const inputEl = document.getElementById(`field-${fieldId}`);
-
                 if (inputEl && inputEl.tagName === 'INPUT') {
                     const userValue = parseFloat(inputEl.value);
                     const isCorrect = !isNaN(userValue) && Math.abs(userValue - correctValue) < 0.02;
-
                     inputEl.value = correctValue.toFixed(2);
                     inputEl.classList.toggle('correct', isCorrect);
                     inputEl.classList.toggle('incorrect', !isCorrect);
@@ -206,10 +188,8 @@
         function showCalculationSteps() {
             if (!solution) return;
             stepsContainer.style.display = 'block';
-
             let html = '<h3>Lösungsweg mit Erklärungen</h3><ol>';
             const s = solution;
-
             html += `<li><b>Nettobekaufspreis (Rückwärts):</b> <span class="explanation">Der Bruttopreis enthält 119% des Nettopreises. Um zum Nettopreis (100%) zu gelangen, teilen wir durch 1,19. </span><code>${s.grossPurchasePrice.toFixed(2)} € / 1,19 = ${s.netPurchasePrice.toFixed(2)} €</code></li>`;
             html += `<li><b>Zieleinkaufspreis (Vorwärts, "vom Hundert"):</b> <span class="explanation">Vom Nettopreis (Grundwert) wird ein Rabatt abgezogen. Wir rechnen 'vom Hundert' und multiplizieren. </span><code>${s.netPurchasePrice.toFixed(2)} € * (1 - ${s.deliveryDiscountPercent / 100}) = ${s.targetPurchasePrice.toFixed(2)} €</code></li>`;
             html += `<li><b>Bareinkaufspreis (Vorwärts, "vom Hundert"):</b> <span class="explanation">Vom Zieleinkaufspreis wird Skonto abgezogen. </span><code>${s.targetPurchasePrice.toFixed(2)} € * (1 - ${s.deliveryAccountPercent / 100}) = ${s.cashPurchasePrice.toFixed(2)} €</code></li>`;
@@ -220,15 +200,116 @@
             html += `<li><b>Zielverkaufspreis (Rückwärts, "im Hundert"):</b> <span class="explanation">Der Barverkaufspreis ist der verminderte Wert (z.B. 98%). Um den Grundwert (100%) zu finden, müssen wir teilen. </span><code>${s.cashSalePrice.toFixed(2)} € / (1 - ${skontoProvProzent / 100}) = ${s.targetSalePrice.toFixed(2)} €</code></li>`;
             html += `<li><b>Listenpreis (Rückwärts, "im Hundert"):</b> <span class="explanation">Der Zielverkaufspreis ist der verminderte Wert nach Kundenrabatt. Wir teilen erneut, um den Grundwert zu finden. </span><code>${s.targetSalePrice.toFixed(2)} € / (1 - ${s.customerDiscountPercent / 100}) = ${s.listSalePrice.toFixed(2)} €</code></li>`;
             html += `<li><b>Bruttoverkaufspreis (Vorwärts):</b> <span class="explanation">Auf den Netto-Listenpreis (Grundwert) wird die MwSt. aufgeschlagen. </span><code>${s.listSalePrice.toFixed(2)} € * 1,19 = ${s.grossSalePrice.toFixed(2)} €</code></li>`;
-
             html += '</ol>';
             stepsContainer.innerHTML = html;
         }
 
-        generateBtn.addEventListener('click', generateTask);
-        solutionBtn.addEventListener('click', showSolution);
-        stepsBtn.addEventListener('click', showCalculationSteps);
+        if (generateBtn) generateBtn.addEventListener('click', generateTask);
+        if (solutionBtn) solutionBtn.addEventListener('click', showSolution);
+        if (stepsBtn) stepsBtn.addEventListener('click', showCalculationSteps);
+        if (container) generateTask();
 
-        generateTask();
+        // --- RICHTIG/FALSCH FRAGEN (NEUE LOGIK) ---
+        const startContainer = document.getElementById('bwl-quiz-start-container');
+        const questionContainer = document.getElementById('bwl-quiz-question-container');
+        const shuffleCheckbox = document.getElementById('bwl-quiz-shuffle-checkbox');
+        const startBtn = document.getElementById('bwl-quiz-start-btn');
+        const endBtn = document.getElementById('bwl-quiz-end-btn');
+        const nextBtn = document.getElementById('bwl-quiz-next-btn');
+        const progressIndicator = document.getElementById('bwl-quiz-progress');
+        const quizCard = document.getElementById('bwl-quiz-card');
+
+        const BwlQuizManager = {
+            questions: [],
+            currentQuestionIndex: 0,
+            totalQuestions: 0,
+
+            start: function(shuffle) {
+                if (typeof bwlFragen === 'undefined' || bwlFragen.length === 0) {
+                    alert("Fehler: Fragen konnten nicht geladen werden.");
+                    return;
+                }
+                this.questions = [...bwlFragen];
+                this.totalQuestions = this.questions.length;
+                if (shuffle) {
+                    this.questions.sort(() => 0.5 - Math.random());
+                }
+                this.currentQuestionIndex = 0;
+                this.showQuestion();
+                startContainer.classList.add('hidden');
+                questionContainer.classList.remove('hidden');
+            },
+
+            end: function() {
+                startContainer.classList.remove('hidden');
+                questionContainer.classList.add('hidden');
+            },
+
+            next: function() {
+                this.currentQuestionIndex++;
+                this.showQuestion();
+            },
+
+            showQuestion: function() {
+                nextBtn.classList.add('hidden');
+
+                if (this.currentQuestionIndex >= this.totalQuestions) {
+                    quizCard.innerHTML = `<h4 class="font-bold text-green-400 text-center text-xl">Super!</h4>
+                                          <p class="text-gray-300 text-center mt-2">Du hast alle Fragen durchgearbeitet.</p>`;
+                    progressIndicator.textContent = `Runde beendet`;
+                    endBtn.textContent = 'Neue Runde';
+                    return;
+                }
+
+                endBtn.textContent = 'Runde beenden';
+                progressIndicator.textContent = `Frage ${this.currentQuestionIndex + 1} / ${this.totalQuestions}`;
+                const task = this.questions[this.currentQuestionIndex];
+
+                quizCard.innerHTML = `
+                    <p class="text-gray-300 mb-4">${task.q}</p>
+                    <div class="flex gap-4">
+                        <button class="check-answer-btn flex-1 py-2 rounded-lg bg-gray-700 hover:bg-gray-600" data-answer="true">Richtig</button>
+                        <button class="check-answer-btn flex-1 py-2 rounded-lg bg-gray-700 hover:bg-gray-600" data-answer="false">Falsch</button>
+                    </div>
+                    <div class="solution p-4 mt-4 rounded-md" style="display: none;">
+                        <p><b>Antwort:</b> ${task.a ? 'Richtig' : 'Falsch'}.</p>
+                    </div>
+                `;
+                this.attachAnswerListeners(task);
+            },
+
+            attachAnswerListeners: function(task) {
+                quizCard.querySelectorAll('.check-answer-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const selectedAnswer = e.target.dataset.answer === 'true';
+                        const correctAnswer = task.a;
+
+                        // ### KORREKTUR HIER ###
+                        // Die Variable heißt 'quizCard', nicht 'questionCard'
+                        quizCard.querySelectorAll('.check-answer-btn').forEach(btn => {
+                            btn.disabled = true;
+                            btn.classList.remove('hover:bg-gray-600');
+                        });
+
+                        if (correctAnswer) {
+                            quizCard.querySelector('[data-answer="true"]').classList.add('bg-green-700');
+                        } else {
+                            quizCard.querySelector('[data-answer="false"]').classList.add('bg-green-700');
+                        }
+
+                        if (selectedAnswer !== correctAnswer) {
+                            e.target.classList.add('bg-red-700');
+                        }
+
+                        quizCard.querySelector('.solution').style.display = 'block';
+                        nextBtn.classList.remove('hidden');
+                    });
+                });
+            }
+        };
+
+        if (startBtn) startBtn.addEventListener('click', () => BwlQuizManager.start(shuffleCheckbox.checked));
+        if (endBtn) endBtn.addEventListener('click', () => BwlQuizManager.end());
+        if (nextBtn) nextBtn.addEventListener('click', () => BwlQuizManager.next());
     }
 })();
