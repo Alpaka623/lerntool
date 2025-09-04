@@ -88,14 +88,22 @@
         #solution-steps ol {
             list-style-type: decimal;
             margin-left: 1.5rem;
-            space-y: 0.5rem;
+        }
+        #solution-steps li {
+            margin-bottom: 1rem;
         }
         #solution-steps code {
             font-family: monospace;
             background-color: #374151;
-            padding: 0.1rem 0.4rem;
+            padding: 0.2rem 0.5rem;
             border-radius: 0.25rem;
             color: #e5e7eb;
+            display: block;
+            margin-top: 0.25rem;
+        }
+        #solution-steps .explanation {
+            font-size: 0.875rem;
+            color: #9ca3af;
         }
     </style>
 </head>
@@ -126,11 +134,11 @@
                         <button id="show-solution-btn" class="px-6 py-3 bg-amber-600 text-white rounded-lg shadow-lg hover:bg-amber-500">Ergebnis anzeigen</button>
                         <button id="show-steps-btn" class="px-6 py-3 bg-gray-600 text-white rounded-lg shadow-lg hover:bg-gray-500">Lösungsweg anzeigen</button>
                     </div>
+                    <div id="solution-steps">
+                    </div>
                     <div class="text-center text-sm text-gray-500 mt-4">
                         <p>Dieser Aufgabengenerator ist eine Nachbildung. Es kann nicht garantiert werden, dass er fehlerfrei ist.</p>
                         <p>Das Original findest du hier: <a href="https://bwl-aufgabengenerator.pages.inf.fh-dortmund.de/mainpage/handelskalkulation/#/" target="_blank" class="text-cyan-400 hover:underline">FH Dortmund BWL-Aufgabengenerator</a></p>
-                    </div>
-                    <div id="solution-steps">
                     </div>
                 </div>
             </section>
