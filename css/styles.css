@@ -568,9 +568,60 @@ input[type=number] {
 .bot-message { background-color: #4b5563; color: #e5e7eb; align-self: flex-start; }
 #chat-input-container { padding: 12px; display: flex; gap: 10px; border-top: 1px solid #374151; }
 #chat-input { flex-grow: 1; padding: 8px; border-radius: 6px; background-color: #374151; border: 1px solid #4b5563; color: #e5e7eb; min-width: 0; }
-#chat-send-btn { padding: 8px 12px; border-radius: 6px; background-color: #0e7490; color: white; border: none; cursor: pointer; }
 
-/* NEUE REGEL: Toggle-Button ausblenden, wenn der Chat offen ist */
+#chat-send-btn {
+    position: relative;
+    width: 40px; 
+    height: 40px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, opacity 0.2s;
+    
+    /* HIER DIE ÄNDERUNGEN */
+    background-color: transparent; /* Macht den Hintergrund unsichtbar */
+    border: none;
+    cursor: pointer;
+    border-radius: 50%; /* Macht den Button rund */
+}
+
+#chat-send-btn:not(:disabled):hover {
+    background-color: rgba(75, 85, 99, 0.5); /* Halb-transparentes Grau */
+}
+
+.send-icon {
+    width: 20px;
+    height: 20px;
+    transform: rotate(90deg);
+}
+
+
+
+.spinner {
+    display: none;
+    margin: auto;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s ease-in-out infinite;
+}
+
+#chat-send-btn.loading .spinner {
+    display: block;
+}
+
+/* KORREKTUR: Wir blenden jetzt das .send-icon aus, nicht mehr .send-text */
+#chat-send-btn.loading .send-icon {
+    display: none;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 #chat-widget-container.open #chat-toggle-btn {
     opacity: 0;
     transform: scale(0.7);

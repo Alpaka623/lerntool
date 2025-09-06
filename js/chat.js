@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         input.value = '';
         input.disabled = true;
         sendBtn.disabled = true;
+        sendBtn.classList.add('loading');
 
         const mainContentElement = document.querySelector('main section.active, main section.content-section.active');
         let pageContext = "Allgemeine Übersichtsseite des Lerntools.";
@@ -65,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } finally {
             input.disabled = false;
             sendBtn.disabled = false;
+            sendBtn.classList.remove('loading');
             input.focus();
         }
     };
