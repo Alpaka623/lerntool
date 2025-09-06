@@ -484,3 +484,93 @@ input[type=number]::-webkit-outer-spin-button {
 input[type=number] {
     -moz-appearance: textfield;
 }
+/* --- Chat-Widget Styles --- */
+#chat-widget-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+    max-width: 90vw;
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+}
+#chat-toggle-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #0891b2;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(13, 202, 240, 0.3);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+#chat-window {
+    background-color: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    max-height: 70vh;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+}
+#chat-widget-container.open #chat-window {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+#chat-header {
+    background-color: #374151;
+    padding: 12px;
+    font-weight: bold;
+    color: #e5e7eb;
+    text-align: center;
+    display: flex; /* NEU */
+    justify-content: space-between; /* NEU */
+    align-items: center; /* NEU */
+}
+
+/* NEUE REGEL FÜR DEN SCHLIESSEN-BUTTON */
+#chat-close-btn {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 5px;
+}
+#chat-close-btn:hover {
+    color: #ef4444; /* Rote Farbe beim Hovern */
+}
+#chat-messages {
+    flex-grow: 1;
+    padding: 12px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.chat-message { padding: 8px 12px; border-radius: 8px; max-width: 80%; }
+.user-message { background-color: #0891b2; color: white; align-self: flex-end; }
+.bot-message { background-color: #4b5563; color: #e5e7eb; align-self: flex-start; }
+#chat-input-container { padding: 12px; display: flex; gap: 10px; border-top: 1px solid #374151; }
+#chat-input { flex-grow: 1; padding: 8px; border-radius: 6px; background-color: #374151; border: 1px solid #4b5563; color: #e5e7eb; min-width: 0; }
+#chat-send-btn { padding: 8px 12px; border-radius: 6px; background-color: #0e7490; color: white; border: none; cursor: pointer; }
+
+/* NEUE REGEL: Toggle-Button ausblenden, wenn der Chat offen ist */
+#chat-widget-container.open #chat-toggle-btn {
+    opacity: 0;
+    transform: scale(0.7);
+    pointer-events: none;
+}
