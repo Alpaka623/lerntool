@@ -495,6 +495,7 @@ input[type=number] {
     max-width: 90vw;
     z-index: 1000;
     transition: all 0.3s ease-in-out;
+    pointer-events: none;
 }
 #chat-toggle-btn {
     width: 60px;
@@ -510,6 +511,7 @@ input[type=number] {
     position: absolute;
     bottom: 0;
     right: 0;
+    pointer-events: auto;
 }
 #chat-window {
     background-color: #1f2937;
