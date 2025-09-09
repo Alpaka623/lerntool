@@ -64,10 +64,14 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Fehler beim Senden der Nachricht:', error);
             addMessage('Entschuldigung, es gab einen Fehler. Bitte versuche es später erneut.', 'bot');
         } finally {
-            input.disabled = false;
-            sendBtn.disabled = false;
             sendBtn.classList.remove('loading');
-            input.focus();
+            sendBtn.classList.add('cooldown');
+            setTimeout(() => {
+                input.disabled = false;
+                sendBtn.disabled = false;
+                sendBtn.classList.remove('cooldown');
+                input.focus();
+            }, 10000);
         }
     };
 

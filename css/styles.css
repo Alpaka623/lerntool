@@ -615,9 +615,17 @@ input[type=number] {
     display: block;
 }
 
-/* KORREKTUR: Wir blenden jetzt das .send-icon aus, nicht mehr .send-text */
 #chat-send-btn.loading .send-icon {
     display: none;
+}
+
+#chat-send-btn.cooldown {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#chat-send-btn.cooldown:hover {
+    background-color: transparent;
 }
 
 @keyframes spin {
