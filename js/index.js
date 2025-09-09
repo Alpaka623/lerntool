@@ -28,7 +28,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     checkFirstVisit();
     const defaultExamDates = {
-        'ccn': null, 'mafi2': null, 'insi': null, 'aud': null
+        'mafi1': null, 'eidp': null, 'rub': null, 'bwl': null, // 1. Semester
+        'ccn': null, 'mafi2': null, 'insi': null, 'aud': null  // 2. Semester
     };
     let userExamDates = {};
 

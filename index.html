@@ -82,18 +82,50 @@
             <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-link="1.semester/mafi1.html">
                 <h2 class="text-3xl font-bold text-cyan-400">Mafi 1</h2>
                 <p class="text-gray-300 mt-2">Mathe für Informatiker 1</p>
+                <div class="mt-4 flex items-center justify-center space-x-2">
+                    <span class="text-gray-400 exam-countdown" data-subject-id="mafi1"></span>
+                    <button class="request-date-button nav-button p-1 rounded" data-subject-id="mafi1" aria-label="Datum anfragen">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16 8l-8 8H4v-4l8-8m0 0l1-1a2 2 0 112.828 2.828l-1 1z"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
             <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-link="1.semester/eidp.html">
                 <h2 class="text-3xl font-bold text-cyan-400">EidP</h2>
                 <p class="text-gray-300 mt-2">Einführung in die Programmierung</p>
+                <div class="mt-4 flex items-center justify-center space-x-2">
+                    <span class="text-gray-400 exam-countdown" data-subject-id="eidp"></span>
+                    <button class="request-date-button nav-button p-1 rounded" data-subject-id="eidp" aria-label="Datum anfragen">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16 8l-8 8H4v-4l8-8m0 0l1-1a2 2 0 112.828 2.828l-1 1z"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
             <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-link="1.semester/rub.html">
                 <h2 class="text-3xl font-bold text-cyan-400">RuB</h2>
                 <p class="text-gray-300 mt-2">Rechnerstrukturen und Betriebssysteme</p>
+                <div class="mt-4 flex items-center justify-center space-x-2">
+                    <span class="text-gray-400 exam-countdown" data-subject-id="rub"></span>
+                    <button class="request-date-button nav-button p-1 rounded" data-subject-id="rub" aria-label="Datum anfragen">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16 8l-8 8H4v-4l8-8m0 0l1-1a2 2 0 112.828 2.828l-1 1z"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
             <div class="subject-card card p-8 rounded-2xl shadow-2xl text-center cursor-pointer" data-link="1.semester/bwl.html">
                 <h2 class="text-3xl font-bold text-cyan-400">BWL</h2>
                 <p class="text-gray-300 mt-2">Betriebswirtschaftslehre</p>
+                <div class="mt-4 flex items-center justify-center space-x-2">
+                    <span class="text-gray-400 exam-countdown" data-subject-id="bwl"></span>
+                    <button class="request-date-button nav-button p-1 rounded" data-subject-id="bwl" aria-label="Datum anfragen">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16 8l-8 8H4v-4l8-8m0 0l1-1a2 2 0 112.828 2.828l-1 1z"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -165,31 +197,31 @@
     <div id="dynamic-content" class="subject-view"></div>
 </div>
 
- <div id="chat-widget-container">
-        <div id="chat-window">
-            <div id="chat-header">
-                <span>KI Lernassistent</span>
-                <button id="chat-close-btn">&times;</button>
-            </div>
-            <div id="chat-messages">
-                <div class="chat-message bot-message">Hallo! Wie kann ich dir heute beim Lernen helfen?</div>
-            </div>
-            <div id="chat-input-container">
-                <input type="text" id="chat-input" placeholder="Stelle eine Frage...">
-                <button id="chat-send-btn">
-                    <svg class="send-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                    </svg>
-                    <div class="spinner"></div>
-                </button>
-            </div>
+<div id="chat-widget-container">
+    <div id="chat-window">
+        <div id="chat-header">
+            <span>KI Lernassistent</span>
+            <button id="chat-close-btn">&times;</button>
         </div>
-        <div id="chat-toggle-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
+        <div id="chat-messages">
+            <div class="chat-message bot-message">Hallo! Wie kann ich dir heute beim Lernen helfen?</div>
+        </div>
+        <div id="chat-input-container">
+            <input type="text" id="chat-input" placeholder="Stelle eine Frage...">
+            <button id="chat-send-btn">
+                <svg class="send-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                </svg>
+                <div class="spinner"></div>
+            </button>
         </div>
     </div>
+    <div id="chat-toggle-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+    </div>
+</div>
 
 <script type="module" src="js/index.js"></script>
 <script type="module" src="js/auth.js"></script>
