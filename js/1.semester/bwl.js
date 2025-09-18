@@ -284,8 +284,6 @@
                         const selectedAnswer = e.target.dataset.answer === 'true';
                         const correctAnswer = task.a;
 
-                        // ### KORREKTUR HIER ###
-                        // Die Variable heißt 'quizCard', nicht 'questionCard'
                         quizCard.querySelectorAll('.check-answer-btn').forEach(btn => {
                             btn.disabled = true;
                             btn.classList.remove('hover:bg-gray-600');
@@ -301,7 +299,11 @@
                             e.target.classList.add('bg-red-700');
                         }
 
-                        quizCard.querySelector('.solution').style.display = 'block';
+                        const solutionDiv = quizCard.querySelector('.solution');
+                        solutionDiv.innerHTML = `<p><b>Antwort:</b> ${task.a ? 'Richtig' : 'Falsch'}.</p>
+                                                 <p class="mt-2">${task.e || 'Keine Erklärung verfügbar.'}</p>`;
+                        solutionDiv.style.display = 'block';
+
                         nextBtn.classList.remove('hidden');
                     });
                 });
