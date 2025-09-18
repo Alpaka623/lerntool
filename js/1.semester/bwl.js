@@ -207,6 +207,191 @@
         if (stepsBtn) stepsBtn.addEventListener('click', showCalculationSteps);
         if (container) generateTask();
 
+        // --- PRODUKTIONSKALKULATION ---
+        class ProductionCalculation {
+            static roundNumber(value) { return Math.round(value * 100) / 100; }
+            static getRandomValue(min, max, step = 1) {
+                const tmp = min + Math.random() * (max - min);
+                return Math.round(tmp / step) * step;
+            }
+            constructor() {
+                this.materialEinzelkosten = ProductionCalculation.getRandomValue(10000, 50000, 100);
+                this.materialGemeinkostenPercent = ProductionCalculation.getRandomValue(5, 20, 1);
+                this.fertigungsEinzelkosten = ProductionCalculation.getRandomValue(20000, 80000, 100);
+                this.fertigungsGemeinkostenPercent = ProductionCalculation.getRandomValue(20, 80, 5);
+                this.verwaltungsGemeinkostenPercent = ProductionCalculation.getRandomValue(5, 25, 1);
+                this.vertriebsGemeinkostenPercent = ProductionCalculation.getRandomValue(5, 20, 1);
+                this.gewinnPercent = ProductionCalculation.getRandomValue(10, 50, 1);
+                this.skontoPercent = ProductionCalculation.getRandomValue(1, 3, 0.5);
+                this.rabattPercent = ProductionCalculation.getRandomValue(5, 25, 1);
+                this.valueAddedTaxPercent = 19;
+                this.calculate();
+            }
+
+            calculate() {
+                this.materialGemeinkosten = ProductionCalculation.roundNumber(this.materialEinzelkosten * (this.materialGemeinkostenPercent / 100));
+                this.materialkosten = ProductionCalculation.roundNumber(this.materialEinzelkosten + this.materialGemeinkosten);
+                this.fertigungsGemeinkosten = ProductionCalculation.roundNumber(this.fertigungsEinzelkosten * (this.fertigungsGemeinkostenPercent / 100));
+                this.fertigungskosten = ProductionCalculation.roundNumber(this.fertigungsEinzelkosten + this.fertigungsGemeinkosten);
+                this.herstellkosten = ProductionCalculation.roundNumber(this.materialkosten + this.fertigungskosten);
+                this.verwaltungsGemeinkosten = ProductionCalculation.roundNumber(this.herstellkosten * (this.verwaltungsGemeinkostenPercent / 100));
+                this.vertriebsGemeinkosten = ProductionCalculation.roundNumber(this.herstellkosten * (this.vertriebsGemeinkostenPercent / 100));
+                this.selbstkosten = ProductionCalculation.roundNumber(this.herstellkosten + this.verwaltungsGemeinkosten + this.vertriebsGemeinkosten);
+                this.gewinn = ProductionCalculation.roundNumber(this.selbstkosten * (this.gewinnPercent / 100));
+                this.barverkaufspreis = ProductionCalculation.roundNumber(this.selbstkosten + this.gewinn);
+                this.zielverkaufspreis = ProductionCalculation.roundNumber(this.barverkaufspreis / (1 - this.skontoPercent / 100));
+                this.listenverkaufspreisNetto = ProductionCalculation.roundNumber(this.zielverkaufspreis / (1 - this.rabattPercent / 100));
+                this.listenverkaufspreisBrutto = ProductionCalculation.roundNumber(this.listenverkaufspreisNetto * (1 + this.valueAddedTaxPercent / 100));
+            }
+        }
+
+        const prodContainer = document.getElementById('produktionskalkulation-container');
+        const generateProdBtn = document.getElementById('generate-prod-task-btn');
+        const solutionProdBtn = document.getElementById('show-prod-solution-btn');
+        const stepsProdBtn = document.getElementById('show-prod-steps-btn');
+        const stepsProdContainer = document.getElementById('prod-solution-steps');
+        let prodSolution;
+
+        const prodSchema = [
+            { id: 'materialEinzelkosten', label: 'Materialeinzelkosten', valueId: 'materialEinzelkosten' },
+            { id: 'materialGemeinkostenPercent', label: 'Materialgemeinkosten', percentId: 'materialGemeinkostenPercent', valueId: 'materialGemeinkosten' },
+            { id: 'materialkosten', label: '<strong>Materialkosten</strong>', valueId: 'materialkosten' },
+            { id: 'fertigungsEinzelkosten', label: 'Fertigungseinzelkosten (Löhne)', valueId: 'fertigungsEinzelkosten' },
+            { id: 'fertigungsGemeinkostenPercent', label: 'Fertigungsgemeinkosten', percentId: 'fertigungsGemeinkostenPercent', valueId: 'fertigungsGemeinkosten' },
+            { id: 'fertigungskosten', label: '<strong>Fertigungskosten</strong>', valueId: 'fertigungskosten' },
+            { id: 'herstellkosten', label: '<strong>Herstellkosten</strong>', valueId: 'herstellkosten' },
+            { isSeparator: true },
+            { id: 'verwaltungsGemeinkostenPercent', label: 'Verwaltungsgemeinkosten', percentId: 'verwaltungsGemeinkostenPercent', valueId: 'verwaltungsGemeinkosten' },
+            { id: 'vertriebsGemeinkostenPercent', label: 'Vertriebsgemeinkosten', percentId: 'vertriebsGemeinkostenPercent', valueId: 'vertriebsGemeinkosten' },
+            { id: 'selbstkosten', label: '<strong>Selbstkosten</strong>', valueId: 'selbstkosten' },
+            { isSeparator: true },
+            { id: 'gewinnPercent', label: 'Gewinn', percentId: 'gewinnPercent', valueId: 'gewinn' },
+            { id: 'barverkaufspreis', label: '<strong>Barverkaufspreis</strong>', valueId: 'barverkaufspreis' },
+            { id: 'skontoPercent', label: 'Skonto', percentId: 'skontoPercent' },
+            { id: 'zielverkaufspreis', label: '<strong>Zielverkaufspreis</strong>', valueId: 'zielverkaufspreis' },
+            { id: 'rabattPercent', label: 'Rabatt', percentId: 'rabattPercent' },
+            { id: 'listenverkaufspreisNetto', label: '<strong>Listenverkaufspreis (netto)</strong>', valueId: 'listenverkaufspreisNetto' },
+            { isSeparator: true },
+            { id: 'valueAddedTaxPercent', label: 'Mehrwertsteuer', percentId: 'valueAddedTaxPercent' },
+            { id: 'listenverkaufspreisBrutto', label: '<strong>Listenverkaufspreis (brutto)</strong>', valueId: 'listenverkaufspreisBrutto' },
+        ];
+
+        function generateProdTask() {
+            if (!prodContainer) return;
+            prodSolution = new ProductionCalculation();
+            prodContainer.innerHTML = '';
+            stepsProdContainer.style.display = 'none';
+
+            // ANGEPASSTE LOGIK: Nur Basiswerte und Prozentsätze sind vorgegeben
+            const givenKeys = new Set([
+                'materialEinzelkosten',
+                'materialGemeinkostenPercent',
+                'fertigungsEinzelkosten',
+                'fertigungsGemeinkostenPercent',
+                'verwaltungsGemeinkostenPercent',
+                'vertriebsGemeinkostenPercent',
+                'gewinnPercent',
+                'skontoPercent',
+                'rabattPercent',
+                'valueAddedTaxPercent'
+            ]);
+
+            const instructionDiv = document.createElement('div');
+            instructionDiv.className = 'calc-instruction';
+            // ANGEPASSTER HINWEIS
+            instructionDiv.innerHTML = `Berechnen Sie das gesamte Kalkulationsschema und tragen Sie alle fehlenden Werte ein. 
+            <br><strong>Wichtiger Hinweis:</strong> Auf der Original-Webseite (siehe unten) und in der Klausur wird in der Regel ein bestimmter Wert gesucht. Schauen Sie sich das zur Vorbereitung unbedingt an!`;
+            prodContainer.appendChild(instructionDiv);
+
+            prodSchema.forEach(row => {
+                if (row.isSeparator) {
+                    const separator = document.createElement('div');
+                    separator.className = 'calc-separator';
+                    prodContainer.appendChild(separator);
+                    return;
+                }
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'calc-row';
+                // KEIN "target-row" mehr
+                prodContainer.appendChild(rowDiv);
+
+                const labelDiv = document.createElement('div');
+                labelDiv.className = 'calc-label';
+                labelDiv.innerHTML = row.label;
+                rowDiv.appendChild(labelDiv);
+
+                let percentEl = document.createElement('div');
+                if (row.percentId) {
+                    const isGiven = givenKeys.has(row.percentId);
+                    percentEl = document.createElement(isGiven ? 'div' : 'input');
+                    percentEl.className = `calc-percent ${isGiven ? 'given' : 'input'}`;
+                    percentEl.id = `prod-field-${row.percentId}`;
+                    if (isGiven) percentEl.textContent = prodSolution[row.percentId].toFixed(2) + ' %';
+                    else { percentEl.type = 'number'; percentEl.step = '0.01'; percentEl.placeholder = '%'; }
+                }
+                rowDiv.appendChild(percentEl);
+
+                let valueEl = document.createElement('div');
+                if (row.valueId) {
+                    const isGiven = givenKeys.has(row.valueId);
+                    valueEl = document.createElement(isGiven ? 'div' : 'input');
+                    valueEl.className = `calc-value ${isGiven ? 'given' : 'input'}`;
+                    valueEl.id = `prod-field-${row.valueId}`;
+                    if(isGiven) valueEl.textContent = prodSolution[row.valueId].toFixed(2) + ' €';
+                    else { valueEl.type = 'number'; valueEl.step = '0.01'; valueEl.placeholder = '€'; }
+                }
+                rowDiv.appendChild(valueEl);
+            });
+        }
+
+        function showProdSolution() {
+            if (!prodSolution) return;
+            prodSchema.forEach(row => {
+                if (row.isSeparator) return;
+
+                const checkAndMark = (id, correctValue) => {
+                    const el = document.getElementById(`prod-field-${id}`);
+                    if (el && el.tagName === 'INPUT') {
+                        const userValue = parseFloat(el.value);
+                        const isCorrect = !isNaN(userValue) && Math.abs(userValue - correctValue) < 0.02;
+                        el.value = correctValue.toFixed(2);
+                        el.classList.toggle('correct', isCorrect);
+                        el.classList.toggle('incorrect', !isCorrect);
+                    }
+                };
+
+                if (row.valueId) checkAndMark(row.valueId, prodSolution[row.valueId]);
+                if (row.percentId) checkAndMark(row.percentId, prodSolution[row.percentId]);
+            });
+        }
+
+        function showProdSteps() {
+            if (!prodSolution) return;
+            stepsProdContainer.style.display = 'block';
+            let html = '<h3>Lösungsweg (Zuschlagskalkulation)</h3><ol>';
+            const s = prodSolution;
+            html += `<li><b>Materialgemeinkosten:</b> <code>${s.materialEinzelkosten.toFixed(2)} € * ${s.materialGemeinkostenPercent / 100} = ${s.materialGemeinkosten.toFixed(2)} €</code></li>`;
+            html += `<li><b>Materialkosten:</b> <code>${s.materialEinzelkosten.toFixed(2)} € + ${s.materialGemeinkosten.toFixed(2)} € = ${s.materialkosten.toFixed(2)} €</code></li>`;
+            html += `<li><b>Fertigungsgemeinkosten:</b> <code>${s.fertigungsEinzelkosten.toFixed(2)} € * ${s.fertigungsGemeinkostenPercent / 100} = ${s.fertigungsGemeinkosten.toFixed(2)} €</code></li>`;
+            html += `<li><b>Fertigungskosten:</b> <code>${s.fertigungsEinzelkosten.toFixed(2)} € + ${s.fertigungsGemeinkosten.toFixed(2)} € = ${s.fertigungskosten.toFixed(2)} €</code></li>`;
+            html += `<li><b>Herstellkosten:</b> <code>${s.materialkosten.toFixed(2)} € + ${s.fertigungskosten.toFixed(2)} € = ${s.herstellkosten.toFixed(2)} €</code></li>`;
+            html += `<li><b>Verwaltungs-/Vertriebsgemeinkosten:</b> <code>(${s.verwaltungsGemeinkostenPercent}% VwG + ${s.vertriebsGemeinkostenPercent}% VtG) * ${s.herstellkosten.toFixed(2)}€ = ${s.verwaltungsGemeinkosten.toFixed(2)}€ + ${s.vertriebsGemeinkosten.toFixed(2)}€</code></li>`;
+            html += `<li><b>Selbstkosten:</b> <code>${s.herstellkosten.toFixed(2)}€ + ${s.verwaltungsGemeinkosten.toFixed(2)}€ + ${s.vertriebsGemeinkosten.toFixed(2)}€ = ${s.selbstkosten.toFixed(2)}€</code></li>`;
+            html += `<li><b>Gewinn:</b> <code>${s.selbstkosten.toFixed(2)}€ * ${s.gewinnPercent/100} = ${s.gewinn.toFixed(2)}€</code></li>`;
+            html += `<li><b>Barverkaufspreis:</b> <code>${s.selbstkosten.toFixed(2)}€ + ${s.gewinn.toFixed(2)}€ = ${s.barverkaufspreis.toFixed(2)}€</code></li>`;
+            html += `<li><b>Zielverkaufspreis (im Hundert):</b> <code>${s.barverkaufspreis.toFixed(2)}€ / (1 - ${s.skontoPercent/100}) = ${s.zielverkaufspreis.toFixed(2)}€</code></li>`;
+            html += `<li><b>Listenverkaufspreis Netto (im Hundert):</b> <code>${s.zielverkaufspreis.toFixed(2)}€ / (1 - ${s.rabattPercent/100}) = ${s.listenverkaufspreisNetto.toFixed(2)}€</code></li>`;
+            html += `<li><b>Listenverkaufspreis Brutto:</b> <code>${s.listenverkaufspreisNetto.toFixed(2)}€ * 1,19 = ${s.listenverkaufspreisBrutto.toFixed(2)}€</code></li>`;
+            html += '</ol>';
+            stepsProdContainer.innerHTML = html;
+        }
+
+        if (generateProdBtn) generateProdBtn.addEventListener('click', generateProdTask);
+        if (solutionProdBtn) solutionProdBtn.addEventListener('click', showProdSolution);
+        if (stepsProdBtn) stepsProdBtn.addEventListener('click', showProdSteps);
+        if(prodContainer) generateProdTask();
+
+
         // --- RICHTIG/FALSCH FRAGEN ---
         const startContainer = document.getElementById('bwl-quiz-start-container');
         const questionContainer = document.getElementById('bwl-quiz-question-container');
