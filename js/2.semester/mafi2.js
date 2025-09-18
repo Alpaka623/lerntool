@@ -6,7 +6,6 @@ if (backBtn) backBtn.addEventListener('click', () => { window.dispatchEvent(new 
 
     const simpleMathParser = {
         parse: function(expr) {
-            // Replace common math functions with Math.* equivalents
             let safeExpr = expr.replace(/sin/g, 'Math.sin')
                                .replace(/cos/g, 'Math.cos')
                                .replace(/exp/g, 'Math.exp')
@@ -14,11 +13,9 @@ if (backBtn) backBtn.addEventListener('click', () => { window.dispatchEvent(new 
                                .replace(/\^/g, '**');
 
             try {
-                // Use new Function for safer evaluation than eval()
                 return new Function('x', 'y', `return ${safeExpr}`);
             } catch (e) {
                 console.error("Parsing error in expression '" + expr + "':", e);
-                // Return a function that returns NaN if parsing fails
                 return () => NaN;
             }
         }
@@ -47,7 +44,6 @@ const eulerAngleSlider = document.getElementById('euler-angle-slider');
                     section.classList.remove('active');
                     if (section.id === targetId) section.classList.add('active');
                 });
-                // After switching tab, re-render MathJax if needed
                 if (window.MathJax) {
                     MathJax.typesetPromise();
                 }
@@ -275,7 +271,6 @@ const eulerAngleSlider = document.getElementById('euler-angle-slider');
 
     function calculateEigen(matrix) {
         const [a, b, c, d] = [matrix[0][0], matrix[0][1], matrix[1][0], matrix[1][1]];
-        // For a symmetric matrix, b = c
         const trace = a + d;
         const det = a * d - b * c;
         const discriminant = Math.sqrt(trace * trace - 4 * det);
@@ -307,9 +302,8 @@ const eulerAngleSlider = document.getElementById('euler-angle-slider');
             const [x0, y0] = pointStr.split(',').map(s => parseFloat(s.trim()));
             if (isNaN(x0) || isNaN(y0)) throw new Error("Ungültiger Punkt. Bitte im Format 'x, y' eingeben.");
             const f = simpleMathParser.parse(funcStr);
-            const h = 0.0001; // A small value for numerical differentiation
-            
-            // Numerical calculation of first derivatives (Gradient)
+            const h = 0.0001;
+
             const fx = (f(x0 + h, y0) - f(x0 - h, y0)) / (2 * h);
             const fy = (f(x0, y0 + h) - f(x0, y0 - h)) / (2 * h);
             const gradNorm = Math.sqrt(fx*fx + fy*fy);
@@ -326,7 +320,6 @@ const eulerAngleSlider = document.getElementById('euler-angle-slider');
             
             resultHTML += `<p class="text-green-400 font-semibold mt-2">Kritischer Punkt, da \\( \\nabla f \\approx 0 \\).</p>`;
 
-            // Numerical calculation of second derivatives (Hesse-Matrix)
             const fxx = (f(x0 + h, y0) - 2 * f(x0, y0) + f(x0 - h, y0)) / (h * h);
             const fyy = (f(x0, y0 + h) - 2 * f(x0, y0) + f(x0, y0 - h)) / (h * h);
             const fxy = (f(x0 + h, y0 + h) - f(x0 + h, y0 - h) - f(x0 - h, y0 + h) + f(x0 - h, y0 - h)) / (4 * h * h);
@@ -367,12 +360,10 @@ const eulerAngleSlider = document.getElementById('euler-angle-slider');
         if(!document.getElementById('lagrange-f')) return;
         function getDerivative(funcStr, variable) {
             funcStr = funcStr.trim().replace(/\s/g, '');
-            // Simple hardcoded derivatives for the example
             if (funcStr === 'x+y' || funcStr === 'y+x') return '1';
             if (funcStr === 'x^2+y^2-1' || funcStr === 'y^2+x^2-1') {
                 return variable === 'x' ? '2x' : '2y';
             }
-            // Fallback for more complex functions
             return `\\frac{\\partial}{\\partial ${variable}}(${funcStr})`;
         }
         const fStr = document.getElementById('lagrange-f').value;
@@ -465,20 +456,15 @@ const eulerAngleSlider = document.getElementById('euler-angle-slider');
             taskDiv.innerHTML += `<button class="toggle-solution-btn mt-4 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500 transition-colors">Lösung anzeigen</button>`;
             container.appendChild(taskDiv);
         });
-        
-        // Add event listeners to the new buttons
+
         container.querySelectorAll('.toggle-solution-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                // Find all solution elements within the same task card
                 const solutions = e.target.parentElement.querySelectorAll('.solution');
                 if (solutions.length > 0) {
-                    // Check visibility of the first solution to determine the action
                     const isVisible = solutions[0].style.display === 'block';
-                    // Toggle all solutions
                     solutions.forEach(solution => {
                         solution.style.display = isVisible ? 'none' : 'block';
                     });
-                    // Update button text
                     e.target.textContent = isVisible ? 'Lösung anzeigen' : 'Lösung verbergen';
                 }
             });

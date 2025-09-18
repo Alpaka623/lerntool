@@ -13,7 +13,7 @@ const chmodOtherDiv = document.getElementById('chmod-other');
 const chmodResultDiv = document.getElementById('chmod-result');
 const generateExercisesBtn = document.getElementById('generate-exercises-btn');
 const exercisesContainer = document.getElementById('exercises-container');
-    // --- INSI LOGIC ---
+
     function setupInsi() {
         if (!document.getElementById('insi-app')) return;
 
@@ -111,7 +111,7 @@ const exercisesContainer = document.getElementById('exercises-container');
         chmodResultDiv.textContent = `chmod ${userPerm}${groupPerm}${otherPerm} dateiname`;
     }
 
-    // --- DYNAMIC EXERCISE GENERATION (for INSI) ---
+    // --- DYNAMIC EXERCISE GENERATION ---
     const InsiExerciseGenerator = {
         getRandomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; },
         getRandomElement(arr) { return arr[Math.floor(Math.random() * arr.length)]; },

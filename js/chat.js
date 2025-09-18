@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendBtn = document.getElementById('chat-send-btn');
     const closeBtn = document.getElementById('chat-close-btn');
 
-    // NEU: Ein Array, um den Gesprächsverlauf zu speichern
     let chatHistory = [];
 
     if (!chatWidget) return;
@@ -20,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!message) return;
 
         addMessage(message, 'user');
-        // NEU: Füge die Nutzernachricht zum Verlauf hinzu
         chatHistory.push({ role: 'user', parts: [{ text: message }] });
 
         input.value = '';
@@ -36,17 +34,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const apiUrl = 'https://lerntool-api-proxy.vercel.app/api/chat';
-            
-            // NEU: Schicke den Verlauf mit. Wir begrenzen ihn auf die letzten 6 Nachrichten, um nicht zu viel zu senden.
-            const historyToSend = chatHistory.slice(-7, -1); // Die letzten 6 Nachrichten (3 Runden)
+
+            const historyToSend = chatHistory.slice(-7, -1);
 
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    message: message,      // Die aktuelle Nachricht
-                    context: pageContext,  // Der Seiten-Kontext
-                    history: historyToSend // Der bisherige Verlauf
+                    message: message,
+                    context: pageContext,
+                    history: historyToSend
                 })
             });
 
@@ -57,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
             addMessage(data.reply, 'bot');
-            // NEU: Füge die Antwort des Bots zum Verlauf hinzu
             chatHistory.push({ role: 'model', parts: [{ text: data.reply }] });
 
         } catch (error) {

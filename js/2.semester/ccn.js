@@ -26,7 +26,7 @@ if (backBtn) backBtn.addEventListener('click', () => { window.dispatchEvent(new 
     const routingSimulateBtn = document.getElementById('routing-simulate-btn');
     let chartInterval;
 
-    // --- DATA & STATE (for CCN Module) ---
+    // --- DATA & STATE ---
     const layerDescriptions = {
         '7': '<strong>Anwendungsschicht (Application Layer):</strong> Stellt die Schnittstelle für Netzwerkapplikationen bereit (z.B. Browser, E-Mail-Client) und definiert Protokolle wie HTTP und DNS.',
         '6': '<strong>Darstellungsschicht (Presentation Layer):</strong> Übersetzt Daten zwischen dem Anwendungsformat und einem gemeinsamen Netzwerkformat. Verantwortlich für Aufgaben wie Datenkompression, Verschlüsselung und die Konvertierung von Zeichensätzen.',

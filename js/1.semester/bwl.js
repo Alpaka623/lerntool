@@ -1,5 +1,3 @@
-// js/1.semester/bwl.js
-
 (() => {
     sessionStorage.setItem('selectedSemester', '1');
     const backBtn = document.querySelector('.back-to-hub-btn');
@@ -28,7 +26,7 @@
             });
         });
 
-        // --- HANDELSKALKULATION (UNVERÄNDERT) ---
+        // --- HANDELSKALKULATION ---
         class Calculation {
             static roundNumber(value, step = 0.01) {
                 if (step === null) step = 1.0;
@@ -209,7 +207,7 @@
         if (stepsBtn) stepsBtn.addEventListener('click', showCalculationSteps);
         if (container) generateTask();
 
-        // --- RICHTIG/FALSCH FRAGEN (NEUE LOGIK) ---
+        // --- RICHTIG/FALSCH FRAGEN ---
         const startContainer = document.getElementById('bwl-quiz-start-container');
         const questionContainer = document.getElementById('bwl-quiz-question-container');
         const shuffleCheckbox = document.getElementById('bwl-quiz-shuffle-checkbox');

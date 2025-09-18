@@ -682,5 +682,5 @@ do {
         renderAssocObjects();
         logAssoc("Kunde-Objekt initialisiert.");
 
-    } // end setupEidp
+    }
 })();

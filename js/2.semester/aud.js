@@ -1,5 +1,4 @@
 (() => {
-// --- GENERAL SETUP ---
     sessionStorage.setItem('selectedSemester', '2');
     const backBtn = document.querySelector('.back-to-hub-btn');
     if (backBtn) {
@@ -537,10 +536,9 @@
                 const numNodes = 5;
                 const width = graphSvgContainer.clientWidth;
                 const height = graphSvgContainer.clientHeight;
-                const minDistance = 90; // NEU: Mindestabstand zwischen den Knoten
-                let maxAttempts = 100; // NEU: Verhindert Endlosschleifen
+                const minDistance = 90;
+                let maxAttempts = 100;
 
-                // NEUE LOGIK: Knoten mit Mindestabstand platzieren
                 while (nodes.length < numNodes) {
                     if (maxAttempts-- <= 0) {
                         console.error("Knoten konnten nicht mit genügend Abstand platziert werden.");
@@ -564,11 +562,10 @@
 
                     if (!isTooClose) {
                         nodes.push(newNode);
-                        maxAttempts = 100; // Versuche für nächsten Knoten zurücksetzen
+                        maxAttempts = 100;
                     }
                 }
 
-                // Kanten wie zuvor generieren
                 for (let i = 0; i < numNodes; i++) {
                     for (let j = i + 1; j < numNodes; j++) {
                         if (Math.random() > 0.5) {
