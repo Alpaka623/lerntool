@@ -282,7 +282,6 @@
             prodContainer.innerHTML = '';
             stepsProdContainer.style.display = 'none';
 
-            // ANGEPASSTE LOGIK: Nur Basiswerte und Prozentsätze sind vorgegeben
             const givenKeys = new Set([
                 'materialEinzelkosten',
                 'materialGemeinkostenPercent',
@@ -298,7 +297,6 @@
 
             const instructionDiv = document.createElement('div');
             instructionDiv.className = 'calc-instruction';
-            // ANGEPASSTER HINWEIS
             instructionDiv.innerHTML = `Berechnen Sie das gesamte Kalkulationsschema und tragen Sie alle fehlenden Werte ein. 
             <br><strong>Wichtiger Hinweis:</strong> Auf der Original-Webseite (siehe unten) und in der Klausur wird in der Regel ein bestimmter Wert gesucht. Schauen Sie sich das zur Vorbereitung unbedingt an!`;
             prodContainer.appendChild(instructionDiv);
@@ -312,7 +310,6 @@
                 }
                 const rowDiv = document.createElement('div');
                 rowDiv.className = 'calc-row';
-                // KEIN "target-row" mehr
                 prodContainer.appendChild(rowDiv);
 
                 const labelDiv = document.createElement('div');
@@ -391,6 +388,270 @@
         if (stepsProdBtn) stepsProdBtn.addEventListener('click', showProdSteps);
         if(prodContainer) generateProdTask();
 
+        // --- BETRIEBSABRECHNUNGSBOGEN (NEU/AKTUALISIERT) ---
+        if (document.getElementById('bwl-bab')) {
+            setupBab();
+        }
+
+        function setupBab() {
+            function getRnd(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+            function getRnd500(min, max) {
+                const min500 = min / 500;
+                const max500 = max / 500;
+                return (Math.floor(Math.random() * (max500 - min500) + 1) + min500) * 500;
+            }
+            function getSplitting(parts) {
+                let tmp = 0;
+                const splitting = [];
+                for (let i = 0; i < 3; i++) {
+                    const rnd = getRnd(0, Math.floor(parts / 3));
+                    tmp += rnd;
+                    splitting.push(rnd);
+                }
+                splitting.push(parts - tmp);
+                return splitting;
+            }
+
+            class Gemeinkostenart {
+                static berechneKostenstellenBetraege(kostenstellenAnteile, gesamtkosten) {
+                    const anteilSumme = kostenstellenAnteile.reduce((a, b) => a + b, 0);
+                    if (anteilSumme === 0) return [0, 0, 0, 0];
+                    return kostenstellenAnteile.map((v) => (gesamtkosten / anteilSumme) * v);
+                }
+                constructor(name, gesamtkosten, kostenstellenAnteile) {
+                    this.name = name;
+                    this.gesamtkosten = gesamtkosten;
+                    this.kostenstellenAnteile = kostenstellenAnteile;
+                    this.kostenstellenBetraege = Gemeinkostenart.berechneKostenstellenBetraege(kostenstellenAnteile, gesamtkosten);
+                }
+            }
+
+            class Betriebsabrechnungsbogen {
+                static initGemeinkosten() {
+                    const gemeinkostenarten = [];
+                    for (let i = 1; i <= 6; i++) {
+                        const share = getRnd500(500, 3000);
+                        const splitting = getSplitting(getRnd(11, 18));
+                        let sum = 0;
+                        splitting.forEach((split) => sum += (share * split));
+                        gemeinkostenarten.push(new Gemeinkostenart(`Kostenart ${i}`, sum, splitting));
+                    }
+                    return gemeinkostenarten;
+                }
+
+                constructor() {
+                    this.materialEinzelkosten = getRnd500(10000, 40000);
+                    this.fertigungsEinzelkosten = getRnd500(10000, 40000);
+                    this.lagerMehrbestaende = getRnd500(10000, 40000);
+                    this.lagerMinderbestaende = getRnd500(10000, 40000);
+                    this.gemeinkostenarten = Betriebsabrechnungsbogen.initGemeinkosten();
+                    this.gemeinKosten = [];
+                }
+
+                berechneGemeinkosten() {
+                    this.gemeinKosten = [0, 0, 0, 0]; // Material, Fertigung, Verwaltung, Vertrieb
+                    for (const kostenArt of this.gemeinkostenarten) {
+                        for (const [index, betrag] of kostenArt.kostenstellenBetraege.entries()) {
+                            this.gemeinKosten[index] += betrag;
+                        }
+                    }
+                    return this.gemeinKosten;
+                }
+
+                get materialGemeinkosten() { return this.gemeinKosten[0] || 0; }
+                get fertigungsGemeinkosten() { return this.gemeinKosten[1] || 0; }
+                get verwaltungsGemeinkosten() { return this.gemeinKosten[2] || 0; }
+                get vertriebsGemeinkosten() { return this.gemeinKosten[3] || 0; }
+
+                berechneHerstellkostenProduktion() { return this.materialEinzelkosten + this.materialGemeinkosten + this.fertigungsEinzelkosten + this.fertigungsGemeinkosten; }
+                berechneHerstellkostenUmsatz() { return this.berechneHerstellkostenProduktion() + this.lagerMinderbestaende - this.lagerMehrbestaende; }
+                berechneMGKZuschlagssatz() { return this.materialEinzelkosten === 0 ? 0 : this.materialGemeinkosten * 100 / this.materialEinzelkosten; }
+                berechneFGKZuschlagssatz() { return this.fertigungsEinzelkosten === 0 ? 0 : this.fertigungsGemeinkosten * 100 / this.fertigungsEinzelkosten; }
+                berechneVerwGKZuschlagssatz() { const hku = this.berechneHerstellkostenUmsatz(); return hku === 0 ? 0 : this.verwaltungsGemeinkosten * 100 / hku; }
+                berechneVertGKZuschlagssatz() { const hku = this.berechneHerstellkostenUmsatz(); return hku === 0 ? 0 : this.vertriebsGemeinkosten * 100 / hku; }
+                berechneSelbstkostenProduktion() {
+                    let selbstkostenProduktion = this.materialEinzelkosten + this.fertigungsEinzelkosten;
+                    this.gemeinkostenarten.forEach(art => selbstkostenProduktion += art.gesamtkosten);
+                    return selbstkostenProduktion;
+                }
+            }
+
+            const tableContainer = document.getElementById('bab-table-container');
+            const inputsContainer = document.getElementById('bab-inputs-container');
+            const generateBabBtn = document.getElementById('generate-bab-task-btn');
+            const solutionBabBtn = document.getElementById('show-bab-solution-btn');
+            const stepsBabBtn = document.getElementById('show-bab-steps-btn');
+            const stepsBabContainer = document.getElementById('bab-solution-steps');
+            let currentBab;
+
+            const formatCurrency = (val) => val.toFixed(2).replace('.', ',') + ' €';
+            const formatCurrencyShort = (val) => val.toFixed(0).replace('.', ',');
+            const formatInteger = (val) => Math.round(val).toString();
+
+            function generateBabTask() {
+                currentBab = new Betriebsabrechnungsbogen();
+                if(stepsBabContainer) {
+                    stepsBabContainer.style.display = 'none';
+                    stepsBabContainer.innerHTML = '';
+                };
+
+                let tableHTML = `<table class="w-full text-left text-sm">
+                    <thead class="text-gray-300">
+                        <tr>
+                            <th class="p-2 w-1/3">Kostenarten</th>
+                            <th class="p-2 text-right">Gesamtkosten aus Buchhaltung</th>
+                            <th class="p-2 text-right">Material</th>
+                            <th class="p-2 text-right">Fertigung</th>
+                            <th class="p-2 text-right">Verwaltung</th>
+                            <th class="p-2 text-right">Vertrieb</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-t border-b border-gray-600"><td colspan="6" class="p-2 font-bold text-gray-400">Einzelkosten</td></tr>
+                        <tr><td class="p-2">Materialverbrauch</td><td class="p-2 font-mono text-right">${formatCurrency(currentBab.materialEinzelkosten)}</td><td class="p-2 font-mono text-right">${formatCurrency(currentBab.materialEinzelkosten)}</td><td></td><td></td><td></td></tr>
+                        <tr><td class="p-2">Fertigungslöhne</td><td class="p-2 font-mono text-right">${formatCurrency(currentBab.fertigungsEinzelkosten)}</td><td></td><td class="p-2 font-mono text-right">${formatCurrency(currentBab.fertigungsEinzelkosten)}</td><td></td><td></td></tr>
+                        <tr class="border-t border-b border-gray-600"><td colspan="6" class="p-2 font-bold text-gray-400">Gemeinkosten</td></tr>`;
+
+                currentBab.gemeinkostenarten.forEach(art => {
+                    tableHTML += `<tr class="border-t border-gray-700">
+                        <td class="p-2">${art.name}</td>
+                        <td class="p-2 font-mono text-right">${formatCurrency(art.gesamtkosten)}</td>
+                        <td class="p-2 font-mono text-right">${formatInteger(art.kostenstellenAnteile[0])}</td>
+                        <td class="p-2 font-mono text-right">${formatInteger(art.kostenstellenAnteile[1])}</td>
+                        <td class="p-2 font-mono text-right">${formatInteger(art.kostenstellenAnteile[2])}</td>
+                        <td class="p-2 font-mono text-right">${formatInteger(art.kostenstellenAnteile[3])}</td>
+                    </tr>`;
+                });
+                tableHTML += `</tbody></table>`;
+                tableContainer.innerHTML = tableHTML;
+
+                inputsContainer.innerHTML = `
+                    <div class="space-y-2">
+                        <h4 class="text-lg font-semibold text-cyan-300">1. Herstellkosten des Umsatzes</h4>
+                        <p class="text-gray-400 text-sm">Berechnen Sie die Herstellkosten des Umsatzes. Sie wissen, dass die Lager-Mehrbestände ${formatCurrency(currentBab.lagerMehrbestaende)} und die Lager-Minderbestände ${formatCurrency(currentBab.lagerMinderbestaende)} betragen.</p>
+                        <input type="number" step="0.01" class="calc-value input w-full" id="bab-input-hku" placeholder="Herstellkosten des Umsatzes in €">
+                    </div>
+                    <div class="space-y-2">
+                        <h4 class="text-lg font-semibold text-cyan-300">2. Summe der Gemeinkosten</h4>
+                        <p class="text-gray-400 text-sm">Tragen Sie die Summen der Gemeinkosten für die vier Kostenstellen in die Felder ein.</p>
+                        <div class="grid md:grid-cols-2 gap-4">
+                             <input type="number" step="0.01" class="calc-value input w-full" id="bab-input-mgk" placeholder="Materialgemeinkosten in €">
+                             <input type="number" step="0.01" class="calc-value input w-full" id="bab-input-fgk" placeholder="Fertigungsgemeinkosten in €">
+                             <input type="number" step="0.01" class="calc-value input w-full" id="bab-input-verwgk" placeholder="Verwaltungsgemeinkosten in €">
+                             <input type="number" step="0.01" class="calc-value input w-full" id="bab-input-vertgk" placeholder="Vertriebsgemeinkosten in €">
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <h4 class="text-lg font-semibold text-cyan-300">3. Gemeinkostenzuschlagssätze</h4>
+                        <p class="text-gray-400 text-sm">Berechnen Sie die vier Gemeinkostenzuschlagssätze und tragen Sie diese in die Felder ein.</p>
+                         <div class="grid md:grid-cols-2 gap-4">
+                             <input type="number" step="0.01" class="calc-value input w-full" id="bab-input-mgk-satz" placeholder="Materialgemeinkostenzuschlag in %">
+                             <input type="number" step="0.01" class="calc-value input w-full" id="bab-input-fgk-satz" placeholder="Fertigungsgemeinkostenzuschlag in %">
+                             <input type="number" step="0.01" class="calc-value input w-full" id="bab-input-verwgk-satz" placeholder="Verwaltungsgemeinkostenzuschlag in %">
+                             <input type="number" step="0.01" class="calc-value input w-full" id="bab-input-vertgk-satz" placeholder="Vertriebsgemeinkostenzuschlag in %">
+                        </div>
+                    </div>
+                     <div class="space-y-2">
+                        <h4 class="text-lg font-semibold text-cyan-300">4. Selbstkosten der Produktion</h4>
+                        <p class="text-gray-400 text-sm">Tragen Sie die Selbstkosten der Produktion des Unternehmens in das Feld ein.</p>
+                        <input type="number" step="0.01" class="calc-value input w-full" id="bab-input-skp" placeholder="Selbstkosten der Produktion in €">
+                    </div>
+                `;
+            }
+
+            function showBabSolution() {
+                if (!currentBab) return;
+
+                currentBab.berechneGemeinkosten();
+                const solutions = {
+                    hku: currentBab.berechneHerstellkostenUmsatz(),
+                    mgk: currentBab.materialGemeinkosten,
+                    fgk: currentBab.fertigungsGemeinkosten,
+                    verwgk: currentBab.verwaltungsGemeinkosten,
+                    vertgk: currentBab.vertriebsGemeinkosten,
+                    mgkSatz: currentBab.berechneMGKZuschlagssatz(),
+                    fgkSatz: currentBab.berechneFGKZuschlagssatz(),
+                    verwgkSatz: currentBab.berechneVerwGKZuschlagssatz(),
+                    vertgkSatz: currentBab.berechneVertGKZuschlagssatz(),
+                    skp: currentBab.berechneSelbstkostenProduktion()
+                };
+
+                const checkAndMark = (inputId, correctValue) => {
+                    const inputEl = document.getElementById(inputId);
+                    if (!inputEl) return;
+                    const userValue = parseFloat(inputEl.value);
+                    const isCorrect = !isNaN(userValue) && Math.abs(userValue - correctValue) < 0.02;
+                    inputEl.value = correctValue.toFixed(2);
+                    inputEl.classList.toggle('correct', isCorrect);
+                    inputEl.classList.toggle('incorrect', !isCorrect);
+                };
+
+                checkAndMark('bab-input-hku', solutions.hku);
+                checkAndMark('bab-input-mgk', solutions.mgk);
+                checkAndMark('bab-input-fgk', solutions.fgk);
+                checkAndMark('bab-input-verwgk', solutions.verwgk);
+                checkAndMark('bab-input-vertgk', solutions.vertgk);
+                checkAndMark('bab-input-mgk-satz', solutions.mgkSatz);
+                checkAndMark('bab-input-fgk-satz', solutions.fgkSatz);
+                checkAndMark('bab-input-verwgk-satz', solutions.verwgkSatz);
+                checkAndMark('bab-input-vertgk-satz', solutions.vertgkSatz);
+                checkAndMark('bab-input-skp', solutions.skp);
+            }
+
+            function showBabSteps() {
+                if (!currentBab) return;
+                stepsBabContainer.style.display = 'block';
+
+                currentBab.berechneGemeinkosten();
+                const hku = currentBab.berechneHerstellkostenUmsatz();
+
+                let html = '<h3>Detaillierter Lösungsweg</h3><ol class="space-y-4">';
+
+                // Änderung: Detaillierte Berechnung für Gemeinkosten
+                const mgk_details = currentBab.gemeinkostenarten.map(art => formatCurrencyShort(art.kostenstellenBetraege[0])).join(' + ');
+                const fgk_details = currentBab.gemeinkostenarten.map(art => formatCurrencyShort(art.kostenstellenBetraege[1])).join(' + ');
+                const verwgk_details = currentBab.gemeinkostenarten.map(art => formatCurrencyShort(art.kostenstellenBetraege[2])).join(' + ');
+                const vertgk_details = currentBab.gemeinkostenarten.map(art => formatCurrencyShort(art.kostenstellenBetraege[3])).join(' + ');
+
+                html += `<li><b>1. Herstellkosten der Produktion (HKP) berechnen:</b><br>
+                           <span class="text-sm text-gray-400">Summe aus Material- und Fertigungskosten (Einzel + Gemein).</span><br>
+                           <code>HKP = MEK + MGK + FEK + FGK</code><br>
+                           <code>HKP = ${formatCurrency(currentBab.materialEinzelkosten)} + ${formatCurrency(currentBab.materialGemeinkosten)} + ${formatCurrency(currentBab.fertigungsEinzelkosten)} + ${formatCurrency(currentBab.fertigungsGemeinkosten)} = ${formatCurrency(currentBab.berechneHerstellkostenProduktion())}</code></li>`;
+
+                html += `<li><b>2. Herstellkosten des Umsatzes (HKU) berechnen:</b><br>
+                           <span class="text-sm text-gray-400">Die Herstellkosten der Produktion werden um Bestandsveränderungen korrigiert.</span><br>
+                           <code>HKU = HKP + Lager-Minderbestand - Lager-Mehrbestand</code><br>
+                           <code>HKU = ${formatCurrency(currentBab.berechneHerstellkostenProduktion())} + ${formatCurrency(currentBab.lagerMinderbestaende)} - ${formatCurrency(currentBab.lagerMehrbestaende)} = ${formatCurrency(hku)}</code></li>`;
+
+                html += `<li><b>3. Gemeinkosten je Kostenstelle berechnen und summieren:</b><br>
+                           <span class="text-sm text-gray-400">Für jede Kostenart wird der Betrag pro Kostenstelle berechnet: (Gesamtkosten / Summe der Anteile) * Anteil. Anschließend werden die Ergebnisse pro Spalte addiert.</span><br>
+                           <code class="block text-xs overflow-x-auto">MGK = ${mgk_details} = <b>${formatCurrency(currentBab.materialGemeinkosten)}</b></code>
+                           <code class="block text-xs overflow-x-auto">FGK = ${fgk_details} = <b>${formatCurrency(currentBab.fertigungsGemeinkosten)}</b></code>
+                           <code class="block text-xs overflow-x-auto">VerwGK = ${verwgk_details} = <b>${formatCurrency(currentBab.verwaltungsGemeinkosten)}</b></code>
+                           <code class="block text-xs overflow-x-auto">VertGK = ${vertgk_details} = <b>${formatCurrency(currentBab.vertriebsGemeinkosten)}</b></code></li>`;
+
+                html += `<li><b>4. Gemeinkostenzuschlagssätze berechnen:</b><br>
+                           <span class="text-sm text-gray-400">Die Gemeinkosten werden ins Verhältnis zu ihrer Bezugsbasis gesetzt.</span><br>
+                           <code>MGK-Satz = (MGK / MEK) * 100 = <b>${currentBab.berechneMGKZuschlagssatz().toFixed(2)}%</b></code><br>
+                           <code>FGK-Satz = (FGK / FEK) * 100 = <b>${currentBab.berechneFGKZuschlagssatz().toFixed(2)}%</b></code><br>
+                           <code>VerwGK-Satz = (VerwGK / HKU) * 100 = <b>${currentBab.berechneVerwGKZuschlagssatz().toFixed(2)}%</b></code><br>
+                           <code>VertGK-Satz = (VertGK / HKU) * 100 = <b>${currentBab.berechneVertGKZuschlagssatz().toFixed(2)}%</b></code></li>`;
+
+                html += `<li><b>5. Selbstkosten der Produktion berechnen:</b><br>
+                           <span class="text-sm text-gray-400">Summe aller Einzel- und Gemeinkosten.</span><br>
+                           <code>Selbstkosten = MEK + FEK + MGK + FGK + VerwGK + VertGK</code><br>
+                           <code>Selbstkosten = ${formatCurrency(currentBab.berechneSelbstkostenProduktion())}</code></li>`;
+
+                html += '</ol>';
+                stepsBabContainer.innerHTML = html;
+            }
+
+            generateBabBtn.addEventListener('click', generateBabTask);
+            solutionBabBtn.addEventListener('click', showBabSolution);
+            if(stepsBabBtn) stepsBabBtn.addEventListener('click', showBabSteps);
+
+            generateBabTask();
+        }
 
         // --- RICHTIG/FALSCH FRAGEN ---
         const startContainer = document.getElementById('bwl-quiz-start-container');

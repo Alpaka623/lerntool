@@ -25,7 +25,7 @@
         <nav class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12">
             <button data-bwl-target="bwl-handelskalkulation" class="bwl-nav-button active font-semibold py-2 px-5 rounded-full">Handelskalkulation</button>
             <button data-bwl-target="bwl-produktionskalkulation" class="bwl-nav-button font-semibold py-2 px-5 rounded-full">Produktionskalkulation</button>
-            <button data-bwl-target="bwl-bab" class="bwl-nav-button font-semibold py-2 px-5 rounded-full" disabled>Betriebsabrechnungsbogen</button>
+            <button data-bwl-target="bwl-bab" class="bwl-nav-button font-semibold py-2 px-5 rounded-full">Betriebsabrechnungsbogen</button>
             <button data-bwl-target="bwl-quiz" class="bwl-nav-button font-semibold py-2 px-5 rounded-full">Richtig/Falsch Fragen</button>
         </nav>
 
@@ -67,7 +67,31 @@
                     </div>
                 </div>
             </section>
-            <section id="bwl-bab" class="bwl-content-section"></section>
+
+            <section id="bwl-bab" class="bwl-content-section">
+                <div class="card p-8 rounded-2xl shadow-2xl space-y-6">
+                    <h2 class="text-3xl font-bold text-cyan-400 mb-4">Übung: Betriebsabrechnungsbogen (BAB)</h2>
+
+                    <div id="bab-container" class="space-y-8">
+                        <div id="bab-table-container" class="overflow-x-auto"></div>
+                        <div id="bab-inputs-container" class="space-y-6"></div>
+                    </div>
+
+                    <div class="flex flex-wrap justify-center gap-4 mt-6">
+                        <button id="generate-bab-task-btn" class="px-6 py-3 bg-cyan-700 text-white rounded-lg shadow-lg hover:bg-cyan-600">Aufgabe generieren</button>
+                        <button id="show-bab-solution-btn" class="px-6 py-3 bg-amber-600 text-white rounded-lg shadow-lg hover:bg-amber-500">Ergebnis anzeigen</button>
+                        <button id="show-bab-steps-btn" class="px-6 py-3 bg-gray-600 text-white rounded-lg shadow-lg hover:bg-gray-500">Lösungsweg anzeigen</button>
+                    </div>
+
+                    <div id="bab-solution-steps" class="solution p-4 mt-4 rounded-md">
+                    </div>
+
+                    <div class="text-center text-sm text-gray-500 mt-4">
+                        <p class="font-bold text-amber-400">Hinweis: Diese Implementierung wurde nicht ausführlich getestet. Es kann nicht versichert werden, dass sie korrekt ist.</p>
+                        <p>Für eine verifizierte Version, nutze bitte die Originalseite: <a href="https://bwl-aufgabengenerator.pages.inf.fh-dortmund.de/mainpage/bab/#/" target="_blank" class="text-cyan-400 hover:underline">FH Dortmund Betriebsabrechnungsbogen</a></p>
+                    </div>
+                </div>
+            </section>
 
             <section id="bwl-quiz" class="bwl-content-section">
                 <div class="card p-8 rounded-2xl shadow-2xl space-y-6">
