@@ -1,35 +1,174 @@
 <!DOCTYPE html>
 <html lang="de">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>RuB - Lerntool</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-        <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/1599/1599145.png">
-        <link rel="stylesheet" href="css/styles.css">
-    </head>
-    <body class="text-gray-200">
-    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
-        <div id="rub-app" class="subject-view active">
-            <header class="text-center mb-12 relative">
-                <button class="back-to-hub-btn absolute top-0 left-0 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">&larr; Zurück</button>
-                <h1 class="text-5xl font-bold text-white">Rechnerstrukturen und<br> Betriebssysteme</h1>
-                <p class="text-xl text-gray-400 mt-2">Dein interaktiver Lernassistent für RuB</p>
-            </header>
-            <nav class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12">
-            </nav>
-            <main>
-                <section id="rub-placeholder" class="rub-content-section active">
-                    <div class="card p-8 rounded-2xl shadow-2xl space-y-6 text-center">
-                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Inhalte in Arbeit</h2>
-                        <p class="text-gray-300">Für dieses Fach sind noch keine Inhalte verfügbar.</p>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RuB - Lerntool</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/1599/1599145.png">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="text-gray-200">
+<div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
+    <div id="rub-app" class="subject-view active">
+        <header class="text-center mb-12 relative">
+            <button class="back-to-hub-btn absolute top-0 left-0 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">&larr; Zurück</button>
+            <h1 class="text-5xl font-bold text-white">Rechnerstrukturen und<br> Betriebssysteme</h1>
+            <p class="text-xl text-gray-400 mt-2">Dein interaktiver Lernassistent für RuB</p>
+        </header>
+        <nav class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12">
+            <button data-rub-target="rub-grundlagen" class="rub-nav-button active font-semibold py-2 px-5 rounded-full">Grundlagen & Zahlensysteme</button>
+            <button data-rub-target="rub-digitaltechnik" class="rub-nav-button font-semibold py-2 px-5 rounded-full">Digitaltechnik & Gatter</button>
+            <button data-rub-target="rub-schaltnetze" class="rub-nav-button font-semibold py-2 px-5 rounded-full">Schaltnetze & Addierer</button>
+        </nav>
+        <main>
+            <section id="rub-grundlagen" class="rub-content-section active">
+                <div class="card p-8 rounded-2xl shadow-2xl space-y-6">
+                    <h2 class="text-3xl font-bold text-cyan-400 mb-4">Ebenen eines Rechners 🏛️</h2>
+                    <p class="text-gray-300 leading-relaxed">
+                        Ein moderner Computer ist in mehreren Abstraktionsebenen aufgebaut, um die enorme Komplexität beherrschbar zu machen. Jede Ebene nutzt die Dienste der darunterliegenden Ebene und stellt der darüberliegenden Ebene eine vereinfachte Schnittstelle zur Verfügung.
+                    </p>
+                    <ul class="list-disc list-inside mt-4 space-y-2 text-gray-300">
+                        <li><strong>Ebene 5: Problemorientierte Programmiersprache</strong> (z.B. Java, Python)</li>
+                        <li><strong>Ebene 4: Maschinensprache</strong> (Assembler)</li>
+                        <li><strong>Ebene 3: Betriebssystemmaschine</strong> (Verwaltung von Prozessen, Speicher etc.)</li>
+                        <li><strong>Ebene 2: Befehlssatzarchitektur (ISA)</strong> (definiert den Befehlssatz des Prozessors, z.B. x86, ARM)</li>
+                        <li><strong>Ebene 1: Mikroarchitektur</strong> (Innere Struktur des Prozessors mit ALU, Registern)</li>
+                        <li><strong>Ebene 0: Digitale Logik</strong> (Die unterste Ebene aus Logik-Gattern)</li>
+                    </ul>
+                    <div class="p-4 mt-6 border border-gray-700 rounded-lg bg-gray-800/50">
+                        <h3 class="text-xl font-semibold text-cyan-300 mb-2">Interaktiver Zahlensystem-Umrechner</h3>
+                        <p class="text-sm text-gray-400 mb-2">Die Darstellung von Zahlen ist fundamental. Gib eine Zahl in ein Feld ein, die anderen werden automatisch umgerechnet.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label for="dezimal-input" class="block text-sm font-medium text-gray-400">Dezimal (Basis 10)</label>
+                                <input type="text" id="dezimal-input" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm font-mono">
+                            </div>
+                            <div>
+                                <label for="binaer-input" class="block text-sm font-medium text-gray-400">Binär (Basis 2)</label>
+                                <input type="text" id="binaer-input" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm font-mono">
+                            </div>
+                            <div>
+                                <label for="hex-input" class="block text-sm font-medium text-gray-400">Hexadezimal (Basis 16)</label>
+                                <input type="text" id="hex-input" class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm font-mono">
+                            </div>
+                        </div>
                     </div>
-                </section>
-            </main>
-        </div>
+                </div>
+            </section>
+            <section id="rub-digitaltechnik" class="rub-content-section">
+                <div class="card p-8 rounded-2xl shadow-2xl space-y-6">
+                    <h2 class="text-3xl font-bold text-cyan-400 mb-4">Schaltalgebra & Logische Gatter</h2>
+                    <p class="text-gray-300">
+                        Die **Schaltalgebra** ist eine spezielle Form der Booleschen Algebra und das mathematische Fundament der Digitaltechnik. Sie kennt nur zwei Werte: 0 (falsch) und 1 (wahr). Eine **Schaltfunktion** ist eine Funktion, die eine oder mehrere Schaltvariablen als Eingabe nimmt und wieder einen binären Wert als Ausgabe liefert.
+                    </p>
+                    <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                        <h3 class="text-xl font-semibold mb-2 text-cyan-300">Interaktiver Gatter-Explorer</h3>
+                        <p class="mb-4 text-gray-400 text-sm">Wähle ein Gatter aus, um dessen Symbol und Wahrheitstabelle zu sehen. Schalte die Eingänge A und B um und beobachte die Ausgabe Y.</p>
+                        <div class="flex flex-wrap justify-center gap-2 mb-4">
+                            <button class="gatter-btn nav-button" data-type="AND">AND</button>
+                            <button class="gatter-btn nav-button" data-type="OR">OR</button>
+                            <button class="gatter-btn nav-button" data-type="NOT">NOT</button>
+                            <button class="gatter-btn nav-button" data-type="XOR">XOR</button>
+                            <button class="gatter-btn nav-button" data-type="NAND">NAND</button>
+                            <button class="gatter-btn nav-button" data-type="NOR">NOR</button>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6 items-center">
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-4">
+                                    <label class="font-bold">Eingang A:</label>
+                                    <label class="switch"><input type="checkbox" id="gate-input-a"><span class="slider"></span></label>
+                                    <span id="gate-value-a">0</span>
+                                </div>
+                                <div class="flex items-center gap-4" id="gate-input-b-container">
+                                    <label class="font-bold">Eingang B:</label>
+                                    <label class="switch"><input type="checkbox" id="gate-input-b"><span class="slider"></span></label>
+                                    <span id="gate-value-b">0</span>
+                                </div>
+                                <div class="flex items-center gap-4 pt-4 mt-4 border-t border-gray-600">
+                                    <label class="font-bold text-cyan-400">Ausgang Y:</label>
+                                    <span id="gate-output-y" class="font-bold text-2xl text-cyan-400">0</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <img id="gate-symbol" src="" alt="Gatter-Symbol" class="invert h-24 mb-4">
+                                <div id="gate-truth-table" class="w-full max-w-xs"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="rub-schaltnetze" class="rub-content-section">
+                <div class="space-y-8">
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Schaltnetze: Vom Gatter zur Logik</h2>
+                        <p class="text-gray-300">
+                            Ein **Schaltnetz** ist die technische Realisierung einer Schaltfunktion durch die Verknüpfung von Gattern. Die Ausgabe eines Schaltnetzes hängt immer nur von der aktuellen Eingabe ab; es hat kein "Gedächtnis". Arithmetische Schaltungen wie Addierer sind klassische Beispiele für Schaltnetze.
+                        </p>
+                    </div>
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Halbaddierer (Half Adder)</h2>
+                        <p class="mb-4 text-gray-300">Ein Halbaddierer addiert zwei einzelne Bits (A und B). Das Ergebnis sind zwei Bits: die Summe (S) und der Übertrag (Carry, C). Er wird mit einem XOR-Gatter für die Summe und einem AND-Gatter für den Übertrag realisiert.</p>
+                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <div class="grid md:grid-cols-2 gap-6 items-center">
+                                <div class="space-y-4">
+                                    <h3 class="text-xl font-semibold text-cyan-300 mb-2">Eingänge</h3>
+                                    <div class="flex items-center gap-4">
+                                        <label class="font-bold">A:</label>
+                                        <label class="switch"><input type="checkbox" id="ha-input-a"><span class="slider"></span></label>
+                                    </div>
+                                    <div class="flex items-center gap-4">
+                                        <label class="font-bold">B:</label>
+                                        <label class="switch"><input type="checkbox" id="ha-input-b"><span class="slider"></span></label>
+                                    </div>
+                                </div>
+                                <div class="flex justify-center">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Halbaddierer_Aufbau_XOR.svg" alt="Halbaddierer Schaltsymbol" class="invert h-40">
+                                </div>
+                            </div>
+                            <div id="ha-output" class="mt-6 p-4 bg-gray-900/70 rounded-md text-center">
+                                <p class="text-lg">Ausgabe: <span class="font-mono text-2xl text-cyan-400 tracking-widest"><span id="ha-output-c">0</span><span id="ha-output-s">0</span></span></p>
+                                <p class="text-xs text-gray-400">(Carry | Sum)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Volladdierer (Full Adder)</h2>
+                        <p class="mb-4 text-gray-300">Ein Volladdierer addiert drei Bits: zwei Eingangsbits (A, B) und einen Eingangsübertrag (Cin) von einer vorherigen Addierstufe. Das Ergebnis sind wieder Summe (S) und Übertrag (Cout). Ein Volladdierer kann aus zwei Halbaddierern und einem OR-Gatter aufgebaut werden.</p>
+                        <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                            <div class="grid md:grid-cols-2 gap-6 items-center">
+                                <div class="space-y-4">
+                                    <h3 class="text-xl font-semibold text-cyan-300 mb-2">Eingänge</h3>
+                                    <div class="flex items-center gap-4">
+                                        <label class="font-bold">A:</label>
+                                        <label class="switch"><input type="checkbox" id="fa-input-a"><span class="slider"></span></label>
+                                    </div>
+                                    <div class="flex items-center gap-4">
+                                        <label class="font-bold">B:</label>
+                                        <label class="switch"><input type="checkbox" id="fa-input-b"><span class="slider"></span></label>
+                                    </div>
+                                    <div class="flex items-center gap-4">
+                                        <label class="font-bold">Cin:</label>
+                                        <label class="switch"><input type="checkbox" id="fa-input-cin"><span class="slider"></span></label>
+                                    </div>
+                                </div>
+                                <div class="flex justify-center">
+                                    <img src="https://www.proggen.org/lib/exe/fetch.php?media=electronics:projects:volladdierer-schematisch.png" alt="Volladdierer Schaltsymbol" class="invert h-48">
+                                </div>
+                            </div>
+                            <div id="fa-output" class="mt-6 p-4 bg-gray-900/70 rounded-md text-center">
+                                <p class="text-lg">Ausgabe: <span class="font-mono text-2xl text-cyan-400 tracking-widest"><span id="fa-output-cout">0</span><span id="fa-output-s">0</span></span></p>
+                                <p class="text-xs text-gray-400">(Cout | Sum)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
-    <script src="js/1.semester/rub.js"></script>
-    </body>
+</div>
+<script src="js/1.semester/rub.js"></script>
+</body>
 </html>
