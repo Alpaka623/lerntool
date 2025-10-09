@@ -9,6 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/1599/1599145.png">
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .invert { filter: invert(1) brightness(1.5); }
+    </style>
 </head>
 <body class="text-gray-200">
 <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
@@ -25,22 +28,73 @@
         </nav>
         <main>
             <section id="rub-grundlagen" class="rub-content-section active">
-                <div class="card p-8 rounded-2xl shadow-2xl space-y-6">
-                    <h2 class="text-3xl font-bold text-cyan-400 mb-4">Ebenen eines Rechners 🏛️</h2>
-                    <p class="text-gray-300 leading-relaxed">
-                        Ein moderner Computer ist in mehreren Abstraktionsebenen aufgebaut, um die enorme Komplexität beherrschbar zu machen. Jede Ebene nutzt die Dienste der darunterliegenden Ebene und stellt der darüberliegenden Ebene eine vereinfachte Schnittstelle zur Verfügung.
-                    </p>
-                    <ul class="list-disc list-inside mt-4 space-y-2 text-gray-300">
-                        <li><strong>Ebene 5: Problemorientierte Programmiersprache</strong> (z.B. Java, Python)</li>
-                        <li><strong>Ebene 4: Maschinensprache</strong> (Assembler)</li>
-                        <li><strong>Ebene 3: Betriebssystemmaschine</strong> (Verwaltung von Prozessen, Speicher etc.)</li>
-                        <li><strong>Ebene 2: Befehlssatzarchitektur (ISA)</strong> (definiert den Befehlssatz des Prozessors, z.B. x86, ARM)</li>
-                        <li><strong>Ebene 1: Mikroarchitektur</strong> (Innere Struktur des Prozessors mit ALU, Registern)</li>
-                        <li><strong>Ebene 0: Digitale Logik</strong> (Die unterste Ebene aus Logik-Gattern)</li>
-                    </ul>
-                    <div class="p-4 mt-6 border border-gray-700 rounded-lg bg-gray-800/50">
+                <div class="card p-8 rounded-2xl shadow-2xl space-y-8">
+                    <div>
+                        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Ebenen eines Rechners 🏛️</h2>
+                        <p class="text-gray-300 leading-relaxed">
+                            Ein moderner Computer ist in mehreren Abstraktionsebenen aufgebaut, um die enorme Komplexität beherrschbar zu machen. Jede Ebene nutzt die Dienste der darunterliegenden Ebene und stellt der darüberliegenden Ebene eine vereinfachte Schnittstelle zur Verfügung.
+                        </p>
+                        <ul class="list-disc list-inside mt-4 space-y-2 text-gray-300">
+                            <li><strong>Ebene 5: Problemorientierte Programmiersprache</strong> (z.B. Java, Python)</li>
+                            <li><strong>Ebene 4: Maschinensprache</strong> (Assembler)</li>
+                            <li><strong>Ebene 3: Betriebssystemmaschine</strong> (Verwaltung von Prozessen, Speicher etc.)</li>
+                            <li><strong>Ebene 2: Befehlssatzarchitektur (ISA)</strong> (definiert den Befehlssatz des Prozessors, z.B. x86, ARM)</li>
+                            <li><strong>Ebene 1: Mikroarchitektur</strong> (Innere Struktur des Prozessors mit ALU, Registern)</li>
+                            <li><strong>Ebene 0: Digitale Logik</strong> (Die unterste Ebene aus Logik-Gattern)</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-4 border-t border-gray-700">
+                        <h3 class="text-2xl font-bold text-cyan-400 mb-4">Zahlensysteme umrechnen 🔄</h3>
+                        <p class="mb-4 text-gray-300">Alle Zahlensysteme basieren auf dem <strong>Stellenwertprinzip</strong>: Der Wert einer Ziffer hängt von ihrer Position ab.</p>
+
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="text-xl font-semibold text-cyan-300 mb-2">Umrechnung → ins Dezimalsystem</h4>
+                                <p class="text-sm text-gray-400 mb-2">Multipliziere jede Ziffer mit dem Wert ihrer Stelle (Basis hoch Position) und addiere die Ergebnisse.</p>
+
+                                <div class="mt-2 font-mono text-sm bg-gray-900/70 p-4 rounded-md">
+                                    <p class="font-bold">Binär → Dezimal: \(1101001_2\)</p>
+                                    <p class="mt-2">= \( \mathbf{1} \cdot 2^6 + \mathbf{1} \cdot 2^5 + \mathbf{0} \cdot 2^4 + \mathbf{1} \cdot 2^3 + \mathbf{0} \cdot 2^2 + \mathbf{0} \cdot 2^1 + \mathbf{1} \cdot 2^0 \)</p>
+                                    <p class="mt-1">= \( 64 + 32 + 0 + 8 + 0 + 0 + 1 \)</p>
+                                    <p class="mt-1">= <b class="text-cyan-400">105₁₀</b></p>
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <h4 class="text-xl font-semibold text-cyan-300 mb-2">Umrechnung: Dezimal → in eine andere Basis</h4>
+                                <p class="text-sm text-gray-400 mb-2">Dieser Algorithmus nutzt die **Division mit Rest**, genau wie in deinem Bild gezeigt.</p>
+                                <ol class="list-decimal list-inside text-gray-300">
+                                    <li>Teile die Dezimalzahl durch die Ziel-Basis (z.B. 2 für Binär, 8 für Oktal).</li>
+                                    <li>Notiere den **Rest**. Dies ist die nächste Ziffer deiner neuen Zahl (von rechts nach links).</li>
+                                    <li>Ersetze die Zahl durch das **ganzzahlige Ergebnis** der Division.</li>
+                                    <li>Wiederhole die Schritte, bis das Ergebnis 0 ist.</li>
+                                    <li>Lies die notierten Reste von unten nach oben, um das Endergebnis zu erhalten.</li>
+                                </ol>
+                                <div class="grid md:grid-cols-2 gap-4 mt-2">
+                                    <p class="font-mono text-sm bg-gray-900/70 p-2 rounded-md"><b>Beispiel für 105₁₀ → ?₂:</b><br>
+                                        105 / 2 = 52 Rest <b>1</b><br>
+                                        52 / 2 = 26 Rest <b>0</b><br>
+                                        26 / 2 = 13 Rest <b>0</b><br>
+                                        13  / 2 = 6  Rest <b>1</b><br>
+                                        6  / 2 = 3  Rest <b>0</b><br>
+                                        3  / 2 = 1  Rest <b>1</b><br>
+                                        1  / 2 = 0  Rest <b>1</b><br>
+                                        Ergebnis: <b>1101001₂</b></p>
+                                    <p class="font-mono text-sm bg-gray-900/70 p-2 rounded-md"><b>Beispiel für 55₁₀ → ?₈:</b><br>
+                                        55 / 8 = 6 Rest <b>7</b><br>
+                                        6  / 8 = 0 Rest <b>6</b><br>
+                                        <br><br><br><br><br>
+                                        Ergebnis: <b>67₈</b></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 mt-6 border-t border-gray-700">
                         <h3 class="text-xl font-semibold text-cyan-300 mb-2">Interaktiver Zahlensystem-Umrechner</h3>
-                        <p class="text-sm text-gray-400 mb-2">Die Darstellung von Zahlen ist fundamental. Gib eine Zahl in ein Feld ein, die anderen werden automatisch umgerechnet.</p>
+                        <p class="text-sm text-gray-400 mb-2">Gib eine Zahl in ein Feld ein, die anderen werden automatisch umgerechnet.</p>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
                                 <label for="dezimal-input" class="block text-sm font-medium text-gray-400">Dezimal (Basis 10)</label>

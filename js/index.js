@@ -149,6 +149,9 @@ document.addEventListener('DOMContentLoaded', async function() {
                 function loadScriptsSequentially(index = 0) {
                     if (index >= scripts.length) {
                         showView(dynamicContent);
+                        if (window.MathJax) {
+                            MathJax.typesetPromise();
+                        }
                         return;
                     }
                     const s = scripts[index];

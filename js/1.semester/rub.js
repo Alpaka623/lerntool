@@ -25,6 +25,10 @@
                         section.classList.add('active');
                     }
                 });
+                // DIESER TEIL IST NEU UND WICHTIG
+                if (window.MathJax) {
+                    MathJax.typesetPromise();
+                }
             });
         });
 
