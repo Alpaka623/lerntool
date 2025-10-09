@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const apiUrl = 'https://lerntool-api-proxy.vercel.app/api/chat';
 
-            const historyToSend = chatHistory.slice(-7, -1);
+            const historyToSend = chatHistory.slice(-5, -1);
 
             const response = await fetch(apiUrl, {
                 method: 'POST',
