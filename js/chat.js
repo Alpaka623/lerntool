@@ -32,8 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             pageContext = mainContentElement.innerText;
         }
 
-        // NEU: Anweisung für die KI, auch allgemeines Wissen zu nutzen
-        const instruction = "Du bist ein KI-Lernassistent. Beantworte die Fragen des Nutzers. Wenn die Frage sich auf den aktuellen Seiteninhalt bezieht, nutze den bereitgestellten Kontext. Wenn die Frage allgemeiner Natur ist, beantworte sie direkt. Erwähne nicht, ob du den Kontext benutzt oder nicht, sondern gib einfach die bestmögliche Antwort.\n\nHier ist der Kontext der aktuellen Seite:\n";
+        const instruction = "Beantworte die Frage des Nutzers direkt und prägnant. Wenn die Frage sich auf den bereitgestellten Seitenkontext bezieht, nutze diesen zur Beantwortung. Ansonsten nutze dein Allgemeinwissen. Gib NIEMALS an, ob du den Kontext oder dein Allgemeinwissen nutzt. Formuliere die Antwort so, als ob du die Information einfach weißt, ohne deine Quellen oder den Prozess zu erwähnen.\n\nSeitenkontext:\n";
         const augmentedContext = instruction + pageContext;
 
         try {
@@ -46,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     message: message,
-                    context: augmentedContext, // Sendet den erweiterten Kontext
+                    context: augmentedContext,
                     history: historyToSend
                 })
             });
