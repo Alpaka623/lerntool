@@ -8,6 +8,15 @@ body {
     place-items: center;
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+body.authenticating {
+    display: none;
+}
+
 /* --- Navigation Button Styling (for all subjects) --- */
 .nav-button, .mafi-nav-button, .insi-nav-button, .aud-nav-button, .eidp-nav-button, .rub-nav-button, .bwl-nav-button {
     transition: all 0.3s ease;

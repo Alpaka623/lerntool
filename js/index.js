@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         return;
     }
 
+    document.body.classList.remove('authenticating');
+
     const userEmailElement = document.getElementById('user-email');
     if (userEmailElement) userEmailElement.textContent = user.email;
 
