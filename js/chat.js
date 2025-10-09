@@ -32,6 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
             pageContext = mainContentElement.innerText;
         }
 
+        // NEU: Anweisung für die KI, auch allgemeines Wissen zu nutzen
+        const instruction = "Antworte auf die folgende Frage. Nutze den bereitgestellten Seitenkontext, um die Frage zu beantworten, aber greife bei Bedarf auch auf dein allgemeines Wissen zurück, insbesondere wenn der Kontext keine ausreichenden Informationen enthält.\n\nSeitenkontext:\n";
+        const augmentedContext = instruction + pageContext;
+
         try {
             const apiUrl = 'https://lerntool-api-proxy.vercel.app/api/chat';
 
@@ -42,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     message: message,
-                    context: pageContext,
+                    context: augmentedContext, // Sendet den erweiterten Kontext
                     history: historyToSend
                 })
             });
