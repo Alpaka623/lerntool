@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // NEU: Anweisung für die KI, auch allgemeines Wissen zu nutzen
-        const instruction = "Antworte auf die folgende Frage. Nutze den bereitgestellten Seitenkontext, um die Frage zu beantworten, aber greife bei Bedarf auch auf dein allgemeines Wissen zurück, insbesondere wenn der Kontext keine ausreichenden Informationen enthält.\n\nSeitenkontext:\n";
+        const instruction = "Du bist ein KI-Lernassistent. Beantworte die Fragen des Nutzers. Wenn die Frage sich auf den aktuellen Seiteninhalt bezieht, nutze den bereitgestellten Kontext. Wenn die Frage allgemeiner Natur ist, beantworte sie direkt. Erwähne nicht, ob du den Kontext benutzt oder nicht, sondern gib einfach die bestmögliche Antwort.\n\nHier ist der Kontext der aktuellen Seite:\n";
         const augmentedContext = instruction + pageContext;
 
         try {
